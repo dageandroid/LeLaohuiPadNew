@@ -1,0 +1,60 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment"
+    android:name="dq.lelaohui.com.lelaohuipad.fragement.shop.FooterActivityFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:layout="@layout/fragment_footer">
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/day_select_containter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_alignParentTop="true"
+        android:layout_margin="1dp">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/day_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="今日" />
+    </android.support.design.widget.TextInputLayout>
+
+    <FrameLayout
+        android:id="@+id/footmenum"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@id/day_select_containter">
+
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/foot_detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:layout_toRightOf="@id/footmenum">
+        <android.support.design.internal.ForegroundLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ></android.support.design.internal.ForegroundLinearLayout>
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab_host"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content">
+        </android.support.design.widget.TabLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:layout_weight="1"
+            android:background="@android:color/white" />
+
+    </FrameLayout>
+
+</RelativeLayout>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/LeLaohuiPad.iml" filepath="$PROJECT_DIR$/LeLaohuiPad.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/easeui-release_3.1.5/easeui-release_3.1.5.iml" filepath="$PROJECT_DIR$/easeui-release_3.1.5/easeui-release_3.1.5.iml" />
+      <module fileurl="file://$PROJECT_DIR$/huanxinlibrary/huanxinlibrary.iml" filepath="$PROJECT_DIR$/huanxinlibrary/huanxinlibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ipcarmearlibrary/ipcarmearlibrary.iml" filepath="$PROJECT_DIR$/ipcarmearlibrary/ipcarmearlibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lelaohuidatabaselibrary/lelaohuidatabaselibrary.iml" filepath="$PROJECT_DIR$/lelaohuidatabaselibrary/lelaohuidatabaselibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nettylibrary/nettylibrary.iml" filepath="$PROJECT_DIR$/nettylibrary/nettylibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/serverappointment/serverappointment.iml" filepath="$PROJECT_DIR$/serverappointment/serverappointment.iml" />
+    </modules>
+  </component>
+</project>
