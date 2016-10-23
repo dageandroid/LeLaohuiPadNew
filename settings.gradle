@@ -1,1 +1,1 @@
-include ':app', ':nettylibrary', ':lelaohuidatabaselibrary', ':huanxinlibrary', ':easeui-release_3.1.5', ':ipcarmearlibrary', ':serverappointment'
+include ':app', ':nettylibrary', ':lelaohuidatabaselibrary', ':ipcarmearlibrary'

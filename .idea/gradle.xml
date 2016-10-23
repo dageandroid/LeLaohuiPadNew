@@ -9,12 +9,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/easeui-release_3.1.5" />
-            <option value="$PROJECT_DIR$/huanxinlibrary" />
             <option value="$PROJECT_DIR$/ipcarmearlibrary" />
             <option value="$PROJECT_DIR$/lelaohuidatabaselibrary" />
             <option value="$PROJECT_DIR$/nettylibrary" />
-            <option value="$PROJECT_DIR$/serverappointment" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
