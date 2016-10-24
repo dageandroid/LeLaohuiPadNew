@@ -13,6 +13,15 @@ public class Protocol_KEY {
     public static final String USERDATA="userdata";
     public static final String LOGINTYPE="loginType";
     /**
+     * 购买渠道
+     */
+    public static final String CHANNEL="channel";
+    /**
+     * 是否是产品
+     */
+    public static final String  IS_DISTR="isDistr";
+
+    /**
      * 中心ID
      */
     public static final String CENTERID ="centerId";
@@ -50,6 +59,10 @@ public class Protocol_KEY {
      */
     public static final String PRO_CATE_SERVICE ="proCateService";
     /**
+     *用来封装服务二级分类，serProPackage对应的json串
+     */
+    public static final String SER_PRO_PACKAGE ="serProPackage";
+    /**
      * 类别级别0：顶级 1：一级；目前总共两级
      */
     public static final String CATE_LEVEL ="cateLevel";
@@ -84,7 +97,19 @@ public class Protocol_KEY {
     /**
      * 供应商ID
      */
-    public static final String SUPPLIERID="supplierId";
+    public static final String SUPPLIERID="supplierId"  ;
+    /**
+     * 根据ispack判断是否使用
+     * if(ispack==1)
+     * 服务类别Id
+     */
+    public static final String SERVICE_CATE_ID="serviceCateId";
+    /**
+     * 根据ispack判断是否使用
+     * if(ispack!=1)
+     * 服务类别Id
+     */
+    public static final String DETAIL_CATE_ID="detailCateId";
     /**
      *是不是服务请求
      */
@@ -92,7 +117,5 @@ public class Protocol_KEY {
     public static final String SUPPLIER_TYPE_ID ="supplierTypeId";
     public static final String PACK_SUPPLIER_ID ="packsupplierId";
     public static final String PACK_SUPPLIER_TYPE_ID ="packsupplierTypeId";
-
-
 
 }

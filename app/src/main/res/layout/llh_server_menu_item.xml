@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/image_menu"
+        android:layout_width="match_parent"
+        android:src="@drawable/add"
+        android:layout_centerHorizontal="true"
+        android:layout_height="@dimen/llh_height" />
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/type_menu_txt"
+        android:layout_width="match_parent"
+        android:textSize="@dimen/txt_size_22sp"
+        android:text="摄像头"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/image_menu"
+        android:layout_height="@dimen/llh_height" />
+
+</RelativeLayout>

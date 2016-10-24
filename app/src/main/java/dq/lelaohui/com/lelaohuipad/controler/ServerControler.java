@@ -14,7 +14,11 @@ import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
 
 public class ServerControler extends LaoHuiBaseControler {
     private static ServerControler serverControler=null;
+    /**
+     * 获取服务数据请求的cateGory
+     */
     private static final String CATEGORY = "lelaohui_server";
+
     /**
      * 顶级菜单
      */
@@ -73,6 +77,20 @@ public class ServerControler extends LaoHuiBaseControler {
         requestParam.addBody(Protocol_KEY.IS_SERVER_REQ,true);
 
         Bundle parmBundle=new Bundle();
+        setOrgBundleParm(parmBundle);
+        parmBundle.putInt(Protocol_KEY.IS_EMPTY_SHOW,IS_EMPTY_NOT_SHOW);
+            parmBundle.putInt(Protocol_KEY.CATE_LEVEL,CATE_LEVEl_PARENT);
+            parmBundle.putInt(Protocol_KEY.ISPACK,NO_PACK_SERVER_TYPE);
+        parmBundle.putInt(Protocol_KEY.PACK_STATUS,PACKSTATUS);
+        requestParam.addBody(Protocol_KEY.PRO_CATE_SERVICE,parmBundle);
+        app.reqData(requestParam);
+    }
+
+    /**
+     * 获取数据的用户相关信息
+     * @param parmBundle
+     */
+    private void setOrgBundleParm(Bundle parmBundle) {
         if(getOrgType()==3){
             parmBundle.putString(Protocol_KEY.PACKORG_ID,String.valueOf(getOrgId()));
             parmBundle.putString(Protocol_KEY.PACKORG_TYPE_ID,String.valueOf(getOrgType()));
@@ -83,16 +101,44 @@ public class ServerControler extends LaoHuiBaseControler {
             parmBundle.putString(Protocol_KEY.PACK_SUPPLIER_ID,String.valueOf(getCenterId()));
             parmBundle.putString(Protocol_KEY.PACK_SUPPLIER_TYPE_ID,String.valueOf(getCenterType()));
         }
-            parmBundle.putInt(Protocol_KEY.IS_EMPTY_SHOW,IS_EMPTY_NOT_SHOW);
-
-            parmBundle.putInt(Protocol_KEY.CATE_LEVEL,CATE_LEVEl_PARENT);
-
-            parmBundle.putInt(Protocol_KEY.ISPACK,NO_PACK_SERVER_TYPE);
-
-        parmBundle.putInt(Protocol_KEY.PACK_STATUS,PACKSTATUS);
-        requestParam.addBody(Protocol_KEY.PRO_CATE_SERVICE,parmBundle);
-        app.reqData(requestParam);
     }
+
+    /**
+     * 获取类别服务项内容
+     * @param cateIdL  二级级类别cateId
+     * @param isPackInt  二级类别isPack
+     */
+    public void doQueryServerCategory(long  cateIdL,int isPackInt){
+        Bundle parmBundle=new Bundle();
+        setOrgBundleParm(parmBundle);
+        if (isPackInt==1){
+            parmBundle.putLong(Protocol_KEY.SERVICE_CATE_ID,cateIdL);
+        }else{
+            parmBundle.putLong(Protocol_KEY.DETAIL_CATE_ID,cateIdL);
+        }
+        doQueryServerCategory(NetContant.ServiceAction.QUERY_SERVICE_CATEGORYS,Protocol_KEY.SER_PRO_PACKAGE,parmBundle);
+    }
+
+    /**
+     * @param interfaceNameStr  接口名
+     * @param cateKeyStr  发送数据与后台对接的Key
+     * @param parmBundle 发送的相关参数信息
+     */
+    public void  doQueryServerCategory(String interfaceNameStr,String cateKeyStr, Bundle parmBundle){
+        {
+            LeLaohuiApp app= (LeLaohuiApp) getContext();
+            if(app==null){
+                throw  new RuntimeException(" app is null exception");
+            }
+            RequestParam requestParam=getRequestParam();
+            requestParam.addHeader(Protocol_KEY.ACTION,interfaceNameStr);
+            requestParam.addBody(Protocol_KEY.IS_SERVER_REQ,true);
+            requestParam.addBody(cateKeyStr,parmBundle);
+            app.reqData(requestParam);
+        }
+    }
+
+
     private RequestParam getRequestParam(){
         RequestParam requestParam=new RequestParam();
         requestParam.addHeader(Protocol_KEY.CATEGORY,CATEGORY);

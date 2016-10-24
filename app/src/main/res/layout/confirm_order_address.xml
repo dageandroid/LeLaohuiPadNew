@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/user_name_view"
+        android:layout_width="wrap_content"
+        android:textSize="@dimen/txt_size_22sp"
+        android:text="姓名：乐唠会"
+        android:layout_height="wrap_content" />
+    <android.support.v7.widget.AppCompatTextView
+    android:id="@+id/user_phone_view"
+    android:layout_width="wrap_content"
+    android:text="1835755455"
+    android:layout_toRightOf="@+id/user_name_view"
+    android:layout_marginLeft="@dimen/order_address_margin_left"
+    android:textSize="@dimen/txt_size_22sp"
+    android:layout_height="wrap_content" />
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/user_address_view"
+        android:layout_width="wrap_content"
+        android:text="北京市海淀区罗庄西里"
+        android:layout_below="@+id/user_phone_view"
+        android:textSize="@dimen/txt_size_24sp"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

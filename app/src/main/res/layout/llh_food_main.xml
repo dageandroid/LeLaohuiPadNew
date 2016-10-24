@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent">
+    <include
+        android:id="@+id/llh_head"
+        layout="@layout/llh_head_view"
+        ></include>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_below="@+id/llh_head"
+        android:layout_above="@+id/llh_shopping_bottom"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:orientation="horizontal"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:orientation="vertical"
+            android:layout_weight="2"
+            android:layout_height="fill_parent">
+
+            <android.support.v7.widget.AppCompatSpinner
+                android:id="@+id/select_time"
+                android:layout_width="fill_parent"
+                android:layout_weight="3.5"
+
+                android:layout_height="fill_parent">
+            </android.support.v7.widget.AppCompatSpinner>
+
+            <ExpandableListView
+                android:id="@+id/food_type"
+                android:layout_weight="1"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+            </ExpandableListView>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <android.support.design.widget.TabLayout
+                android:id="@+id/sliding_tabs"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="fill_parent"
+                android:layout_height="0px"
+                android:layout_weight="1"
+                android:background="@android:color/white" />
+
+        </LinearLayout>
+</LinearLayout>
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/llh_shopping_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/shopping_car"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"></include>
+</RelativeLayout>

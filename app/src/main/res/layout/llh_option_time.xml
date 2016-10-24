@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_margin="@dimen/margin"
+    android:layout_height="wrap_content">
+<android.support.v7.widget.AppCompatTextView
+    android:layout_width="wrap_content"
+    android:id="@+id/option_server_day"
+    android:textSize="@dimen/txt_size_24sp"
+    android:layout_weight="1"
+    android:gravity="center|right"
+    android:text="@string/server_time"
+    android:layout_height="wrap_content" />
+    <android.support.v7.widget.AppCompatEditText
+        android:layout_width="wrap_content"
+        android:id="@+id/option_day_value"
+        android:layout_weight="4"
+        android:gravity="center"
+        android:textSize="@dimen/txt_size_22sp"
+        android:text="@string/option_time"
+        android:layout_height="wrap_content" />
+</LinearLayout>

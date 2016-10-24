@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/server_image"
+        android:layout_width="@dimen/subscribe_img_width"
+        android:src="@drawable/app"
+        android:scaleType="fitXY"
+        android:layout_height="@dimen/subscribe_img_hight"
+
+     />
+    <android.support.v7.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:id="@+id/server_root"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/txt_size_22sp"
+        android:layout_toRightOf="@+id/server_image"
+        android:text="使用规则：每周服务三天"
+        android:layout_marginLeft="@dimen/margin_left_10dp"
+        android:layout_marginTop="@dimen/margin_top_15dp"
+        ></android.support.v7.widget.AppCompatTextView>
+    <android.support.v7.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:id="@+id/shop_time"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/txt_size_22sp"
+        android:layout_alignParentRight="true"
+        android:text="购买时间：2016-09-09"
+        android:layout_marginTop="@dimen/margin_top_15dp"
+        ></android.support.v7.widget.AppCompatTextView>
+
+    <android.support.v7.widget.AppCompatButton
+        android:layout_width="@dimen/subscribe_btn_width"
+        android:id="@+id/subscribe_btn"
+        android:layout_height="@dimen/subscribe_btn_hight"
+        android:textSize="@dimen/txt_size_22sp"
+        android:gravity="center"
+        android:text="预约"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/shop_time"></android.support.v7.widget.AppCompatButton>
+    <android.support.v7.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:id="@+id/server_counter"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/txt_size_22sp"
+        android:layout_below="@+id/server_image"
+        android:text="总30次 剩20次"
+        android:layout_marginLeft="@dimen/margin_left_10dp"
+        android:layout_marginTop="@dimen/margin_top_15dp"
+        ></android.support.v7.widget.AppCompatTextView>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:id="@+id/server_time"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/txt_size_22sp"
+        android:text="使用规则：2016-09-09 到 2016-10-10"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/server_root"
+        android:layout_alignStart="@+id/server_root"></android.support.v7.widget.AppCompatTextView>
+
+</RelativeLayout>

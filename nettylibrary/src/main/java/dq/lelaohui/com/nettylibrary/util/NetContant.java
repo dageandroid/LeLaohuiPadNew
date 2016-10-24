@@ -36,13 +36,25 @@ public class NetContant {
          * 获取菜品信息
          */
         public static final String QUERY_FOOD_INFO="query.food.info";
+
         /**
-         * 获得服务类别
+         * 提交餐品购物车相关内容接口
          */
+        public static final String CONFIRM_FOOD_ORDER="confirm.food.order";
+        /**
+         * 获得服务一级和获取二级类别都使用该接口
+         */
+
         public static final String QUERY_SERVICE_CATEGORY="getSerProCateJsonList";
+        /**
+         * 获得服务项内容
+         */
+     public static final String QUERY_SERVICE_CATEGORYS="getInitSerProPackList";
+
         /**
          * 获得服务产品信息
          */
         public static final String QUERY_SERVICE_PRODUCT="query.service.product";
     }
+
 }

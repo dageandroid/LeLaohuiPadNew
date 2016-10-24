@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <include
+        layout="@layout/llh_head_view"
+        ></include>
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/server_proname"
+        android:textSize="@dimen/txt_size_24sp"
+        android:text="服务名称：护理服务"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <include
+            layout="@layout/llh_option_time"
+            ></include>
+        <include
+            layout="@layout/llh_server_special_view"
+            ></include>
+    </LinearLayout>
+    <android.support.design.widget.TabLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.design.widget.TabLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/subscuribe_number"
+        android:layout_width="fill_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        android:background="@android:color/white" />
+
+</LinearLayout>
