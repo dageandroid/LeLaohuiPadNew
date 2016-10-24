@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import org.greenrobot.greendao.annotation.Generated;
 @Entity
-public class ProCateService implements Serializable, Parcelable {
+public class ProCateService extends BaseBean implements Serializable, Parcelable {
 	/**
 	 * 
 	 */

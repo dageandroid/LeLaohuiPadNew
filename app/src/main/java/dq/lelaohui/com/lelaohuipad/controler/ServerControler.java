@@ -1,12 +1,16 @@
 package dq.lelaohui.com.lelaohuipad.controler;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import dq.lelaohui.com.lelaohuipad.LeLaohuiApp;
 import dq.lelaohui.com.lelaohuipad.base.LaoHuiBaseControler;
+import dq.lelaohui.com.lelaohuipad.bean.ServerCate;
 import dq.lelaohui.com.nettylibrary.socket.RequestParam;
 import dq.lelaohui.com.nettylibrary.util.NetContant;
 import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
+import dq.lelaohui.com.nettylibrary.util.ServiceNetContant;
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager.BaseDaoOperator;
 
 /**
  * Created by ThinkPad on 2016/10/20.
@@ -14,6 +18,7 @@ import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
 
 public class ServerControler extends LaoHuiBaseControler {
     private static ServerControler serverControler=null;
+    private static final String SUCCESS_CODE="200";
     private static final String CATEGORY = "lelaohui_server";
     /**
      * 顶级菜单
@@ -58,7 +63,27 @@ public class ServerControler extends LaoHuiBaseControler {
     }
     @Override
     public void doBusses(Bundle responseData) {
+        if(responseData==null){
+            log(getClass().getName()+" doBusses 数据异常");
+            return ;
+        }
+        String action=getResponseAction(responseData);
+        if(TextUtils.isEmpty(action)){
+            log("解析数据异常，异常原因：action is null");
+        }
+        if(ServiceNetContant.ServiceResponseAction.GETSERPROCATEJSONLIST_RESPONSE.equals(action)){
+            String body=getResponseBody(responseData);
+            ServerCate serverCate= (ServerCate) getJsonToObject(body,ServerCate.class);
+            if(serverCate.getCode().equals(SUCCESS_CODE)){
+                    if(getIControlerCallBack()!=null){//解析数据成功，通知UI界面
+                        Bundle bundle=new Bundle();
+                        getIControlerCallBack().result(bundle);
+                    }
+            }else{
 
+            }
+        }
+        log("doBusses: "+responseData);
     }
     /**
      * 获取服务一级类别
@@ -98,5 +123,10 @@ public class ServerControler extends LaoHuiBaseControler {
         requestParam.addHeader(Protocol_KEY.CATEGORY,CATEGORY);
         requestParam.addHeader(Protocol_KEY.USERDATA, USEDATA);
         return requestParam;
+    }
+
+    @Override
+    public BaseDaoOperator getBaseDaoOperator() {
+        return null;
     }
 }

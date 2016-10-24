@@ -11,7 +11,7 @@ import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.port.NoToJson;
  * Created by ThinkPad on 2016/10/20.
  */
 @Entity
-public class FootInfo {
+public class FootInfo extends BaseBean{
 
     public Long getId() {
         return id;

@@ -11,4 +11,7 @@ public class ServiceNetContant {
          */
         public static final String GETSERPROCATEJSONLIST="getSerProCateJsonList";
     }
+    public static class ServiceResponseAction{
+        public static final String GETSERPROCATEJSONLIST_RESPONSE="getSerProCateJsonList.response";
+    }
 }

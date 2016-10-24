@@ -6,7 +6,7 @@ import org.greenrobot.greendao.annotation.Keep;
 
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.port.NoToJson;
 
-public  class GroupIdListBean {
+public  class GroupIdListBean extends BaseBean{
     @NoToJson
     private long ownerId;
     private int groupId;

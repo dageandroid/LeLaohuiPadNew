@@ -62,4 +62,14 @@ public class ServerCate {
     public void setObj(String obj) {
         this.obj = obj;
     }
+
+    @Override
+    public String toString() {
+        return "ServerCate{" +
+                "code='" + code + '\'' +
+                ", msg='" + msg + '\'' +
+                ", obj='" + obj + '\'' +
+                ", data=" + data +
+                '}';
+    }
 }

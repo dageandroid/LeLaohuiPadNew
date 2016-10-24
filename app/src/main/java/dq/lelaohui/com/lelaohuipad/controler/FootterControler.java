@@ -1,14 +1,13 @@
 package dq.lelaohui.com.lelaohuipad.controler;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import dq.lelaohui.com.lelaohuipad.LeLaohuiApp;
 import dq.lelaohui.com.lelaohuipad.base.LaoHuiBaseControler;
-import dq.lelaohui.com.lelaohuipad.util.SysVar;
 import dq.lelaohui.com.nettylibrary.socket.RequestParam;
 import dq.lelaohui.com.nettylibrary.util.NetContant;
 import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager.BaseDaoOperator;
 
 /**
  * Created by ThinkPad on 2016/10/18.
@@ -89,5 +88,11 @@ public class FootterControler extends LaoHuiBaseControler {
         requestParam.addBody(Protocol_KEY.CENTERID,getCenterId());
         requestParam.addBody(Protocol_KEY.MEALTIME,mealtime);
         app.reqData(requestParam);
+    }
+
+
+    @Override
+    public BaseDaoOperator getBaseDaoOperator() {
+        return null;
     }
 }
