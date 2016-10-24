@@ -62,7 +62,7 @@ public class LogonControler extends LaoHuiBaseControler {
         requestParam.addBody(Protocol_KEY.USERNAME,username);
         requestParam.addBody(Protocol_KEY.PWD,pwd);
         requestParam.addBody(Protocol_KEY.LOGINTYPE,1);
-        requestParam.addBody(Protocol_KEY.USERTYPE,5);
+        requestParam.addBody(Protocol_KEY.USER_TYPE,5);
         app.reqData(requestParam);
     }
 
@@ -114,9 +114,9 @@ public class LogonControler extends LaoHuiBaseControler {
         }
         var.setSysVar(Protocol_KEY.CENTERID,userInfo.getCenterId());
         var.setSysVar(Protocol_KEY.USERID,userInfo.getUserId());
-        var.setSysVar(Protocol_KEY.ORGID,userInfo.getOrgId());
-        var.setSysVar(Protocol_KEY.ORGTYPE,userInfo.getOrgType());
-        var.setSysVar(Protocol_KEY.HELPPHONE,userInfo.getHelpPhone());
+        var.setSysVar(Protocol_KEY.ORG_ID,userInfo.getOrgId());
+        var.setSysVar(Protocol_KEY.ORG_TYPE,userInfo.getOrgType());
+        var.setSysVar(Protocol_KEY.HELP_PHONE,userInfo.getHelpPhone());
         var.setSysVar(Protocol_KEY.USERNAME, userInfo.getRealName());
         var.setSysVar(Protocol_KEY.BINDCUSTOMERSTATUS,userInfo.getBindCustomerStatus());
     }

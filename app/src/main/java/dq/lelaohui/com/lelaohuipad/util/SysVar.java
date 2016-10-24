@@ -3,7 +3,6 @@ package dq.lelaohui.com.lelaohuipad.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import dq.lelaohui.com.nettylibrary.util.NetContant;
 import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
 
 /**
@@ -63,7 +62,7 @@ public class SysVar {
         if (sharedPreferences == null) {
             return -1;
         }
-        return sharedPreferences.getInt(Protocol_KEY.ORGID, -1);
+        return sharedPreferences.getInt(Protocol_KEY.ORG_ID, -1);
     }
 
     public int getOrgType() {
@@ -72,8 +71,10 @@ public class SysVar {
         }
 
 
-         return sharedPreferences.getInt(Protocol_KEY.ORGTYPE,-1);
+         return sharedPreferences.getInt(Protocol_KEY.ORG_TYPE,-1);
     }
 
-
+    public int getCenterType(){
+        return 3;
+    }
 }

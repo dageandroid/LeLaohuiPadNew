@@ -76,4 +76,10 @@ public abstract class LaoHuiBaseControler implements IControler {
         }
         return -1;
     }
+    protected  int getCenterType(){
+        if(getSysVar()!=null){
+            return getSysVar().getCenterType();
+        }
+        return 3;
+    }
 }

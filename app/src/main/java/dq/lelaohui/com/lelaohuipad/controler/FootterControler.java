@@ -16,7 +16,34 @@ import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
 
 public class FootterControler extends LaoHuiBaseControler {
     private  static FootterControler controler=null;
-    private SysVar sysVar=SysVar.getInstance();
+    /**
+     *今天
+     */
+    public static final int ISSCOPE_TODAY=0;
+    /**
+     * 明天
+     */
+    public static final int ISSCOPE_TOMORROW=1;
+    /**
+     * 后天
+     */
+    public static final int ISSCOPE_AFTER_TOMORROW=2;
+
+    /**
+     * 早餐
+     */
+    public static final int MEALTIME_MORNING=2;
+    /**
+     * 午餐
+     */
+    public static final int MEALTIME_AFTERNOON=2;
+    /**
+     *
+     */
+    public static final int MEALTIME_NIGHT=2;
+    public static final int MEALTIME_MID_NIGHT=2;
+
+
     private FootterControler(){
 
     }
@@ -47,8 +74,8 @@ public class FootterControler extends LaoHuiBaseControler {
 //        }
 //        RequestParam requestParam=new RequestParam();
 //        requestParam.addHeader(NetContant.Protocol_KEY.ACTION, NetContant.ServiceAction.QUERY_FOOD_INFO);
-//        requestParam.addBody(NetContant.Protocol_KEY.ORGID,sysVar.getOrgId());
-//        requestParam.addBody(NetContant.Protocol_KEY.ORGTYPE,sysVar.getOrgType());
+//        requestParam.addBody(NetContant.Protocol_KEY.ORG_ID,sysVar.getOrgId());
+//        requestParam.addBody(NetContant.Protocol_KEY.ORG_TYPE,sysVar.getOrgType());
 //        app.reqData(requestParam);
 //    }
     public void doQueryFoodInfo(int isScope,int mealtime){
@@ -59,7 +86,7 @@ public class FootterControler extends LaoHuiBaseControler {
         RequestParam requestParam=new RequestParam();
         requestParam.addHeader(Protocol_KEY.ACTION, NetContant.ServiceAction.QUERY_FOOD_INFO);
         requestParam.addBody(Protocol_KEY.ISSCOPE,isScope);
-        requestParam.addBody(Protocol_KEY.CENTERID,sysVar.getCenterId());
+        requestParam.addBody(Protocol_KEY.CENTERID,getCenterId());
         requestParam.addBody(Protocol_KEY.MEALTIME,mealtime);
         app.reqData(requestParam);
     }

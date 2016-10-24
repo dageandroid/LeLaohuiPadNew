@@ -16,7 +16,6 @@ import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.DaoSession;
 /**
  * Created by ThinkPad on 2016/10/13.
  */
-@Entity
 
 public class UserInfo {
 

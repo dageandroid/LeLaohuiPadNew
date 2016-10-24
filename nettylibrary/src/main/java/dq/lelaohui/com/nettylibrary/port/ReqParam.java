@@ -13,4 +13,6 @@ public interface ReqParam extends Parcelable {
     public String getCurrenSN();
     public Object getHeader(@NonNull String key);
     public Object getBody(@NonNull String key);
+    public void removeBody(@NonNull String key);
+    public void removeHeader(@NonNull String key);
 }

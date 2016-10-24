@@ -10,6 +10,7 @@ public class Protocol_KEY {
     public static final String USERID="userId";
     public static final String USERNAME="userName";
     public static final String PWD="pwd";
+    public static final String USERDATA="userdata";
     public static final String LOGINTYPE="loginType";
     /**
      * 中心ID
@@ -26,7 +27,7 @@ public class Protocol_KEY {
     /**
      * 应急电话
      */
-    public static final String HELPPHONE ="helpPhone";
+    public static final String HELP_PHONE ="helpPhone";
     /**
      * String	0—未绑定老人
      1—已经绑定老人
@@ -35,13 +36,63 @@ public class Protocol_KEY {
     /**
      * 机构id
      */
-    public static final String ORGID="orgId";
+    public static final String ORG_ID ="orgId";
     /**
      * 机构类型：
      */
-    public static final String ORGTYPE="orgType";
+    public static final String ORG_TYPE ="orgType";
     /**
      * 用户类型
      */
-    public static final String USERTYPE="userType";
+    public static final String USER_TYPE ="userType";
+    /**
+     * 用来封装服务分类，proCateService对应的json串
+     */
+    public static final String PRO_CATE_SERVICE ="proCateService";
+    /**
+     * 类别级别0：顶级 1：一级；目前总共两级
+     */
+    public static final String CATE_LEVEL ="cateLevel";
+    /**
+     * 顶级为0；当查询二级时候使用
+     */
+    public static final String PARENT_ID ="parentId";
+    /**
+     * 1：是服务包类型 0：不是服务包类型
+     */
+    public static final String ISPACK="isPack";
+    /**
+     *机构类型
+     */
+    public static final String ORG_TYPE_ID ="orgTypeId";
+    /**
+     * 是否显示空菜单
+     */
+    public static final String IS_EMPTY_SHOW ="isEmptyShow";
+    /**
+     * 服务类别状态
+     */
+    public static final String PACK_STATUS ="packStatus";
+    /**
+     *
+     */
+    public static final String PACKORG_ID ="packorgId";
+    /**
+     *
+     */
+    public static final String PACKORG_TYPE_ID ="packorgTypeId";
+    /**
+     * 供应商ID
+     */
+    public static final String SUPPLIERID="supplierId";
+    /**
+     *是不是服务请求
+     */
+    public static final String IS_SERVER_REQ="is_server";
+    public static final String SUPPLIER_TYPE_ID ="supplierTypeId";
+    public static final String PACK_SUPPLIER_ID ="packsupplierId";
+    public static final String PACK_SUPPLIER_TYPE_ID ="packsupplierTypeId";
+
+
+
 }

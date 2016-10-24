@@ -1,5 +1,7 @@
 package dq.lovemusic.thinkpad.lelaohuidatabaselibrary.port;
 
+import org.greenrobot.greendao.AbstractDaoSession;
+
 import java.util.List;
 
 /**
@@ -15,6 +17,6 @@ public interface DBOperatorImp {
      void insert(List<?> t);
      void delete(Object t);
      void delete(List<?> t);
-      DaoImp getWritableDao();
-      DaoImp getReadDao();
+    AbstractDaoSession getWritableDao();
+    AbstractDaoSession getReadDao();
 }

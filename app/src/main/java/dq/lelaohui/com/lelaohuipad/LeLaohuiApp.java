@@ -5,7 +5,6 @@ import android.app.Application;
 import dq.lelaohui.com.lelaohuipad.util.SysVar;
 import dq.lelaohui.com.nettylibrary.port.ReqParam;
 import dq.lelaohui.com.nettylibrary.socket.NetManager;
-import dq.lelaohui.com.nettylibrary.util.NetContant;
 import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
 
 /**
@@ -58,16 +57,24 @@ public class LeLaohuiApp extends Application {
 
     public void reqData(ReqParam reqParam) {
         if (reqParam.getHeader(Protocol_KEY.CATEGORY) == null) {
-
             reqParam.addHeader(Protocol_KEY.CATEGORY, CATEGORY);
         }else{
             reqParam.addHeader(Protocol_KEY.CATEGORY, String.valueOf(reqParam.getHeader(Protocol_KEY.CATEGORY)));
         }
-        if (SysVar.getInstance().getOrgId() != -1) {
-            reqParam.addBody(Protocol_KEY.ORGID, SysVar.getInstance().getOrgId());
+        boolean isService=false;
+        Object object=reqParam.getBody(Protocol_KEY.IS_SERVER_REQ);
+        if(object!=null){
+            isService= (boolean) object;
+            reqParam.removeBody(Protocol_KEY.IS_SERVER_REQ);
         }
-        if (SysVar.getInstance().getOrgId() != -1) {
-            reqParam.addBody(Protocol_KEY.ORGTYPE, SysVar.getInstance().getOrgType());
+        if(!isService){
+
+            if (SysVar.getInstance().getOrgId() != -1) {
+                reqParam.addBody(Protocol_KEY.ORG_ID, SysVar.getInstance().getOrgId());
+            }
+            if (SysVar.getInstance().getOrgId() != -1) {
+                reqParam.addBody(Protocol_KEY.ORG_TYPE, SysVar.getInstance().getOrgType());
+            }
         }
         netManager.reqData(reqParam);
     }
