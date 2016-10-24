@@ -17,6 +17,7 @@ import dq.lelaohui.com.nettylibrary.socket.RequestParam;
 import dq.lelaohui.com.nettylibrary.util.NetContant;
 import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.UserInfo;
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager.BaseDaoOperator;
 
 /**
  * Created by ThinkPad on 2016/10/14.
@@ -73,15 +74,15 @@ public class LogonControler extends LaoHuiBaseControler {
           log(getClass().getName()+" doBusses 数据异常");
             return ;
         }
-        String action=responseData.getString(LlhResponseHandler.Respon_Key.ACTION);
+        String action=getResponseAction(responseData);
         if(TextUtils.isEmpty(action)){
             log("解析数据异常，异常原因：action is null");
         }
         log("doBusses: "+responseData);
         if(action.equals(NetContant.ServiceResponseAction.LOGON_RESPONSE)){
-            String bodey=responseData.getString(LlhResponseHandler.Respon_Key.BODY);
+            String bodey=getResponseBody(responseData);
             String uid=responseData.getString(LlhResponseHandler.Respon_Key.UID);
-            LogonBena logonBena= (LogonBena) JsonUtil.getInstance().jsonToObject(bodey, LogonBena.class);
+            LogonBena logonBena= (LogonBena) getJsonToObject(bodey, LogonBena.class);
             if(logonBena.getCode()==0){
                 saveUserInfo(logonBena);
 //            gotoPage(TestMainActivity.class);
@@ -121,4 +122,8 @@ public class LogonControler extends LaoHuiBaseControler {
         var.setSysVar(Protocol_KEY.BINDCUSTOMERSTATUS,userInfo.getBindCustomerStatus());
     }
 
+    @Override
+    public BaseDaoOperator getBaseDaoOperator() {
+        return null;
+    }
 }

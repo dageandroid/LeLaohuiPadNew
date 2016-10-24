@@ -17,7 +17,7 @@ import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.DaoSession;
  * Created by ThinkPad on 2016/10/13.
  */
 
-public class UserInfo {
+public class UserInfo extends BaseBean{
 
     private String helpPhone;
     private String servicePhone;

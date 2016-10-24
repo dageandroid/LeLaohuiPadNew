@@ -1,9 +1,14 @@
 package dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import org.greenrobot.greendao.AbstractDao;
 import org.greenrobot.greendao.AbstractDaoSession;
+import org.greenrobot.greendao.query.CursorQuery;
+
+import java.util.List;
 
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.DaoMaster;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.DaoSession;
@@ -23,13 +28,38 @@ public abstract class BaseDaoOperator implements DBOperatorImp {
     }
 
     private Context mContext;
-    @Override
-    public AbstractDaoSession getWritableDao() {
-        return null;
+    private AbstractDaoSession getWritableDao() {
+        if(mContext==null){
+            throw new RuntimeException( getClass().getSimpleName()+" is error mContext is null");
+        }
+
+        DaoMaster daoMaster = getDaoMaster(DBManager.getInstance(mContext).getWritableDatabase());
+        DaoSession daoSession = daoMaster.newSession();
+        return daoSession;
+    }
+    protected void insert(Class<? extends Object> entityClass,Object value){
+        DaoSession daoSession = (DaoSession) getWritableDao();
+        AbstractDao dao=  daoSession.getDao(entityClass);
+        if(value.getClass()==List.class){
+            dao.insertInTx(value);
+        }else{
+            dao.insert(value);
+        }
+    }
+    protected void update(Class<? extends Object> entityClass,Object value){
+        DaoSession daoSession = (DaoSession) getWritableDao();
+        AbstractDao dao=  daoSession.getDao(entityClass);
+        dao.update(value);
+    }
+    protected Cursor query(Class<? extends Object> entityClass,Object value){
+        DaoSession daoSession = (DaoSession) getWritableDao();
+        AbstractDao dao=  daoSession.getDao(entityClass);
+         CursorQuery cursorQuery= dao.queryBuilder().buildCursor();
+        Cursor cursor=cursorQuery.forCurrentThread().query();
+        return cursor;
     }
 
-    @Override
-    public AbstractDaoSession getReadDao() {
+    private AbstractDaoSession getReadDao() {
         if(mContext==null){
             throw new RuntimeException( getClass().getSimpleName()+" is error mContext is null");
         }

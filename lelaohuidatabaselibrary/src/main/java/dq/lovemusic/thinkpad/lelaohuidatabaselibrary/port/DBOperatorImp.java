@@ -12,11 +12,6 @@ public interface DBOperatorImp {
     Object queryData(Object t);
     List<Object> queryDataList(Object t);
      void updateData(Object t);
-     void updateData(List<?> t);
      void intsert(Object t);
-     void insert(List<?> t);
      void delete(Object t);
-     void delete(List<?> t);
-    AbstractDaoSession getWritableDao();
-    AbstractDaoSession getReadDao();
 }

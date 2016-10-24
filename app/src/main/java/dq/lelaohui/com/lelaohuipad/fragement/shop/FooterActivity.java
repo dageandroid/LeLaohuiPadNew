@@ -1,26 +1,18 @@
 package dq.lelaohui.com.lelaohuipad.fragement.shop;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.Looper;
-import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 
 import dq.lelaohui.com.lelaohuipad.R;
-import dq.lelaohui.com.lelaohuipad.base.IControler;
+import dq.lelaohui.com.lelaohuipad.port.IControler;
 import dq.lelaohui.com.lelaohuipad.base.LaoHuiBaseControler;
 import dq.lelaohui.com.lelaohuipad.base.LeLaoHuiBaseActivity;
-import dq.lelaohui.com.lelaohuipad.controler.FootterControler;
 import dq.lelaohui.com.lelaohuipad.controler.ServerControler;
-import dq.lelaohui.com.nettylibrary.activity.BaseActivity;
 
 public class FooterActivity extends LeLaoHuiBaseActivity {
     private FragmentManager manager;
