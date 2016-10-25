@@ -12,6 +12,7 @@ import dq.lelaohui.com.lelaohuipad.LeLaohuiApp;
 import dq.lelaohui.com.lelaohuipad.base.LaoHuiBaseControler;
 import dq.lelaohui.com.lelaohuipad.bean.ServerCate;
 import dq.lelaohui.com.lelaohuipad.dao.ProCateServiceDaoOperator;
+import dq.lelaohui.com.lelaohuipad.util.ServerRequestParam;
 import dq.lelaohui.com.nettylibrary.socket.RequestParam;
 import dq.lelaohui.com.nettylibrary.util.NetContant;
 import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
@@ -29,6 +30,7 @@ import static android.content.ContentValues.TAG;
 public class ServerControler extends LaoHuiBaseControler {
     public static final String SUCCESS_CODE="200";
     private static ServerControler serverControler=null;
+    private ServerRequestParam requestParam;
     /**
      * 获取服务数据请求的cateGory
      */
@@ -63,7 +65,7 @@ public class ServerControler extends LaoHuiBaseControler {
     public static final int PACKSTATUS=6;
     public static final String USEDATA ="query.service";
     private ServerControler(){
-
+        requestParam=new ServerRequestParam();
     }
     public static ServerControler getControler(){
         if(serverControler==null){
@@ -96,7 +98,6 @@ public class ServerControler extends LaoHuiBaseControler {
                         getIControlerCallBack().result(bundle);
                         List<ProCateService> queryList= (List<ProCateService>) queryData(new ProCateService());
                         if(queryList!=null){
-
                             log("doBusses query1:"+queryList.toString());
                         }else{
                             log("doBusses query1: queryList is null");
@@ -116,51 +117,14 @@ public class ServerControler extends LaoHuiBaseControler {
         if(app==null){
             throw  new RuntimeException(" app is null exception");
         }
-        RequestParam requestParam=getRequestParam();
-        requestParam.addHeader(Protocol_KEY.ACTION, NetContant.ServiceAction.QUERY_SERVICE_CATEGORY);
-        requestParam.addBody(Protocol_KEY.IS_SERVER_REQ,true);
+        RequestParam requestParam1=requestParam.getRequestParam();
 
-        Bundle parmBundle=new Bundle();
-        setOrgBundleParm(parmBundle);
-        parmBundle.putInt(Protocol_KEY.IS_EMPTY_SHOW,IS_EMPTY_NOT_SHOW);
-        parmBundle.putInt(Protocol_KEY.CATE_LEVEL,CATE_LEVEl_PARENT);
-        parmBundle.putInt(Protocol_KEY.ISPACK,NO_PACK_SERVER_TYPE);
-        parmBundle.putInt(Protocol_KEY.PACK_STATUS,PACKSTATUS);
-        requestParam.addBody(Protocol_KEY.PRO_CATE_SERVICE,parmBundle);
-        app.reqData(requestParam);
+        app.reqData(requestParam1);
     }
 
-    /**
-     * 获取数据的用户相关信息
-     * @param parmBundle
-     */
-    private void setOrgBundleParm(Bundle parmBundle) {
-        if(getOrgType()==3){
-            parmBundle.putString(Protocol_KEY.PACKORG_ID,String.valueOf(getOrgId()));
-            parmBundle.putString(Protocol_KEY.PACKORG_TYPE_ID,String.valueOf(getOrgType()));
-        }else{
-            parmBundle.putString(Protocol_KEY.SUPPLIERID,String.valueOf(getOrgId()));
-            parmBundle.putString(Protocol_KEY.SUPPLIER_TYPE_ID,String.valueOf(getOrgType()));
-            parmBundle.putString(Protocol_KEY.PACK_SUPPLIER_ID,String.valueOf(getCenterId()));
-            parmBundle.putString(Protocol_KEY.PACK_SUPPLIER_TYPE_ID,String.valueOf(getCenterType()));
-        }
-    }
 
-    /**
-     * 获取类别服务项内容
-     * @param cateIdL  二级级类别cateId
-     * @param isPackInt  二级类别isPack
-     */
-    public void doQueryServerCategory(long  cateIdL,int isPackInt){
-        Bundle parmBundle=new Bundle();
-        setOrgBundleParm(parmBundle);
-        if (isPackInt==1){
-            parmBundle.putLong(Protocol_KEY.SERVICE_CATE_ID,cateIdL);
-        }else{
-            parmBundle.putLong(Protocol_KEY.DETAIL_CATE_ID,cateIdL);
-        }
-        doQueryServerCategory(NetContant.ServiceAction.QUERY_SERVICE_CATEGORYS,Protocol_KEY.SER_PRO_PACKAGE,parmBundle);
-    }
+
+
 
     /**
      * @param interfaceNameStr  接口名
@@ -173,21 +137,13 @@ public class ServerControler extends LaoHuiBaseControler {
             if(app==null){
                 throw  new RuntimeException(" app is null exception");
             }
-            RequestParam requestParam=getRequestParam();
-            requestParam.addHeader(Protocol_KEY.ACTION,interfaceNameStr);
-            requestParam.addBody(Protocol_KEY.IS_SERVER_REQ,true);
-            requestParam.addBody(cateKeyStr,parmBundle);
-            app.reqData(requestParam);
+            RequestParam requestParam1=requestParam.doQueryServerCategory(interfaceNameStr,cateKeyStr,parmBundle);
+            app.reqData(requestParam1);
         }
     }
 
 
-    private RequestParam getRequestParam(){
-        RequestParam requestParam=new RequestParam();
-        requestParam.addHeader(Protocol_KEY.CATEGORY,CATEGORY);
-        requestParam.addHeader(Protocol_KEY.USERDATA, USEDATA);
-        return requestParam;
-    }
+
     private ProCateServiceDaoOperator dao;
     @Override
     public BaseDaoOperator getBaseDaoOperator() {

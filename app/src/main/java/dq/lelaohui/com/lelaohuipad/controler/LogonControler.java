@@ -11,6 +11,7 @@ import dq.lelaohui.com.lelaohuipad.base.LaoHuiBaseControler;
 import dq.lelaohui.com.lelaohuipad.bean.LogonBena;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.FooterActivity;
 import dq.lelaohui.com.lelaohuipad.util.JsonUtil;
+import dq.lelaohui.com.lelaohuipad.util.RequestParamUti;
 import dq.lelaohui.com.lelaohuipad.util.SysVar;
 import dq.lelaohui.com.nettylibrary.socket.LlhResponseHandler;
 import dq.lelaohui.com.nettylibrary.socket.RequestParam;
@@ -25,8 +26,9 @@ import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager.BaseDaoOperator;
 
 public class LogonControler extends LaoHuiBaseControler {
     private  static LogonControler controler=null;
+    private RequestParamUti paramUti;
     private LogonControler(){
-
+        paramUti=new RequestParamUti(getSysVar());
     }
     public static LogonControler getControler(){
         if(controler==null){
@@ -58,12 +60,7 @@ public class LogonControler extends LaoHuiBaseControler {
             app= (LeLaohuiApp) getContext().getApplicationContext();
         }
         log("usenamr="+username+",pwd="+pwd);
-        RequestParam requestParam=new RequestParam();
-        requestParam.addHeader(Protocol_KEY.ACTION,NetContant.ServiceAction.LOGON);
-        requestParam.addBody(Protocol_KEY.USERNAME,username);
-        requestParam.addBody(Protocol_KEY.PWD,pwd);
-        requestParam.addBody(Protocol_KEY.LOGINTYPE,1);
-        requestParam.addBody(Protocol_KEY.USER_TYPE,5);
+        RequestParam requestParam=paramUti.getLogonParam(username,pwd);
         app.reqData(requestParam);
     }
 
