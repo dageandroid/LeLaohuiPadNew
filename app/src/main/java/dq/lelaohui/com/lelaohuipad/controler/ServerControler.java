@@ -2,15 +2,25 @@ package dq.lelaohui.com.lelaohuipad.controler;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
+
+import com.google.gson.reflect.TypeToken;
+
+import java.util.List;
 
 import dq.lelaohui.com.lelaohuipad.LeLaohuiApp;
 import dq.lelaohui.com.lelaohuipad.base.LaoHuiBaseControler;
 import dq.lelaohui.com.lelaohuipad.bean.ServerCate;
+import dq.lelaohui.com.lelaohuipad.dao.ProCateServiceDaoOperator;
 import dq.lelaohui.com.nettylibrary.socket.RequestParam;
 import dq.lelaohui.com.nettylibrary.util.NetContant;
 import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
 import dq.lelaohui.com.nettylibrary.util.ServiceNetContant;
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.BaseBean;
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateService;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager.BaseDaoOperator;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by ThinkPad on 2016/10/20.
@@ -80,8 +90,17 @@ public class ServerControler extends LaoHuiBaseControler {
             ServerCate serverCate= (ServerCate) getJsonToObject(body,ServerCate.class);
             if(serverCate.getCode().equals(SUCCESS_CODE)){
                     if(getIControlerCallBack()!=null){//解析数据成功，通知UI界面
+                        List<ProCateService> data= (List<ProCateService>) getJsonToObject(serverCate.getObj(),new TypeToken< List<ProCateService> >(){}.getType());
+                        insertData(data);
                         Bundle bundle=new Bundle();
                         getIControlerCallBack().result(bundle);
+                        List<ProCateService> queryList= (List<ProCateService>) queryData(new ProCateService());
+                        if(queryList!=null){
+
+                            log("doBusses query1:"+queryList.toString());
+                        }else{
+                            log("doBusses query1: queryList is null");
+                        }
                     }
             }else{
 
@@ -119,7 +138,6 @@ public class ServerControler extends LaoHuiBaseControler {
         if(getOrgType()==3){
             parmBundle.putString(Protocol_KEY.PACKORG_ID,String.valueOf(getOrgId()));
             parmBundle.putString(Protocol_KEY.PACKORG_TYPE_ID,String.valueOf(getOrgType()));
-
         }else{
             parmBundle.putString(Protocol_KEY.SUPPLIERID,String.valueOf(getOrgId()));
             parmBundle.putString(Protocol_KEY.SUPPLIER_TYPE_ID,String.valueOf(getOrgType()));
@@ -170,8 +188,13 @@ public class ServerControler extends LaoHuiBaseControler {
         requestParam.addHeader(Protocol_KEY.USERDATA, USEDATA);
         return requestParam;
     }
+    private ProCateServiceDaoOperator dao;
     @Override
     public BaseDaoOperator getBaseDaoOperator() {
-        return null;
+        if(dao==null){
+            dao=ProCateServiceDaoOperator.getInstance();
+            dao.setmContext(getContext());
+        }
+        return dao;
     }
 }

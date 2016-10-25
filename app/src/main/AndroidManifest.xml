@@ -66,6 +66,10 @@
             android:name=".fragement.shop.FooterActivity"
             android:label="@string/title_activity_footer"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".fragement.shop.ServerActivity"
+            android:label="@string/title_activity_footer"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

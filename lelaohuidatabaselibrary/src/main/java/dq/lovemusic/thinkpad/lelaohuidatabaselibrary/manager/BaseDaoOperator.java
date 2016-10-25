@@ -3,22 +3,28 @@ package dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import org.greenrobot.greendao.AbstractDao;
 import org.greenrobot.greendao.AbstractDaoSession;
 import org.greenrobot.greendao.query.CursorQuery;
+import org.greenrobot.greendao.query.WhereCondition;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.BaseBean;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.DaoMaster;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.DaoSession;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.port.DBOperatorImp;
+
 
 /**
  * Created by ThinkPad on 2016/10/23.
  */
 
 public abstract class BaseDaoOperator implements DBOperatorImp {
+    private String Tag=getClass().getSimpleName();
     public Context getmContext() {
         return mContext;
     }
@@ -38,13 +44,20 @@ public abstract class BaseDaoOperator implements DBOperatorImp {
         return daoSession;
     }
     protected void insert(Class<? extends Object> entityClass,Object value){
-        DaoSession daoSession = (DaoSession) getWritableDao();
-        AbstractDao dao=  daoSession.getDao(entityClass);
-        if(value.getClass()==List.class){
-            dao.insertInTx(value);
-        }else{
-            dao.insert(value);
-        }
+       try{
+           DaoSession daoSession = (DaoSession) getWritableDao();
+           AbstractDao dao=  daoSession.getDao(entityClass);
+           if(value instanceof ArrayList){
+              ArrayList<?>  obj= (ArrayList<?>) value;
+               obj.toArray();
+               Log.i(Tag, "insert: "+obj.toString());
+               dao.insertInTx(obj.toArray());
+           }else{
+               dao.insert(value);
+           }
+       }catch (Exception e){
+           e.printStackTrace();
+       }
     }
     protected void update(Class<? extends Object> entityClass,Object value){
         DaoSession daoSession = (DaoSession) getWritableDao();
@@ -52,13 +65,17 @@ public abstract class BaseDaoOperator implements DBOperatorImp {
         dao.update(value);
     }
     protected Cursor query(Class<? extends Object> entityClass,Object value){
-        DaoSession daoSession = (DaoSession) getWritableDao();
+        DaoSession daoSession = (DaoSession) getReadDao();
         AbstractDao dao=  daoSession.getDao(entityClass);
-         CursorQuery cursorQuery= dao.queryBuilder().buildCursor();
+        CursorQuery cursorQuery= dao.queryBuilder().buildCursor();
         Cursor cursor=cursorQuery.forCurrentThread().query();
         return cursor;
     }
-
+    protected  List<?extends BaseBean> queryDataList(Class<? extends Object> entityClass,BaseBean baseBean){
+           DaoSession daoSession = (DaoSession) getReadDao();
+        AbstractDao dao=  daoSession.getDao(entityClass);
+        return dao.queryBuilder().build().list();
+    }
     private AbstractDaoSession getReadDao() {
         if(mContext==null){
             throw new RuntimeException( getClass().getSimpleName()+" is error mContext is null");

@@ -425,4 +425,36 @@ public class ProCateService extends BaseBean implements Serializable, Parcelable
 			return new ProCateService[size];
 		}
 	};
+
+	@Override
+	public String toString() {
+		return "ProCateService{" +
+				"cateId=" + cateId +
+				", cateName='" + cateName + '\'' +
+				", cateLevel=" + cateLevel +
+				", parentId=" + parentId +
+				", isLeaf=" + isLeaf +
+				", isDelete=" + isDelete +
+				", managerId='" + managerId + '\'' +
+				", managerName='" + managerName + '\'' +
+				", orgId=" + orgId +
+				", orgName='" + orgName + '\'' +
+				", orgTypeId=" + orgTypeId +
+				", addTime=" + addTime +
+				", updTime=" + updTime +
+				", remark='" + remark + '\'' +
+				", status=" + status +
+				", pinYin='" + pinYin + '\'' +
+				", pY='" + pY + '\'' +
+				", isPack=" + isPack +
+				", packorgId=" + packorgId +
+				", packorgTypeId=" + packorgTypeId +
+				", isEmptyShow=" + isEmptyShow +
+				", packStatus=" + packStatus +
+				", packsupplierId=" + packsupplierId +
+				", packsupplierTypeId=" + packsupplierTypeId +
+				", pictureName='" + pictureName + '\'' +
+				", pictureUrl='" + pictureUrl + '\'' +
+				'}';
+	}
 }

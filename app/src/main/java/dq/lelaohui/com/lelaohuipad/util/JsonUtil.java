@@ -4,11 +4,14 @@ import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
 import java.util.Collection;
 
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.port.NoToJson;
+
 
 /**
  * Created by ThinkPad on 2016/10/14.
@@ -48,5 +51,8 @@ public class JsonUtil {
     public Object jsonToObject(String jsonStr,Class cls){
 
         return gson.fromJson(jsonStr,cls);
+    }
+    public Object jsonToObject(String jsonStr,Type type){
+        return gson.fromJson(jsonStr,type);
     }
 }

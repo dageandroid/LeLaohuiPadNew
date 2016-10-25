@@ -3,9 +3,11 @@ package dq.lelaohui.com.lelaohuipad.base;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 import dq.lelaohui.com.lelaohuipad.port.IControler;
@@ -103,10 +105,16 @@ public abstract class LaoHuiBaseControler implements IControler {
         }
         return jsonUtil.jsonToObject(body, t);
     }
+    protected Object getJsonToObject(String body,Type t){
+        if(jsonUtil==null){
+            jsonUtil=JsonUtil.getInstance();
+        }
+        return jsonUtil.jsonToObject(body, t);
+    }
     public IControlerCallBack getIControlerCallBack(){
         return controlerCallBack;
     }
-    public List<Object> queryData(BaseBean obj){
+    public List<? extends BaseBean> queryData(BaseBean obj){
             if(getBaseDaoOperator()!=null){
               return  getBaseDaoOperator().queryDataList(obj);
             }else{
@@ -122,9 +130,19 @@ public abstract class LaoHuiBaseControler implements IControler {
     }
     public void insertData(List<?extends  BaseBean> obj){
         if(getBaseDaoOperator()!=null){
+            log("insert obj :"+obj.toString());
             getBaseDaoOperator().intsert(obj);
         }else{
             throw new RuntimeException("获取数据库对象为null");
         }
+    }
+    public Cursor getQueryCursor(BaseBean bean){
+        Cursor cursor=null;
+        if(getBaseDaoOperator()!=null){
+            cursor= getBaseDaoOperator().query(bean);
+        }else{
+            throw new RuntimeException("获取数据库对象为null");
+        }
+        return cursor;
     }
 }
