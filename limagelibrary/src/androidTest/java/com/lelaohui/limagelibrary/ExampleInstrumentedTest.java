@@ -3,6 +3,9 @@ package com.lelaohui.limagelibrary;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,5 +25,9 @@ public class ExampleInstrumentedTest {
         Context appContext = InstrumentationRegistry.getTargetContext();
 
         assertEquals("com.lelaohui.limagelibrary.test", appContext.getPackageName());
+        ImageView imageView=new ImageView(appContext);
+        Picasso.with(appContext).load("http://i.imgur.com/DvpvklR.png").into(imageView);
+
+//        Picasso.with(context).load(url).into(imageView);
     }
 }
