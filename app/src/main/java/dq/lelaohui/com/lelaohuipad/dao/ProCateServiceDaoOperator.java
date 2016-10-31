@@ -2,6 +2,8 @@ package dq.lelaohui.com.lelaohuipad.dao;
 
 import android.database.Cursor;
 
+import org.greenrobot.greendao.AbstractDao;
+
 import java.util.List;
 
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.BaseBean;
@@ -65,12 +67,18 @@ public class ProCateServiceDaoOperator extends  BaseDaoOperator{
     }
 
     @Override
-    public Cursor query(BaseBean t) {
-        return query(ProCateServiceDao.class,t);
+    public Cursor query(BaseBean t)
+    {
+        return query(ProCateService.class,t);
     }
 
     @Override
     public void updateData(List<? extends BaseBean> t) {
 
+    }
+
+    @Override
+    public AbstractDao get() {
+        return getDao(ProCateService.class);
     }
 }
