@@ -3,6 +3,7 @@ package dq.lelaohui.com.lelaohuipad.dao;
 import android.database.Cursor;
 
 import org.greenrobot.greendao.AbstractDao;
+import org.greenrobot.greendao.query.WhereCondition;
 
 import java.util.List;
 
@@ -43,6 +44,7 @@ public class ProCateServiceDaoOperator extends  BaseDaoOperator{
         return queryDataList(ProCateService.class,t);
     }
 
+
     @Override
     public void updateData(BaseBean t) {
 
@@ -66,19 +68,50 @@ public class ProCateServiceDaoOperator extends  BaseDaoOperator{
 
     }
 
+    /**查询所有
+     * @param t
+     * @return
+     */
     @Override
-    public Cursor query(BaseBean t)
-    {
-        return query(ProCateService.class,t);
+    public Cursor query(BaseBean t){
+        ProCateService proCateService= (ProCateService) t;
+        return query(ProCateService.class);
     }
+
 
     @Override
     public void updateData(List<? extends BaseBean> t) {
 
     }
 
-    @Override
     public AbstractDao get() {
         return getDao(ProCateService.class);
+    }
+
+    /**查询一级数据库
+     * @param orgId
+     * @param orgTypeId
+     * @param cateId
+     * @return
+     */
+    public Cursor queryFirst(long orgId ,int orgTypeId,long cateId ){
+//        ProCateServiceDao dao= (ProCateServiceDao) get();
+       WhereCondition condition= ProCateServiceDao.Properties.OrgId.eq(orgId);
+        WhereCondition orgTypeIdContin=ProCateServiceDao.Properties.OrgTypeId.eq(orgTypeId);
+        WhereCondition cateidContin=ProCateServiceDao.Properties.CateId.eq(cateId);
+        return super.query(ProCateService.class,condition,orgTypeIdContin,cateidContin);
+    }
+    /**查询二级数据库
+     * @param orgId
+     * @param orgTypeId
+     * @param cateId
+     * @return
+     */
+    public Cursor queryTwo(long orgId ,int orgTypeId,long cateId ){
+//        ProCateServiceDao dao= (ProCateServiceDao) get();
+       WhereCondition condition= ProCateServiceDao.Properties.OrgId.eq(orgId);
+        WhereCondition orgTypeIdContin=ProCateServiceDao.Properties.OrgTypeId.eq(orgTypeId);
+        WhereCondition cateidContin=ProCateServiceDao.Properties.CateId.eq(cateId);
+        return super.query(ProCateService.class,condition,orgTypeIdContin,cateidContin);
     }
 }
