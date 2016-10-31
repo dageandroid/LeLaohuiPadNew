@@ -64,12 +64,27 @@ public abstract class BaseDaoOperator implements DBOperatorImp {
         AbstractDao dao=  daoSession.getDao(entityClass);
         dao.update(value);
     }
-    protected Cursor query(Class<? extends Object> entityClass,Object value){
+    protected Cursor query(Class<? extends Object> entityClass,WhereCondition condition,WhereCondition ...conditions){
         DaoSession daoSession = (DaoSession) getReadDao();
         AbstractDao dao=  daoSession.getDao(entityClass);
-        CursorQuery cursorQuery= dao.queryBuilder().buildCursor();
-        Cursor cursor=cursorQuery.forCurrentThread().query();
+
+        CursorQuery cursorQuery= dao.queryBuilder().where(condition,conditions).distinct().buildCursor();
+        Cursor cursor=cursorQuery.query();
+        Log.i(Tag, "query: "+cursor.getCount());
         return cursor;
+    }
+
+
+    /**条件查询得到对应集合
+     * @param entityClass
+     * @param condition
+     * @param conditions
+     * @return
+     */
+    protected  List<?extends BaseBean> queryDataList(Class<? extends Object> entityClass,WhereCondition condition,WhereCondition ...conditions){
+        DaoSession daoSession = (DaoSession) getReadDao();
+        AbstractDao dao=  daoSession.getDao(entityClass);
+        return dao.queryBuilder().where(condition,conditions).distinct().build().list();
     }
     protected  List<?extends BaseBean> queryDataList(Class<? extends Object> entityClass,BaseBean baseBean){
            DaoSession daoSession = (DaoSession) getReadDao();
@@ -86,6 +101,14 @@ public abstract class BaseDaoOperator implements DBOperatorImp {
 
         return daoSession;
     }
+    protected AbstractDao getDao(Class<? extends Object> entityClass){
+        AbstractDaoSession daoSession=getReadDao();
+        if(daoSession!=null){
+            return daoSession.getDao(entityClass);
+        }
+        return null;
+    }
+
     private DaoMaster getDaoMaster(SQLiteDatabase database){
         if(database==null){
             return null;
