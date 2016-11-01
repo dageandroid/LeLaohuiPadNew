@@ -108,7 +108,7 @@
             android:name=".server.LLHReceiver"
             android:enabled="true"
             android:exported="true"></receiver>
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
         <activity
             android:name=".fragement.shop.ServerMenuActivity"
             android:label="@string/title_activity_footer"

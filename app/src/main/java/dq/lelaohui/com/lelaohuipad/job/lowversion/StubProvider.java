@@ -3,6 +3,7 @@ package dq.lelaohui.com.lelaohuipad.job.lowversion;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
@@ -47,7 +48,13 @@ public class StubProvider extends ContentProvider {
         Cursor curor;
         switch (id){
             case  SERVER_FIRST_MENUM:
-                proCateServiceDaoOperator.queryFirst()
+                if(projection==null||projection.length<2){
+                    return null;
+                }
+                long orgId=Long.parseLong(projection[0]) ;int orgTypeId=Integer.parseInt(projection[1]);
+                curor= proCateServiceDaoOperator.queryFirst(orgId,orgTypeId);
+                Context ctx = getContext();
+                curor.setNotificationUri(ctx.getContentResolver(), uri);
                 break;
         }
         return null;
