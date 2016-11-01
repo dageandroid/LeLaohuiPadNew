@@ -12,13 +12,12 @@ import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateService;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.port.NoToJson;
 
 /**
- * Created by ThinkPad on 2016/10/23.
- *
- * 获取一级服务列表
- *
+ * Created by ZTF on 2016/10/27.
+ * 获取二级服务类别
  */
 
-public class ServerCate {
+public class ServerMenuCate {
+
 
     /**
      * code : 200
@@ -75,4 +74,6 @@ public class ServerCate {
                 ", data=" + data +
                 '}';
     }
+
+
 }

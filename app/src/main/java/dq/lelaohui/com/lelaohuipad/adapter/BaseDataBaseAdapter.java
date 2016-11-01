@@ -6,10 +6,17 @@ import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.FilterQueryProvider;
 import android.widget.Filterable;
 import android.widget.SimpleCursorAdapter;
+
+import dq.lelaohui.com.lelaohuipad.R;
+import dq.lelaohui.com.lelaohuipad.fragement.shop.ServerActivity;
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateService;
 
 /**
  * Created by ThinkPad on 2016/10/25.
@@ -89,7 +96,23 @@ public abstract  class BaseDataBaseAdapter <VH extends RecyclerView.ViewHolder> 
     public BaseDataBaseAdapter(Context context, Cursor c) {
         this(context, c, FLAG_REGISTER_CONTENT_OBSERVER);
     }
+    private String TAG="BaseDataBaseAdapter";
 
+
+    private OnRecyclerViewItemClickListener mOnItemClickListener = null;
+    //define interface
+    public static interface OnRecyclerViewItemClickListener {
+        void onItemClick(View view ,  Cursor c);
+    }
+    public abstract View getItemView();
+    private View itemParenView=null;
+    @Override
+    public VH onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view=getItemView();
+        itemParenView=view;
+        return onCreatViewHolder(view);
+    }
+    public abstract VH onCreatViewHolder(View view);
     /**
      * Recommended constructor.
      *
@@ -107,7 +130,12 @@ public abstract  class BaseDataBaseAdapter <VH extends RecyclerView.ViewHolder> 
         mCursor = c;
         mDataValid = cursorPresent;
         mContext = context;
-        mRowIDColumn = cursorPresent ? c.getColumnIndexOrThrow("_id") : -1;
+        try{
+            mRowIDColumn = cursorPresent ? c.getColumnIndexOrThrow("_id") : -1;
+        }catch (Exception e){
+            mRowIDColumn=-1;
+        }
+
         if ((flags & FLAG_REGISTER_CONTENT_OBSERVER) == FLAG_REGISTER_CONTENT_OBSERVER) {
             mChangeObserver = new ChangeObserver();
             mDataSetObserver = new MyDataSetObserver();
@@ -178,6 +206,18 @@ public abstract  class BaseDataBaseAdapter <VH extends RecyclerView.ViewHolder> 
         }
         if (!mCursor.moveToPosition(position)) {
             throw new IllegalStateException("couldn't move cursor to position " + position);
+        }
+        Log.i(TAG, "onBindViewHolder: super position="+position);
+        if(mOnItemClickListener!=null){
+            final int index=position;
+            if(itemParenView!=null){
+                itemParenView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick( View v) {
+                        mOnItemClickListener.onItemClick(itemParenView,(Cursor) getItem(index));
+                    }
+                });
+            }
         }
         onBindViewHolder(holder, mCursor);
     }
@@ -321,6 +361,9 @@ public abstract  class BaseDataBaseAdapter <VH extends RecyclerView.ViewHolder> 
 
     }
 
+    public void setmOnItemClickListener(OnRecyclerViewItemClickListener mOnItemClickListener) {
+        this.mOnItemClickListener = mOnItemClickListener;
+    }
     private class ChangeObserver extends ContentObserver {
         public ChangeObserver() {
             super(new Handler());

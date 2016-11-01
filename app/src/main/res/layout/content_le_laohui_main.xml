@@ -13,4 +13,17 @@
     tools:context="dq.lelaohui.com.lelaohuipad.LeLaohuiMainActivity"
     tools:showIn="@layout/app_bar_le_laohui_main">
 
+    <Button
+        android:text="服务"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="46dp"
+        android:layout_marginStart="46dp"
+        android:layout_marginTop="42dp"
+        android:id="@+id/button"
+        android:visibility="visible"
+        android:onClick="serclick" />
 </RelativeLayout>

@@ -94,6 +94,11 @@ public class FooterActivity extends LeLaoHuiBaseActivity implements LoaderManage
             super(context, c);
         }
 
+        @Override
+        public View getItemView() {
+            return null;
+        }
+
         public MyRecyleViewAdapter(Context context, Cursor c, int flags) {
             super(context, c, flags);
         }
@@ -105,6 +110,11 @@ public class FooterActivity extends LeLaoHuiBaseActivity implements LoaderManage
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return null;
+        }
+
+        @Override
+        public RecyclerView.ViewHolder onCreatViewHolder(View view) {
             return null;
         }
     }

@@ -8,13 +8,19 @@ import org.greenrobot.greendao.annotation.Entity;
 import java.io.Serializable;
 import java.util.Date;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
+
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.port.NoToJson;
+
 @Entity
 public class ProCateService extends BaseBean implements Serializable, Parcelable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	@Id(autoincrement = true)
+	@NoToJson
+	private Long  id;
 
 	private long cateId;
 
@@ -380,12 +386,13 @@ public class ProCateService extends BaseBean implements Serializable, Parcelable
 		this.pictureUrl = in.readString();
 	}
 
-	@Generated(hash = 1681715741)
-	public ProCateService(long cateId, String cateName, int cateLevel, long parentId, int isLeaf, int isDelete,
-									String managerId, String managerName, long orgId, String orgName, int orgTypeId, Date addTime,
-									Date updTime, String remark, int status, String pinYin, String pY, int isPack, Long packorgId,
-									Integer packorgTypeId, Integer isEmptyShow, Integer packStatus, Long packsupplierId,
+	@Generated(hash = 1674691131)
+	public ProCateService(long id, long cateId, String cateName, int cateLevel, long parentId, int isLeaf,
+									int isDelete, String managerId, String managerName, long orgId, String orgName, int orgTypeId,
+									Date addTime, Date updTime, String remark, int status, String pinYin, String pY, int isPack,
+									Long packorgId, Integer packorgTypeId, Integer isEmptyShow, Integer packStatus, Long packsupplierId,
 									Integer packsupplierTypeId, String pictureName, String pictureUrl) {
+					this.id = id;
 					this.cateId = cateId;
 					this.cateName = cateName;
 					this.cateLevel = cateLevel;
@@ -456,5 +463,13 @@ public class ProCateService extends BaseBean implements Serializable, Parcelable
 				", pictureName='" + pictureName + '\'' +
 				", pictureUrl='" + pictureUrl + '\'' +
 				'}';
+	}
+
+	public Long getId() {
+					return this.id;
+	}
+
+	public void setId(Long id) {
+					this.id = id;
 	}
 }

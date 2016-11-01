@@ -13,13 +13,22 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class LeLaohuiMainActivity extends AppCompatActivity
+import dq.lelaohui.com.lelaohuipad.base.LeLaoHuiBaseActivity;
+import dq.lelaohui.com.lelaohuipad.controler.MainControler;
+import dq.lelaohui.com.lelaohuipad.fragement.shop.ServerActivity;
+import dq.lelaohui.com.lelaohuipad.port.IControler;
+
+public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    @Override
+    public IControler getControler() {
+        return MainControler.getControler();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_le_laohui_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -43,6 +52,11 @@ public class LeLaohuiMainActivity extends AppCompatActivity
     }
 
     @Override
+    protected int getLayoutID() {
+        return R.layout.activity_le_laohui_main;
+    }
+
+    @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -51,7 +65,9 @@ public class LeLaohuiMainActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
-
+    public void serclick(View view){
+        getControler().gotoPage(ServerActivity.class);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -97,5 +113,15 @@ public class LeLaohuiMainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void result(Bundle bundle) {
+
+    }
+
+    @Override
+    public void usable() {
+
     }
 }

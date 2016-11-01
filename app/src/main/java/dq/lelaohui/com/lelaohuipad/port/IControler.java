@@ -18,6 +18,7 @@ public interface IControler extends NetDataCallBack {
     public void gotoPage(String action);
     public void setIControlerCallBack(IControlerCallBack controlerCallBack);
     public IControlerCallBack getIControlerCallBack();
+    public BaseDaoOperator getBaseDaoOperator(String version);
     public BaseDaoOperator getBaseDaoOperator();
 
 }

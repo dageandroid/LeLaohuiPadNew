@@ -44,6 +44,7 @@ public class LoginActivity extends LeLaoHuiBaseActivity implements NetManager.Pr
     private String tag="LoginActivity";
     private Handler handler;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

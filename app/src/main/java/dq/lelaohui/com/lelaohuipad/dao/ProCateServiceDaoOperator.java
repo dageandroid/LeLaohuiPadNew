@@ -49,9 +49,6 @@ public class ProCateServiceDaoOperator extends  BaseDaoOperator{
     public void updateData(BaseBean t) {
 
     }
-
-
-
     @Override
     public void intsert(BaseBean t) {
         insert(ProCateService.class,t);
@@ -91,15 +88,14 @@ public class ProCateServiceDaoOperator extends  BaseDaoOperator{
     /**查询一级数据库
      * @param orgId
      * @param orgTypeId
-     * @param cateId
      * @return
      */
-    public Cursor queryFirst(long orgId ,int orgTypeId,long cateId ){
+    public Cursor queryFirst(long orgId ,int orgTypeId ){
 //        ProCateServiceDao dao= (ProCateServiceDao) get();
        WhereCondition condition= ProCateServiceDao.Properties.OrgId.eq(orgId);
         WhereCondition orgTypeIdContin=ProCateServiceDao.Properties.OrgTypeId.eq(orgTypeId);
-        WhereCondition cateidContin=ProCateServiceDao.Properties.CateId.eq(cateId);
-        return super.query(ProCateService.class,condition,orgTypeIdContin,cateidContin);
+//        WhereCondition cateidContin=ProCateServiceDao.Properties.CateId.eq(cateId);
+        return super.query(ProCateService.class,condition,orgTypeIdContin);
     }
     /**查询二级数据库
      * @param orgId

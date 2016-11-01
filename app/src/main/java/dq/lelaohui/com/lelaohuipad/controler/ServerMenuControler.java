@@ -3,53 +3,41 @@ package dq.lelaohui.com.lelaohuipad.controler;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.google.gson.reflect.TypeToken;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import dq.lelaohui.com.lelaohuipad.LeLaohuiApp;
 import dq.lelaohui.com.lelaohuipad.base.LaoHuiBaseControler;
 import dq.lelaohui.com.lelaohuipad.bean.ServerCate;
-import dq.lelaohui.com.lelaohuipad.dao.ProCateServiceDaoOperator;
 import dq.lelaohui.com.lelaohuipad.dao.ProMenumServiceDaoOperator;
 import dq.lelaohui.com.lelaohuipad.util.ServerRequestParam;
 import dq.lelaohui.com.nettylibrary.socket.RequestParam;
-import dq.lelaohui.com.nettylibrary.util.NetContant;
-import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
 import dq.lelaohui.com.nettylibrary.util.ServiceNetContant;
-import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.BaseBean;
-import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateService;
-import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.ProCateMenuServiceDao;
-import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.ProCateServiceDao;
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateMenuService;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager.BaseDaoOperator;
 
-import static android.content.ContentValues.TAG;
-
 /**
- * Created by ThinkPad on 2016/10/20.
+ * Created by ZTF on 2016/11/1.
  */
 
-public class ServerControler extends LaoHuiBaseControler {
+public class ServerMenuControler extends LaoHuiBaseControler {
     public static final String SUCCESS_CODE="200";
-    private static ServerControler serverControler=null;
+    private static ServerMenuControler serverMenuControler=null;
     private ServerRequestParam requestParam;
-    private ServerControler(){
+    private ServerMenuControler(){
         requestParam=new ServerRequestParam();
     }
-    public static ServerControler getControler(){
-        if(serverControler==null){
-            synchronized (ServerControler.class){
-                if(serverControler==null){
-                    serverControler=new ServerControler();
+    public static ServerMenuControler getControler(){
+        if(serverMenuControler==null){
+            synchronized (ServerMenuControler.class){
+                if(serverMenuControler==null){
+                    serverMenuControler=new ServerMenuControler();
                 }
             }
         }
-        return serverControler;
+        return serverMenuControler;
     }
     @Override
     public void doBusses(Bundle responseData) {
@@ -63,47 +51,28 @@ public class ServerControler extends LaoHuiBaseControler {
         }
         if(ServiceNetContant.ServiceResponseAction.GETSERPROCATEJSONLIST_RESPONSE.equals(action)){
             String body=getResponseBody(responseData);
+            System.out.println("responseData==="+responseData.toString());
             ServerCate serverCate= (ServerCate) getJsonToObject(body,ServerCate.class);
             if(serverCate.getCode().equals(SUCCESS_CODE)){
-                    if(getIControlerCallBack()!=null){//解析数据成功，通知UI界面
-                        List<ProCateService> data= (List<ProCateService>) getJsonToObject(serverCate.getObj(),new TypeToken< List<ProCateService> >(){}.getType());
-                        setDataList(data);
-                        Bundle bundle=new Bundle();
-                        getIControlerCallBack().result(bundle);
-                        List<ProCateService> queryList= (List<ProCateService>) queryData(new ProCateService());
-                        if(queryList!=null){
-                            log("doBusses query1:"+queryList.toString());
-                        }else{
-                            log("doBusses query1: queryList is null");
-                        }
+                if(getIControlerCallBack()!=null){//解析数据成功，通知UI界面
+                    List<ProCateMenuService> data= (List< ProCateMenuService>) getJsonToObject(serverCate.getObj(),new TypeToken< List<ProCateMenuService> >(){}.getType());
+                      if (data!=null){
+                         insertData(data);
+                      }
+                    Bundle bundle=new Bundle();
+                    getIControlerCallBack().result(bundle);
+                    List<ProCateMenuService> queryList= (List<ProCateMenuService>) queryData(new ProCateMenuService());
+                    if(queryList!=null){
+                        log("doBusses query2:"+queryList.toString());
+                    }else{
+                        log("doBusses query2: queryList is null");
                     }
+                }
             }else{
 
             }
         }
         log("doBusses: "+responseData);
-    }
-    public  void setDataList(  List<ProCateService> data){
-        if(data!=null){
-            for (int i=0;i<data.size();i++){
-                data.get(i).setOrgId(getOrgId());
-                data.get(i).setOrgTypeId(getOrgType());
-            }
-            insertData(data);
-        }
-    }
-
-    /**
-     * 获取服务一级类别
-     */
-    public void doQueryServerCategory(){
-        LeLaohuiApp app= (LeLaohuiApp) getContext();
-        if(app==null){
-            throw  new RuntimeException(" app is null exception");
-        }
-        RequestParam requestParam1=requestParam.doQueryServerCategory();
-
-        app.reqData(requestParam1);
     }
     /**
      * 获取二级服务分类
@@ -142,38 +111,37 @@ public class ServerControler extends LaoHuiBaseControler {
 
 
 
-    private ProCateServiceDaoOperator dao;
-    private static String  GET_SERVER_CATE_TWO_VERSION="getSerProCateJsonList";
     private ProMenumServiceDaoOperator proCateMenuServiceDao;
 
     @Override
     public BaseDaoOperator getBaseDaoOperator(String version) {
-        if(TextUtils.isEmpty(version)){
-            dao=ProCateServiceDaoOperator.getInstance();
-            dao.setmContext(getContext());
-            return dao;
-        }
-        if(GET_SERVER_CATE_TWO_VERSION.equals(version)){
+//        if(TextUtils.isEmpty(version)){
             proCateMenuServiceDao= ProMenumServiceDaoOperator.getInstance();
             proCateMenuServiceDao.setmContext(getContext());
             return proCateMenuServiceDao;
-        }
+//        }
+//        if(GET_SERVER_CATE_TWO_VERSION.equals(version)){
+//            proCateMenuServiceDao= ProMenumServiceDaoOperator.getInstance();
+//            proCateMenuServiceDao.setmContext(getContext());
+//            return proCateMenuServiceDao;
+//        }
 
-        return null;
+//        return null;
     }
-    private Cursor getQueryFirstCursor(long orgId ,int orgTypeId){
+    private Cursor getQueryTwoCursor(long orgId , int orgTypeId,long cateIdL){
         Cursor cursor=null;
         if(getBaseDaoOperator()!=null){
-            ProCateServiceDaoOperator  sdao= (ProCateServiceDaoOperator) getBaseDaoOperator();
-            cursor= sdao.queryFirst(orgId,orgTypeId);
+            ProMenumServiceDaoOperator  sdao= (ProMenumServiceDaoOperator) getBaseDaoOperator();
+            cursor= sdao.queryTwo(orgId,orgTypeId,cateIdL);
+
         }else{
             throw new RuntimeException("获取数据库对象为null");
         }
         return cursor;
     }
-    public Cursor getQueryFirstCursor(){
+    public Cursor getQueryTwoCursor(long cateIdL){
 
-        return getQueryFirstCursor(getOrgId(),getOrgType());
+        return getQueryTwoCursor(getOrgId(),getOrgType(),cateIdL);
     }
     @Override
     public BaseDaoOperator getBaseDaoOperator() {

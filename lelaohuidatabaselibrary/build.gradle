@@ -1,21 +1,20 @@
 apply plugin: 'com.android.library'
 //buildscript {
 //    repositories {
-//        mavenCentral()
-//    }
-//    dependencies {
-//        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.0'
-//    }
+//       mavenCentral()
+//   }
+//   dependencies {
+//       classpath 'org.greenrobot:greendao-gradle-plugin:3.2.0'
+//   }
 //}
 //
 //apply plugin: 'org.greenrobot.greendao'
 //dependencies {
 //    compile 'org.greenrobot:greendao:3.2.0'
-//    compile files('libs/greendao-3.2.0.jar')
 //}
 //greendao {
 //    targetGenDir 'src/main/java'
-//    daoPackage  'dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao'
+//   daoPackage  'dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao'
 //}
 android {
     compileSdkVersion 24
