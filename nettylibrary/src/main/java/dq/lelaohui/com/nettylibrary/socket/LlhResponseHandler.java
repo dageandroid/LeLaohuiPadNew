@@ -16,6 +16,7 @@ import com.sun.commontransfer.adroid.TransferMessageObject;
 import com.sun.commontransfer.adroid.TransferObject;
 
 import dq.lelaohui.com.nettylibrary.util.NetContant;
+import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
 
 public class LlhResponseHandler implements ResponseHandler {
 	private String TAG="LlhResponseHandler";
@@ -40,6 +41,7 @@ public class LlhResponseHandler implements ResponseHandler {
 	public void handleConnected() {
 		isConnect=true;
 		Log.i(TAG,"handleConnected.....");
+
 	}
 
 	@Override

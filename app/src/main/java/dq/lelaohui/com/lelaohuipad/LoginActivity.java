@@ -82,6 +82,7 @@ public class LoginActivity extends LeLaoHuiBaseActivity implements NetManager.Pr
     private void init() {
         app= (LeLaohuiApp) getApplication();
         app.init((NetManager.NetStatueCallBack) this);
+
     }
 
 

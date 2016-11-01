@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
  * Created by ThinkPad on 2016/10/12.
  */
 
-public interface ReqParam extends Parcelable {
+public interface ReqParam extends Parcelable{
     public void addHeader(@NonNull String key, @NonNull  Object t);
     public void addBody(@NonNull String key,@NonNull  Object t);
     public String getCurrenSN();

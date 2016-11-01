@@ -2,10 +2,13 @@ package dq.lelaohui.com.lelaohuipad;
 
 import android.app.Application;
 
+import dq.lelaohui.com.lelaohuipad.server.NetService;
+import dq.lelaohui.com.lelaohuipad.util.ServerUtil;
 import dq.lelaohui.com.lelaohuipad.util.SysVar;
 import dq.lelaohui.com.nettylibrary.port.ReqParam;
 import dq.lelaohui.com.nettylibrary.socket.NetManager;
 import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.FootInfoDao;
 
 /**
  * Created by ThinkPad on 2016/10/13.
@@ -42,7 +45,8 @@ public class LeLaohuiApp extends Application {
     public void init(NetManager.NetStatueCallBack statusCallBack) {
         init(IP, PORT);
         netManager.setStatusCallBack(statusCallBack);
-        startNet();
+        ServerUtil.startNetServer(this, NetService.class);
+//        startNet();
     }
 
     private void startNet() {

@@ -14,7 +14,8 @@ public class NetContant {
         /**
          * 服务器推送消息action
          */
-        public static String MESSAGE_RESPONSE_ACTION="dq.lelaohui.net.message.response";
+        public static final String MESSAGE_RESPONSE_ACTION="dq.lelaohui.net.message.response";
+        public static final String IMAGE_URL_ACTION="query.image.url";
     }
     public static class ServiceResponseAction{
         /**

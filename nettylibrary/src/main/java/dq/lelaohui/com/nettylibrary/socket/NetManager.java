@@ -91,6 +91,9 @@ public class NetManager {
         this.context=context;
         LlhResponseHandler.getInstance().setContext(this.context);
     }
+    public void stopNet(){
+        TransferClientNetworkImpl.getInstance().stop();
+    }
     /**
      * 网络状态回调接口
      *

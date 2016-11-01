@@ -11,12 +11,16 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
 
     <application
         android:name=".LeLaohuiApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:persistent="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -32,15 +36,7 @@
             android:name=".WelcomeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_welcome"
-            android:theme="@style/FullscreenTheme">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
+            android:theme="@style/FullscreenTheme" />
         <activity
             android:name=".LeLaohuiMainActivity"
             android:label="@string/title_activity_le_laohui_main"
@@ -65,11 +61,53 @@
         <activity
             android:name=".fragement.shop.FooterActivity"
             android:label="@string/title_activity_footer"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".fragement.shop.ServerActivity"
             android:label="@string/title_activity_footer"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <service
+            android:name=".job.lowversion.SyncService"
+            android:exported="true"
+            android:process=":sync">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+        </service>
+
+        <provider
+            android:name=".job.lowversion.StubProvider"
+            android:authorities="com.lelaohui.android.datasync.provider"
+            android:exported="false"
+            android:syncable="true" />
+
+        <service
+            android:name=".server.NetService"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.lelaohui.pad.NetService"></action>
+            </intent-filter>
+            </service>
+        <service
+            android:name=".server.NetMoniteServer"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":lelaohuiPadCore">
+            <intent-filter>
+                <action android:name="com.lelaohui.pad.NetMoniteServer"></action>
+            </intent-filter>
+            </service>
+
+        <receiver
+            android:name=".server.LLHReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
     </application>
 
 </manifest>
