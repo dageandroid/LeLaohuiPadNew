@@ -83,7 +83,7 @@ public class LogonControler extends LaoHuiBaseControler {
             if(logonBena.getCode()==0){
                 saveUserInfo(logonBena);
 //            gotoPage(TestMainActivity.class);
-                gotoPage(FooterActivity.class);
+                gotoPage(LeLaohuiMainActivity.class);
             }else{
                 Bundle bundle=new Bundle();
                 bundle.putInt(RESPONSE_CODE_KEY,logonBena.getCode());
@@ -117,6 +117,11 @@ public class LogonControler extends LaoHuiBaseControler {
         var.setSysVar(Protocol_KEY.HELP_PHONE,userInfo.getHelpPhone());
         var.setSysVar(Protocol_KEY.USERNAME, userInfo.getRealName());
         var.setSysVar(Protocol_KEY.BINDCUSTOMERSTATUS,userInfo.getBindCustomerStatus());
+    }
+
+    @Override
+    public BaseDaoOperator getBaseDaoOperator(String version) {
+        return null;
     }
 
     @Override

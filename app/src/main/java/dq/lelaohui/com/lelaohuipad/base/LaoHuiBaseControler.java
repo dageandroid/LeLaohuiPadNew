@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.lang.reflect.Type;
@@ -16,6 +17,7 @@ import dq.lelaohui.com.lelaohuipad.util.JsonUtil;
 import dq.lelaohui.com.lelaohuipad.util.SysVar;
 import dq.lelaohui.com.nettylibrary.socket.LlhResponseHandler;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.BaseBean;
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager.BaseDaoOperator;
 
 /**
  * Created by ThinkPad on 2016/10/14.
@@ -115,15 +117,21 @@ public abstract class LaoHuiBaseControler implements IControler {
         return controlerCallBack;
     }
     public List<? extends BaseBean> queryData(BaseBean obj){
-            if(getBaseDaoOperator()!=null){
-              return  getBaseDaoOperator().queryDataList(obj);
-            }else{
-                throw new RuntimeException("获取数据库对象为null");
-            }
+       return queryData(null, obj);
+    }
+    public List<? extends BaseBean> queryData(String version,BaseBean obj){
+        if(getBaseDaoOperator(version)!=null){
+            return  getBaseDaoOperator(version).queryDataList(obj);
+        }else{
+            throw new RuntimeException("获取数据库对象为null");
+        }
     }
     public void updateData(List<?extends BaseBean> obj){
-        if(getBaseDaoOperator()!=null){
-             getBaseDaoOperator().updateData(obj);
+        updateData(null,obj);
+    }
+    public void updateData(String version,List<?extends BaseBean> obj){
+        if(getBaseDaoOperator(version)!=null){
+            getBaseDaoOperator(version).updateData(obj);
         }else{
             throw new RuntimeException("获取数据库对象为null");
         }

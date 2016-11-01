@@ -143,6 +143,11 @@ public class FootterControler extends LaoHuiBaseControler {
     }
 
     @Override
+    public BaseDaoOperator getBaseDaoOperator(String version) {
+        return null;
+    }
+
+    @Override
     public BaseDaoOperator getBaseDaoOperator() {
         return null;
     }

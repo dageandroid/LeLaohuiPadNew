@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/ipcarmearlibrary/ipcarmearlibrary.iml" filepath="$PROJECT_DIR$/ipcarmearlibrary/ipcarmearlibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/lelaohuidatabaselibrary/lelaohuidatabaselibrary.iml" filepath="$PROJECT_DIR$/lelaohuidatabaselibrary/lelaohuidatabaselibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/limagelibrary/limagelibrary1.iml" filepath="$PROJECT_DIR$/limagelibrary/limagelibrary1.iml" />
       <module fileurl="file://$PROJECT_DIR$/nettylibrary/nettylibrary.iml" filepath="$PROJECT_DIR$/nettylibrary/nettylibrary.iml" />
     </modules>
   </component>

@@ -15,7 +15,7 @@ import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateService;
 /** 
  * DAO for table "PRO_CATE_SERVICE".
 */
-public class ProCateServiceDao extends AbstractDao<ProCateService, Void> {
+public class ProCateServiceDao extends AbstractDao<ProCateService, Long> {
 
     public static final String TABLENAME = "PRO_CATE_SERVICE";
 
@@ -24,32 +24,33 @@ public class ProCateServiceDao extends AbstractDao<ProCateService, Void> {
      * Can be used for QueryBuilder and for referencing column names.
      */
     public static class Properties {
-        public final static Property CateId = new Property(0, long.class, "cateId", false, "CATE_ID");
-        public final static Property CateName = new Property(1, String.class, "cateName", false, "CATE_NAME");
-        public final static Property CateLevel = new Property(2, int.class, "cateLevel", false, "CATE_LEVEL");
-        public final static Property ParentId = new Property(3, long.class, "parentId", false, "PARENT_ID");
-        public final static Property IsLeaf = new Property(4, int.class, "isLeaf", false, "IS_LEAF");
-        public final static Property IsDelete = new Property(5, int.class, "isDelete", false, "IS_DELETE");
-        public final static Property ManagerId = new Property(6, String.class, "managerId", false, "MANAGER_ID");
-        public final static Property ManagerName = new Property(7, String.class, "managerName", false, "MANAGER_NAME");
-        public final static Property OrgId = new Property(8, long.class, "orgId", false, "ORG_ID");
-        public final static Property OrgName = new Property(9, String.class, "orgName", false, "ORG_NAME");
-        public final static Property OrgTypeId = new Property(10, int.class, "orgTypeId", false, "ORG_TYPE_ID");
-        public final static Property AddTime = new Property(11, java.util.Date.class, "addTime", false, "ADD_TIME");
-        public final static Property UpdTime = new Property(12, java.util.Date.class, "updTime", false, "UPD_TIME");
-        public final static Property Remark = new Property(13, String.class, "remark", false, "REMARK");
-        public final static Property Status = new Property(14, int.class, "status", false, "STATUS");
-        public final static Property PinYin = new Property(15, String.class, "pinYin", false, "PIN_YIN");
-        public final static Property PY = new Property(16, String.class, "pY", false, "P_Y");
-        public final static Property IsPack = new Property(17, int.class, "isPack", false, "IS_PACK");
-        public final static Property PackorgId = new Property(18, Long.class, "packorgId", false, "PACKORG_ID");
-        public final static Property PackorgTypeId = new Property(19, Integer.class, "packorgTypeId", false, "PACKORG_TYPE_ID");
-        public final static Property IsEmptyShow = new Property(20, Integer.class, "isEmptyShow", false, "IS_EMPTY_SHOW");
-        public final static Property PackStatus = new Property(21, Integer.class, "packStatus", false, "PACK_STATUS");
-        public final static Property PacksupplierId = new Property(22, Long.class, "packsupplierId", false, "PACKSUPPLIER_ID");
-        public final static Property PacksupplierTypeId = new Property(23, Integer.class, "packsupplierTypeId", false, "PACKSUPPLIER_TYPE_ID");
-        public final static Property PictureName = new Property(24, String.class, "pictureName", false, "PICTURE_NAME");
-        public final static Property PictureUrl = new Property(25, String.class, "pictureUrl", false, "PICTURE_URL");
+        public final static Property Id = new Property(0, long.class, "id", true, "_id");
+        public final static Property CateId = new Property(1, long.class, "cateId", false, "CATE_ID");
+        public final static Property CateName = new Property(2, String.class, "cateName", false, "CATE_NAME");
+        public final static Property CateLevel = new Property(3, int.class, "cateLevel", false, "CATE_LEVEL");
+        public final static Property ParentId = new Property(4, long.class, "parentId", false, "PARENT_ID");
+        public final static Property IsLeaf = new Property(5, int.class, "isLeaf", false, "IS_LEAF");
+        public final static Property IsDelete = new Property(6, int.class, "isDelete", false, "IS_DELETE");
+        public final static Property ManagerId = new Property(7, String.class, "managerId", false, "MANAGER_ID");
+        public final static Property ManagerName = new Property(8, String.class, "managerName", false, "MANAGER_NAME");
+        public final static Property OrgId = new Property(9, long.class, "orgId", false, "ORG_ID");
+        public final static Property OrgName = new Property(10, String.class, "orgName", false, "ORG_NAME");
+        public final static Property OrgTypeId = new Property(11, int.class, "orgTypeId", false, "ORG_TYPE_ID");
+        public final static Property AddTime = new Property(12, java.util.Date.class, "addTime", false, "ADD_TIME");
+        public final static Property UpdTime = new Property(13, java.util.Date.class, "updTime", false, "UPD_TIME");
+        public final static Property Remark = new Property(14, String.class, "remark", false, "REMARK");
+        public final static Property Status = new Property(15, int.class, "status", false, "STATUS");
+        public final static Property PinYin = new Property(16, String.class, "pinYin", false, "PIN_YIN");
+        public final static Property PY = new Property(17, String.class, "pY", false, "P_Y");
+        public final static Property IsPack = new Property(18, int.class, "isPack", false, "IS_PACK");
+        public final static Property PackorgId = new Property(19, Long.class, "packorgId", false, "PACKORG_ID");
+        public final static Property PackorgTypeId = new Property(20, Integer.class, "packorgTypeId", false, "PACKORG_TYPE_ID");
+        public final static Property IsEmptyShow = new Property(21, Integer.class, "isEmptyShow", false, "IS_EMPTY_SHOW");
+        public final static Property PackStatus = new Property(22, Integer.class, "packStatus", false, "PACK_STATUS");
+        public final static Property PacksupplierId = new Property(23, Long.class, "packsupplierId", false, "PACKSUPPLIER_ID");
+        public final static Property PacksupplierTypeId = new Property(24, Integer.class, "packsupplierTypeId", false, "PACKSUPPLIER_TYPE_ID");
+        public final static Property PictureName = new Property(25, String.class, "pictureName", false, "PICTURE_NAME");
+        public final static Property PictureUrl = new Property(26, String.class, "pictureUrl", false, "PICTURE_URL");
     }
 
 
@@ -65,32 +66,33 @@ public class ProCateServiceDao extends AbstractDao<ProCateService, Void> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"PRO_CATE_SERVICE\" (" + //
-                "\"CATE_ID\" INTEGER NOT NULL ," + // 0: cateId
-                "\"CATE_NAME\" TEXT," + // 1: cateName
-                "\"CATE_LEVEL\" INTEGER NOT NULL ," + // 2: cateLevel
-                "\"PARENT_ID\" INTEGER NOT NULL ," + // 3: parentId
-                "\"IS_LEAF\" INTEGER NOT NULL ," + // 4: isLeaf
-                "\"IS_DELETE\" INTEGER NOT NULL ," + // 5: isDelete
-                "\"MANAGER_ID\" TEXT," + // 6: managerId
-                "\"MANAGER_NAME\" TEXT," + // 7: managerName
-                "\"ORG_ID\" INTEGER NOT NULL ," + // 8: orgId
-                "\"ORG_NAME\" TEXT," + // 9: orgName
-                "\"ORG_TYPE_ID\" INTEGER NOT NULL ," + // 10: orgTypeId
-                "\"ADD_TIME\" INTEGER," + // 11: addTime
-                "\"UPD_TIME\" INTEGER," + // 12: updTime
-                "\"REMARK\" TEXT," + // 13: remark
-                "\"STATUS\" INTEGER NOT NULL ," + // 14: status
-                "\"PIN_YIN\" TEXT," + // 15: pinYin
-                "\"P_Y\" TEXT," + // 16: pY
-                "\"IS_PACK\" INTEGER NOT NULL ," + // 17: isPack
-                "\"PACKORG_ID\" INTEGER," + // 18: packorgId
-                "\"PACKORG_TYPE_ID\" INTEGER," + // 19: packorgTypeId
-                "\"IS_EMPTY_SHOW\" INTEGER," + // 20: isEmptyShow
-                "\"PACK_STATUS\" INTEGER," + // 21: packStatus
-                "\"PACKSUPPLIER_ID\" INTEGER," + // 22: packsupplierId
-                "\"PACKSUPPLIER_TYPE_ID\" INTEGER," + // 23: packsupplierTypeId
-                "\"PICTURE_NAME\" TEXT," + // 24: pictureName
-                "\"PICTURE_URL\" TEXT);"); // 25: pictureUrl
+                "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL ," + // 0: id
+                "\"CATE_ID\" INTEGER NOT NULL ," + // 1: cateId
+                "\"CATE_NAME\" TEXT," + // 2: cateName
+                "\"CATE_LEVEL\" INTEGER NOT NULL ," + // 3: cateLevel
+                "\"PARENT_ID\" INTEGER NOT NULL ," + // 4: parentId
+                "\"IS_LEAF\" INTEGER NOT NULL ," + // 5: isLeaf
+                "\"IS_DELETE\" INTEGER NOT NULL ," + // 6: isDelete
+                "\"MANAGER_ID\" TEXT," + // 7: managerId
+                "\"MANAGER_NAME\" TEXT," + // 8: managerName
+                "\"ORG_ID\" INTEGER NOT NULL ," + // 9: orgId
+                "\"ORG_NAME\" TEXT," + // 10: orgName
+                "\"ORG_TYPE_ID\" INTEGER NOT NULL ," + // 11: orgTypeId
+                "\"ADD_TIME\" INTEGER," + // 12: addTime
+                "\"UPD_TIME\" INTEGER," + // 13: updTime
+                "\"REMARK\" TEXT," + // 14: remark
+                "\"STATUS\" INTEGER NOT NULL ," + // 15: status
+                "\"PIN_YIN\" TEXT," + // 16: pinYin
+                "\"P_Y\" TEXT," + // 17: pY
+                "\"IS_PACK\" INTEGER NOT NULL ," + // 18: isPack
+                "\"PACKORG_ID\" INTEGER," + // 19: packorgId
+                "\"PACKORG_TYPE_ID\" INTEGER," + // 20: packorgTypeId
+                "\"IS_EMPTY_SHOW\" INTEGER," + // 21: isEmptyShow
+                "\"PACK_STATUS\" INTEGER," + // 22: packStatus
+                "\"PACKSUPPLIER_ID\" INTEGER," + // 23: packsupplierId
+                "\"PACKSUPPLIER_TYPE_ID\" INTEGER," + // 24: packsupplierTypeId
+                "\"PICTURE_NAME\" TEXT," + // 25: pictureName
+                "\"PICTURE_URL\" TEXT);"); // 26: pictureUrl
     }
 
     /** Drops the underlying database table. */
@@ -102,284 +104,295 @@ public class ProCateServiceDao extends AbstractDao<ProCateService, Void> {
     @Override
     protected final void bindValues(DatabaseStatement stmt, ProCateService entity) {
         stmt.clearBindings();
-        stmt.bindLong(1, entity.getCateId());
+        if (entity.getId()!=null){
+            stmt.bindLong(1, entity.getId());
+        }
+        stmt.bindLong(2, entity.getCateId());
  
         String cateName = entity.getCateName();
         if (cateName != null) {
-            stmt.bindString(2, cateName);
+            stmt.bindString(3, cateName);
         }
-        stmt.bindLong(3, entity.getCateLevel());
-        stmt.bindLong(4, entity.getParentId());
-        stmt.bindLong(5, entity.getIsLeaf());
-        stmt.bindLong(6, entity.getIsDelete());
+        stmt.bindLong(4, entity.getCateLevel());
+        stmt.bindLong(5, entity.getParentId());
+        stmt.bindLong(6, entity.getIsLeaf());
+        stmt.bindLong(7, entity.getIsDelete());
  
         String managerId = entity.getManagerId();
         if (managerId != null) {
-            stmt.bindString(7, managerId);
+            stmt.bindString(8, managerId);
         }
  
         String managerName = entity.getManagerName();
         if (managerName != null) {
-            stmt.bindString(8, managerName);
+            stmt.bindString(9, managerName);
         }
-        stmt.bindLong(9, entity.getOrgId());
+        stmt.bindLong(10, entity.getOrgId());
  
         String orgName = entity.getOrgName();
         if (orgName != null) {
-            stmt.bindString(10, orgName);
+            stmt.bindString(11, orgName);
         }
-        stmt.bindLong(11, entity.getOrgTypeId());
+        stmt.bindLong(12, entity.getOrgTypeId());
  
         java.util.Date addTime = entity.getAddTime();
         if (addTime != null) {
-            stmt.bindLong(12, addTime.getTime());
+            stmt.bindLong(13, addTime.getTime());
         }
  
         java.util.Date updTime = entity.getUpdTime();
         if (updTime != null) {
-            stmt.bindLong(13, updTime.getTime());
+            stmt.bindLong(14, updTime.getTime());
         }
  
         String remark = entity.getRemark();
         if (remark != null) {
-            stmt.bindString(14, remark);
+            stmt.bindString(15, remark);
         }
-        stmt.bindLong(15, entity.getStatus());
+        stmt.bindLong(16, entity.getStatus());
  
         String pinYin = entity.getPinYin();
         if (pinYin != null) {
-            stmt.bindString(16, pinYin);
+            stmt.bindString(17, pinYin);
         }
  
         String pY = entity.getPY();
         if (pY != null) {
-            stmt.bindString(17, pY);
+            stmt.bindString(18, pY);
         }
-        stmt.bindLong(18, entity.getIsPack());
+        stmt.bindLong(19, entity.getIsPack());
  
         Long packorgId = entity.getPackorgId();
         if (packorgId != null) {
-            stmt.bindLong(19, packorgId);
+            stmt.bindLong(20, packorgId);
         }
  
         Integer packorgTypeId = entity.getPackorgTypeId();
         if (packorgTypeId != null) {
-            stmt.bindLong(20, packorgTypeId);
+            stmt.bindLong(21, packorgTypeId);
         }
  
         Integer isEmptyShow = entity.getIsEmptyShow();
         if (isEmptyShow != null) {
-            stmt.bindLong(21, isEmptyShow);
+            stmt.bindLong(22, isEmptyShow);
         }
  
         Integer packStatus = entity.getPackStatus();
         if (packStatus != null) {
-            stmt.bindLong(22, packStatus);
+            stmt.bindLong(23, packStatus);
         }
  
         Long packsupplierId = entity.getPacksupplierId();
         if (packsupplierId != null) {
-            stmt.bindLong(23, packsupplierId);
+            stmt.bindLong(24, packsupplierId);
         }
  
         Integer packsupplierTypeId = entity.getPacksupplierTypeId();
         if (packsupplierTypeId != null) {
-            stmt.bindLong(24, packsupplierTypeId);
+            stmt.bindLong(25, packsupplierTypeId);
         }
  
         String pictureName = entity.getPictureName();
         if (pictureName != null) {
-            stmt.bindString(25, pictureName);
+            stmt.bindString(26, pictureName);
         }
  
         String pictureUrl = entity.getPictureUrl();
         if (pictureUrl != null) {
-            stmt.bindString(26, pictureUrl);
+            stmt.bindString(27, pictureUrl);
         }
     }
 
     @Override
     protected final void bindValues(SQLiteStatement stmt, ProCateService entity) {
         stmt.clearBindings();
-        stmt.bindLong(1, entity.getCateId());
+        if (entity.getId()!=null){
+            stmt.bindLong(1, entity.getId());
+        }
+        stmt.bindLong(2, entity.getCateId());
  
         String cateName = entity.getCateName();
         if (cateName != null) {
-            stmt.bindString(2, cateName);
+            stmt.bindString(3, cateName);
         }
-        stmt.bindLong(3, entity.getCateLevel());
-        stmt.bindLong(4, entity.getParentId());
-        stmt.bindLong(5, entity.getIsLeaf());
-        stmt.bindLong(6, entity.getIsDelete());
+        stmt.bindLong(4, entity.getCateLevel());
+        stmt.bindLong(5, entity.getParentId());
+        stmt.bindLong(6, entity.getIsLeaf());
+        stmt.bindLong(7, entity.getIsDelete());
  
         String managerId = entity.getManagerId();
         if (managerId != null) {
-            stmt.bindString(7, managerId);
+            stmt.bindString(8, managerId);
         }
  
         String managerName = entity.getManagerName();
         if (managerName != null) {
-            stmt.bindString(8, managerName);
+            stmt.bindString(9, managerName);
         }
-        stmt.bindLong(9, entity.getOrgId());
+        stmt.bindLong(10, entity.getOrgId());
  
         String orgName = entity.getOrgName();
         if (orgName != null) {
-            stmt.bindString(10, orgName);
+            stmt.bindString(11, orgName);
         }
-        stmt.bindLong(11, entity.getOrgTypeId());
+        stmt.bindLong(12, entity.getOrgTypeId());
  
         java.util.Date addTime = entity.getAddTime();
         if (addTime != null) {
-            stmt.bindLong(12, addTime.getTime());
+            stmt.bindLong(13, addTime.getTime());
         }
  
         java.util.Date updTime = entity.getUpdTime();
         if (updTime != null) {
-            stmt.bindLong(13, updTime.getTime());
+            stmt.bindLong(14, updTime.getTime());
         }
  
         String remark = entity.getRemark();
         if (remark != null) {
-            stmt.bindString(14, remark);
+            stmt.bindString(15, remark);
         }
-        stmt.bindLong(15, entity.getStatus());
+        stmt.bindLong(16, entity.getStatus());
  
         String pinYin = entity.getPinYin();
         if (pinYin != null) {
-            stmt.bindString(16, pinYin);
+            stmt.bindString(17, pinYin);
         }
  
         String pY = entity.getPY();
         if (pY != null) {
-            stmt.bindString(17, pY);
+            stmt.bindString(18, pY);
         }
-        stmt.bindLong(18, entity.getIsPack());
+        stmt.bindLong(19, entity.getIsPack());
  
         Long packorgId = entity.getPackorgId();
         if (packorgId != null) {
-            stmt.bindLong(19, packorgId);
+            stmt.bindLong(20, packorgId);
         }
  
         Integer packorgTypeId = entity.getPackorgTypeId();
         if (packorgTypeId != null) {
-            stmt.bindLong(20, packorgTypeId);
+            stmt.bindLong(21, packorgTypeId);
         }
  
         Integer isEmptyShow = entity.getIsEmptyShow();
         if (isEmptyShow != null) {
-            stmt.bindLong(21, isEmptyShow);
+            stmt.bindLong(22, isEmptyShow);
         }
  
         Integer packStatus = entity.getPackStatus();
         if (packStatus != null) {
-            stmt.bindLong(22, packStatus);
+            stmt.bindLong(23, packStatus);
         }
  
         Long packsupplierId = entity.getPacksupplierId();
         if (packsupplierId != null) {
-            stmt.bindLong(23, packsupplierId);
+            stmt.bindLong(24, packsupplierId);
         }
  
         Integer packsupplierTypeId = entity.getPacksupplierTypeId();
         if (packsupplierTypeId != null) {
-            stmt.bindLong(24, packsupplierTypeId);
+            stmt.bindLong(25, packsupplierTypeId);
         }
  
         String pictureName = entity.getPictureName();
         if (pictureName != null) {
-            stmt.bindString(25, pictureName);
+            stmt.bindString(26, pictureName);
         }
  
         String pictureUrl = entity.getPictureUrl();
         if (pictureUrl != null) {
-            stmt.bindString(26, pictureUrl);
+            stmt.bindString(27, pictureUrl);
         }
     }
 
     @Override
-    public Void readKey(Cursor cursor, int offset) {
-        return null;
+    public Long readKey(Cursor cursor, int offset) {
+        return cursor.getLong(offset + 0);
     }    
 
     @Override
     public ProCateService readEntity(Cursor cursor, int offset) {
         ProCateService entity = new ProCateService( //
-            cursor.getLong(offset + 0), // cateId
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // cateName
-            cursor.getInt(offset + 2), // cateLevel
-            cursor.getLong(offset + 3), // parentId
-            cursor.getInt(offset + 4), // isLeaf
-            cursor.getInt(offset + 5), // isDelete
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // managerId
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // managerName
-            cursor.getLong(offset + 8), // orgId
-            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // orgName
-            cursor.getInt(offset + 10), // orgTypeId
-            cursor.isNull(offset + 11) ? null : new java.util.Date(cursor.getLong(offset + 11)), // addTime
-            cursor.isNull(offset + 12) ? null : new java.util.Date(cursor.getLong(offset + 12)), // updTime
-            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // remark
-            cursor.getInt(offset + 14), // status
-            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15), // pinYin
-            cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16), // pY
-            cursor.getInt(offset + 17), // isPack
-            cursor.isNull(offset + 18) ? null : cursor.getLong(offset + 18), // packorgId
-            cursor.isNull(offset + 19) ? null : cursor.getInt(offset + 19), // packorgTypeId
-            cursor.isNull(offset + 20) ? null : cursor.getInt(offset + 20), // isEmptyShow
-            cursor.isNull(offset + 21) ? null : cursor.getInt(offset + 21), // packStatus
-            cursor.isNull(offset + 22) ? null : cursor.getLong(offset + 22), // packsupplierId
-            cursor.isNull(offset + 23) ? null : cursor.getInt(offset + 23), // packsupplierTypeId
-            cursor.isNull(offset + 24) ? null : cursor.getString(offset + 24), // pictureName
-            cursor.isNull(offset + 25) ? null : cursor.getString(offset + 25) // pictureUrl
+            cursor.getLong(offset + 0), // id
+            cursor.getLong(offset + 1), // cateId
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // cateName
+            cursor.getInt(offset + 3), // cateLevel
+            cursor.getLong(offset + 4), // parentId
+            cursor.getInt(offset + 5), // isLeaf
+            cursor.getInt(offset + 6), // isDelete
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // managerId
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // managerName
+            cursor.getLong(offset + 9), // orgId
+            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // orgName
+            cursor.getInt(offset + 11), // orgTypeId
+            cursor.isNull(offset + 12) ? null : new java.util.Date(cursor.getLong(offset + 12)), // addTime
+            cursor.isNull(offset + 13) ? null : new java.util.Date(cursor.getLong(offset + 13)), // updTime
+            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // remark
+            cursor.getInt(offset + 15), // status
+            cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16), // pinYin
+            cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17), // pY
+            cursor.getInt(offset + 18), // isPack
+            cursor.isNull(offset + 19) ? null : cursor.getLong(offset + 19), // packorgId
+            cursor.isNull(offset + 20) ? null : cursor.getInt(offset + 20), // packorgTypeId
+            cursor.isNull(offset + 21) ? null : cursor.getInt(offset + 21), // isEmptyShow
+            cursor.isNull(offset + 22) ? null : cursor.getInt(offset + 22), // packStatus
+            cursor.isNull(offset + 23) ? null : cursor.getLong(offset + 23), // packsupplierId
+            cursor.isNull(offset + 24) ? null : cursor.getInt(offset + 24), // packsupplierTypeId
+            cursor.isNull(offset + 25) ? null : cursor.getString(offset + 25), // pictureName
+            cursor.isNull(offset + 26) ? null : cursor.getString(offset + 26) // pictureUrl
         );
         return entity;
     }
      
     @Override
     public void readEntity(Cursor cursor, ProCateService entity, int offset) {
-        entity.setCateId(cursor.getLong(offset + 0));
-        entity.setCateName(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setCateLevel(cursor.getInt(offset + 2));
-        entity.setParentId(cursor.getLong(offset + 3));
-        entity.setIsLeaf(cursor.getInt(offset + 4));
-        entity.setIsDelete(cursor.getInt(offset + 5));
-        entity.setManagerId(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setManagerName(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
-        entity.setOrgId(cursor.getLong(offset + 8));
-        entity.setOrgName(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
-        entity.setOrgTypeId(cursor.getInt(offset + 10));
-        entity.setAddTime(cursor.isNull(offset + 11) ? null : new java.util.Date(cursor.getLong(offset + 11)));
-        entity.setUpdTime(cursor.isNull(offset + 12) ? null : new java.util.Date(cursor.getLong(offset + 12)));
-        entity.setRemark(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
-        entity.setStatus(cursor.getInt(offset + 14));
-        entity.setPinYin(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
-        entity.setPY(cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16));
-        entity.setIsPack(cursor.getInt(offset + 17));
-        entity.setPackorgId(cursor.isNull(offset + 18) ? null : cursor.getLong(offset + 18));
-        entity.setPackorgTypeId(cursor.isNull(offset + 19) ? null : cursor.getInt(offset + 19));
-        entity.setIsEmptyShow(cursor.isNull(offset + 20) ? null : cursor.getInt(offset + 20));
-        entity.setPackStatus(cursor.isNull(offset + 21) ? null : cursor.getInt(offset + 21));
-        entity.setPacksupplierId(cursor.isNull(offset + 22) ? null : cursor.getLong(offset + 22));
-        entity.setPacksupplierTypeId(cursor.isNull(offset + 23) ? null : cursor.getInt(offset + 23));
-        entity.setPictureName(cursor.isNull(offset + 24) ? null : cursor.getString(offset + 24));
-        entity.setPictureUrl(cursor.isNull(offset + 25) ? null : cursor.getString(offset + 25));
+        entity.setId(cursor.getLong(offset + 0));
+        entity.setCateId(cursor.getLong(offset + 1));
+        entity.setCateName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setCateLevel(cursor.getInt(offset + 3));
+        entity.setParentId(cursor.getLong(offset + 4));
+        entity.setIsLeaf(cursor.getInt(offset + 5));
+        entity.setIsDelete(cursor.getInt(offset + 6));
+        entity.setManagerId(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setManagerName(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setOrgId(cursor.getLong(offset + 9));
+        entity.setOrgName(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
+        entity.setOrgTypeId(cursor.getInt(offset + 11));
+        entity.setAddTime(cursor.isNull(offset + 12) ? null : new java.util.Date(cursor.getLong(offset + 12)));
+        entity.setUpdTime(cursor.isNull(offset + 13) ? null : new java.util.Date(cursor.getLong(offset + 13)));
+        entity.setRemark(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
+        entity.setStatus(cursor.getInt(offset + 15));
+        entity.setPinYin(cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16));
+        entity.setPY(cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17));
+        entity.setIsPack(cursor.getInt(offset + 18));
+        entity.setPackorgId(cursor.isNull(offset + 19) ? null : cursor.getLong(offset + 19));
+        entity.setPackorgTypeId(cursor.isNull(offset + 20) ? null : cursor.getInt(offset + 20));
+        entity.setIsEmptyShow(cursor.isNull(offset + 21) ? null : cursor.getInt(offset + 21));
+        entity.setPackStatus(cursor.isNull(offset + 22) ? null : cursor.getInt(offset + 22));
+        entity.setPacksupplierId(cursor.isNull(offset + 23) ? null : cursor.getLong(offset + 23));
+        entity.setPacksupplierTypeId(cursor.isNull(offset + 24) ? null : cursor.getInt(offset + 24));
+        entity.setPictureName(cursor.isNull(offset + 25) ? null : cursor.getString(offset + 25));
+        entity.setPictureUrl(cursor.isNull(offset + 26) ? null : cursor.getString(offset + 26));
      }
     
     @Override
-    protected final Void updateKeyAfterInsert(ProCateService entity, long rowId) {
-        // Unsupported or missing PK type
-        return null;
+    protected final Long updateKeyAfterInsert(ProCateService entity, long rowId) {
+        entity.setId(rowId);
+        return rowId;
     }
     
     @Override
-    public Void getKey(ProCateService entity) {
-        return null;
+    public Long getKey(ProCateService entity) {
+        if(entity != null) {
+            return entity.getId();
+        } else {
+            return null;
+        }
     }
 
     @Override
     public boolean hasKey(ProCateService entity) {
-        // TODO
-        return false;
+        throw new UnsupportedOperationException("Unsupported for entities with a non-null key");
     }
 
     @Override

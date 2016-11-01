@@ -2,6 +2,7 @@ package dq.lovemusic.thinkpad.lelaohuidatabaselibrary.port;
 
 import android.database.Cursor;
 
+import org.greenrobot.greendao.AbstractDao;
 import org.greenrobot.greendao.AbstractDaoSession;
 
 import java.util.List;
@@ -21,4 +22,5 @@ public interface DBOperatorImp {
      void delete(BaseBean t);
      Cursor query(BaseBean t);
     void updateData(List<? extends BaseBean>  t);
+    AbstractDao get();
 }
