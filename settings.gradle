@@ -1,1 +1,1 @@
-include ':app', ':nettylibrary', ':lelaohuidatabaselibrary', ':ipcarmearlibrary', ':limagelibrary'
+include ':app', ':nettylibrary', ':lelaohuidatabaselibrary', ':ipcarmearlibrary', ':limagelibrary', ':llhpushcore'

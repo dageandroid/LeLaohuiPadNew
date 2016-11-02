@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 
 import dq.lelaohui.com.lelaohuipad.dao.ProCateServiceDaoOperator;
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateService;
 
 /**
  * Created by ThinkPad on 2016/10/26.
@@ -69,6 +70,17 @@ public class StubProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(Uri uri, ContentValues values) {
+        int id= sUriMatcher.match(uri);
+        switch (id){
+            case  SERVER_FIRST_MENUM:
+                ProCateService proCateService=new ProCateService(values);
+//                long orgId=Long.parseLong(projection[0]) ;int orgTypeId=Integer.parseInt(projection[1]);
+               proCateServiceDaoOperator.intsert(proCateService);
+                break;
+        }
+        Context ctx = getContext();
+        assert ctx != null;
+        ctx.getContentResolver().notifyChange(uri, null, false);
         return null;
     }
 
@@ -79,6 +91,17 @@ public class StubProvider extends ContentProvider {
 
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+        int id= sUriMatcher.match(uri);
+        switch (id){
+            case  SERVER_FIRST_MENUM:
+                ProCateService proCateService=new ProCateService(values);
+//                long orgId=Long.parseLong(projection[0]) ;int orgTypeId=Integer.parseInt(projection[1]);
+                proCateServiceDaoOperator.updateData(proCateService);
+                break;
+        }
+        Context ctx = getContext();
+        assert ctx != null;
+        ctx.getContentResolver().notifyChange(uri, null, false);
         return 0;
     }
 }
