@@ -10,6 +10,7 @@ import java.util.List;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.BaseBean;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateMenuService;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateService;
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.ProCateMenuServiceDao;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.ProCateServiceDao;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager.BaseDaoOperator;
 
@@ -84,17 +85,36 @@ public class ProMenumServiceDaoOperator extends BaseDaoOperator {
      * @return
      */
     public Cursor queryTwo(long orgId ,int orgTypeId,long cateId ){
-        WhereCondition condition= ProCateServiceDao.Properties.OrgId.eq(orgId);
-        WhereCondition orgTypeIdContin=ProCateServiceDao.Properties.OrgTypeId.eq(orgTypeId);
-        WhereCondition cateidContin=ProCateServiceDao.Properties.ParentId.eq(cateId);
-        return super.query(ProCateService.class,condition,orgTypeIdContin,cateidContin);
+        WhereCondition condition= ProCateMenuServiceDao.Properties.OrgId.eq(orgId);
+        WhereCondition orgTypeIdContin=ProCateMenuServiceDao.Properties.OrgTypeId.eq(orgTypeId);
+        WhereCondition cateidContin= ProCateMenuServiceDao.Properties.ParentId.eq(cateId);
+        return super.query(ProCateMenuService.class,condition,orgTypeIdContin,cateidContin);
     }
+
     /**查询二级数据库
      * @param cateId
      * @return
      */
     public Cursor queryTwo(long cateId ){
-        WhereCondition cateidContin=ProCateServiceDao.Properties.ParentId.eq(cateId);
-        return super.query(ProCateService.class,cateidContin);
+
+        WhereCondition cateidContin=ProCateMenuServiceDao.Properties.ParentId.eq(cateId);
+        return super.query(ProCateMenuService.class,cateidContin);
+    }
+    /**查询二级数据库
+     * @param orgId
+     * @param orgTypeId
+     * @return
+     */
+    public Cursor queryDataTwo(long orgId ,int orgTypeId){
+        WhereCondition condition= ProCateMenuServiceDao.Properties.OrgId.eq(orgId);
+        WhereCondition orgTypeIdContin=ProCateMenuServiceDao.Properties.OrgTypeId.eq(orgTypeId);
+        return super.query(ProCateMenuService.class,condition,orgTypeIdContin);
+    }
+
+    /**查询二级数据库
+     * @return
+     */
+    public Cursor queryDataTwo( ){
+        return super.query(ProCateMenuService.class);
     }
 }

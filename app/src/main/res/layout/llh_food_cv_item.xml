@@ -42,13 +42,49 @@
         android:layout_below="@+id/food_img"
         />
 
-    <include
-        android:id="@+id/viewstub_food_select"
+    <!--<include-->
+        <!--android:id="@+id/viewstub_food_select"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout="@layout/add_product_view"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_alignParentEnd="true" />-->
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout="@layout/add_product_view"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/product_num"
+            android:layout_below="@+id/add_product"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/txt_size_26sp"
+            android:text="0"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:layout_height="@dimen/product_num_helght_content" />
+
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/add_product"
+            android:layout_width="wrap_content"
+            android:src="@drawable/add"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignLeft="@+id/subtract_product"
+            android:layout_alignStart="@+id/subtract_product" />
+
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/subtract_product"
+            android:layout_width="wrap_content"
+            android:src="@drawable/add"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/product_num"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

@@ -11,9 +11,9 @@
         android:layout_below="@+id/head_view"
 android:layout_above="@+id/llh_shopping_bottom"
         android:layout_height="match_parent" >
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+    <!--<ScrollView-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="fill_parent">-->
         <LinearLayout
             android:layout_width="fill_parent"
             android:orientation="horizontal"
@@ -32,7 +32,7 @@ android:layout_above="@+id/llh_shopping_bottom"
         </LinearLayout>
 
 
-    </ScrollView>
+    <!--</ScrollView>-->
     </android.support.v4.widget.SwipeRefreshLayout>
     <include
         android:id="@+id/llh_shopping_bottom"

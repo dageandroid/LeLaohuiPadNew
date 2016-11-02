@@ -137,13 +137,19 @@ public abstract class LaoHuiBaseControler implements IControler {
         }
     }
     public void insertData(List<?extends  BaseBean> obj){
-        if(getBaseDaoOperator()!=null){
+        insertData(null,obj);
+    }
+    public void insertData(String version,List<?extends  BaseBean> obj){
+        if(getBaseDaoOperator(version)!=null){
             log("insert obj :"+obj.toString());
-            getBaseDaoOperator().intsert(obj);
+            getBaseDaoOperator(version).intsert(obj);
         }else{
             throw new RuntimeException("获取数据库对象为null");
         }
     }
+
+
+
     public Cursor getQueryCursor(BaseBean bean){
         Cursor cursor=null;
         if(getBaseDaoOperator()!=null){

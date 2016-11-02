@@ -62,7 +62,6 @@ public class ServerActivity extends LeLaoHuiBaseActivity implements LoaderManage
             @Override
             public void onItemClick(View view, Cursor c) {
                 ProCateService proCateService=dao.readEntity(c,0);
-                Toast.makeText(getApplicationContext(),"getCateName="+proCateService.getCateName(),Toast.LENGTH_LONG).show();
                if(proCateService!=null){
                    Intent intent=new Intent(ServerActivity.this,ServerMenuActivity.class);
                    intent.putExtra("proCateServer", (Parcelable) proCateService);
