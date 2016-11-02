@@ -60,8 +60,8 @@ public class ProCateMenuService extends BaseBean  {
     private String pY;
     private int isPack;
     private Long packorgId;
-    @Generated(hash = 2017460882)
-    public ProCateMenuService(long id, long cateId, String cateName, int cateLevel,
+    @Generated(hash = 132832366)
+    public ProCateMenuService(Long id, long cateId, String cateName, int cateLevel,
             long parentId, int isLeaf, int isDelete, String managerId,
             String managerName, long orgId, String orgName, int orgTypeId,
             Date addTime, Date updTime, String remark, int status, String pinYin,

@@ -24,6 +24,8 @@ public class DaoMaster extends AbstractDaoMaster {
         FootInfoDao.createTable(db, ifNotExists);
         ProCateMenuServiceDao.createTable(db, ifNotExists);
         ProCateServiceDao.createTable(db, ifNotExists);
+        SerInitProPackDao.createTable(db, ifNotExists);
+        SerInitProPackDetailListBeanDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
@@ -31,6 +33,8 @@ public class DaoMaster extends AbstractDaoMaster {
         FootInfoDao.dropTable(db, ifExists);
         ProCateMenuServiceDao.dropTable(db, ifExists);
         ProCateServiceDao.dropTable(db, ifExists);
+        SerInitProPackDao.dropTable(db, ifExists);
+        SerInitProPackDetailListBeanDao.dropTable(db, ifExists);
     }
 
     /**
@@ -52,6 +56,8 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(FootInfoDao.class);
         registerDaoClass(ProCateMenuServiceDao.class);
         registerDaoClass(ProCateServiceDao.class);
+        registerDaoClass(SerInitProPackDao.class);
+        registerDaoClass(SerInitProPackDetailListBeanDao.class);
     }
 
     public DaoSession newSession() {

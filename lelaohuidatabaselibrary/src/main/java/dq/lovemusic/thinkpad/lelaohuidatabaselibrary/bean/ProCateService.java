@@ -386,8 +386,8 @@ public class ProCateService extends BaseBean implements Serializable, Parcelable
 		this.pictureUrl = in.readString();
 	}
 
-	@Generated(hash = 1674691131)
-	public ProCateService(long id, long cateId, String cateName, int cateLevel, long parentId, int isLeaf,
+	@Generated(hash = 820579168)
+	public ProCateService(Long id, long cateId, String cateName, int cateLevel, long parentId, int isLeaf,
 									int isDelete, String managerId, String managerName, long orgId, String orgName, int orgTypeId,
 									Date addTime, Date updTime, String remark, int status, String pinYin, String pY, int isPack,
 									Long packorgId, Integer packorgTypeId, Integer isEmptyShow, Integer packStatus, Long packsupplierId,

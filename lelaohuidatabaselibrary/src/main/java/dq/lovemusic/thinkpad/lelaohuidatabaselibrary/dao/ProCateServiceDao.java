@@ -24,7 +24,7 @@ public class ProCateServiceDao extends AbstractDao<ProCateService, Long> {
      * Can be used for QueryBuilder and for referencing column names.
      */
     public static class Properties {
-        public final static Property Id = new Property(0, long.class, "id", true, "_id");
+        public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property CateId = new Property(1, long.class, "cateId", false, "CATE_ID");
         public final static Property CateName = new Property(2, String.class, "cateName", false, "CATE_NAME");
         public final static Property CateLevel = new Property(3, int.class, "cateLevel", false, "CATE_LEVEL");
@@ -66,7 +66,7 @@ public class ProCateServiceDao extends AbstractDao<ProCateService, Long> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"PRO_CATE_SERVICE\" (" + //
-                "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL ," + // 0: id
+                "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "\"CATE_ID\" INTEGER NOT NULL ," + // 1: cateId
                 "\"CATE_NAME\" TEXT," + // 2: cateName
                 "\"CATE_LEVEL\" INTEGER NOT NULL ," + // 3: cateLevel
@@ -104,8 +104,10 @@ public class ProCateServiceDao extends AbstractDao<ProCateService, Long> {
     @Override
     protected final void bindValues(DatabaseStatement stmt, ProCateService entity) {
         stmt.clearBindings();
-        if (entity.getId()!=null){
-            stmt.bindLong(1, entity.getId());
+ 
+        Long id = entity.getId();
+        if (id != null) {
+            stmt.bindLong(1, id);
         }
         stmt.bindLong(2, entity.getCateId());
  
@@ -206,8 +208,10 @@ public class ProCateServiceDao extends AbstractDao<ProCateService, Long> {
     @Override
     protected final void bindValues(SQLiteStatement stmt, ProCateService entity) {
         stmt.clearBindings();
-        if (entity.getId()!=null){
-            stmt.bindLong(1, entity.getId());
+ 
+        Long id = entity.getId();
+        if (id != null) {
+            stmt.bindLong(1, id);
         }
         stmt.bindLong(2, entity.getCateId());
  
@@ -307,13 +311,13 @@ public class ProCateServiceDao extends AbstractDao<ProCateService, Long> {
 
     @Override
     public Long readKey(Cursor cursor, int offset) {
-        return cursor.getLong(offset + 0);
+        return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
     }    
 
     @Override
     public ProCateService readEntity(Cursor cursor, int offset) {
         ProCateService entity = new ProCateService( //
-            cursor.getLong(offset + 0), // id
+            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.getLong(offset + 1), // cateId
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // cateName
             cursor.getInt(offset + 3), // cateLevel
@@ -346,7 +350,7 @@ public class ProCateServiceDao extends AbstractDao<ProCateService, Long> {
      
     @Override
     public void readEntity(Cursor cursor, ProCateService entity, int offset) {
-        entity.setId(cursor.getLong(offset + 0));
+        entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setCateId(cursor.getLong(offset + 1));
         entity.setCateName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setCateLevel(cursor.getInt(offset + 3));
@@ -392,7 +396,7 @@ public class ProCateServiceDao extends AbstractDao<ProCateService, Long> {
 
     @Override
     public boolean hasKey(ProCateService entity) {
-        throw new UnsupportedOperationException("Unsupported for entities with a non-null key");
+        return entity.getId() != null;
     }
 
     @Override
