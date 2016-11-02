@@ -8,6 +8,8 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 
+import dq.lelaohui.com.lelaohuipad.util.JsonUtil;
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateMenuService;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateService;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.port.NoToJson;
 
@@ -29,12 +31,12 @@ public class ServerMenuCate {
     private String msg;
     private String obj;
 
-    public List<ProCateService> getData() {
+    public List<ProCateMenuService> getData() {
         if(TextUtils.isEmpty(obj))
             return null;
-        Gson gson = new GsonBuilder().create();
-        List<ProCateService> data=null;
-        data=gson.fromJson(obj,new TypeToken<List<ProCateService>>(){}.getType());
+        List<ProCateMenuService> data=null;
+
+        data= (List<ProCateMenuService>) JsonUtil.getInstance().jsonToObject(obj,new TypeToken<List<ProCateMenuService>>(){}.getType());
         return data;
     }
 

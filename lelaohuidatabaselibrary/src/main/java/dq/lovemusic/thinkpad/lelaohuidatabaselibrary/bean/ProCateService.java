@@ -1,5 +1,6 @@
 package dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean;
 
+import android.content.ContentValues;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -10,6 +11,7 @@ import java.util.Date;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.ProCateServiceDao;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.port.NoToJson;
 
 @Entity
@@ -385,7 +387,68 @@ public class ProCateService extends BaseBean implements Serializable, Parcelable
 		this.pictureName = in.readString();
 		this.pictureUrl = in.readString();
 	}
+	public ProCateService(ContentValues values){
+		this.cateId = values.getAsLong(ProCateServiceDao.Properties.CateId.columnName);
+		this.cateName = values.getAsString(ProCateServiceDao.Properties.CateName.columnName);
+		this.cateLevel = values.getAsInteger(ProCateServiceDao.Properties.CateLevel.columnName);
+		this.parentId = values.getAsLong(ProCateServiceDao.Properties.PackorgId.columnName);
+		this.isLeaf = values.getAsInteger(ProCateServiceDao.Properties.IsLeaf.columnName);
+		this.isDelete = values.getAsInteger(ProCateServiceDao.Properties.IsDelete.columnName);;
+		this.managerId = values.getAsString(ProCateServiceDao.Properties.ManagerId.columnName);
+		this.managerName = values.getAsString(ProCateServiceDao.Properties.ManagerName.columnName);
+		this.orgId =  values.getAsLong(ProCateServiceDao.Properties.OrgId.columnName);
+		this.orgName =values.getAsString(ProCateServiceDao.Properties.OrgName.columnName);
+		this.orgTypeId = values.getAsInteger(ProCateServiceDao.Properties.OrgTypeId.columnName);
+		long tmpAddTime= values.getAsLong("tmpAddTime");
+		this.addTime = tmpAddTime == -1 ? null : new Date(tmpAddTime);
+		long tmpUpdTime = values.getAsLong("tmpUpdTime");
+		this.updTime = tmpUpdTime == -1 ? null : new Date(tmpUpdTime);
+		this.remark =values.getAsString(ProCateServiceDao.Properties.Remark.columnName);
+		this.status = values.getAsInteger(ProCateServiceDao.Properties.Status.columnName);
+		this.pinYin = values.getAsString(ProCateServiceDao.Properties.PinYin.columnName);
+		this.pY =values.getAsString(ProCateServiceDao.Properties.PY.columnName);
+		this.isPack =values.getAsInteger(ProCateServiceDao.Properties.IsPack.columnName);
+		this.packorgId = values.getAsLong(ProCateServiceDao.Properties.PackorgId.columnName);
+		this.packorgTypeId = values.getAsInteger(ProCateServiceDao.Properties.PackorgTypeId.columnName);
+		this.isEmptyShow = values.getAsInteger(ProCateServiceDao.Properties.IsEmptyShow.columnName);
+		this.packStatus = values.getAsInteger(ProCateServiceDao.Properties.PackStatus.columnName);
+		this.packsupplierId = values.getAsLong(ProCateServiceDao.Properties.PacksupplierId.columnName);
+		this.packsupplierTypeId = values.getAsInteger(ProCateServiceDao.Properties.PacksupplierTypeId.columnName);
+		this.pictureName = values.getAsString(ProCateServiceDao.Properties.PictureName.columnName);
+		this.pictureUrl = values.getAsString(ProCateServiceDao.Properties.PictureUrl.columnName);
+	}
+	public ContentValues toContentValues(){
+		ContentValues contentValues=new ContentValues();
+		contentValues.put(ProCateServiceDao.Properties.CateId.columnName,this.cateId);
+		contentValues.put(ProCateServiceDao.Properties.CateName.columnName,this.cateName);
+		contentValues.put(ProCateServiceDao.Properties.CateLevel.columnName,this.cateLevel);
+		contentValues.put(ProCateServiceDao.Properties.PackorgId.columnName,this.packorgId);
+		contentValues.put(ProCateServiceDao.Properties.IsLeaf.columnName,this.isLeaf);
+		contentValues.put(ProCateServiceDao.Properties.IsDelete.columnName,this.isDelete);
+		contentValues.put(ProCateServiceDao.Properties.ManagerId.columnName,this.managerId);
+		contentValues.put(ProCateServiceDao.Properties.ManagerName.columnName,this.managerName);
+		contentValues.put(ProCateServiceDao.Properties.OrgId.columnName,this.orgId);
+		contentValues.put(ProCateServiceDao.Properties.OrgName.columnName,this.orgName);
+		contentValues.put(ProCateServiceDao.Properties.OrgTypeId.columnName,this.orgTypeId);
+		contentValues.put(ProCateServiceDao.Properties.Remark.columnName,this.remark);
+		contentValues.put(ProCateServiceDao.Properties.Status.columnName,this.status);
+		contentValues.put(ProCateServiceDao.Properties.PinYin.columnName,this.pinYin);
+		contentValues.put(ProCateServiceDao.Properties.PY.columnName,this.pY);
+		contentValues.put(ProCateServiceDao.Properties.IsPack.columnName,this.isPack);
+		contentValues.put(ProCateServiceDao.Properties.PackorgId.columnName,this.packorgId);
+		contentValues.put(ProCateServiceDao.Properties.PackorgTypeId.columnName,this.packorgTypeId);
+		contentValues.put(ProCateServiceDao.Properties.IsEmptyShow.columnName,this.isEmptyShow);
+		contentValues.put(ProCateServiceDao.Properties.PackStatus.columnName,this.packStatus);
+		contentValues.put(ProCateServiceDao.Properties.PacksupplierId.columnName,this.packsupplierId);
+		contentValues.put(ProCateServiceDao.Properties.PacksupplierTypeId.columnName,this.packsupplierTypeId);
+		contentValues.put(ProCateServiceDao.Properties.PictureName.columnName,this.pictureName);
+		contentValues.put(ProCateServiceDao.Properties.PictureUrl.columnName,this.pictureUrl);
+		contentValues.put("tmpAddTime",new Date(System.currentTimeMillis()).getTime());
+		contentValues.put("tmpUpdTime",new Date(System.currentTimeMillis()).getTime());
 
+		return contentValues;
+
+	}
 	@Generated(hash = 820579168)
 	public ProCateService(Long id, long cateId, String cateName, int cateLevel, long parentId, int isLeaf,
 									int isDelete, String managerId, String managerName, long orgId, String orgName, int orgTypeId,

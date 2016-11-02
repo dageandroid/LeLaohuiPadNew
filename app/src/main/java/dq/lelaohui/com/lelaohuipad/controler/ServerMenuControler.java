@@ -12,6 +12,7 @@ import dq.lelaohui.com.lelaohuipad.LeLaohuiApp;
 import dq.lelaohui.com.lelaohuipad.base.LaoHuiBaseControler;
 import dq.lelaohui.com.lelaohuipad.bean.SerInitProPackBean;
 import dq.lelaohui.com.lelaohuipad.bean.ServerCate;
+import dq.lelaohui.com.lelaohuipad.bean.ServerMenuCate;
 import dq.lelaohui.com.lelaohuipad.dao.ProMenumServiceDaoOperator;
 import dq.lelaohui.com.lelaohuipad.dao.ProServerContentDaoOperator;
 import dq.lelaohui.com.lelaohuipad.util.ServerRequestParam;
