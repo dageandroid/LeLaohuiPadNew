@@ -11,6 +11,7 @@ import java.util.List;
 import dq.lelaohui.com.lelaohuipad.LeLaohuiApp;
 import dq.lelaohui.com.lelaohuipad.base.LaoHuiBaseControler;
 import dq.lelaohui.com.lelaohuipad.bean.ServerCate;
+import dq.lelaohui.com.lelaohuipad.bean.ServerMenuCate;
 import dq.lelaohui.com.lelaohuipad.dao.ProMenumServiceDaoOperator;
 import dq.lelaohui.com.lelaohuipad.util.ServerRequestParam;
 import dq.lelaohui.com.nettylibrary.socket.RequestParam;
@@ -52,11 +53,10 @@ public class ServerMenuControler extends LaoHuiBaseControler {
         if(ServiceNetContant.ServiceResponseAction.GETSERPROCATEJSONLIST_RESPONSE.equals(action)){
             String body=getResponseBody(responseData);
             System.out.println("responseData==="+responseData.toString());
-            ServerCate serverCate= (ServerCate) getJsonToObject(body,ServerCate.class);
+            ServerMenuCate serverCate= (ServerMenuCate) getJsonToObject(body,ServerMenuCate.class);
             if(serverCate.getCode().equals(SUCCESS_CODE)){
                 if(getIControlerCallBack()!=null){//解析数据成功，通知UI界面
-                    List<ProCateMenuService> data= (List< ProCateMenuService>) getJsonToObject(serverCate.getObj(),new TypeToken< List<ProCateMenuService> >(){}.getType());
-                      if (data!=null){
+                    List<ProCateMenuService> data= (List< ProCateMenuService>) serverCate.getData();                 if (data!=null){
                          insertData(data);
                       }
                     Bundle bundle=new Bundle();
