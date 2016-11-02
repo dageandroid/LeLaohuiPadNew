@@ -13,7 +13,7 @@ import org.greenrobot.greendao.annotation.Generated;
  * Created by ThinkPad on 2016/11/2.
  */
 @Entity
-public class SerInitProPackDetailListBean implements Parcelable {
+public class SerInitProPackDetailListBean extends BaseBean implements Parcelable {
     private int packDetailId;
     private int packId;
     private String serviceId;

@@ -24,7 +24,7 @@ import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.SerInitProPackDao;
  * Created by ThinkPad on 2016/11/2.
  */
 @Entity
-public class SerInitProPack implements Parcelable {
+public class SerInitProPack extends BaseBean implements Parcelable {
 
     @Id(autoincrement = true)
     @NoToJson
@@ -200,7 +200,7 @@ public class SerInitProPack implements Parcelable {
             List<SerInitProPackDetailListBean> serInitProPackDetailListNew = targetDao._querySerInitProPack_SerInitProPackDetailList(packId, orgId, orgTypeId);
             synchronized (this) {
                 if (serInitProPackDetailList == null) {
-                    serInitProPackDetailList = serInitProPackDetailListNew;
+                    serInitPrheoPackDetailList = serInitProPackDetailListNew;
                 }
             }
         }
