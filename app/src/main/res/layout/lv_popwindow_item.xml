@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:background="@android:color/white"
+    android:paddingBottom="@dimen/margin_10dp"
+    android:paddingLeft="@dimen/margin"
+    android:paddingRight="@dimen/margin"
+    android:paddingTop="@dimen/margin_10dp" >
+
+    <TextView
+        android:id="@+id/pro_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|left"
+        android:singleLine="true"
+        android:text="西红柿炒蛋"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/txt_size_18sp" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|right"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/margin"
+            android:gravity="center_vertical|right"
+            android:text="¥31"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/txt_size_18sp" />
+
+        <ImageView
+            android:id="@+id/im_reduce"
+            android:layout_width="@dimen/shopping_car_iamge_hight"
+            android:layout_height="@dimen/shopping_car_iamge_hight"
+            android:background="@drawable/minus_btn" />
+
+        <TextView
+            android:id="@+id/tv_num"
+            android:layout_width="@dimen/shopping_car_txt_hight"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_3dp"
+            android:layout_marginRight="@dimen/margin_3dp"
+            android:gravity="center"
+            android:text="10"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/txt_size_18sp" />
+
+        <ImageView
+            android:id="@+id/im_add"
+            android:layout_width="@dimen/shopping_car_iamge_hight"
+            android:layout_height="@dimen/shopping_car_iamge_hight"
+            android:layout_marginRight="@dimen/margin"
+            android:background="@drawable/add_btn" />
+    </LinearLayout>
+
+</LinearLayout>
