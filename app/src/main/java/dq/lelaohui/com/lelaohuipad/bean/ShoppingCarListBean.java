@@ -8,6 +8,7 @@ public class ShoppingCarListBean {
 	private String proName;
 	private double proPrice;
 	private int proNum;
+	private  int id;
 	public String getProName() {
 		return proName;
 	}
@@ -32,4 +33,12 @@ public class ShoppingCarListBean {
 		this.proNum=proNum;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		ShoppingCarListBean carListBean= (ShoppingCarListBean) obj;
+		if(this.id==carListBean.id){
+			return true;
+		}
+		return false;
+	}
 }
