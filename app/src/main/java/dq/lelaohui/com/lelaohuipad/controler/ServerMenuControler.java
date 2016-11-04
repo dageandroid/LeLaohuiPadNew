@@ -55,7 +55,7 @@ public class ServerMenuControler extends LaoHuiBaseControler {
             log("解析数据异常，异常原因：action is null");
         }
         if(ServiceNetContant.ServiceResponseAction.GETSERPROCATEJSONLIST_RESPONSE.equals(action)){
-            ServerCate serverCate = getBodyResponse(responseData);
+            ServerMenuCate serverCate = getBodyResponse(responseData);
             if(serverCate.getCode().equals(SUCCESS_CODE)){
                 if(getIControlerCallBack()!=null){//解析数据成功，通知UI界面
                     List<ProCateMenuService> data= (List< ProCateMenuService>) getJsonToObject(serverCate.getObj(),new TypeToken< List<ProCateMenuService> >(){}.getType());
@@ -95,9 +95,9 @@ public class ServerMenuControler extends LaoHuiBaseControler {
         String body=getResponseBody(responseData);
         return (SerInitProPackBean) getJsonToObject(body,SerInitProPackBean.class);
     }
-    private ServerCate getBodyResponse(Bundle responseData) {
+    private ServerMenuCate getBodyResponse(Bundle responseData) {
         String body=getResponseBody(responseData);
-        return (ServerCate) getJsonToObject(body,ServerCate.class);
+        return (ServerMenuCate) getJsonToObject(body,ServerMenuCate.class);
     }
 
     /**

@@ -13,5 +13,8 @@ public class ServiceNetContant {
     }
     public static class ServiceResponseAction{
         public static final String GETSERPROCATEJSONLIST_RESPONSE="getSerProCateJsonList.response";
+
+        public static final String  QUERY_SERVICE_CATEGORYSJSONLIST_RESPONSE="getInitSerProPackList.response";
+
     }
 }

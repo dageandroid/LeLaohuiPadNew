@@ -8,6 +8,7 @@
         android:layout_width="fill_parent"
         android:gravity="center"
         android:padding="@dimen/food_type_name_padding"
+        android:background="@color/menu_bg"
         android:text="热菜"
         android:layout_height="@dimen/food_type_name_height"
         >

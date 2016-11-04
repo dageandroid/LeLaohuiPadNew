@@ -28,5 +28,41 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
+    <style name="PopuWindow_AnimBottom" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
+    </style>
+    <style name="ShoppingCarBg">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/shopping_car_bg_color</item>
+    </style>
+    <style name="ShoppingCarBtn">
+        <item name="android:layout_width">@dimen/shopping_btn_wrap</item>
+        <item name="android:layout_height">@dimen/shopping_btn_helght</item>
+        <item name="android:background">@color/shopping_car_btn_color</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/txt_size_26sp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+    </style>
+    <style name="ShoppingCarTxtBg">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/txt_size_26sp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_marginLeft">@dimen/shopping_txt_left</item>
+    </style>
+    <style name="ShoppingCarTxtNumBg">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/txt_size_24sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_marginLeft">@dimen/margin_17dp</item>
+    </style>
 </resources>

@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewStub;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -44,7 +45,7 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements View.OnC
     private RecyclerView server_content_rv;
     private SwipeRefreshLayout get_data_refresh;
     private AppCompatTextView shopping_num_txt;
-    private RelativeLayout shopping_num;
+    private FrameLayout shopping_num;
     private AppCompatTextView shopping_product_price;
     private AppCompatButton upload_shopping_car;
     private ServerMenuControler serverControler;
@@ -67,7 +68,6 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements View.OnC
             cateIdL = proCateService.getCateId();
             isPackInt = proCateService.getIsPack();
             serverControler.doQueryServerCategory(cateIdL, isPackInt, 1);
-            Toast.makeText(ServerMenuActivity.this, "cateIdL==" + cateIdL + "  isPackInt==" + isPackInt, Toast.LENGTH_SHORT).show();
         }
         getSupportLoaderManager().initLoader(0, null, this);
 
@@ -95,6 +95,7 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements View.OnC
                     isPackInt = proCateMenu.getIsPack();
                     serverControler.doQueryServerCategory(cateIdL, isPackInt);
                 }
+                getSupportLoaderManager().initLoader(1, null, ServerMenuActivity.this);
                 cursor = serverControler.getSerInitProCursor(Integer.parseInt(cateIdStr));
                 Log.i(TAG, "onItemClick: =="+cursor.getCount());
                 serverContentAdapter = new MyServerContentRecyleViewAdapter(ServerMenuActivity.this, cursor);
@@ -113,7 +114,7 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements View.OnC
         server_content_rv = (RecyclerView) findViewById(R.id.server_content_rv);
         get_data_refresh = (SwipeRefreshLayout) findViewById(R.id.get_data_refresh);
         shopping_num_txt = (AppCompatTextView) findViewById(R.id.shopping_num_txt);
-        shopping_num = (RelativeLayout) findViewById(R.id.shopping_num);
+        shopping_num = (FrameLayout) findViewById(R.id.shopping_num);
         shopping_product_price = (AppCompatTextView) findViewById(R.id.shopping_product_price);
         upload_shopping_car = (AppCompatButton) findViewById(R.id.upload_shopping_car);
         upload_shopping_car.setOnClickListener(this);

@@ -2,13 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-    <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/food_img"
-        android:layout_width="wrap_content"
-        android:scaleType="fitXY"
-        android:layout_margin="5dp"
-        android:src="@drawable/app"
-        android:layout_height="wrap_content" />
 
     <android.support.v7.widget.AppCompatTextView
     android:id="@+id/food_name"
@@ -56,6 +49,7 @@
         android:layout="@layout/add_product_view"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/margin"
         android:layout_alignParentEnd="true">
 
         <android.support.v7.widget.AppCompatTextView
@@ -70,21 +64,31 @@
 
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/add_product"
-            android:layout_width="wrap_content"
-            android:src="@drawable/add"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/add_pro_hight"
+            android:src="@drawable/add_btn"
+            android:layout_height="@dimen/add_pro_hight"
             android:layout_alignParentTop="true"
             android:layout_alignLeft="@+id/subtract_product"
             android:layout_alignStart="@+id/subtract_product" />
 
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/subtract_product"
-            android:layout_width="wrap_content"
-            android:src="@drawable/add"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/add_pro_hight"
+            android:src="@drawable/minus_btn"
+            android:layout_height="@dimen/add_pro_hight"
             android:layout_below="@+id/product_num"
             android:layout_centerHorizontal="true" />
 
     </RelativeLayout>
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/food_img"
+        android:layout_width="wrap_content"
+        android:scaleType="fitXY"
+        android:src="@drawable/icon_launcher"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/food_name"
+        android:layout_alignLeft="@+id/food_remark"
+        android:layout_alignStart="@+id/food_remark" />
 
 </RelativeLayout>

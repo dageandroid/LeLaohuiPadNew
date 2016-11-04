@@ -54,9 +54,8 @@ public class ServerActivity extends LeLaoHuiBaseActivity implements LoaderManage
         adapter = new MyShopRecyleViewAdapter(this, cursor);
         final ProCateServiceDao dao=  (ProCateServiceDao) serverControler.getBaseDaoOperator().get();
         adapter.setDao(dao);
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        server_type_menu.setLayoutManager(linearLayoutManager);
+        final GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
+        server_type_menu.setLayoutManager(layoutManager);
         server_type_menu.setAdapter(adapter);
         adapter.setmOnItemClickListener(new BaseDataBaseAdapter.OnRecyclerViewItemClickListener() {
             @Override

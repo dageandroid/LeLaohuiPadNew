@@ -9,7 +9,7 @@ android {
     }
     defaultConfig {
         applicationId "dq.lelaohui.com.lelaohuipad"
-        minSdkVersion 11
+        minSdkVersion 17
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
@@ -44,6 +44,6 @@ dependencies {
     compile 'com.android.support:support-vector-drawable:24.2.1'
     testCompile 'junit:junit:4.12'
     compile project(':ipcarmearlibrary')
-    compile project(':limagelibrary1')
+    compile project(':limagelibrary')
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
 }

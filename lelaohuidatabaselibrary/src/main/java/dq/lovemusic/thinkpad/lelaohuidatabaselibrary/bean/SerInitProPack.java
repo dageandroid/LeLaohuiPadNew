@@ -200,7 +200,7 @@ public class SerInitProPack extends BaseBean implements Parcelable {
             List<SerInitProPackDetailListBean> serInitProPackDetailListNew = targetDao._querySerInitProPack_SerInitProPackDetailList(packId, orgId, orgTypeId);
             synchronized (this) {
                 if (serInitProPackDetailList == null) {
-                    serInitPrheoPackDetailList = serInitProPackDetailListNew;
+                    serInitProPackDetailList = serInitProPackDetailListNew;
                 }
             }
         }

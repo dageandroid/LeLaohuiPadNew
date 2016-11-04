@@ -24,6 +24,9 @@
     <dimen name="margin_8dp">8dp</dimen>
     <dimen name="margin_10dp">10dp</dimen>
     <dimen name="margin_20dp">20dp</dimen>
+    <dimen name="margin_18dp">18dp</dimen>
+    <dimen name="margin_16dp">16dp</dimen>
+    <dimen name="margin_17dp">17dp</dimen>
     <dimen name="margin_top">5dp</dimen>
     <dimen name="margin_left_10dp">10dp</dimen>
     <dimen name="margin_reight_10dp">10dp</dimen>
@@ -51,4 +54,7 @@
     <dimen name="shopping_car_iamge_hight">35dp</dimen>
     <dimen name="shopping_car_txt_hight">30dp</dimen>
     <dimen name="hight_1dp">1dp</dimen>
+    <dimen name="add_pro_hight">45dp</dimen>
+    <dimen name="ico_car_have_hight">45dp</dimen>
+    <dimen name="ico_car_have_width">55dp</dimen>
 </resources>

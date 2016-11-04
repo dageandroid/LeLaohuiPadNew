@@ -23,9 +23,11 @@
     <color name="color_ptz_blue">#ff0044aa</color>
     <color name="color_bg">#ff666666</color>
     <color name="button_bg_no">#60ffffff</color>
-
+<color name="menu_bg">#6DD2FD</color>
     <!-- 下面都是用在二维码 -->
     <color name="bg_color">#EDEDED</color>
+    <color name="shopping_car_btn_color">#FFF63201</color>
+    <color name="shopping_car_bg_color">#848281</color>
     <color name="contents_text">#ff000000</color>
     <color name="encode_view">#ffffffff</color>
     <color name="help_button_view">#ffcccccc</color>
