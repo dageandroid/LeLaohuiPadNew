@@ -97,6 +97,7 @@ public class ProCateServiceDaoOperator extends  BaseDaoOperator{
 //        WhereCondition cateidContin=ProCateServiceDao.Properties.CateId.eq(cateId);
         return super.query(ProCateService.class,condition,orgTypeIdContin);
     }
+
     /**查询二级数据库
      * @param orgId
      * @param orgTypeId

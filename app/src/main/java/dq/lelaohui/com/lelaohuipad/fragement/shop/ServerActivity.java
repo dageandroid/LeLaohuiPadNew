@@ -10,6 +10,7 @@ import android.support.v4.content.Loader;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v4.view.LayoutInflaterFactory;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.GridLayoutManager;
@@ -19,6 +20,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.lang.ref.SoftReference;
@@ -41,14 +43,16 @@ public class ServerActivity extends LeLaoHuiBaseActivity implements LoaderManage
     private String TAG = getClass().getSimpleName();
     private RecyclerView server_type_menu;
     private SwipeRefreshLayout get_data_refresh;
+    private AppCompatImageButton left_btn;
+    private  AppCompatTextView title_tv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         serverControler = (ServerControler) getControler();
         initView();
-        serverControler.doQueryServerCategory();
+//        serverControler.doQueryServerCategory();
         getSupportLoaderManager().initLoader(0, null, this);
-//        Cursor cursor = serverControler.getQueryCursor(new ProCateService());
+//        Cursor cursor = serverControler.getQueryAll(new ProCateService());
       Cursor cursor = serverControler.getQueryFirstCursor();
         Log.i(TAG, "onCreate: cursor count=" + cursor.getCount()+","+cursor.getExtras());
         adapter = new MyShopRecyleViewAdapter(this, cursor);
@@ -107,6 +111,15 @@ public class ServerActivity extends LeLaoHuiBaseActivity implements LoaderManage
     }
 
     private void initView() {
+        left_btn= (AppCompatImageButton) findViewById(R.id.left_btn);
+        left_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+        title_tv = (AppCompatTextView) findViewById(R.id.title_tv);
+        title_tv.setText("服务");
         server_type_menu = (RecyclerView) findViewById(R.id.server_type_menu);
         get_data_refresh = (SwipeRefreshLayout) findViewById(R.id.get_data_refresh);
     }
@@ -122,7 +135,6 @@ public class ServerActivity extends LeLaoHuiBaseActivity implements LoaderManage
                 Log.i(TAG, "onBindViewHolder: dao is "+dao);
                 if (dao != null) {
                     ProCateService pc = dao.readEntity(cursor, 0);
-                    Log.i(TAG, "onBindViewHolder: ");
                     holder.setData(pc);
                 }
             }

@@ -175,6 +175,21 @@ public class ServerControler extends LaoHuiBaseControler {
 
         return getQueryFirstCursor(getOrgId(),getOrgType());
     }
+    private Cursor getQueryAllCursor(ProCateService proCateService){
+        {
+            Cursor cursor=null;
+            if(getBaseDaoOperator()!=null){
+                ProCateServiceDaoOperator  sdao= (ProCateServiceDaoOperator) getBaseDaoOperator();
+                cursor= sdao.query(proCateService);
+            }else{
+                throw new RuntimeException("获取数据库对象为null");
+            }
+            return cursor;
+        }
+    }
+    public  Cursor getQueryAll(ProCateService proCateService){
+        return getQueryAllCursor(proCateService);
+    }
     @Override
     public BaseDaoOperator getBaseDaoOperator() {
 

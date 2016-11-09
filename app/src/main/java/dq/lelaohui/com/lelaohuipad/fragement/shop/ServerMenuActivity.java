@@ -28,7 +28,9 @@ import java.lang.ref.SoftReference;
 import dq.lelaohui.com.lelaohuipad.R;
 import dq.lelaohui.com.lelaohuipad.adapter.BaseDataBaseAdapter;
 import dq.lelaohui.com.lelaohuipad.base.LeLaoHuiBaseActivity;
+import dq.lelaohui.com.lelaohuipad.bean.ShoppingCarListBean;
 import dq.lelaohui.com.lelaohuipad.controler.ServerMenuControler;
+import dq.lelaohui.com.lelaohuipad.fragement.shop.car.BaseShopCart;
 import dq.lelaohui.com.lelaohuipad.port.IControler;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateMenuService;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateService;
@@ -46,7 +48,7 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements View.OnC
     private SwipeRefreshLayout get_data_refresh;
     private AppCompatTextView shopping_num_txt;
     private FrameLayout shopping_num;
-    private AppCompatTextView shopping_product_price;
+    private AppCompatTextView shopping_product_price, title_tv;
     private AppCompatButton upload_shopping_car;
     private ServerMenuControler serverControler;
     private String TAG = getClass().getSimpleName();
@@ -57,6 +59,7 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements View.OnC
     private long cateIdL;
     private int isPackInt;
     private Cursor cursor = null;
+    private AppCompatImageButton left_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +70,7 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements View.OnC
             proCateService = (ProCateService) getIntent().getParcelableExtra("proCateServer");
             cateIdL = proCateService.getCateId();
             isPackInt = proCateService.getIsPack();
-            serverControler.doQueryServerCategory(cateIdL, isPackInt, 1);
+//            serverControler.doQueryServerCategory(cateIdL, isPackInt, 1);
         }
         getSupportLoaderManager().initLoader(0, null, this);
 
@@ -88,16 +91,16 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements View.OnC
             @Override
             public void onItemClick(View view, Cursor c) {
                 ProCateMenuService proCateMenu = dao.readEntity(c, 0);
-                String  cateIdStr=null;
+                String cateIdStr = null;
                 if (proCateMenu != null) {
                     cateIdL = proCateMenu.getCateId();
                     cateIdStr = String.valueOf(proCateMenu.getCateId());
                     isPackInt = proCateMenu.getIsPack();
-                    serverControler.doQueryServerCategory(cateIdL, isPackInt);
+//                    serverControler.doQueryServerCategory(cateIdL, isPackInt);
                 }
                 getSupportLoaderManager().initLoader(1, null, ServerMenuActivity.this);
                 cursor = serverControler.getSerInitProCursor(Integer.parseInt(cateIdStr));
-                Log.i(TAG, "onItemClick: =="+cursor.getCount());
+                Log.i(TAG, "onItemClick: ==" + cursor.getCount());
                 serverContentAdapter = new MyServerContentRecyleViewAdapter(ServerMenuActivity.this, cursor);
                 final SerInitProPackDao contentDao = (SerInitProPackDao) serverControler.getBaseDaoOperator("getInitSerProPackList").get();
                 serverContentAdapter.setDao(contentDao);
@@ -118,6 +121,15 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements View.OnC
         shopping_product_price = (AppCompatTextView) findViewById(R.id.shopping_product_price);
         upload_shopping_car = (AppCompatButton) findViewById(R.id.upload_shopping_car);
         upload_shopping_car.setOnClickListener(this);
+        left_btn = (AppCompatImageButton) findViewById(R.id.left_btn);
+        left_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+        title_tv = (AppCompatTextView) findViewById(R.id.title_tv);
+        title_tv.setText("服务");
     }
 
     @Override
@@ -153,7 +165,7 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements View.OnC
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         adapter.changeCursor(data);
         adapter.notifyDataSetChanged();
-        serverContentAdapter  .changeCursor(data);
+        serverContentAdapter.changeCursor(data);
         serverContentAdapter.notifyDataSetChanged();
     }
 
@@ -211,19 +223,21 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements View.OnC
                 this.rootView = rootView;
                 this.food_type_name = (AppCompatTextView) rootView.findViewById(R.id.food_type_name);
             }
+
             public void setData(ProCateMenuService pc) {
                 this.food_type_name.setText(pc.getCateName());
             }
         }
     }
 
-    public static class MyServerContentRecyleViewAdapter extends BaseDataBaseAdapter<MyServerContentRecyleViewAdapter.ViewHolder> {
+    public  class MyServerContentRecyleViewAdapter extends BaseDataBaseAdapter<MyServerContentRecyleViewAdapter.ViewHolder> {
         private LayoutInflater layoutInflater = null;
         private String TAG = "MyServerContentRecyleViewAdapter";
         private SoftReference<SerInitProPackDao> softReference = null;
-
+        Context context;
         public MyServerContentRecyleViewAdapter(Context context, Cursor c) {
             super(context, c);
+            this.context=context;
             layoutInflater = LayoutInflater.from(context);
         }
 
@@ -237,7 +251,7 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements View.OnC
                 if (softReference != null) {
                     SerInitProPackDao dao = softReference.get();
                     if (dao != null) {
-                        Log.i("cursor 666666:", "" + cursor.getColumnCount());
+                        Log.i("cursor tf:", "" + cursor.getColumnCount());
                         SerInitProPack serInitProPack = dao.readEntity(cursor, 0);
                         holder.setData(serInitProPack);
                     }
@@ -255,15 +269,15 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements View.OnC
             return new ViewHolder(view);
         }
 
-        public static class ViewHolder extends RecyclerView.ViewHolder {
+        public  class ViewHolder extends RecyclerView.ViewHolder {
             public View rootView;
             public AppCompatImageView food_img;
             public AppCompatTextView food_name;
             public AppCompatTextView food_price;
             public AppCompatTextView food_remark;
             public AppCompatTextView product_num;
-            public AppCompatImageButton add_product;
-            public AppCompatImageButton subtract_product;
+            public AppCompatImageView add_product;
+            public AppCompatImageView subtract_product;
 
             public ViewHolder(View rootView) {
                 super(rootView);
@@ -273,11 +287,34 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements View.OnC
                 this.food_price = (AppCompatTextView) rootView.findViewById(R.id.food_price);
                 this.food_remark = (AppCompatTextView) rootView.findViewById(R.id.food_remark);
                 this.product_num = (AppCompatTextView) rootView.findViewById(R.id.product_num);
-                this.add_product = (AppCompatImageButton) rootView.findViewById(R.id.add_product);
-                this.subtract_product = (AppCompatImageButton) rootView.findViewById(R.id.subtract_product);
+                this.add_product = (AppCompatImageView) rootView.findViewById(R.id.add_product);
+                this.subtract_product = (AppCompatImageView) rootView.findViewById(R.id.subtract_product);
             }
-            public void setData(SerInitProPack data) {
+
+            public void setData(final SerInitProPack data) {
                 food_name.setText(data.getPackName());
+                food_price.setText("价格： ￥"+data.getPrice()+"元");
+                food_remark.setText("详情："+data.getReamark());
+                product_num.setText(""+data.getSaleNums());
+                add_product.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        data.saleNums++;
+                        serverContentAdapter.notifyDataSetChanged();
+//                        serverContentAdapter.notifyItemChanged(getPosition());
+                        Log.i("tf content position ：",getPosition()+"");
+                        Toast.makeText(context," data.saleNums=="+ data.saleNums+"getPosition=="+getPosition(),Toast.LENGTH_LONG).show();
+                        if(data!=null){
+                            Log.i("tf content position ：",getPosition()+"");
+                         double proPrice=data.getPrice();
+                            int proNum=data.getSaleNums();
+                            String  proName=  data.getPackName();
+                            ShoppingCarListBean shoppingCar=new ShoppingCarListBean(proName,proPrice,proNum);
+//                            BaseShopCart.addShop(shoppingCar);
+                        }
+                    }
+                });
             }
         }
     }

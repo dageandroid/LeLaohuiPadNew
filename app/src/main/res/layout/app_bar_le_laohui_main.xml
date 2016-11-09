@@ -23,13 +23,13 @@
 
     <include layout="@layout/content_le_laohui_main" />
 
-    <android.support.designign.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+    <!--<android.support.designign.widget.FloatingActionB&lt;!&ndash;utton-->
+        <!--android:id="@+id/fab"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom|end"-->
+        <!--android:layout_margin="@dimen/fab_margin"-->
+        <!--app:srcCompat="@android:drawable/ic_dialog_email" />&ndash;&gt;-->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/main_view"
         android:layout_width="match_parent"
