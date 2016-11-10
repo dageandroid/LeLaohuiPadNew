@@ -11,6 +11,7 @@ import org.greenrobot.greendao.annotation.JoinProperty;
 import org.greenrobot.greendao.annotation.Keep;
 import org.greenrobot.greendao.annotation.ToMany;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,7 @@ import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.SerInitProPackDao;
  * Created by ThinkPad on 2016/11/2.
  */
 @Entity
-public class SerInitProPack extends BaseBean implements Parcelable {
+public class SerInitProPack extends BaseBean implements Parcelable{
 
     @Id(autoincrement = true)
     @NoToJson
@@ -51,17 +52,20 @@ public class SerInitProPack extends BaseBean implements Parcelable {
      * price : 48
      */
 
-    private int packId;
-    private String packName;
-    private String orgName;
-    private int orgTypeId;
-    private int orgId;
-    private int serviceCateId;
-    private int isPro;
-    private String pictureUrl;
-    private String reamark;
-    private int saleNums;
-    private int price;
+    public int packId;
+    public String packName;
+    public String orgName;
+    public int orgTypeId;
+    public int orgId;
+    public int serviceCateId;
+    public int isPro;
+    public String pictureUrl;
+    public String reamark;
+    public int saleNums;
+    public int price;
+    public int buyNum;
+
+
     /**
      * packDetailId : 50
      * packId : 27
@@ -70,16 +74,16 @@ public class SerInitProPack extends BaseBean implements Parcelable {
      * pictureUrl : LelaoHuiWebApp/folder/xiujiao.jpg
      */
     @ToMany(joinProperties={@JoinProperty(name="packId",referencedName="packId"),@JoinProperty(name="orgId",referencedName="orgId"),@JoinProperty(name="orgTypeId",referencedName="orgTypeId")})
-    private List<SerInitProPackDetailListBean> serInitProPackDetailList;
+    public List<SerInitProPackDetailListBean> serInitProPackDetailList;
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
-    private transient DaoSession daoSession;
+    public transient DaoSession daoSession;
     /** Used for active entity operations. */
     @Generated(hash = 823979279)
-    private transient SerInitProPackDao myDao;
+    public transient SerInitProPackDao myDao;
     @Generated(hash = 1811115027)
     public SerInitProPack(Long id, int packId, String packName, String orgName, int orgTypeId, int orgId, int serviceCateId, int isPro, String pictureUrl, String reamark, int saleNums,
-            int price) {
+            int price,int buyNum) {
         this.id = id;
         this.packId = packId;
         this.packName = packName;
@@ -92,12 +96,18 @@ public class SerInitProPack extends BaseBean implements Parcelable {
         this.reamark = reamark;
         this.saleNums = saleNums;
         this.price = price;
+        this.buyNum=buyNum;
     }
 
     @Generated(hash = 726855854)
     public SerInitProPack() {
     }
-
+    public int getBuyNum() {
+        return buyNum;
+    }
+    public void setBuyNum(int buyNum) {
+        this.buyNum = buyNum;
+    }
     public int getPackId() {
         return packId;
     }
@@ -275,6 +285,7 @@ public class SerInitProPack extends BaseBean implements Parcelable {
         dest.writeString(this.reamark);
         dest.writeInt(this.saleNums);
         dest.writeInt(this.price);
+        dest.writeInt(this.buyNum);
         dest.writeList(this.serInitProPackDetailList);
     }
 
@@ -291,6 +302,7 @@ public class SerInitProPack extends BaseBean implements Parcelable {
         this.reamark = in.readString();
         this.saleNums = in.readInt();
         this.price = in.readInt();
+        this.buyNum=in.readInt();
         this.serInitProPackDetailList = new ArrayList<SerInitProPackDetailListBean>();
         in.readList(this.serInitProPackDetailList, SerInitProPackDetailListBean.class.getClassLoader());
     }

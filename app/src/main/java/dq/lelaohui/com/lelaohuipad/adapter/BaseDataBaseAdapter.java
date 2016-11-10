@@ -96,6 +96,9 @@ public abstract  class BaseDataBaseAdapter <VH extends RecyclerView.ViewHolder> 
     public BaseDataBaseAdapter(Context context, Cursor c) {
         this(context, c, FLAG_REGISTER_CONTENT_OBSERVER);
     }
+    public BaseDataBaseAdapter(){
+
+    }
     private String TAG="BaseDataBaseAdapter";
 
 

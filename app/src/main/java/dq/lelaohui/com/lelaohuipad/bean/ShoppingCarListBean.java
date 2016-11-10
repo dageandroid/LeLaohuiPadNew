@@ -8,7 +8,14 @@ public class ShoppingCarListBean {
 	private String proName;
 	private double proPrice;
 	private int proNum;
+	private int proId;
 	private  int id;
+	public int getProId() {
+		return proId;
+	}
+	public void setProId(int proId) {
+		this.proId = proId;
+	}
 	public String getProName() {
 		return proName;
 	}
@@ -27,10 +34,11 @@ public class ShoppingCarListBean {
 	public void setProNum(int proNum) {
 		this.proNum = proNum;
 	}
-	public ShoppingCarListBean(String proName, double proPrice, int proNum) {
+	public ShoppingCarListBean(String proName, double proPrice, int proNum,int proId) {
 		this.proName=proName;
 		this.proPrice=proPrice;
 		this.proNum=proNum;
+		this.proId=proId;
 	}
 
 	@Override

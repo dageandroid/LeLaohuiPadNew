@@ -13,6 +13,8 @@ import java.util.Vector;
 
 import dq.lelaohui.com.lelaohuipad.LeLaohuiApp;
 import dq.lelaohui.com.lelaohuipad.bean.ShoppingCarListBean;
+import dq.lelaohui.com.lelaohuipad.view.MyListPopWindowAdapter;
+import dq.lelaohui.com.lelaohuipad.view.MyPoPuWindow;
 import dq.lelaohui.com.nettylibrary.socket.RequestParam;
 
 /**
@@ -140,8 +142,14 @@ public class BaseShopCart {
     /**
      * 点击底部按钮弹出pop框
      */
+    MyListPopWindowAdapter myAdapter=null;
+
     private void showPopWindow(){
-        ListPopupWindow lpwindo=new ListPopupWindow(mContext);
+//        ListPopupWindow lpwindo=new ListPopupWindow(mContext);
+        MyPoPuWindow mlistPPW=new MyPoPuWindow(mContext);
+        myAdapter=new MyListPopWindowAdapter(mContext,data);
+        mlistPPW.setAdapter(myAdapter);
+        myAdapter.notifyDataSetChanged();
     }
     public UiOperator getUiOperator() {
         return uiOperator;

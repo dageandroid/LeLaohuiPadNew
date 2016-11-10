@@ -15,18 +15,19 @@ import dq.lelaohui.com.lelaohuipad.bean.ShoppingCarListBean;
 
 
 /**
+ * 购物车显示
  */
 public class MyListPopWindowAdapter extends BaseAdapter {
     private Context context;
     private List<ShoppingCarListBean> dataList;
     private LayoutInflater inflater;
-    boolean isShowImg = false;
 
-    public MyListPopWindowAdapter(Context context, List<ShoppingCarListBean> dataList, boolean isShowImg) {
+
+    public MyListPopWindowAdapter(Context context, List<ShoppingCarListBean> dataList) {
         this.context = context;
         this.dataList = dataList;
         this.inflater = LayoutInflater.from(context);
-        this.isShowImg = isShowImg;
+
     }
 
     @Override
