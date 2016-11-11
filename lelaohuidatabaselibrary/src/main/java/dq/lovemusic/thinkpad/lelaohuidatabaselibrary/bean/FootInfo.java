@@ -1,5 +1,7 @@
 package dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean;
 
+import com.google.gson.annotations.Expose;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
@@ -40,18 +42,31 @@ public class FootInfo extends BaseBean{
     @Generated
     @NoToJson
     private Long id;
+    @Expose
     private int cateId;
+    @Expose
     private String cateName;
+    @Expose
     private String proId;
+    @Expose
     private String proName;
+    @Expose
     private String supplierId;
+    @Expose
     private int proPrice;
+    @Expose
     private String proPic;
+    @Expose
     private int mealTime;
+    @Expose
     private int mealType;
+    @Expose
     private String remark;
+    @Expose
     private String supplierName;
+    @Expose
     private String supplierType;
+    @Expose
     private String proNum;
 
     @Generated(hash = 1606913812)

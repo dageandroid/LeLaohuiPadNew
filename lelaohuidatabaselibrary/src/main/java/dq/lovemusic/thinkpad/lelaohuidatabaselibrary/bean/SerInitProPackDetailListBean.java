@@ -3,6 +3,8 @@ package dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.Expose;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 
@@ -14,14 +16,20 @@ import org.greenrobot.greendao.annotation.Generated;
  */
 @Entity
 public class SerInitProPackDetailListBean extends BaseBean implements Parcelable {
+    @Expose
     private int packDetailId;
+    @Expose
     private int packId;
+    @Expose
     private String serviceId;
+    @Expose
     private String serviceName;
+    @Expose
     private String pictureUrl;
 
-
+    @Expose
     private int orgTypeId;
+    @Expose
     private int orgId;
     @Id(autoincrement = true)
     @NoToJson

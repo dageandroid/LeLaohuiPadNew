@@ -2,17 +2,23 @@ package dq.lelaohui.com.lelaohuipad.fragement.shop.car;
 
 import android.content.Context;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.util.SparseIntArray;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ListPopupWindow;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import dq.lelaohui.com.lelaohuipad.LeLaohuiApp;
 import dq.lelaohui.com.lelaohuipad.bean.ShoppingCarListBean;
+import dq.lelaohui.com.lelaohuipad.view.BadgeView;
 import dq.lelaohui.com.lelaohuipad.view.MyListPopWindowAdapter;
 import dq.lelaohui.com.lelaohuipad.view.MyPoPuWindow;
 import dq.lelaohui.com.nettylibrary.socket.RequestParam;
@@ -23,18 +29,30 @@ import dq.lelaohui.com.nettylibrary.socket.RequestParam;
 public class BaseShopCart {
     private ListPopupWindow popupWindow;
     private Context mContext;
-    private Vector<ShoppingCarListBean> data;
+    private Map<String,Integer> countCache=null;
+    public Vector<ShoppingCarListBean> getData() {
+        return data;
+    }
+
+    public void setCardDataChange(CardDataChange cardDataChange) {
+        this.cardDataChange = cardDataChange;
+    }
+
+    private CardDataChange cardDataChange;
+    private Vector< ShoppingCarListBean> data;
 
 
     private ShowTip showTip;
     private UiOperator uiOperator;
     private View orderView;
+    private BadgeView badgeView=null;
     /**
      * 购物车里含有商品数量
      */
     private int cartCount;
     public BaseShopCart(Context context){
         this.mContext=context;
+        countCache=new ConcurrentHashMap<String, Integer>();
     }
     /**
      * 添加购物车
@@ -54,19 +72,46 @@ public class BaseShopCart {
             if (data.get(i).equals(bean)) {
                 int proNum = data.get(i).getProNum();
                 data.get(i).setProNum(proNum + 1);
+                countCache.put(bean.getKey(), data.get(i).getProNum());
                 flag=false;
                 break;
             }
         }
         if(flag){
             data.add(bean);
-            cartCount++;
+            countCache.put(bean.getKey(), 1);
         }
         if(uiOperator!=null){
             uiOperator.setPromot(String.valueOf(computerAllPrice()));
-        }
-    }
+            setBadgeView();
 
+        }
+
+    }
+    private void setBadgeView(){
+        if(badgeView==null){
+            if(uiOperator.getCardView()==null){
+                throw new RuntimeException(getClass().getSimpleName() + "异常：getCardView is null");
+            }
+
+            badgeView=new BadgeView(mContext);
+            badgeView.setGravity(Gravity.TOP|Gravity.RIGHT);
+            badgeView.setTargetView(uiOperator.getCardView());
+        }
+        int size=getCartSize();
+        if(size<=0){
+            badgeView.setHideOnNull(true);
+        }else{
+            badgeView.setHideOnNull(false);
+        }
+        badgeView.setBadgeCount(getCartSize());
+    }
+    public int getCartSize(){
+        if(data==null||data.isEmpty()){
+            return 0;
+        }
+        return data.size();
+    }
     /**
      * 计算购物车里的价格
      * @return
@@ -83,6 +128,21 @@ public class BaseShopCart {
         return sum;
     }
 
+    private int getShopItemCount(ShoppingCarListBean bean){
+        if(countCache==null||countCache.size()==0){
+            return 0;
+        }
+        return countCache.get(bean.getKey());
+    }
+    public int getShopItemCount(String key){
+
+        if(countCache==null||countCache.size()==0||countCache.get(key)==null){
+            return 0;
+        }
+
+       int count =countCache.get(key)<0?0:countCache.get(key);
+        return count;
+    }
     /**
      * 从购物车里删除商品
      * @param bean
@@ -107,14 +167,21 @@ public class BaseShopCart {
                 ShoppingCarListBean beanData= (ShoppingCarListBean) iter.next();
                 if(beanData.equals(bean)){
                     beanData.setProNum(beanData.getProNum()-1);
+                    countCache.put(bean.getKey(), beanData.getProNum());
+
                 }
                 if(beanData.getProNum()<=0){
                     iter.remove();
+                    countCache.remove(bean.getKey());
                 }
             }
         }
+        if(data.isEmpty()){
+            dismissPopuWindow();
+        }
         if(uiOperator!=null){
             uiOperator.setPromot(String.valueOf(computerAllPrice()));
+            setBadgeView();
         }
     }
     public void init(){
@@ -125,15 +192,18 @@ public class BaseShopCart {
             uiOperator.getCardView().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showPopWindow();
+                    showPopWindow(v);
                 }
             });
             uiOperator.getOrderView().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                   RequestParam rp= uiOperator.getOrderParam(data);
-                  LeLaohuiApp app= (LeLaohuiApp) mContext.getApplicationContext();
-                    app.reqData(rp);
+                    if (data!=null){
+                        RequestParam rp= uiOperator.getOrderParam(data);
+                        Log.i("TF  data.size==",data.size()+"");
+                        LeLaohuiApp app= (LeLaohuiApp) mContext.getApplicationContext();
+                        app.reqData(rp);
+                    }
                 }
             });
         }
@@ -143,13 +213,29 @@ public class BaseShopCart {
      * 点击底部按钮弹出pop框
      */
     MyListPopWindowAdapter myAdapter=null;
-
-    private void showPopWindow(){
+    MyPoPuWindow mlistPPW=null;
+    private void showPopWindow(View v){
 //        ListPopupWindow lpwindo=new ListPopupWindow(mContext);
-        MyPoPuWindow mlistPPW=new MyPoPuWindow(mContext);
-        myAdapter=new MyListPopWindowAdapter(mContext,data);
+        if (this.getData()==null||this.getData().size()==0){
+            Snackbar.make(uiOperator.getPormotView(), "当前购物车没有数据，请您选择商品", Snackbar.LENGTH_SHORT).show();
+            return;
+        }
+         mlistPPW=new MyPoPuWindow(mContext);
+        myAdapter=new MyListPopWindowAdapter(mContext,this);
+        if( this.cardDataChange!=null){
+            myAdapter.setChanger(cardDataChange);
+        }
         mlistPPW.setAdapter(myAdapter);
         myAdapter.notifyDataSetChanged();
+        mlistPPW.setAnchorView(v);
+        mlistPPW.show();
+
+    }
+    public  void dismissPopuWindow(){
+        if (mlistPPW!=null&& mlistPPW.isShowing()){
+            mlistPPW.dismiss();
+        }
+//        myAdapter.notifyDataSetChanged();
     }
     public UiOperator getUiOperator() {
         return uiOperator;
@@ -165,6 +251,10 @@ public class BaseShopCart {
 
     public void setShowTip(ShowTip showTip) {
         this.showTip = showTip;
+    }
+    public interface CardDataChange{
+
+        public void notifyCardDataChanger(int posion);
     }
     /**
      *

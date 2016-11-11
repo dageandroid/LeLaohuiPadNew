@@ -65,16 +65,24 @@ public class SysVar {
         return sharedPreferences.getInt(Protocol_KEY.ORG_ID, -1);
     }
 
+    public String getUserId() {
+        if (sharedPreferences == null) {
+            return null;
+        }
+        return sharedPreferences.getString(Protocol_KEY.USERID, null);
+
+    }
+
     public int getOrgType() {
         if (sharedPreferences == null) {
             return -1;
         }
 
 
-         return sharedPreferences.getInt(Protocol_KEY.ORG_TYPE,-1);
+        return sharedPreferences.getInt(Protocol_KEY.ORG_TYPE, -1);
     }
 
-    public int getCenterType(){
+    public int getCenterType() {
         return 3;
     }
 }

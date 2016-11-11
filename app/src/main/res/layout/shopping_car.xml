@@ -6,7 +6,8 @@
     android:id="@+id/shopping_num"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
-    <android.support.v7.widget.AppCompatImageView
+    <ImageView
+        android:id="@+id/show_pp"
         android:src="@drawable/ico_car_have"
         android:layout_marginTop="@dimen/hight_1dp"
         android:layout_width="@dimen/ico_car_have_width"
@@ -14,6 +15,7 @@
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/shopping_num_txt"
         style="@style/ShoppingCarTxtNumBg"
+        android:visibility="gone"
         android:text="0"
         ></android.support.v7.widget.AppCompatTextView>
 

@@ -117,5 +117,8 @@ public class Protocol_KEY {
     public static final String SUPPLIER_TYPE_ID ="supplierTypeId";
     public static final String PACK_SUPPLIER_ID ="packsupplierId";
     public static final String PACK_SUPPLIER_TYPE_ID ="packsupplierTypeId";
-
+    /**
+     * 购物车提交serOrderInfDetailList
+     */
+    public static final String PACK_SER_ORDER_INFO_DETAIL_LIST="serOrderInfoDetailList";
 }

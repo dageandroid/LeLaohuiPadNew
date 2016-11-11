@@ -3,15 +3,14 @@ package dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.Expose;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.JoinEntity;
 import org.greenrobot.greendao.annotation.JoinProperty;
-import org.greenrobot.greendao.annotation.Keep;
 import org.greenrobot.greendao.annotation.ToMany;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,12 +27,10 @@ import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.SerInitProPackDao;
 public class SerInitProPack extends BaseBean implements Parcelable{
 
     @Id(autoincrement = true)
-    @NoToJson
     private Long  id;
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -51,19 +48,30 @@ public class SerInitProPack extends BaseBean implements Parcelable{
      * serInitProPackDetailList : [{"packDetailId":50,"packId":27,"serviceId":"乐老汇罗庄养老中心|103","serviceName":"上门修脚","pictureUrl":"LelaoHuiWebApp/folder/xiujiao.jpg"}]
      * price : 48
      */
-
+    @Expose
     public int packId;
+    @Expose
     public String packName;
+    @Expose
     public String orgName;
+    @Expose
     public int orgTypeId;
+    @Expose
     public int orgId;
+    @Expose
     public int serviceCateId;
+    @Expose
     public int isPro;
+    @Expose
     public String pictureUrl;
+    @Expose
     public String reamark;
+    @Expose
     public int saleNums;
+    @Expose
     public int price;
-    public int buyNum;
+    @Expose
+    public int serNum;
 
 
     /**
@@ -83,7 +91,7 @@ public class SerInitProPack extends BaseBean implements Parcelable{
     public transient SerInitProPackDao myDao;
     @Generated(hash = 1811115027)
     public SerInitProPack(Long id, int packId, String packName, String orgName, int orgTypeId, int orgId, int serviceCateId, int isPro, String pictureUrl, String reamark, int saleNums,
-            int price,int buyNum) {
+            int price,int serNum) {
         this.id = id;
         this.packId = packId;
         this.packName = packName;
@@ -96,17 +104,17 @@ public class SerInitProPack extends BaseBean implements Parcelable{
         this.reamark = reamark;
         this.saleNums = saleNums;
         this.price = price;
-        this.buyNum=buyNum;
+        this.serNum = serNum;
     }
 
     @Generated(hash = 726855854)
     public SerInitProPack() {
     }
-    public int getBuyNum() {
-        return buyNum;
+    public int getSerNum() {
+        return serNum;
     }
-    public void setBuyNum(int buyNum) {
-        this.buyNum = buyNum;
+    public void setSerNum(int serNum) {
+        this.serNum = serNum;
     }
     public int getPackId() {
         return packId;
@@ -285,7 +293,7 @@ public class SerInitProPack extends BaseBean implements Parcelable{
         dest.writeString(this.reamark);
         dest.writeInt(this.saleNums);
         dest.writeInt(this.price);
-        dest.writeInt(this.buyNum);
+        dest.writeInt(this.serNum);
         dest.writeList(this.serInitProPackDetailList);
     }
 
@@ -302,7 +310,7 @@ public class SerInitProPack extends BaseBean implements Parcelable{
         this.reamark = in.readString();
         this.saleNums = in.readInt();
         this.price = in.readInt();
-        this.buyNum=in.readInt();
+        this.serNum =in.readInt();
         this.serInitProPackDetailList = new ArrayList<SerInitProPackDetailListBean>();
         in.readList(this.serInitProPackDetailList, SerInitProPackDetailListBean.class.getClassLoader());
     }

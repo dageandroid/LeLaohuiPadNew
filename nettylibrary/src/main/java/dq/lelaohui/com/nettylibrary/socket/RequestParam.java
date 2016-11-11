@@ -8,13 +8,20 @@ import android.util.Log;
 
 import com.sun.commontransfer.adroid.TransferClientNetworkImpl;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Set;
 
 import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import javax.json.JsonReader;
+import javax.json.stream.JsonParser;
 
 import dq.lelaohui.com.nettylibrary.port.ReqParam;
 import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
@@ -126,6 +133,14 @@ public class RequestParam implements ReqParam {
         if(value.getClass()==int.class||value.getClass()==Integer.class){
             jsonObjectBuilder.add(keyStr,(Integer)value);
         }else if(value.getClass()==String.class){
+//             if(Protocol_KEY.PACK_SER_ORDER_INFO_DETAIL_LIST.equals(keyStr)){
+//                JsonReader jsonReader = Json.createReader(new StringReader(String.valueOf(value)));
+//                JsonArray array = jsonReader.readArray();
+//                jsonReader.close();
+//                jsonObjectBuilder.add(keyStr,array);
+//            }else{
+//
+//             }
             jsonObjectBuilder.add(keyStr, String.valueOf(value) );
         }else if(value.getClass()==Long.class||value.getClass()==long.class){
             jsonObjectBuilder.add(keyStr,(Long)value);

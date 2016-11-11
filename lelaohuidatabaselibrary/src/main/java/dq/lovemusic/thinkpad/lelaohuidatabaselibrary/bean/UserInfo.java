@@ -1,5 +1,7 @@
 package dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean;
 
+import com.google.gson.annotations.Expose;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
@@ -18,38 +20,48 @@ import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.DaoSession;
  */
 
 public class UserInfo extends BaseBean{
-
+    @Expose
     private String helpPhone;
+    @Expose
     private String servicePhone;
 
 
     /**
      * groupId : 32
      */
+    @Expose
     private List<GroupIdListBean> groupIdList;
+    @Expose
     private int centerId;
+    @Expose
     private String centerName;
+    @Expose
     private String userId;
+    @Expose
     private String realName;
+    @Expose
     private int orgId;
+    @Expose
     private int orgType;
+    @Expose
     private String orgName;
+    @Expose
     private int cardNo;
+    @Expose
     private String telephone;
+    @Expose
     private int balance;
+    @Expose
     private String bindCustomerStatus;
+    @Expose
     private String serSignRecordId;
+    @Expose
     private String signStatus;
+    @Expose
     private String signCustomerId;
-
-
-
 
     public UserInfo() {
     }
-
-
-
     public int getCenterId() {
         return centerId;
     }

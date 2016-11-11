@@ -87,8 +87,12 @@ public class ServerMenuControler extends LaoHuiBaseControler {
             }else{
 
             }
+        }else if ((ServiceNetContant.ServiceResponseAction.CAL_ORDER_MONEY.equals(action))){
+            log("doBusses CAL_ORDER_MONEY : "+responseData);
         }
-
+        //服务器返回的数据会回调这里。在这里写解析。要判断一下服务器返回的ResponseAction,如果需要更新Activity则
+       // Bundle bundle=new Bundle();//将要传递的数据封装到bundle里
+//        getIControlerCallBack().result(bundle);//并调用此方法回调通知Actitity
         log("doBusses: "+responseData);
     }
     private SerInitProPackBean getBodySerInitProPackResponse(Bundle responseData) {

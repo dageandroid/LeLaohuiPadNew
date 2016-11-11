@@ -56,6 +56,11 @@ public class NetContant {
          * 获得服务产品信息
          */
         public static final String QUERY_SERVICE_PRODUCT="query.service.product";
+        /**
+         * 上传购物车内的数据
+         */
+        public static final String UPLOAD_SHOPPING_CAR_DATA="calOrderMoney";
+
     }
 
 }

@@ -6,8 +6,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     app:cardCornerRadius="4dp"
-    app:cardElevation="5dp"
-    app:cardMaxElevation="10dp"
+    app:cardElevation="@dimen/margin"
+    app:cardMaxElevation="@dimen/margin_10dp"
     app:cardUseCompatPadding="true"
     app:cardPreventCornerOverlap="true">
 

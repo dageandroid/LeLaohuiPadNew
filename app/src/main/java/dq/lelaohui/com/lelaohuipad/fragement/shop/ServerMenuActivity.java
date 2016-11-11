@@ -1,5 +1,6 @@
 package dq.lelaohui.com.lelaohuipad.fragement.shop;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -10,30 +11,30 @@ import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewStub;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
+import android.widget.ImageView;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.lang.ref.SoftReference;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import dq.lelaohui.com.lelaohuipad.R;
 import dq.lelaohui.com.lelaohuipad.adapter.BaseDataBaseAdapter;
 import dq.lelaohui.com.lelaohuipad.base.LeLaoHuiBaseActivity;
+import dq.lelaohui.com.lelaohuipad.bean.ServerCartBean;
 import dq.lelaohui.com.lelaohuipad.bean.ShoppingCarListBean;
 import dq.lelaohui.com.lelaohuipad.controler.ServerMenuControler;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.car.BaseShopCart;
 import dq.lelaohui.com.lelaohuipad.port.IControler;
-import dq.lelaohui.com.lelaohuipad.port.OrderServerInterface;
+import dq.lelaohui.com.lelaohuipad.util.ServerRequestParam;
 import dq.lelaohui.com.nettylibrary.socket.RequestParam;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateMenuService;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateService;
@@ -45,7 +46,7 @@ import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.SerInitProPackDao;
  * Created by ZTF on 2016/10/30.
  */
 
-public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShopCart.UiOperator, OrderServerInterface,View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor> {
+public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShopCart.CardDataChange, BaseShopCart.UiOperator, View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor> {
     private RecyclerView server_menu_content;
     private RecyclerView server_content_rv;
     private SwipeRefreshLayout get_data_refresh;
@@ -59,26 +60,27 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
     private MyServerCateRecyleViewAdapter adapter = null;
     private MyServerContentRecyleViewAdapter serverContentAdapter = null;
     private GoogleApiClient client;
+    private View llh_shopping_bottom;
     private long cateIdL;
     private int isPackInt;
     private Cursor cursor = null;
     private AppCompatImageButton left_btn;
+    ImageView show_pp;
     BaseShopCart shopCartBase=null;
-    OrderServerInterface orderServerInterface;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        orderServerInterface=this;
         serverControler = (ServerMenuControler) getControler();
         initView();
         shopCartBase=new BaseShopCart(this);
+        shopCartBase.setCardDataChange(this);
         shopCartBase.setUiOperator(this);
         shopCartBase.init();
         if (getIntent() != null) {
             proCateService = (ProCateService) getIntent().getParcelableExtra("proCateServer");
             cateIdL = proCateService.getCateId();
             isPackInt = proCateService.getIsPack();
-//            serverControler.doQueryServerCategory(cateIdL, isPackInt, 1);
+            //  serverControler.doQueryServerCategory(cateIdL, isPackInt, 1);
         }
         getSupportLoaderManager().initLoader(0, null, this);
 
@@ -104,7 +106,7 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
                     cateIdL = proCateMenu.getCateId();
                     cateIdStr = String.valueOf(proCateMenu.getCateId());
                     isPackInt = proCateMenu.getIsPack();
-//                    serverControler.doQueryServerCategory(cateIdL, isPackInt);
+                    //    serverControler.doQueryServerCategory(cateIdL, isPackInt);
                 }
                 getSupportLoaderManager().initLoader(1, null, ServerMenuActivity.this);
                 cursor = serverControler.getSerInitProCursor(Integer.parseInt(cateIdStr));
@@ -116,7 +118,6 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
                 linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                 server_content_rv.setLayoutManager(linearLayoutManager);
                 server_content_rv.setAdapter(serverContentAdapter);
-                serverContentAdapter.registerCallBack(orderServerInterface);
             }
         });
     }
@@ -129,7 +130,6 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
         shopping_num = (FrameLayout) findViewById(R.id.shopping_num);
         shopping_product_price = (AppCompatTextView) findViewById(R.id.shopping_product_price);
         upload_shopping_car = (AppCompatButton) findViewById(R.id.upload_shopping_car);
-        upload_shopping_car.setOnClickListener(this);
         left_btn = (AppCompatImageButton) findViewById(R.id.left_btn);
         left_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,23 +137,10 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
                 onBackPressed();
             }
         });
+        show_pp = (ImageView) findViewById(R.id.show_pp);
         title_tv = (AppCompatTextView) findViewById(R.id.title_tv);
         title_tv.setText("服务");
-    }
-    public void refreshServerList(){
-         serverContentAdapter.notifyDataSetChanged();
-        Log.i("TF","刷新adapter--------");
-    }
-    public  void refreshShppingList(SerInitProPack serInitProPack){
-//       int proId= serInitProPack.getPackId();
-//        String proName=serInitProPack.getPackName();
-//        double proPrice=serInitProPack.getPrice();
-//        int proNum=serInitProPack.getSaleNums();
-//        ShoppingCarListBean shoppingCarListBean=new ShoppingCarListBean(proName,proPrice,proNum,proId);
-//        shopCartBase.addShop(shoppingCarListBean);
-    }
-    public  void  callBack(){
-
+        llh_shopping_bottom=findViewById(R.id.llh_shopping_bottom);
     }
     @Override
     public void onClick(View v) {
@@ -163,7 +150,7 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
                 break;
         }
     }
-
+    //当controle 收到数据，调用getIControlerCallBack().result(bundle);
     @Override
     public void result(Bundle bundle) {
 
@@ -204,32 +191,55 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
 
     @Override
     public void setPromot(String promot) {
-
+        shopping_product_price.setText("总价："+promot);
     }
 
     @Override
     public View getParnetView() {
-        return null;
+        return llh_shopping_bottom;
     }
 
     @Override
     public View getCardView() {
-        return null;
+        return show_pp;
     }
 
     @Override
     public View getOrderView() {
-        return null;
+        return upload_shopping_car;
     }
 
     @Override
     public View getPormotView() {
-        return null;
+        return shopping_num_txt;
+    }
+
+    /**
+     * 封装购物车下单请求
+     * @param data
+     * @return
+     */
+    @Override
+    public RequestParam getOrderParam(Vector<ShoppingCarListBean> data) {
+        ServerRequestParam serverRequestParam=new ServerRequestParam();
+        List<SerInitProPack> cartBeanList=null;
+        if(data!=null&&!data.isEmpty()){
+            cartBeanList=new ArrayList<>(data.size());
+            for( ShoppingCarListBean tempBean:data){
+                SerInitProPack serInitProPack=   (SerInitProPack)tempBean.getBean();
+                serInitProPack.setSerNum(tempBean.proNum);
+                cartBeanList.add(serInitProPack);
+            }
+        }
+        Log.i(TAG, "getOrderParam: "+cartBeanList.size()+"");
+        RequestParam rp=serverRequestParam.doConfirmOrderInfo(cartBeanList);//此方法需要根据具体服务器定义的接口文档来实现
+
+        return rp;
     }
 
     @Override
-    public RequestParam getOrderParam(Vector<ShoppingCarListBean> data) {
-        return null;
+    public void notifyCardDataChanger(int posion) {
+        serverContentAdapter.notifyItemChanged(posion);
     }
 
     public static class MyServerCateRecyleViewAdapter extends BaseDataBaseAdapter<MyServerCateRecyleViewAdapter.ViewHolder> {
@@ -288,14 +298,10 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
         private String TAG = "MyServerContentRecyleViewAdapter";
         private SoftReference<SerInitProPackDao> softReference = null;
         private Context context;
-        private OrderServerInterface  orderServerInterface;
         public MyServerContentRecyleViewAdapter(Context context, Cursor c) {
             super(context, c);
             this.context=context;
             layoutInflater = LayoutInflater.from(context);
-        }
-        public  void registerCallBack(OrderServerInterface orderServerInterfaced){
-           orderServerInterface=orderServerInterfaced;
         }
 
         public void setDao(SerInitProPackDao dao) {
@@ -317,6 +323,14 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
         }
 
         @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            if(holder!=null){
+                holder.position=position;
+            }
+            super.onBindViewHolder(holder,position);
+        }
+
+        @Override
         public View getItemView() {
             return layoutInflater.inflate(R.layout.llh_food_cv_item, null);
         }
@@ -326,7 +340,7 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
             return new ViewHolder(view);
         }
 
-        public  class ViewHolder extends RecyclerView.ViewHolder {
+          public class ViewHolder extends RecyclerView.ViewHolder {
             public View rootView;
             public AppCompatImageView food_img;
             public AppCompatTextView food_name;
@@ -335,7 +349,7 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
             public AppCompatTextView product_num;
             public AppCompatImageView add_product;
             public AppCompatImageView subtract_product;
-
+            public int position;
             public ViewHolder(View rootView) {
                 super(rootView);
                 this.rootView = rootView;
@@ -347,52 +361,51 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
                 this.add_product = (AppCompatImageView) rootView.findViewById(R.id.add_product);
                 this.subtract_product = (AppCompatImageView) rootView.findViewById(R.id.subtract_product);
             }
-
+            private String getKey(SerInitProPack serInitProPack){
+                ServerCartBean bean=   new ServerCartBean(serInitProPack);
+                return bean.getKey();
+            }
             public void setData(final SerInitProPack serInitProPack) {
                 food_name.setText(serInitProPack.getPackName());
                 food_price.setText("价格： ￥"+serInitProPack.getPrice()+"元");
                 food_remark.setText("详情："+serInitProPack.getReamark());
-                product_num.setText(""+serInitProPack.getBuyNum());
+               int count= shopCartBase.getShopItemCount(getKey( serInitProPack));
+                product_num.setText(""+ count);
                 add_product.setOnClickListener(new View.OnClickListener() {
 
+                    @SuppressLint("LongLogTag")
                     @Override
                     public void onClick(View v) {
-                        serInitProPack.buyNum++;
-                       notifyDataSetChanged();
-                        int proId= serInitProPack.getPackId();
+                        int proId=serInitProPack.getId().intValue();
                         String proName=serInitProPack.getPackName();
                         double proPrice=serInitProPack.getPrice();
-                        int proNum=serInitProPack.getSaleNums();
-                        ShoppingCarListBean shoppingCarListBean=new ShoppingCarListBean(proName,proPrice,proNum,proId);
+                        int proNum=1;
+                        ServerCartBean shoppingCarListBean=new ServerCartBean(proName,proPrice,proNum,proId);
+                        shoppingCarListBean.setBean(serInitProPack);
+                        shoppingCarListBean.posion=position;
                         shopCartBase.addShop(shoppingCarListBean);
-//                        if(data!=null){
-//                            if (orderServerInterface!=null){
-//                                Log.i("TF","data.buyNum=="+data.buyNum++);
-//                                orderServerInterface.refreshShppingList(data);
-//                            }
-//                        }
+                       int count =  shopCartBase.getShopItemCount(shoppingCarListBean.getKey());
+                        Log.i(TAG, "onClick: "+count);
+                        product_num.setText(""+ (count));
+
                     }
                 });
                 subtract_product.setOnClickListener(new View.OnClickListener() {
 
                     @Override
                     public void onClick(View v) {
-                        serInitProPack.buyNum--;
-                        if (serInitProPack.buyNum<=0){
-                            serInitProPack.buyNum=0;
-                        }
-                        notifyDataSetChanged();
+
                         int proId= serInitProPack.getPackId();
                         String proName=serInitProPack.getPackName();
                         double proPrice=serInitProPack.getPrice();
                         int proNum=serInitProPack.getSaleNums();
-                        ShoppingCarListBean shoppingCarListBean=new ShoppingCarListBean(proName,proPrice,proNum,proId);
+                        ServerCartBean shoppingCarListBean=new ServerCartBean(proName,proPrice,proNum,proId);
+                        shoppingCarListBean.setBean(serInitProPack);
+                        shoppingCarListBean.posion=position;
                         shopCartBase.removeShop(shoppingCarListBean);
-//                        if(data!=null){
-//                            if (orderServerInterface!=null){
-//                                orderServerInterface.refreshShppingList(data);
-//                            }
-//                        }
+                        int count =  shopCartBase.getShopItemCount(shoppingCarListBean.getKey());
+                        product_num.setText(""+ (count));
+
                     }
                 });
             }

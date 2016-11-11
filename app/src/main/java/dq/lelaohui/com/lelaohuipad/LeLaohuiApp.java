@@ -79,6 +79,9 @@ public class LeLaohuiApp extends Application {
             if (SysVar.getInstance().getOrgId() != -1) {
                 reqParam.addBody(Protocol_KEY.ORG_TYPE, SysVar.getInstance().getOrgType());
             }
+            if (SysVar.getInstance().getUserId()!=null){
+                reqParam.addBody(Protocol_KEY.USERID, SysVar.getInstance().getUserId());
+            }
         }
         netManager.reqData(reqParam);
     }

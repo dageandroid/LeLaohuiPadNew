@@ -36,7 +36,7 @@ public class SerInitProPackDao extends AbstractDao<SerInitProPack, Long> {
         public final static Property Reamark = new Property(9, String.class, "reamark", false, "REAMARK");
         public final static Property SaleNums = new Property(10, int.class, "saleNums", false, "SALE_NUMS");
         public final static Property Price = new Property(11, int.class, "price", false, "PRICE");
-        public final static Property BuyNum = new Property(12, int.class, "buyNum", false, "BUY_NUM");
+        public final static Property BuyNum = new Property(12, int.class, "serNum", false, "BUY_NUM");
 
     }
 
@@ -68,7 +68,7 @@ public class SerInitProPackDao extends AbstractDao<SerInitProPack, Long> {
                 "\"REAMARK\" TEXT," + // 9: reamark
                 "\"SALE_NUMS\" INTEGER NOT NULL ," + // 10: saleNums
                 "\"PRICE\" INTEGER NOT NULL ,"+// 11: price
-                "\"BUY_NUM\" INTEGER NOT NULL);"); //buyNum
+                "\"BUY_NUM\" INTEGER NOT NULL);"); //serNum
     }
 
     /** Drops the underlying database table. */
@@ -112,7 +112,7 @@ public class SerInitProPackDao extends AbstractDao<SerInitProPack, Long> {
         }
         stmt.bindLong(11, entity.getSaleNums());
         stmt.bindLong(12, entity.getPrice());
-        stmt.bindLong(13, entity.getBuyNum());
+        stmt.bindLong(13, entity.getSerNum());
     }
 
     @Override
@@ -150,7 +150,7 @@ public class SerInitProPackDao extends AbstractDao<SerInitProPack, Long> {
         }
         stmt.bindLong(11, entity.getSaleNums());
         stmt.bindLong(12, entity.getPrice());
-        stmt.bindLong(13, entity.getBuyNum());
+        stmt.bindLong(13, entity.getSerNum());
     }
 
     @Override
@@ -179,7 +179,7 @@ public class SerInitProPackDao extends AbstractDao<SerInitProPack, Long> {
             cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // reamark
             cursor.getInt(offset + 10), // saleNums
             cursor.getInt(offset + 11), // price
-            cursor.getInt(offset + 12) // buyNum
+            cursor.getInt(offset + 12) // serNum
         );
         return entity;
     }
@@ -198,7 +198,7 @@ public class SerInitProPackDao extends AbstractDao<SerInitProPack, Long> {
         entity.setReamark(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
         entity.setSaleNums(cursor.getInt(offset + 10));
         entity.setPrice(cursor.getInt(offset + 11));
-        entity.setBuyNum(cursor.getInt(offset+12));
+        entity.setSerNum(cursor.getInt(offset+12));
      }
     
     @Override

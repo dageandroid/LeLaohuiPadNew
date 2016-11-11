@@ -50,7 +50,7 @@ public class ServerActivity extends LeLaoHuiBaseActivity implements LoaderManage
         super.onCreate(savedInstanceState);
         serverControler = (ServerControler) getControler();
         initView();
-//        serverControler.doQueryServerCategory();
+       // serverControler.doQueryServerCategory();
         getSupportLoaderManager().initLoader(0, null, this);
 //        Cursor cursor = serverControler.getQueryAll(new ProCateService());
       Cursor cursor = serverControler.getQueryFirstCursor();

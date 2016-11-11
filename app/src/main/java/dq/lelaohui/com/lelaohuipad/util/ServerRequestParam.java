@@ -1,11 +1,17 @@
 package dq.lelaohui.com.lelaohuipad.util;
 
 import android.os.Bundle;
+import android.util.Log;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.List;
 
 import dq.lelaohui.com.lelaohuipad.LeLaohuiApp;
 import dq.lelaohui.com.nettylibrary.socket.RequestParam;
 import dq.lelaohui.com.nettylibrary.util.NetContant;
 import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.SerInitProPack;
 
 /**
  * Created by ThinkPad on 2016/10/25.
@@ -17,6 +23,10 @@ public class ServerRequestParam {
      * 顶级菜单
      */
     public static final int CATE_LEVEl_PARENT=0;
+    /**
+     * 上传购物车CATE_LEVEl
+     */
+    public static final String CATE_LEVEl_STR="1";
     /**
      * 二级菜单
      */
@@ -49,6 +59,7 @@ public class ServerRequestParam {
     public ServerRequestParam(){
         var=SysVar.getInstance();
     }
+
     /**
      * 获取数据的用户相关信息
      * @param parmBundle
@@ -136,10 +147,36 @@ public class ServerRequestParam {
             return requestParam;
         }
     }
+
+    /**
+     * 封装请求下单请求服务参数
+     * 具体参数，需要根据业务来修改此方法
+     * @param cartBeanList
+     * @return
+     */
+    public RequestParam doConfirmOrderInfo( List<SerInitProPack> cartBeanList){
+        String dataJson= JsonUtil.getInstance().ObjectTojson(cartBeanList,true);
+        Log.i("doConfirmOrderInfo", "doConfirmOrderInfo: "+dataJson.toString());
+        RequestParam requestParam=getRequestParam();
+        requestParam.addHeader(Protocol_KEY.ACTION,NetContant.ServiceAction.UPLOAD_SHOPPING_CAR_DATA);
+        requestParam.addHeader(Protocol_KEY.USERDATA, "query.service.menu");
+        requestParam.addBody(Protocol_KEY.IS_SERVER_REQ,true);
+        requestParam.addBody(Protocol_KEY.USERID,var.getUserId());
+        requestParam.addBody(Protocol_KEY.ORG_ID,var.getOrgId());
+        requestParam.addBody(Protocol_KEY.ORG_TYPE_ID,var.getOrgType());
+        requestParam.addBody(Protocol_KEY.CATE_LEVEL,CATE_LEVEl_STR);
+        try {
+            requestParam.addBody(Protocol_KEY.PACK_SER_ORDER_INFO_DETAIL_LIST, URLEncoder.encode(dataJson,"UTF8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return requestParam;
+    }
     public RequestParam getRequestParam(){
         RequestParam requestParam=new RequestParam();
         requestParam.addHeader(Protocol_KEY.CATEGORY,CATEGORY);
         requestParam.addHeader(Protocol_KEY.USERDATA, USEDATA);
         return requestParam;
     }
+
 }

@@ -23,36 +23,63 @@ public class JsonUtil {
         return ourInstance;
     }
     private Gson gson;
+    private Gson gsonNoSkip=null;
     private JsonUtil() {
         if(gson==null){
-            gson=new GsonBuilder().setExclusionStrategies(new ExclusionStrategy() {
-                @Override
-                public boolean shouldSkipField(FieldAttributes f) {
-                    Collection<Annotation> a= f.getAnnotations();
-                    boolean isSkip=false;
-                    for(Annotation annotation:a){
-                        if(annotation.getClass()== NoToJson.class){
-                            isSkip=true;
-                            break;
-                        }
-                    }
-                    return isSkip;
-                }
-
-                @Override
-                public boolean shouldSkipClass(Class<?> clazz) {
-                    //过滤掉 类名包含 Bean的类
-                    return false;
-                }
-            }).create();
+            gson=new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         }
     }
-
+    @Deprecated
     public Object jsonToObject(String jsonStr,Class cls){
 
         return gson.fromJson(jsonStr,cls);
     }
+    public Object jsonToObject(String jsonStr,Class cls,boolean isSkip){
+        Gson temp=null;
+        if(isSkip){
+            temp=gson;
+        }else{
+            temp=gsonNoSkip;
+
+        }
+        return temp.fromJson(jsonStr,cls);
+
+    }
+
+    private void getGsonNoSkip() {
+        if(gsonNoSkip==null){
+            gsonNoSkip=new GsonBuilder().create();
+        }
+    }
+    @Deprecated
     public Object jsonToObject(String jsonStr,Type type){
         return gson.fromJson(jsonStr,type);
+    }
+
+    public Object jsonToObject(String jsonStr,Type type,boolean isSkip){
+        Gson temp=null;
+        if(isSkip){
+            temp=gson;
+        }else{
+            temp=gsonNoSkip;
+
+        }
+        return temp.fromJson(jsonStr,type);
+    }
+    @Deprecated
+    public String ObjectTojson(Object data){
+       return  gson.toJson(data);
+    }
+
+    public String ObjectTojson(Object data,boolean isSkip){
+
+        Gson temp=null;
+        if(isSkip){
+            temp=gson;
+        }else{
+            temp=gsonNoSkip;
+
+        }
+        return  temp.toJson(data);
     }
 }

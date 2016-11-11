@@ -86,7 +86,7 @@ public class MyListPopWindow extends PopupWindow{
         update();
         viewTop = parentView.findViewById(R.id.view_line1);
         tvBottom = (TextView) parentView.findViewById(R.id.tv_popwindow_bottom);
-        adapter = new MyListPopWindowAdapter(context,dataList,false);
+//        adapter = new MyListPopWindowAdapter(context,dataList);
         lv.setAdapter(adapter);
 
         if (!TextUtils.isEmpty(topText)){

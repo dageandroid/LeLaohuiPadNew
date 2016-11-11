@@ -4,6 +4,8 @@ package dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.Expose;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
@@ -25,40 +27,43 @@ public class ProCateMenuService extends BaseBean  {
     @Id(autoincrement = true)
     @NoToJson
     private Long id;
-
+    @Expose
     private long cateId;
-
+    @Expose
     private String cateName;
-
+    @Expose
     private int cateLevel = 0;
-
+    @Expose
     private long parentId;
-
+    @Expose
     private int isLeaf;
-
+    @Expose
     private int isDelete = 0;
-
+    @Expose
     private String managerId;
-
+    @Expose
     private String managerName;
-
+    @Expose
     private long orgId = 0l;
-
+    @Expose
     private String orgName;
-
+    @Expose
     private int orgTypeId;
-
+    @Expose
     private Date addTime;
-
+    @Expose
     private Date updTime;
-
+    @Expose
     private String remark;
-
+    @Expose
     private int status;
+    @Expose
     private String pinYin;
-
+    @Expose
     private String pY;
+    @Expose
     private int isPack;
+    @Expose
     private Long packorgId;
     @Generated(hash = 132832366)
     public ProCateMenuService(Long id, long cateId, String cateName, int cateLevel,

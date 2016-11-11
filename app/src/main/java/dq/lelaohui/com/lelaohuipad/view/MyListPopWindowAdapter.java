@@ -1,17 +1,21 @@
 package dq.lelaohui.com.lelaohuipad.view;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.lang.ref.SoftReference;
 import java.util.List;
 
 import dq.lelaohui.com.lelaohuipad.R;
 import dq.lelaohui.com.lelaohuipad.bean.ShoppingCarListBean;
+import dq.lelaohui.com.lelaohuipad.fragement.shop.car.BaseShopCart;
 
 
 /**
@@ -19,25 +23,30 @@ import dq.lelaohui.com.lelaohuipad.bean.ShoppingCarListBean;
  */
 public class MyListPopWindowAdapter extends BaseAdapter {
     private Context context;
-    private List<ShoppingCarListBean> dataList;
     private LayoutInflater inflater;
+    BaseShopCart shopCartBase;
+    private String TAG=getClass().getSimpleName();
 
+    public void setChanger(BaseShopCart.CardDataChange changer) {
+        this.changer = changer;
+    }
 
-    public MyListPopWindowAdapter(Context context, List<ShoppingCarListBean> dataList) {
+    private BaseShopCart.CardDataChange changer=null;
+
+    public MyListPopWindowAdapter(Context context,  BaseShopCart shopCartBase) {
         this.context = context;
-        this.dataList = dataList;
         this.inflater = LayoutInflater.from(context);
-
+        this.shopCartBase=shopCartBase;
     }
 
     @Override
     public int getCount() {
-        return dataList.size();
+        return shopCartBase.getData().size();
     }
 
     @Override
     public Object getItem(int i) {
-        return dataList.get(i);
+        return shopCartBase.getData().get(i);
     }
 
     @Override
@@ -46,26 +55,58 @@ public class MyListPopWindowAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        ViewHolder holder;
+    public View getView(final int i, View view, ViewGroup viewGroup) {
+       final  ViewHolder holder;
         if (view == null) {
             view = inflater.inflate(R.layout.lv_popwindow_item, null);
             holder = new ViewHolder();
             holder.tv_name = (TextView) view.findViewById(R.id.pro_name);
             holder.tv_price = (TextView) view.findViewById(R.id.tv_price);
             holder.tv_num = (TextView) view.findViewById(R.id.tv_num);
+            holder.im_reduce = (ImageView) view.findViewById(R.id.im_reduce);
+            holder.im_add = (ImageView) view.findViewById(R.id.im_add);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
         }
+       final ShoppingCarListBean carListBean= (ShoppingCarListBean) getItem(i);
+        holder.tv_name.setText(carListBean.getProName());
+        holder.tv_price.setText(carListBean.getProPrice()+"");
+        holder.tv_num.setText(carListBean.getProNum()+"");
+        holder.im_reduce.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shopCartBase.removeShop(carListBean);
+                int buyNum=carListBean.proNum;;
+                holder.tv_num.setText(buyNum+"");
+                if(buyNum<=0){
+                    notifyDataSetChanged();
+                }
+                Log.i(TAG, "onClick: remove "+carListBean.posion);
+                if(changer !=null){
+                    changer.notifyCardDataChanger(carListBean.posion);
+                }
 
-        holder.tv_name.setText(dataList.get(i).getProName());
+            }
+        });
+        holder.im_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shopCartBase.addShop(carListBean);
+                int buyNum=carListBean.proNum;;
+                holder.tv_num.setText(""+ (buyNum));
+                  Log.i(TAG, "onClick: add "+carListBean.posion);
 
+                if(changer !=null){
+                    changer.notifyCardDataChanger(carListBean.posion);
 
+                }
+            }
+        });
         return view;
     }
 
-    private class ViewHolder {
+    private static class ViewHolder {
         TextView tv_name, tv_price, tv_num;
         ImageView im_reduce, im_add;
     }
