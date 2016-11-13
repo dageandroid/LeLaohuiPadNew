@@ -60,6 +60,11 @@ public class NetContant {
          * 上传购物车内的数据
          */
         public static final String UPLOAD_SHOPPING_CAR_DATA="calOrderMoney";
+        /**
+         * 获取用户地址
+         * query.user.address
+         */
+            public static final String QUERY_USER_ADDRESS="query.user.address";
 
     }
 

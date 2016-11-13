@@ -28,6 +28,7 @@ public class JsonUtil {
         if(gson==null){
             gson=new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         }
+        getGsonNoSkip();
     }
     @Deprecated
     public Object jsonToObject(String jsonStr,Class cls){

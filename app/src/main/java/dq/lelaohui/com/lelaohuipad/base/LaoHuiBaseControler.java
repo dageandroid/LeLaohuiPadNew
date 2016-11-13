@@ -105,13 +105,13 @@ public abstract class LaoHuiBaseControler implements IControler {
         if(jsonUtil==null){
             jsonUtil=JsonUtil.getInstance();
         }
-        return jsonUtil.jsonToObject(body, t);
+        return jsonUtil.jsonToObject(body, t,false);
     }
     protected Object getJsonToObject(String body,Type t){
         if(jsonUtil==null){
             jsonUtil=JsonUtil.getInstance();
         }
-        return jsonUtil.jsonToObject(body, t);
+        return jsonUtil.jsonToObject(body, t,false);
     }
     public IControlerCallBack getIControlerCallBack(){
         return controlerCallBack;

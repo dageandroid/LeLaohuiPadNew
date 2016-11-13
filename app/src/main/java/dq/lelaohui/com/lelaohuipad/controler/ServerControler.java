@@ -89,7 +89,7 @@ public class ServerControler extends LaoHuiBaseControler {
                 data.get(i).setOrgId(getOrgId());
                 data.get(i).setOrgTypeId(getOrgType());
             }
-            insertData(data);
+//            insertData(data);
         }
     }
 

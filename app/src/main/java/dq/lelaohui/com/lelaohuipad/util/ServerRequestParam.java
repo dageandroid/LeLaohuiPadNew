@@ -178,5 +178,17 @@ public class ServerRequestParam {
         requestParam.addHeader(Protocol_KEY.USERDATA, USEDATA);
         return requestParam;
     }
+    /**
+     * 获取用户地址信息
+     */
+    public RequestParam   doUserAddressInfo(){
+        RequestParam requestParam=getRequestParam();
+        requestParam.addHeader(Protocol_KEY.ACTION,NetContant.ServiceAction.UPLOAD_SHOPPING_CAR_DATA);
+        requestParam.addHeader(Protocol_KEY.USERDATA, "query.user.address");
+        requestParam.addBody(Protocol_KEY.IS_SERVER_REQ,true);
+        requestParam.addBody(Protocol_KEY.USERID,var.getUserId());
+        requestParam.addBody(Protocol_KEY.CENTERID,var.getCenterId());
+        return requestParam;
+    }
 
 }

@@ -2,7 +2,9 @@ package dq.lelaohui.com.lelaohuipad.fragement.shop;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -29,6 +31,7 @@ import java.util.Vector;
 import dq.lelaohui.com.lelaohuipad.R;
 import dq.lelaohui.com.lelaohuipad.adapter.BaseDataBaseAdapter;
 import dq.lelaohui.com.lelaohuipad.base.LeLaoHuiBaseActivity;
+import dq.lelaohui.com.lelaohuipad.bean.SerOrderInfoData;
 import dq.lelaohui.com.lelaohuipad.bean.ServerCartBean;
 import dq.lelaohui.com.lelaohuipad.bean.ShoppingCarListBean;
 import dq.lelaohui.com.lelaohuipad.controler.ServerMenuControler;
@@ -36,6 +39,7 @@ import dq.lelaohui.com.lelaohuipad.fragement.shop.car.BaseShopCart;
 import dq.lelaohui.com.lelaohuipad.port.IControler;
 import dq.lelaohui.com.lelaohuipad.util.ServerRequestParam;
 import dq.lelaohui.com.nettylibrary.socket.RequestParam;
+import dq.lelaohui.com.nettylibrary.util.ServiceNetContant;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateMenuService;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateService;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.SerInitProPack;
@@ -67,6 +71,7 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
     private AppCompatImageButton left_btn;
     ImageView show_pp;
     BaseShopCart shopCartBase=null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +85,7 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
             proCateService = (ProCateService) getIntent().getParcelableExtra("proCateServer");
             cateIdL = proCateService.getCateId();
             isPackInt = proCateService.getIsPack();
-            //  serverControler.doQueryServerCategory(cateIdL, isPackInt, 1);
+              serverControler.doQueryServerCategory(cateIdL, isPackInt, 1);
         }
         getSupportLoaderManager().initLoader(0, null, this);
 
@@ -106,7 +111,7 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
                     cateIdL = proCateMenu.getCateId();
                     cateIdStr = String.valueOf(proCateMenu.getCateId());
                     isPackInt = proCateMenu.getIsPack();
-                    //    serverControler.doQueryServerCategory(cateIdL, isPackInt);
+                        serverControler.doQueryServerCategory(cateIdL, isPackInt);
                 }
                 getSupportLoaderManager().initLoader(1, null, ServerMenuActivity.this);
                 cursor = serverControler.getSerInitProCursor(Integer.parseInt(cateIdStr));
@@ -153,7 +158,16 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
     //当controle 收到数据，调用getIControlerCallBack().result(bundle);
     @Override
     public void result(Bundle bundle) {
-
+        if (bundle!=null){
+                    String action=bundle.getString("action");
+        Log.i(TAG, "action: ==" +action);
+            if(action.equals(ServiceNetContant.ServiceResponseAction.CAL_ORDER_MONEY)){
+            SerOrderInfoData infoData= bundle.getParcelable("serOrderInfo");
+            String getOrderCode= infoData.getSerOrderInfo().getOrderCode();
+            Intent view = new Intent(ServerMenuActivity.this,SerOrderInfoActivity.class);
+            startActivity(view);
+        }
+        }
     }
 
     @Override

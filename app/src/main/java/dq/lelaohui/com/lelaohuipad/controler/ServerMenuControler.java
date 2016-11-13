@@ -2,6 +2,7 @@ package dq.lelaohui.com.lelaohuipad.controler;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.TextUtils;
 
 import com.google.gson.reflect.TypeToken;
@@ -11,7 +12,8 @@ import java.util.List;
 import dq.lelaohui.com.lelaohuipad.LeLaohuiApp;
 import dq.lelaohui.com.lelaohuipad.base.LaoHuiBaseControler;
 import dq.lelaohui.com.lelaohuipad.bean.SerInitProPackBean;
-import dq.lelaohui.com.lelaohuipad.bean.ServerCate;
+import dq.lelaohui.com.lelaohuipad.bean.SerOrderInfoCate;
+import dq.lelaohui.com.lelaohuipad.bean.SerOrderInfoData;
 import dq.lelaohui.com.lelaohuipad.bean.ServerMenuCate;
 import dq.lelaohui.com.lelaohuipad.dao.ProMenumServiceDaoOperator;
 import dq.lelaohui.com.lelaohuipad.dao.ProServerContentDaoOperator;
@@ -19,7 +21,6 @@ import dq.lelaohui.com.lelaohuipad.util.ServerRequestParam;
 import dq.lelaohui.com.nettylibrary.socket.RequestParam;
 import dq.lelaohui.com.nettylibrary.util.ServiceNetContant;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateMenuService;
-import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateService;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.SerInitProPack;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager.BaseDaoOperator;
 
@@ -63,6 +64,7 @@ public class ServerMenuControler extends LaoHuiBaseControler {
                           setDataList(data);
                       }
                     Bundle bundle=new Bundle();
+                    bundle.putString("action",ServiceNetContant.ServiceResponseAction.GETSERPROCATEJSONLIST_RESPONSE);
                     getIControlerCallBack().result(bundle);
                     List<ProCateMenuService> queryList= (List<ProCateMenuService>) queryData(new ProCateMenuService());
                     if(queryList!=null){
@@ -83,12 +85,30 @@ public class ServerMenuControler extends LaoHuiBaseControler {
                     if (serInitProPacksData!=null){
                         setSerInitProPackData(serInitProPacksData);
                     }
+                    Bundle bundle=new Bundle();
+                    bundle.putString("action",ServiceNetContant.ServiceResponseAction.QUERY_SERVICE_CATEGORYSJSONLIST_RESPONSE);
+                    getIControlerCallBack().result(bundle);
                 }
             }else{
 
             }
         }else if ((ServiceNetContant.ServiceResponseAction.CAL_ORDER_MONEY.equals(action))){
             log("doBusses CAL_ORDER_MONEY : "+responseData);
+            SerOrderInfoCate serOrderInfoCate=getBodySerOrderInfoResponse(responseData);
+            if(serOrderInfoCate.getCode().equals(SUCCESS_CODE)){
+                if(getIControlerCallBack()!=null){//解析数据成功，通知UI界面
+                    SerOrderInfoData infoData= serOrderInfoCate.getData();
+                   SerOrderInfoData.SerOrderInfoBean serOrderInfoBean= infoData.getSerOrderInfo();
+                    List<SerOrderInfoData.SerOrderInfoDetailBeanListBean> listBeen=    infoData.getSerOrderInfoDetailBeanList();
+                log("doBusses infoData="+infoData.toString());
+                    Bundle bundle=new Bundle();
+                    bundle.putString("action",ServiceNetContant.ServiceResponseAction.CAL_ORDER_MONEY);
+                    bundle.putParcelable("serOrderInfo",infoData);
+//                    bundle.putParcelableArray("aaa",listBeen.toArray(new Parcelable[listBeen.size()]));
+                    getIControlerCallBack().result(bundle);
+                }
+            }
+
         }
         //服务器返回的数据会回调这里。在这里写解析。要判断一下服务器返回的ResponseAction,如果需要更新Activity则
        // Bundle bundle=new Bundle();//将要传递的数据封装到bundle里
@@ -98,6 +118,10 @@ public class ServerMenuControler extends LaoHuiBaseControler {
     private SerInitProPackBean getBodySerInitProPackResponse(Bundle responseData) {
         String body=getResponseBody(responseData);
         return (SerInitProPackBean) getJsonToObject(body,SerInitProPackBean.class);
+    }
+    private SerOrderInfoCate getBodySerOrderInfoResponse(Bundle responseData ){
+        String body=getResponseBody(responseData);
+        return (SerOrderInfoCate) getJsonToObject(body,SerOrderInfoCate.class);
     }
     private ServerMenuCate getBodyResponse(Bundle responseData) {
         String body=getResponseBody(responseData);
@@ -114,7 +138,7 @@ public class ServerMenuControler extends LaoHuiBaseControler {
                 data.get(i).setOrgId(getOrgId());
                 data.get(i).setOrgTypeId(getOrgType());
             }
-            insertData(data);
+//            insertData(data);
         }
     }
 
@@ -130,7 +154,7 @@ public class ServerMenuControler extends LaoHuiBaseControler {
                     data.get(i).getSerInitProPackDetailList().get(j).setOrgTypeId(getOrgType());
                 }
             }
-            insertData(GET_SER_INIT_PROPACK_DATA,data);
+//            insertData(GET_SER_INIT_PROPACK_DATA,data);
             log("服务项插入数据库成功。。。。。");
         }
     }
