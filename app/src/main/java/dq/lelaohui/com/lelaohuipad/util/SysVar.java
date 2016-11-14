@@ -64,6 +64,12 @@ public class SysVar {
         }
         return sharedPreferences.getInt(Protocol_KEY.ORG_ID, -1);
     }
+    public String getOrgName() {
+        if (sharedPreferences == null) {
+            return null;
+        }
+        return sharedPreferences.getString(Protocol_KEY.ORG_NAME, null);
+    }
 
     public String getUserId() {
         if (sharedPreferences == null) {
@@ -72,13 +78,24 @@ public class SysVar {
         return sharedPreferences.getString(Protocol_KEY.USERID, null);
 
     }
+    public String getUserName() {
+        if (sharedPreferences == null) {
+            return null;
+        }
+        return sharedPreferences.getString(Protocol_KEY.USERNAME, null);
 
+    }
+    public String getCenterName() {
+        if (sharedPreferences == null) {
+            return null;
+        }
+        return sharedPreferences.getString(Protocol_KEY.CENTER_NAME, null);
+
+    }
     public int getOrgType() {
         if (sharedPreferences == null) {
             return -1;
         }
-
-
         return sharedPreferences.getInt(Protocol_KEY.ORG_TYPE, -1);
     }
 

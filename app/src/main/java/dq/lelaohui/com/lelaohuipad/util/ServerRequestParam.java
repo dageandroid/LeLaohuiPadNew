@@ -3,11 +3,15 @@ package dq.lelaohui.com.lelaohuipad.util;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.google.gson.Gson;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 
 import dq.lelaohui.com.lelaohuipad.LeLaohuiApp;
+import dq.lelaohui.com.lelaohuipad.bean.SerOrderInfoData;
+import dq.lelaohui.com.lelaohuipad.bean.SerOrderStoreBean;
 import dq.lelaohui.com.nettylibrary.socket.RequestParam;
 import dq.lelaohui.com.nettylibrary.util.NetContant;
 import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
@@ -54,6 +58,7 @@ public class ServerRequestParam {
      * 获取服务数据请求的cateGory
      */
     private static final String CATEGORY = "lelaohui_server";
+    private static final String CATEGORY_USER = "lelaohui";
     public static final String USEDATA ="query.service";
     private SysVar var=null;
     public ServerRequestParam(){
@@ -165,8 +170,7 @@ public class ServerRequestParam {
         requestParam.addBody(Protocol_KEY.ORG_ID,var.getOrgId());
         requestParam.addBody(Protocol_KEY.ORG_TYPE_ID,var.getOrgType());
         requestParam.addBody(Protocol_KEY.CATE_LEVEL,CATE_LEVEl_STR);
-        try {
-            requestParam.addBody(Protocol_KEY.PACK_SER_ORDER_INFO_DETAIL_LIST, URLEncoder.encode(dataJson,"UTF8"));
+        try {           requestParam.addBody(Protocol_KEY.PACK_SER_ORDER_INFO_DETAIL_LIST, URLEncoder.encode(dataJson,"UTF8"));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -178,16 +182,34 @@ public class ServerRequestParam {
         requestParam.addHeader(Protocol_KEY.USERDATA, USEDATA);
         return requestParam;
     }
+    public RequestParam getRequestParamLLH(){
+        RequestParam requestParam=new RequestParam();
+        requestParam.addHeader(Protocol_KEY.CATEGORY,CATEGORY_USER);
+        requestParam.addHeader(Protocol_KEY.USERDATA, USEDATA);
+        return requestParam;
+    }
     /**
      * 获取用户地址信息
      */
     public RequestParam   doUserAddressInfo(){
-        RequestParam requestParam=getRequestParam();
-        requestParam.addHeader(Protocol_KEY.ACTION,NetContant.ServiceAction.UPLOAD_SHOPPING_CAR_DATA);
+        RequestParam requestParam=getRequestParamLLH();
+        requestParam.addHeader(Protocol_KEY.ACTION,NetContant.ServiceAction.QUERY_USER_ADDRESS);
         requestParam.addHeader(Protocol_KEY.USERDATA, "query.user.address");
-        requestParam.addBody(Protocol_KEY.IS_SERVER_REQ,true);
+        requestParam.addBody(Protocol_KEY.IS_SERVER_REQ,false);
         requestParam.addBody(Protocol_KEY.USERID,var.getUserId());
         requestParam.addBody(Protocol_KEY.CENTERID,var.getCenterId());
+        return requestParam;
+    }
+    /**
+     * 提交订单接口
+     */
+    public RequestParam uploadShoppingData(SerOrderInfoData serverOrderList){
+        RequestParam requestParam=new RequestParam();
+        requestParam.addHeader(Protocol_KEY.ACTION,NetContant.ServiceAction.UPLOAD_USER_ORDERINFO);
+        requestParam.addHeader(Protocol_KEY.USERDATA, "upload.orderinfo");
+        requestParam.addBody(Protocol_KEY.IS_SERVER_REQ,true);
+        requestParam.addHeader(Protocol_KEY.SER_ORDER_STORE_KEY,new Gson().toJson(serverOrderList));
+
         return requestParam;
     }
 

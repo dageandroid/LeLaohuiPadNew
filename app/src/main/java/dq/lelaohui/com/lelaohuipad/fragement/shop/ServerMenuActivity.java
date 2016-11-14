@@ -70,14 +70,14 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
     private Cursor cursor = null;
     private AppCompatImageButton left_btn;
     ImageView show_pp;
-    BaseShopCart shopCartBase=null;
+    BaseShopCart shopCartBase = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         serverControler = (ServerMenuControler) getControler();
         initView();
-        shopCartBase=new BaseShopCart(this);
+        shopCartBase = new BaseShopCart(this);
         shopCartBase.setCardDataChange(this);
         shopCartBase.setUiOperator(this);
         shopCartBase.init();
@@ -85,7 +85,7 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
             proCateService = (ProCateService) getIntent().getParcelableExtra("proCateServer");
             cateIdL = proCateService.getCateId();
             isPackInt = proCateService.getIsPack();
-              serverControler.doQueryServerCategory(cateIdL, isPackInt, 1);
+            serverControler.doQueryServerCategory(cateIdL, isPackInt, 1);
         }
         getSupportLoaderManager().initLoader(0, null, this);
 
@@ -111,7 +111,7 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
                     cateIdL = proCateMenu.getCateId();
                     cateIdStr = String.valueOf(proCateMenu.getCateId());
                     isPackInt = proCateMenu.getIsPack();
-                        serverControler.doQueryServerCategory(cateIdL, isPackInt);
+                    serverControler.doQueryServerCategory(cateIdL, isPackInt);
                 }
                 getSupportLoaderManager().initLoader(1, null, ServerMenuActivity.this);
                 cursor = serverControler.getSerInitProCursor(Integer.parseInt(cateIdStr));
@@ -145,8 +145,9 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
         show_pp = (ImageView) findViewById(R.id.show_pp);
         title_tv = (AppCompatTextView) findViewById(R.id.title_tv);
         title_tv.setText("服务");
-        llh_shopping_bottom=findViewById(R.id.llh_shopping_bottom);
+        llh_shopping_bottom = findViewById(R.id.llh_shopping_bottom);
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -155,18 +156,25 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
                 break;
         }
     }
+
     //当controle 收到数据，调用getIControlerCallBack().result(bundle);
     @Override
     public void result(Bundle bundle) {
-        if (bundle!=null){
-                    String action=bundle.getString("action");
-        Log.i(TAG, "action: ==" +action);
-            if(action.equals(ServiceNetContant.ServiceResponseAction.CAL_ORDER_MONEY)){
-            SerOrderInfoData infoData= bundle.getParcelable("serOrderInfo");
-            String getOrderCode= infoData.getSerOrderInfo().getOrderCode();
-            Intent view = new Intent(ServerMenuActivity.this,SerOrderInfoActivity.class);
-            startActivity(view);
-        }
+        if (bundle != null) {
+            String action = bundle.getString("action");
+            Log.i(TAG, "action: ==" + action);
+            if (action.equals(ServiceNetContant.ServiceResponseAction.CAL_ORDER_MONEY)) {
+                SerOrderInfoData infoData = bundle.getParcelable("serOrderInfo");
+                String getOrderCode = infoData.getSerOrderInfo().getOrderCode();
+                if(infoData.getSerOrderInfoDetailBeanList()!=null&&infoData.getSerOrderInfoDetailBeanList().size()>0){
+               String packageName=     infoData.getSerOrderInfoDetailBeanList().get(0).getSerOrderInfoDetail().getPackageName();
+                Log.i(TAG,"packageName=="+packageName);
+                }
+                Log.i(TAG,"getOrderCode=="+getOrderCode);
+                Intent intent = new Intent(ServerMenuActivity.this, SerOrderInfoActivity.class);
+                intent.putExtra("infoData", infoData);
+                startActivity(intent);
+            }
         }
     }
 
@@ -205,7 +213,7 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
 
     @Override
     public void setPromot(String promot) {
-        shopping_product_price.setText("总价："+promot);
+        shopping_product_price.setText("总价：" + promot);
     }
 
     @Override
@@ -230,23 +238,24 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
 
     /**
      * 封装购物车下单请求
+     *
      * @param data
      * @return
      */
     @Override
     public RequestParam getOrderParam(Vector<ShoppingCarListBean> data) {
-        ServerRequestParam serverRequestParam=new ServerRequestParam();
-        List<SerInitProPack> cartBeanList=null;
-        if(data!=null&&!data.isEmpty()){
-            cartBeanList=new ArrayList<>(data.size());
-            for( ShoppingCarListBean tempBean:data){
-                SerInitProPack serInitProPack=   (SerInitProPack)tempBean.getBean();
+        ServerRequestParam serverRequestParam = new ServerRequestParam();
+        List<SerInitProPack> cartBeanList = null;
+        if (data != null && !data.isEmpty()) {
+            cartBeanList = new ArrayList<>(data.size());
+            for (ShoppingCarListBean tempBean : data) {
+                SerInitProPack serInitProPack = (SerInitProPack) tempBean.getBean();
                 serInitProPack.setSerNum(tempBean.proNum);
                 cartBeanList.add(serInitProPack);
             }
         }
-        Log.i(TAG, "getOrderParam: "+cartBeanList.size()+"");
-        RequestParam rp=serverRequestParam.doConfirmOrderInfo(cartBeanList);//此方法需要根据具体服务器定义的接口文档来实现
+        Log.i(TAG, "getOrderParam: " + cartBeanList.size() + "");
+        RequestParam rp = serverRequestParam.doConfirmOrderInfo(cartBeanList);//此方法需要根据具体服务器定义的接口文档来实现
 
         return rp;
     }
@@ -307,14 +316,15 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
         }
     }
 
-    public  class MyServerContentRecyleViewAdapter extends BaseDataBaseAdapter<MyServerContentRecyleViewAdapter.ViewHolder> {
+    public class MyServerContentRecyleViewAdapter extends BaseDataBaseAdapter<MyServerContentRecyleViewAdapter.ViewHolder> {
         private LayoutInflater layoutInflater = null;
         private String TAG = "MyServerContentRecyleViewAdapter";
         private SoftReference<SerInitProPackDao> softReference = null;
         private Context context;
+
         public MyServerContentRecyleViewAdapter(Context context, Cursor c) {
             super(context, c);
-            this.context=context;
+            this.context = context;
             layoutInflater = LayoutInflater.from(context);
         }
 
@@ -338,10 +348,10 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            if(holder!=null){
-                holder.position=position;
+            if (holder != null) {
+                holder.position = position;
             }
-            super.onBindViewHolder(holder,position);
+            super.onBindViewHolder(holder, position);
         }
 
         @Override
@@ -354,7 +364,7 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
             return new ViewHolder(view);
         }
 
-          public class ViewHolder extends RecyclerView.ViewHolder {
+        public class ViewHolder extends RecyclerView.ViewHolder {
             public View rootView;
             public AppCompatImageView food_img;
             public AppCompatTextView food_name;
@@ -364,6 +374,7 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
             public AppCompatImageView add_product;
             public AppCompatImageView subtract_product;
             public int position;
+
             public ViewHolder(View rootView) {
                 super(rootView);
                 this.rootView = rootView;
@@ -375,32 +386,34 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
                 this.add_product = (AppCompatImageView) rootView.findViewById(R.id.add_product);
                 this.subtract_product = (AppCompatImageView) rootView.findViewById(R.id.subtract_product);
             }
-            private String getKey(SerInitProPack serInitProPack){
-                ServerCartBean bean=   new ServerCartBean(serInitProPack);
+
+            private String getKey(SerInitProPack serInitProPack) {
+                ServerCartBean bean = new ServerCartBean(serInitProPack);
                 return bean.getKey();
             }
+
             public void setData(final SerInitProPack serInitProPack) {
                 food_name.setText(serInitProPack.getPackName());
-                food_price.setText("价格： ￥"+serInitProPack.getPrice()+"元");
-                food_remark.setText("详情："+serInitProPack.getReamark());
-               int count= shopCartBase.getShopItemCount(getKey( serInitProPack));
-                product_num.setText(""+ count);
+                food_price.setText("价格： ￥" + serInitProPack.getPrice() + "元");
+                food_remark.setText("详情：" + serInitProPack.getReamark());
+                int count = shopCartBase.getShopItemCount(getKey(serInitProPack));
+                product_num.setText("" + count);
                 add_product.setOnClickListener(new View.OnClickListener() {
 
                     @SuppressLint("LongLogTag")
                     @Override
                     public void onClick(View v) {
-                        int proId=serInitProPack.getId().intValue();
-                        String proName=serInitProPack.getPackName();
-                        double proPrice=serInitProPack.getPrice();
-                        int proNum=1;
-                        ServerCartBean shoppingCarListBean=new ServerCartBean(proName,proPrice,proNum,proId);
+                        int proId = serInitProPack.getId().intValue();
+                        String proName = serInitProPack.getPackName();
+                        double proPrice = serInitProPack.getPrice();
+                        int proNum = 1;
+                        ServerCartBean shoppingCarListBean = new ServerCartBean(proName, proPrice, proNum, proId);
                         shoppingCarListBean.setBean(serInitProPack);
-                        shoppingCarListBean.posion=position;
+                        shoppingCarListBean.posion = position;
                         shopCartBase.addShop(shoppingCarListBean);
-                       int count =  shopCartBase.getShopItemCount(shoppingCarListBean.getKey());
-                        Log.i(TAG, "onClick: "+count);
-                        product_num.setText(""+ (count));
+                        int count = shopCartBase.getShopItemCount(shoppingCarListBean.getKey());
+                        Log.i(TAG, "onClick: " + count);
+                        product_num.setText("" + (count));
 
                     }
                 });
@@ -409,16 +422,16 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
                     @Override
                     public void onClick(View v) {
 
-                        int proId= serInitProPack.getPackId();
-                        String proName=serInitProPack.getPackName();
-                        double proPrice=serInitProPack.getPrice();
-                        int proNum=serInitProPack.getSaleNums();
-                        ServerCartBean shoppingCarListBean=new ServerCartBean(proName,proPrice,proNum,proId);
+                        int proId = serInitProPack.getPackId();
+                        String proName = serInitProPack.getPackName();
+                        double proPrice = serInitProPack.getPrice();
+                        int proNum = serInitProPack.getSaleNums();
+                        ServerCartBean shoppingCarListBean = new ServerCartBean(proName, proPrice, proNum, proId);
                         shoppingCarListBean.setBean(serInitProPack);
-                        shoppingCarListBean.posion=position;
+                        shoppingCarListBean.posion = position;
                         shopCartBase.removeShop(shoppingCarListBean);
-                        int count =  shopCartBase.getShopItemCount(shoppingCarListBean.getKey());
-                        product_num.setText(""+ (count));
+                        int count = shopCartBase.getShopItemCount(shoppingCarListBean.getKey());
+                        product_num.setText("" + (count));
 
                     }
                 });

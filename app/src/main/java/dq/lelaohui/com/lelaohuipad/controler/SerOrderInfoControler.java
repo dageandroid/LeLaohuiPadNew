@@ -2,6 +2,7 @@ package dq.lelaohui.com.lelaohuipad.controler;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.TextUtils;
 
 import com.google.gson.reflect.TypeToken;
@@ -10,7 +11,11 @@ import java.util.List;
 
 import dq.lelaohui.com.lelaohuipad.LeLaohuiApp;
 import dq.lelaohui.com.lelaohuipad.base.LaoHuiBaseControler;
+import dq.lelaohui.com.lelaohuipad.bean.SerOrderInfoData;
+import dq.lelaohui.com.lelaohuipad.bean.SerOrderStoreBean;
 import dq.lelaohui.com.lelaohuipad.bean.ServerCate;
+import dq.lelaohui.com.lelaohuipad.bean.UserAddressBean;
+import dq.lelaohui.com.lelaohuipad.bean.UserAddressData;
 import dq.lelaohui.com.lelaohuipad.dao.ProCateServiceDaoOperator;
 import dq.lelaohui.com.lelaohuipad.dao.ProMenumServiceDaoOperator;
 import dq.lelaohui.com.lelaohuipad.util.ServerRequestParam;
@@ -52,24 +57,23 @@ public class SerOrderInfoControler  extends LaoHuiBaseControler {
         }
         if(ServiceNetContant.ServiceResponseAction.QUERY_USER_ADDRESS_RESPONSE.equals(action)){
             String body=getResponseBody(responseData);
-//            ServerCate serverCate= (ServerCate) getJsonToObject(body,ServerCate.class);
-//            if(serverCate.getCode().equals(SUCCESS_CODE)){
-//                if(getIControlerCallBack()!=null){//解析数据成功，通知UI界面
-//                    List<ProCateService> data= (List<ProCateService>) getJsonToObject(serverCate.getObj(),new TypeToken< List<ProCateService> >(){}.getType());
-//                    Bundle bundle=new Bundle();
-//                    getIControlerCallBack().result(bundle);
-//                    List<ProCateService> queryList= (List<ProCateService>) queryData(new ProCateService());
-//                    if(queryList!=null){
-//                        log("doBusses query1:"+queryList.toString());
-//                    }else{
-//                        log("doBusses query1: queryList is null");
-//                    }
-//                }
-//            }else{
-//
-//            }
+            UserAddressBean addressCate= (UserAddressBean) getJsonToObject(body,UserAddressBean.class);
+            log("doBusses: "+responseData);
+            if(addressCate.getCode()==0){
+                if(getIControlerCallBack()!=null){//解析数据成功，通知UI界面
+                    List<UserAddressData> data= addressCate.getData();
+                    if (data!=null&&data.size()>0){
+                        UserAddressData data1= data.get(0);
+                        Bundle bundle=new Bundle();
+                        bundle.putString("action",ServiceNetContant.ServiceResponseAction.QUERY_USER_ADDRESS_RESPONSE);
+                        bundle.putParcelable("userAddress",data1);
+                        getIControlerCallBack().result(bundle);
+                    }
+
+                    }
+                }
+            }else{
         }
-        log("doBusses: "+responseData);
     }
     /**
      * 获取用户地址
@@ -81,6 +85,15 @@ public class SerOrderInfoControler  extends LaoHuiBaseControler {
         }
         RequestParam requestParam1=requestParam.doUserAddressInfo();
 
+        app.reqData(requestParam1);
+    }
+    public  void uploadShoppingData(SerOrderInfoData serverOrderList){
+
+        LeLaohuiApp app= (LeLaohuiApp) getContext();
+        if(app==null){
+            throw  new RuntimeException(" app is null exception");
+        }
+        RequestParam requestParam1=requestParam.uploadShoppingData(serverOrderList);
         app.reqData(requestParam1);
     }
 
