@@ -200,16 +200,30 @@ public class ServerRequestParam {
         requestParam.addBody(Protocol_KEY.CENTERID,var.getCenterId());
         return requestParam;
     }
+    /***
+     * 	/**
+     * 服务支付接口
+     */
+//    public static final String UPLOAD_SERVER_ORDER_PAYMENY = "serverOrderPayment";
+    public RequestParam   doServerOrderPayment(){
+        RequestParam requestParam=getRequestParamLLH();
+        requestParam.addHeader(Protocol_KEY.ACTION,NetContant.ServiceAction.UPLOAD_SERVER_ORDER_PAYMENY);
+        requestParam.addHeader(Protocol_KEY.USERDATA, "serverOrderPayment");
+        requestParam.addBody(Protocol_KEY.IS_SERVER_REQ,false);
+        requestParam.addBody(Protocol_KEY.USERID,var.getUserId());
+        requestParam.addBody(Protocol_KEY.CENTERID,var.getCenterId());
+        return requestParam;
+    }
+
     /**
      * 提交订单接口
      */
     public RequestParam uploadShoppingData(SerOrderInfoData serverOrderList){
-        RequestParam requestParam=new RequestParam();
+        RequestParam requestParam=getRequestParam();
         requestParam.addHeader(Protocol_KEY.ACTION,NetContant.ServiceAction.UPLOAD_USER_ORDERINFO);
         requestParam.addHeader(Protocol_KEY.USERDATA, "upload.orderinfo");
         requestParam.addBody(Protocol_KEY.IS_SERVER_REQ,true);
-        requestParam.addHeader(Protocol_KEY.SER_ORDER_STORE_KEY,new Gson().toJson(serverOrderList));
-
+        requestParam.addBody(Protocol_KEY.SER_ORDER_STORE_KEY,new Gson().toJson(serverOrderList));
         return requestParam;
     }
 

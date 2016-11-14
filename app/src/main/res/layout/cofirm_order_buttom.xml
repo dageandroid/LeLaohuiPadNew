@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/ShoppingCarBg"
+    >
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/shopping_product_price"
+        android:text="@string/shopping_order_txt"
+        style="@style/ShoppingOrderTxtBg"
+        />
+
+    <android.support.v7.widget.AppCompatButton
+        style="@style/ShoppingCarBtn"
+        android:layout_alignBaseline="@+id/shopping_product_price"
+        android:layout_alignBottom="@+id/shopping_product_price"
+        android:id="@+id/upload_shopping_car"
+        android:text="@string/upload_shopping"
+        ></android.support.v7.widget.AppCompatButton>
+</RelativeLayout>

@@ -93,7 +93,7 @@ public class SerOrderInfoData implements Parcelable {
 
         @Override
         public String toString() {
-            return "SerOrderInfoBean{" +
+            return "SerOrderInfo{" +
                     "orderCode='" + orderCode + '\'' +
                     ", amountPayable=" + amountPayable +
                     ", payStatus=" + payStatus +

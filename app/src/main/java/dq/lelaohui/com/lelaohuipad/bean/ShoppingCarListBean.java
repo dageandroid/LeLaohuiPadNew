@@ -65,7 +65,7 @@ public class ShoppingCarListBean  implements Serializable{
 	}
 	public ShoppingCarListBean(SerInitProPack serInitProPack) {
 		 proId=serInitProPack.getId().intValue();
-		 proName=serInitProPack.getPackName();
+		 proName=serInitProPack.getPackageName();
 		 proPrice=serInitProPack.getPrice();
 		setBean(serInitProPack);
 		proNum=1;

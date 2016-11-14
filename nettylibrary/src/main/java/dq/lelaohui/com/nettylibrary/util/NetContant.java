@@ -65,6 +65,15 @@ public class NetContant {
          * query.user.address
          */
             public static final String QUERY_USER_ADDRESS="query.user.address";
+        /**
+         * 确认下单
+         */
+        public static final String UPLOAD_USER_ORDERINFO="saveMobileOrderInfo";
+
+        /**
+         * 服务支付接口
+         */
+        public static final String UPLOAD_SERVER_ORDER_PAYMENY = "serverOrderPayment";
 
     }
 

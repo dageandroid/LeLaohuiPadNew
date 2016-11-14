@@ -17,6 +17,6 @@ public class ServiceNetContant {
         public static final String  QUERY_SERVICE_CATEGORYSJSONLIST_RESPONSE="getInitSerProPackList.response";
 
         public static final String  CAL_ORDER_MONEY="calOrderMoney.response";
-        public static final String  QUERY_USER_ADDRESS_RESPONSE="query.user.address";
+        public static final String  QUERY_USER_ADDRESS_RESPONSE="query.user.address.response";
     }
 }

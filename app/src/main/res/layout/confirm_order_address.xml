@@ -2,6 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/option_address"
+        android:text="请选择地址："
+        style="@style/optionTextStyle"
+        />
+    <RelativeLayout
+        android:layout_below="@+id/option_address"
+        android:layout_width="fill_parent"
+        android:padding="@dimen/margin"
+        android:layout_height="wrap_content">
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/user_name_view"
         android:layout_width="wrap_content"
@@ -24,3 +34,4 @@
         android:textSize="@dimen/txt_size_24sp"
         android:layout_height="wrap_content" />
 </RelativeLayout>
+    </RelativeLayout>

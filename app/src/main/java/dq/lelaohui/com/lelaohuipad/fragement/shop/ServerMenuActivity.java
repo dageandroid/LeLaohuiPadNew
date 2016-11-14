@@ -393,7 +393,7 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
             }
 
             public void setData(final SerInitProPack serInitProPack) {
-                food_name.setText(serInitProPack.getPackName());
+                food_name.setText(serInitProPack.getPackageName());
                 food_price.setText("价格： ￥" + serInitProPack.getPrice() + "元");
                 food_remark.setText("详情：" + serInitProPack.getReamark());
                 int count = shopCartBase.getShopItemCount(getKey(serInitProPack));
@@ -404,7 +404,7 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
                     @Override
                     public void onClick(View v) {
                         int proId = serInitProPack.getId().intValue();
-                        String proName = serInitProPack.getPackName();
+                        String proName = serInitProPack.getPackageName();
                         double proPrice = serInitProPack.getPrice();
                         int proNum = 1;
                         ServerCartBean shoppingCarListBean = new ServerCartBean(proName, proPrice, proNum, proId);
@@ -423,7 +423,7 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
                     public void onClick(View v) {
 
                         int proId = serInitProPack.getPackId();
-                        String proName = serInitProPack.getPackName();
+                        String proName = serInitProPack.getPackageName();
                         double proPrice = serInitProPack.getPrice();
                         int proNum = serInitProPack.getSaleNums();
                         ServerCartBean shoppingCarListBean = new ServerCartBean(proName, proPrice, proNum, proId);

@@ -14,6 +14,13 @@
         <include layout="@layout/confirm_order_address"></include>
 
         <include layout="@layout/confirm_order_pay_style"></include>
+        <android.support.v7.widget.AppCompatTextView
+            android:text="订单详情："
+            style="@style/optionTextStyle"
+            />
+        <include
+            layout="@layout/confirm_order_content_item"
+            ></include>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/server_type_menu"
@@ -23,7 +30,7 @@
 
     <include
         android:id="@+id/llh_shopping_bottom"
-        layout="@layout/shopping_car"
+        layout="@layout/cofirm_order_buttom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

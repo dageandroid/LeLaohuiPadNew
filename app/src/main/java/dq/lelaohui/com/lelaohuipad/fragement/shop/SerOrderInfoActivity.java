@@ -174,27 +174,28 @@ public class SerOrderInfoActivity extends LeLaoHuiBaseActivity implements View.O
                         .setAction("Action", null).show();
            return;
             }
-                SerOrderInfoData.SerOrderInfoBean serOrderStoreBean= infoData.getSerOrderInfo();
-                serOrderStoreBean.setContactAddress(userAddressStr);
-                serOrderStoreBean.setCustomerName(userNameStr);
-                serOrderStoreBean.setCustomerPhone(userPhoneStr);
-                serOrderStoreBean.setCustomerId(Long.valueOf(var.getUserId()));
+                SerOrderInfoData.SerOrderInfoBean serOrderInfo= infoData.getSerOrderInfo();
+                String address =userNameStr+"("+userPhoneStr+"):"+userAddressStr;
+                serOrderInfo.setContactAddress(address);
+                serOrderInfo.setCustomerName(userNameStr);
+                serOrderInfo.setCustomerPhone(userPhoneStr);
+                serOrderInfo.setCustomerId(Long.valueOf(var.getUserId()));
                 if ("3".equals(var.getOrgId())) {
-                    serOrderStoreBean.setOrgId(Integer.valueOf(var.getOrgId()));
-                    serOrderStoreBean.setOrgTypeId(Integer.valueOf(var.getOrgType()));
-                    serOrderStoreBean.setOrgName(var.getOrgName());
+                    serOrderInfo.setOrgId(Integer.valueOf(var.getOrgId()));
+                    serOrderInfo.setOrgTypeId(Integer.valueOf(var.getOrgType()));
+                    serOrderInfo.setOrgName(var.getOrgName());
                 }else{
-                    serOrderStoreBean.setSupplierId(Long.valueOf(var.getOrgId()));
-                    serOrderStoreBean.setSupplierTypeId(Integer.valueOf(var.getOrgType()));
-                    serOrderStoreBean.setSupplierName(var.getOrgName());
-                    serOrderStoreBean.setOrgId(Integer.valueOf(var.getCenterId()));
-                    serOrderStoreBean.setOrgTypeId(Integer.valueOf(3));
-                    serOrderStoreBean.setOrgName(var.getCenterName());
+                    serOrderInfo.setSupplierId(Long.valueOf(var.getOrgId()));
+                    serOrderInfo.setSupplierTypeId(Integer.valueOf(var.getOrgType()));
+                    serOrderInfo.setSupplierName(var.getOrgName());
+                    serOrderInfo.setOrgId(Integer.valueOf(var.getCenterId()));
+                    serOrderInfo.setOrgTypeId(Integer.valueOf(3));
+                    serOrderInfo.setOrgName(var.getCenterName());
                 }
-                serOrderStoreBean.setOrderPersionId(Long.parseLong(var.getUserId()));
-                serOrderStoreBean.setOrderPersionName(var.getUserName());
-                serOrderStoreBean.setPayStyle(1);
-                infoData.setSerOrderInfo(serOrderStoreBean);
+                serOrderInfo.setOrderPersionId(Long.parseLong(var.getUserId()));
+                serOrderInfo.setOrderPersionName(var.getUserName());
+                serOrderInfo.setPayStyle(1);
+                infoData.setSerOrderInfo(serOrderInfo);
                 infoControler.uploadShoppingData(infoData);
                 break;
         }

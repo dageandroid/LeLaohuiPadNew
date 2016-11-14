@@ -50,8 +50,17 @@ public class SerInitProPack extends BaseBean implements Parcelable{
      */
     @Expose
     public int packId;
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
     @Expose
-    public String packName;
+    public String packageName;
     @Expose
     public String orgName;
     @Expose
@@ -90,11 +99,11 @@ public class SerInitProPack extends BaseBean implements Parcelable{
     @Generated(hash = 823979279)
     public transient SerInitProPackDao myDao;
     @Generated(hash = 1811115027)
-    public SerInitProPack(Long id, int packId, String packName, String orgName, int orgTypeId, int orgId, int serviceCateId, int isPro, String pictureUrl, String reamark, int saleNums,
+    public SerInitProPack(Long id, int packId, String packageName, String orgName, int orgTypeId, int orgId, int serviceCateId, int isPro, String pictureUrl, String reamark, int saleNums,
             int price,int serNum) {
         this.id = id;
         this.packId = packId;
-        this.packName = packName;
+        this.packageName = packageName;
         this.orgName = orgName;
         this.orgTypeId = orgTypeId;
         this.orgId = orgId;
@@ -122,14 +131,6 @@ public class SerInitProPack extends BaseBean implements Parcelable{
 
     public void setPackId(int packId) {
         this.packId = packId;
-    }
-
-    public String getPackName() {
-        return packName;
-    }
-
-    public void setPackName(String packName) {
-        this.packName = packName;
     }
 
     public String getOrgName() {
@@ -283,7 +284,7 @@ public class SerInitProPack extends BaseBean implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(this.id);
         dest.writeInt(this.packId);
-        dest.writeString(this.packName);
+        dest.writeString(this.packageName);
         dest.writeString(this.orgName);
         dest.writeInt(this.orgTypeId);
         dest.writeInt(this.orgId);
@@ -300,7 +301,7 @@ public class SerInitProPack extends BaseBean implements Parcelable{
     protected SerInitProPack(Parcel in) {
         this.id = (Long) in.readValue(Long.class.getClassLoader());
         this.packId = in.readInt();
-        this.packName = in.readString();
+        this.packageName = in.readString();
         this.orgName = in.readString();
         this.orgTypeId = in.readInt();
         this.orgId = in.readInt();

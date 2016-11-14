@@ -47,9 +47,17 @@ public class Protocol_KEY {
      */
     public static final String ORG_ID ="orgId";
     /**
+     * 机构Name
+     */
+    public static final String ORG_NAME ="orgName";
+    /**
      * 机构类型：
      */
     public static final String ORG_TYPE ="orgType";
+    /**
+     * 中心Name
+     */
+    public static final String CENTER_NAME ="centerName";
     /**
      * 用户类型
      */
@@ -121,4 +129,33 @@ public class Protocol_KEY {
      * 购物车提交serOrderInfDetailList
      */
     public static final String PACK_SER_ORDER_INFO_DETAIL_LIST="serOrderInfoDetailList";
+    /**
+     * 提交订单serOrderStoreBean
+     */
+    public static final String SER_ORDER_STORE_KEY="serOrderStoreBean";
+    /**
+     *  老人Id
+     */
+    public static final String CUSTOMER_ID="customerId";
+    /**
+     * 真实姓名
+     */
+    public static final String REAL_NAME="realName";
+/**
+ * serialNo订单随机号
+ */
+public static final String SERIAL_NO="serialNo";
+    /**
+     * payAmt支付方式
+     */
+    public static final String PAY_AMT="payAmt";
+    /**
+     * payType支付方式
+     */
+    public static final String PAY_TYPE="payType";
+    /**
+     * supplierName
+     */
+    public static final String SUPPLIERNAME="supplierName";
+
 }
