@@ -157,5 +157,8 @@ public static final String SERIAL_NO="serialNo";
      * supplierName
      */
     public static final String SUPPLIERNAME="supplierName";
-
+    /**
+     *订单号
+     */
+    public static final String ORDER_NO="orderNo";
 }
