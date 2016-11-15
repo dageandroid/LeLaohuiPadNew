@@ -64,7 +64,7 @@
             android:name="com.tencent.android.tpush.rpc.XGRemoteService"
             android:exported="true" >
             <intent-filter>
-                <action android:name="dq.lelaohui.com.lelaohuipad" />
+                <action android:name="dq.lelaohui.com.lelaohuipad.PUSH_ACTION" />
             </intent-filter>
         </service>
 

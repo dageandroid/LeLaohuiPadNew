@@ -2,9 +2,13 @@ package com.lpushcore;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
+import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
 import com.tencent.android.tpush.service.XGPushService;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by ThinkPad on 2016/11/15.
@@ -24,19 +28,26 @@ public class LpushManager {
     }
 
     private LpushManager() {
+
     }
     public void registerPush(Context context,String account){
         if(context==null){
             throw new RuntimeException("registerPush is param error......");
         }
-        PushRegCallBack  callBack=new PushRegCallBack(account);
-        Intent service = new Intent(context, XGPushService.class);
-        context.startService(service);
-        if(account==null){
-            XGPushManager.registerPush(context,callBack);
-        }else{
+        XGPushConfig.setAccessId(context.getApplicationContext(),2100242144);
+        XGPushConfig.setAccessKey(context.getApplicationContext(),"AP38FXT819QW");
+        XGPushConfig.enableDebug(context.getApplicationContext(), true);
+        PushRegCallBack  callBack=new PushRegCallBack("271767535");
+        Log.i(TAG, "registerPush: "+context.getApplicationContext().getPackageName());
+        XGPushManager.registerPush(context.getApplicationContext(),callBack);
+//        if(account==null){
+//            XGPushManager.registerPush(context.getApplicationContext());
+//        }else{
+//
+////            XGPushManager.registerPush(context.getApplicationContext(),"271767535",callBack);
+//        }
 
-            XGPushManager.registerPush(context,account,callBack);
-        }
+        Intent service = new Intent(context.getApplicationContext(), XGPushService.class);
+        context.startService(service);
     }
 }

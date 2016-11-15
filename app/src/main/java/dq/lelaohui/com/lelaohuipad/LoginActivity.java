@@ -3,9 +3,9 @@ package dq.lelaohui.com.lelaohuipad;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.os.Handler;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.AppCompatImageView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -19,9 +19,9 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import dq.lelaohui.com.lelaohuipad.port.IControler;
 import dq.lelaohui.com.lelaohuipad.base.LeLaoHuiBaseActivity;
 import dq.lelaohui.com.lelaohuipad.controler.LogonControler;
+import dq.lelaohui.com.lelaohuipad.port.IControler;
 import dq.lelaohui.com.lelaohuipad.util.MD5Tools;
 import dq.lelaohui.com.nettylibrary.socket.NetManager;
 
@@ -50,7 +50,6 @@ public class LoginActivity extends LeLaoHuiBaseActivity implements NetManager.Pr
         super.onCreate(savedInstanceState);
         init();
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -82,7 +81,7 @@ public class LoginActivity extends LeLaoHuiBaseActivity implements NetManager.Pr
 
     private void init() {
         app= (LeLaohuiApp) getApplication();
-        app.init((NetManager.NetStatueCallBack) this);
+        app.init(this);
 
     }
 
