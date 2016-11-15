@@ -3,14 +3,14 @@ package dq.lelaohui.com.lelaohuipad.controler;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import com.lpushcore.LpushManager;
+
 import java.util.List;
 
 import dq.lelaohui.com.lelaohuipad.LeLaohuiApp;
 import dq.lelaohui.com.lelaohuipad.LeLaohuiMainActivity;
 import dq.lelaohui.com.lelaohuipad.base.LaoHuiBaseControler;
 import dq.lelaohui.com.lelaohuipad.bean.LogonBena;
-import dq.lelaohui.com.lelaohuipad.fragement.shop.FooterActivity;
-import dq.lelaohui.com.lelaohuipad.util.JsonUtil;
 import dq.lelaohui.com.lelaohuipad.util.RequestParamUti;
 import dq.lelaohui.com.lelaohuipad.util.SysVar;
 import dq.lelaohui.com.nettylibrary.socket.LlhResponseHandler;
@@ -84,6 +84,14 @@ public class LogonControler extends LaoHuiBaseControler {
                 saveUserInfo(logonBena);
 //            gotoPage(TestMainActivity.class);
                 gotoPage(LeLaohuiMainActivity.class);
+                if(getContext()!=null){
+                    List<UserInfo> data=logonBena.getData();
+                    if(data!=null&&!data.isEmpty()){//登入成功之后注册推送
+                        LpushManager.getInstance().registerPush(getContext(),data.get(0).getUserId());
+                    }else{
+                        LpushManager.getInstance().registerPush(getContext(),null);
+                    }
+                }
             }else{
                 Bundle bundle=new Bundle();
                 bundle.putInt(RESPONSE_CODE_KEY,logonBena.getCode());
