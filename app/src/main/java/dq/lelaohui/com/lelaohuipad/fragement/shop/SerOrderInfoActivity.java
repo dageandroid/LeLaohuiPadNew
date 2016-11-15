@@ -25,7 +25,6 @@ import dq.lelaohui.com.lelaohuipad.R;
 import dq.lelaohui.com.lelaohuipad.base.LeLaoHuiBaseActivity;
 import dq.lelaohui.com.lelaohuipad.bean.SerOrderInfo;
 import dq.lelaohui.com.lelaohuipad.bean.SerOrderInfoData;
-import dq.lelaohui.com.lelaohuipad.bean.SerOrderStoreBean;
 import dq.lelaohui.com.lelaohuipad.bean.UserAddressData;
 import dq.lelaohui.com.lelaohuipad.controler.SerOrderInfoControler;
 import dq.lelaohui.com.lelaohuipad.port.IControler;
@@ -220,6 +219,9 @@ public class SerOrderInfoActivity extends LeLaoHuiBaseActivity implements View.O
         @Override
         public void onBindViewHolder(ViewHolder viewHolder, int position) {
             viewHolder.product_name.setText("商品名：" + serOrderInfoDetailBeanList.get(position).getSerOrderInfoDetail().getPackageName());
+            viewHolder.order_num_txt.setText("订单号："+ serOrderInfoDetailBeanList.get(position).getSerOrderInfoDetail().getOrderCode());
+            viewHolder.product_price.setText("价格：￥"+serOrderInfoDetailBeanList.get(position).getSerOrderInfoDetail().getPrice()+"元");
+            viewHolder. order_amount_txt.setText("共"+serOrderInfoDetailBeanList.get(position).getSerOrderInfoDetail().getSerNum()+"件");
         }
 
         @Override

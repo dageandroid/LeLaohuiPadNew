@@ -12,7 +12,6 @@ import java.util.List;
 import dq.lelaohui.com.lelaohuipad.LeLaohuiApp;
 import dq.lelaohui.com.lelaohuipad.base.LaoHuiBaseControler;
 import dq.lelaohui.com.lelaohuipad.bean.SerOrderInfoData;
-import dq.lelaohui.com.lelaohuipad.bean.SerOrderStoreBean;
 import dq.lelaohui.com.lelaohuipad.bean.ServerCate;
 import dq.lelaohui.com.lelaohuipad.bean.UserAddressBean;
 import dq.lelaohui.com.lelaohuipad.bean.UserAddressData;

@@ -259,7 +259,6 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
 
         return rp;
     }
-
     @Override
     public void notifyCardDataChanger(int posion) {
         serverContentAdapter.notifyItemChanged(posion);
@@ -285,7 +284,6 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
                 }
             }
         }
-
         public void setDao(ProCateMenuServiceDao dao) {
             softReference = new SoftReference<ProCateMenuServiceDao>(dao);
         }

@@ -11,7 +11,6 @@ import java.util.List;
 
 import dq.lelaohui.com.lelaohuipad.LeLaohuiApp;
 import dq.lelaohui.com.lelaohuipad.bean.SerOrderInfoData;
-import dq.lelaohui.com.lelaohuipad.bean.SerOrderStoreBean;
 import dq.lelaohui.com.nettylibrary.socket.RequestParam;
 import dq.lelaohui.com.nettylibrary.util.NetContant;
 import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
@@ -170,7 +169,7 @@ public class ServerRequestParam {
         requestParam.addBody(Protocol_KEY.ORG_ID,var.getOrgId());
         requestParam.addBody(Protocol_KEY.ORG_TYPE_ID,var.getOrgType());
         requestParam.addBody(Protocol_KEY.CATE_LEVEL,CATE_LEVEl_STR);
-        try {           requestParam.addBody(Protocol_KEY.PACK_SER_ORDER_INFO_DETAIL_LIST, URLEncoder.encode(dataJson,"UTF8"));
+        try {requestParam.addBody(Protocol_KEY.PACK_SER_ORDER_INFO_DETAIL_LIST, URLEncoder.encode(dataJson,"UTF8"));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -204,14 +203,22 @@ public class ServerRequestParam {
      * 	/**
      * 服务支付接口
      */
-//    public static final String UPLOAD_SERVER_ORDER_PAYMENY = "serverOrderPayment";
-    public RequestParam   doServerOrderPayment(){
+    public RequestParam   doServerOrderPayment(String outTradeNo,String payAmt,String payType){
         RequestParam requestParam=getRequestParamLLH();
         requestParam.addHeader(Protocol_KEY.ACTION,NetContant.ServiceAction.UPLOAD_SERVER_ORDER_PAYMENY);
         requestParam.addHeader(Protocol_KEY.USERDATA, "serverOrderPayment");
         requestParam.addBody(Protocol_KEY.IS_SERVER_REQ,false);
         requestParam.addBody(Protocol_KEY.USERID,var.getUserId());
         requestParam.addBody(Protocol_KEY.CENTERID,var.getCenterId());
+        requestParam.addBody(Protocol_KEY.REAL_NAME,var.getUserName());
+        requestParam.addBody(Protocol_KEY.SERIAL_NO,String.valueOf(var.getUserId()+randomValue()));
+        requestParam.addBody(Protocol_KEY.ORG_ID,var.getCenterId());
+        requestParam.addBody(Protocol_KEY.ORG_TYPE,3);
+        requestParam.addBody(Protocol_KEY.ORDER_NO,String.valueOf(outTradeNo));
+        requestParam.addBody(Protocol_KEY.PAY_AMT,payAmt);
+        requestParam.addBody(Protocol_KEY.PAY_TYPE,payType);
+        requestParam.addBody(Protocol_KEY.SUPPLIERID,var.getOrgId());
+        requestParam.addBody(Protocol_KEY.SUPPLIERNAME,var.getCenterName());
         return requestParam;
     }
 
@@ -227,4 +234,22 @@ public class ServerRequestParam {
         return requestParam;
     }
 
+    /**
+     * 生成随机流水号
+     * @return
+     */
+    public static int randomValue() {
+        java.util.Random random = new java.util.Random();
+        int result = random.nextInt(100);
+        return result + 1;
+    }
+    public String chackUTF8(String dataJson){
+        try {
+            String  chackUT= URLEncoder.encode(dataJson,"UTF8");
+            return chackUT;
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return dataJson;
+    }
 }

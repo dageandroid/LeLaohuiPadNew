@@ -82,7 +82,7 @@ public class SysVar {
         if (sharedPreferences == null) {
             return null;
         }
-        return sharedPreferences.getString(Protocol_KEY.USERNAME, null);
+        return sharedPreferences.getString(Protocol_KEY.REAL_NAME, null);
 
     }
     public String getCenterName() {

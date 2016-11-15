@@ -14,19 +14,19 @@
         android:gravity="center"
         android:layout_height="@dimen/product_num_helght_content" />
 
-    <android.support.v7.widget.AppCompatImageButton
+    <android.support.v7.widget.AppCompatImageView
         android:id="@+id/add_product"
         android:layout_width="wrap_content"
-        android:src="@drawable/add"
+        android:src="@drawable/minus_btn"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignLeft="@+id/subtract_product"
         android:layout_alignStart="@+id/subtract_product" />
 
-    <android.support.v7.widget.AppCompatImageButton
+    <android.support.v7.widget.AppCompatImageView
         android:id="@+id/subtract_product"
         android:layout_width="wrap_content"
-        android:src="@drawable/add"
+        android:src="@drawable/minus_btn"
         android:layout_height="wrap_content"
         android:layout_below="@+id/product_num"
         android:layout_centerHorizontal="true" />
