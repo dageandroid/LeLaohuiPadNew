@@ -85,7 +85,7 @@ public class SerInitProPackDao extends AbstractDao<SerInitProPack, Long> {
         if (id != null) {
             stmt.bindLong(1, id);
         }
-        stmt.bindLong(2, entity.getPackId());
+        stmt.bindLong(2, entity.getPackageId());
  
         String packName = entity.getPackageName();
         if (packName != null) {
@@ -123,7 +123,7 @@ public class SerInitProPackDao extends AbstractDao<SerInitProPack, Long> {
         if (id != null) {
             stmt.bindLong(1, id);
         }
-        stmt.bindLong(2, entity.getPackId());
+        stmt.bindLong(2, entity.getPackageId());
  
         String packName = entity.getPackageName();
         if (packName != null) {
@@ -187,7 +187,7 @@ public class SerInitProPackDao extends AbstractDao<SerInitProPack, Long> {
     @Override
     public void readEntity(Cursor cursor, SerInitProPack entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setPackId(cursor.getInt(offset + 1));
+        entity.setPackageId(cursor.getInt(offset + 1));
         entity.setPackageName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setOrgName(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setOrgTypeId(cursor.getInt(offset + 4));

@@ -7,7 +7,7 @@ android {
     aaptOptions.useNewCruncher = false
     defaultConfig {
         applicationId "dq.lelaohui.com.lelaohuipad"
-        minSdkVersion 11
+        minSdkVersion 15
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"

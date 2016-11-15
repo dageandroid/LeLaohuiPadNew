@@ -2,14 +2,11 @@ package dq.lelaohui.com.lelaohuipad.bean;
 
 import android.text.TextUtils;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 
 import dq.lelaohui.com.lelaohuipad.util.JsonUtil;
-import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateService;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.SerInitProPack;
 
 /**
@@ -43,10 +40,9 @@ public class SerInitProPackBean {
     public List<SerInitProPack> getData() {
         if(TextUtils.isEmpty(obj))
             return null;
-        Gson gson = new GsonBuilder().create();
         List<SerInitProPack> data=null;
 
-        data= (List<SerInitProPack>) JsonUtil.getInstance().jsonToObject(obj,new TypeToken<List<SerInitProPack>>(){}.getType());
+        data= (List<SerInitProPack>) JsonUtil.getInstance().jsonToObject(obj,new TypeToken<List<SerInitProPack>>(){}.getType(),false);
         return data;
     }
     private String code;

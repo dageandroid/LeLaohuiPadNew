@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -82,7 +81,7 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
         shopCartBase.setUiOperator(this);
         shopCartBase.init();
         if (getIntent() != null) {
-            proCateService = (ProCateService) getIntent().getParcelableExtra("proCateServer");
+            proCateService = getIntent().getParcelableExtra("proCateServer");
             cateIdL = proCateService.getCateId();
             isPackInt = proCateService.getIsPack();
             serverControler.doQueryServerCategory(cateIdL, isPackInt, 1);
@@ -420,7 +419,7 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
                     @Override
                     public void onClick(View v) {
 
-                        int proId = serInitProPack.getPackId();
+                        int proId = serInitProPack.getPackageId();
                         String proName = serInitProPack.getPackageName();
                         double proPrice = serInitProPack.getPrice();
                         int proNum = serInitProPack.getSaleNums();
