@@ -9,6 +9,9 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/LeLaoHuifacelogon" />
+            <option value="$PROJECT_DIR$/LeLaoHuipushcore" />
+            <option value="$PROJECT_DIR$/LeLaoHuivoice" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/ipcarmearlibrary" />
             <option value="$PROJECT_DIR$/lelaohuidatabaselibrary" />

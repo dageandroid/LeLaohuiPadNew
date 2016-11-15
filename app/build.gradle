@@ -49,4 +49,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.0.0'
     compile 'com.android.support:support-v4:25.0.0'
     compile 'com.android.support:gridlayout-v7:25.0.0'
+    compile project(':LeLaoHuipushcore')
+    compile project(':LeLaoHuifacelogon')
+    compile project(':LeLaoHuivoice')
 }

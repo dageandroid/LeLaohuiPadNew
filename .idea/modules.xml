@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/LeLaoHuifacelogon/LeLaoHuifacelogon.iml" filepath="$PROJECT_DIR$/LeLaoHuifacelogon/LeLaoHuifacelogon.iml" />
+      <module fileurl="file://$PROJECT_DIR$/LeLaoHuipushcore/LeLaoHuipushcore.iml" filepath="$PROJECT_DIR$/LeLaoHuipushcore/LeLaoHuipushcore.iml" />
+      <module fileurl="file://$PROJECT_DIR$/LeLaoHuivoice/LeLaoHuivoice.iml" filepath="$PROJECT_DIR$/LeLaoHuivoice/LeLaoHuivoice.iml" />
       <module fileurl="file://$PROJECT_DIR$/LeLaohuiPadNew.iml" filepath="$PROJECT_DIR$/LeLaohuiPadNew.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/ipcarmearlibrary/ipcarmearlibrary.iml" filepath="$PROJECT_DIR$/ipcarmearlibrary/ipcarmearlibrary.iml" />
