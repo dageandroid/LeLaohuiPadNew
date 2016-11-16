@@ -57,16 +57,6 @@
         <item name="android:layout_centerHorizontal">true</item>
         <item name="android:layout_marginLeft">@dimen/shopping_txt_left</item>
     </style>
-    <style name="ShoppingOrderTxtBg">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/txt_size_26sp</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:layout_alignParentLeft">true</item>
-        <item name="android:layout_centerVertical">true</item>
-        <item name="android:layout_centerHorizontal">true</item>
-        <item name="android:layout_marginLeft">@dimen/shopping_txt_left</item>
-    </style>
     <style name="ShoppingCarTxtNumBg">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -74,14 +64,5 @@
         <item name="android:gravity">center</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:layout_marginLeft">@dimen/margin_17dp</item>
-    </style>
-    <style name="optionTextStyle">
-        <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">@dimen/margin_40dp</item>
-        <item name="android:padding">@dimen/margin</item>
-        <item name="android:textSize">@dimen/txt_size_22sp</item>
-        <item name="android:gravity">center|left</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:background">@color/color_green</item>
     </style>
 </resources>

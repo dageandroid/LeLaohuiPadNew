@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="orderInfoFinishButton">
+        <item name="android:textSize">@dimen/txt_size_16sp</item>
+        <item name="android:padding">@dimen/margin</item>
+        <item name="android:textColor">@color/shopping_car_btn_color</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">@dimen/ico_car_have_width</item>
+    </style>
+    <style name="orderInfoFinishContent">
+        <item name="android:textSize">@dimen/txt_size_20sp</item>
+        <item name="android:padding">@dimen/margin</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:gravity">center|left</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="orderInfoFinishTitle">
+        <item name="android:textSize">@dimen/txt_size_22sp</item>
+        <item name="android:padding">@dimen/margin</item>
+        <item name="android:textColor">@color/shopping_car_btn_color</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="top_bg_style">
+        <item name="android:background">@drawable/top_bg_blue</item>
+    </style>
+
+    <style name="ViewStyle"></style>
+
+    <style name="linlayout_style"></style>
+
+    <style name="ShoppingOrderTxtBg">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/txt_size_26sp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_marginLeft">@dimen/shopping_txt_left</item>
+    </style>
+
+    <style name="optionTextStyle">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">@dimen/margin_40dp</item>
+        <item name="android:padding">@dimen/margin</item>
+        <item name="android:textSize">@dimen/txt_size_22sp</item>
+        <item name="android:gravity">center|left</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@color/color_green</item>
+    </style>
+</resources>
