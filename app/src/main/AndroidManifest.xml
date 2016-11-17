@@ -89,6 +89,12 @@
             android:label="@string/title_activity_footer"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".fragement.shop.SubSerOrderFinishActivity"
+            android:label="@string/title_activity_footer"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".fragement.shop.SerOrderInfoActivity"
             android:label="@string/title_activity_footer"

@@ -2,6 +2,7 @@ package dq.lelaohui.com.nettylibrary.socket;
 
 import android.content.Context;
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Parcelable;
 import android.util.Log;
 import android.widget.Toast;
@@ -86,6 +87,7 @@ public class NetManager {
     }
     public void setIpAndPort(String ip,String port){
         TransferClientNetworkImpl.getInstance().initWith(ip, port,LlhResponseHandler.getInstance());
+        Log.i(tag,"iP=="+ip);
     }
     public void setContext(Context context){
         this.context=context;

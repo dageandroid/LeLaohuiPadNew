@@ -133,7 +133,7 @@ public class ServerRequestParam {
         }else{
             parmBundle.putLong(Protocol_KEY.DETAIL_CATE_ID,cateIdL);
         }
-       return doQueryServerCategory(NetContant.ServiceAction.QUERY_SERVICE_CATEGORYS,Protocol_KEY.SER_PRO_PACKAGE,parmBundle);
+        return doQueryServerCategory(NetContant.ServiceAction.QUERY_SERVICE_CATEGORYS,Protocol_KEY.SER_PRO_PACKAGE,parmBundle);
     }
 
     /**
@@ -200,28 +200,38 @@ public class ServerRequestParam {
         return requestParam;
     }
     /***
-     * 	/**
-     * 服务支付接口
+     *
+     * 服务支付接口 (需要测试)
      */
     public RequestParam   doServerOrderPayment(String outTradeNo,String payAmt,String payType){
-        RequestParam requestParam=getRequestParamLLH();
+        RequestParam requestParam=getRequestParam();
         requestParam.addHeader(Protocol_KEY.ACTION,NetContant.ServiceAction.UPLOAD_SERVER_ORDER_PAYMENY);
         requestParam.addHeader(Protocol_KEY.USERDATA, "serverOrderPayment");
-        requestParam.addBody(Protocol_KEY.IS_SERVER_REQ,false);
+        requestParam.addBody(Protocol_KEY.IS_SERVER_REQ,true);
         requestParam.addBody(Protocol_KEY.USERID,var.getUserId());
-        requestParam.addBody(Protocol_KEY.CENTERID,var.getCenterId());
+        requestParam.addBody(Protocol_KEY.CUSTOMER_ID,var.getUserId());
         requestParam.addBody(Protocol_KEY.REAL_NAME,var.getUserName());
-        requestParam.addBody(Protocol_KEY.SERIAL_NO,String.valueOf(var.getUserId()+randomValue()));
-        requestParam.addBody(Protocol_KEY.ORG_ID,var.getCenterId());
-        requestParam.addBody(Protocol_KEY.ORG_TYPE,3);
-        requestParam.addBody(Protocol_KEY.ORDER_NO,String.valueOf(outTradeNo));
+        requestParam.addBody(Protocol_KEY.ORDER_NO,outTradeNo);
+        requestParam.addBody(Protocol_KEY.ORG_ID,String.valueOf(var.getOrgId()));
+        requestParam.addBody(Protocol_KEY.ORG_TYPE,String.valueOf(var.getOrgType()));
+        requestParam.addBody(Protocol_KEY.ORG_NAME,var.getOrgName());
         requestParam.addBody(Protocol_KEY.PAY_AMT,payAmt);
         requestParam.addBody(Protocol_KEY.PAY_TYPE,payType);
-        requestParam.addBody(Protocol_KEY.SUPPLIERID,var.getOrgId());
-        requestParam.addBody(Protocol_KEY.SUPPLIERNAME,var.getCenterName());
         return requestParam;
     }
-
+    /**
+     * 获取订单接口
+     */
+    public RequestParam    getMyServerOrderInfo(String orderCode){
+        Bundle parmBundle=new Bundle();
+        parmBundle.putString(Protocol_KEY.ORDER_CODE,orderCode);
+        RequestParam requestParam=getRequestParam();
+        requestParam.addHeader(Protocol_KEY.ACTION,NetContant.ServiceAction.GET_SERVER_ORDER_SUCC_INFO);
+        requestParam.addHeader(Protocol_KEY.USERDATA, "getSerOrderInfos");
+        requestParam.addBody(Protocol_KEY.IS_SERVER_REQ,true);
+        requestParam.addBody(Protocol_KEY.SER_ORDER_INFO,parmBundle);
+        return  requestParam;
+    }
     /**
      * 提交订单接口
      */
@@ -243,6 +253,12 @@ public class ServerRequestParam {
         int result = random.nextInt(100);
         return result + 1;
     }
+
+    /**
+     * 转成utf-8
+     * @param dataJson
+     * @return
+     */
     public String chackUTF8(String dataJson){
         try {
             String  chackUT= URLEncoder.encode(dataJson,"UTF8");

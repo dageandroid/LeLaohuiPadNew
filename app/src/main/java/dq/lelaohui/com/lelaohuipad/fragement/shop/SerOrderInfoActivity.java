@@ -1,6 +1,7 @@
 package dq.lelaohui.com.lelaohuipad.fragement.shop;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.AppCompatButton;
@@ -25,6 +26,7 @@ import dq.lelaohui.com.lelaohuipad.R;
 import dq.lelaohui.com.lelaohuipad.base.LeLaoHuiBaseActivity;
 import dq.lelaohui.com.lelaohuipad.bean.SerOrderInfo;
 import dq.lelaohui.com.lelaohuipad.bean.SerOrderInfoData;
+import dq.lelaohui.com.lelaohuipad.bean.ServerOrderPayment;
 import dq.lelaohui.com.lelaohuipad.bean.UserAddressData;
 import dq.lelaohui.com.lelaohuipad.controler.SerOrderInfoControler;
 import dq.lelaohui.com.lelaohuipad.port.IControler;
@@ -57,7 +59,8 @@ public class SerOrderInfoActivity extends LeLaoHuiBaseActivity implements View.O
     private TextView option_pay;
     private AppCompatTextView shopping_product_price;
     private AppCompatButton upload_shopping_car;
-    private SysVar var=null;
+    private SysVar var = null;
+
     public void initView() {
         radioButton = (RadioButton) findViewById(R.id.radioButton);
         left_btn = (AppCompatImageButton) findViewById(R.id.left_btn);
@@ -89,22 +92,24 @@ public class SerOrderInfoActivity extends LeLaoHuiBaseActivity implements View.O
         upload_shopping_car.setOnClickListener(this);
 
     }
-    private  SerOrderInfoData infoData=null;
+
+    private SerOrderInfoData infoData = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         infoControler = (SerOrderInfoControler) getControler();
         initView();
         infoControler.doUserAddressInfo();
-        var= SysVar.getInstance();
+        var = SysVar.getInstance();
         if (getIntent() != null) {
-             infoData = getIntent().getParcelableExtra("infoData");
+            infoData = getIntent().getParcelableExtra("infoData");
             String orderCode = infoData.getSerOrderInfo().getOrderCode();
             double amountPayable = infoData.getSerOrderInfo().getAmountPayable();
             int payStatus = infoData.getSerOrderInfo().getPayStatus();
-            for(int i=0;i<infoData.getSerOrderInfoDetailBeanList().size();i++){
-             String packagerName=   infoData.getSerOrderInfoDetailBeanList().get(i).getSerOrderInfoDetail().getPackageName();
-                Log.i(TAG,"packagerName=="+packagerName);
+            for (int i = 0; i < infoData.getSerOrderInfoDetailBeanList().size(); i++) {
+                String packagerName = infoData.getSerOrderInfoDetailBeanList().get(i).getSerOrderInfoDetail().getPackageName();
+                Log.i(TAG, "packagerName==" + packagerName);
             }
             Log.i(TAG, "OrderCode==" + orderCode);
             order_number.setText("订单号：" + orderCode);
@@ -125,6 +130,8 @@ public class SerOrderInfoActivity extends LeLaoHuiBaseActivity implements View.O
         return SerOrderInfoControler.getControler();
     }
 
+
+    private   String outTradeNo=null;//订单号
     @Override
     public void result(Bundle bundle) {
         if (bundle != null) {
@@ -137,6 +144,24 @@ public class SerOrderInfoActivity extends LeLaoHuiBaseActivity implements View.O
                 user_address_view.setText(userAddress);
                 user_name_view.setText(userName);
                 user_phone_view.setText(userPhone);
+            }else if(action.equals(ServiceNetContant.ServiceResponseAction.SAVE_MOBILE_ORDER_INFO)){
+                ServerOrderPayment orderPayment=bundle.getParcelable("orderPayment");
+                if (orderPayment!=null){
+                     outTradeNo=orderPayment.getOrderCode();
+                    int payType=orderPayment.getPayStyle();
+                    double payAmt=orderPayment.getAmountPayable();
+                    Log.i(TAG,"outTradeNo=="+outTradeNo+",payType=="+payType+"payAmt=="+payAmt);
+                    if (payType==1) {
+                        infoControler.doServerOrderPayment(outTradeNo,String.valueOf(payAmt),String.valueOf(payType));
+                    }
+                }
+            }else if(action.equals(ServiceNetContant.ServiceResponseAction.UPLOAD_SERVER_ORDER_PAYMENY)){
+                if (!TextUtils.isEmpty(outTradeNo)&&!"".equals(outTradeNo)){
+                    Intent intent=new Intent(SerOrderInfoActivity.this,SubSerOrderFinishActivity.class);
+                    intent.putExtra("outTradeNo",outTradeNo);
+                    Log.i(TAG,"ORDERNO==="+outTradeNo);
+                    startActivity(intent);
+                }
             }
         }
     }
@@ -155,26 +180,26 @@ public class SerOrderInfoActivity extends LeLaoHuiBaseActivity implements View.O
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.upload_shopping_car:
-                String userAddressStr=user_address_view.getText().toString();
-                  String userNameStr=user_name_view.getText().toString();
-              String userPhoneStr=user_phone_view.getText().toString();
-            if(TextUtils.isEmpty(userAddressStr)&&"".equals(userAddressStr)){
-                Snackbar.make(v, "地址不能为空", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                return;
-            }
-                if (TextUtils.isEmpty(userNameStr)&&"".equals(userNameStr)){
+                String userAddressStr = user_address_view.getText().toString();
+                String userNameStr = user_name_view.getText().toString();
+                String userPhoneStr = user_phone_view.getText().toString();
+                if (TextUtils.isEmpty(userAddressStr) && "".equals(userAddressStr)) {
+                    Snackbar.make(v, "地址不能为空", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(userNameStr) && "".equals(userNameStr)) {
                     Snackbar.make(v, "用户名不能为空", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                     return;
                 }
-            if(TextUtils.isEmpty(userPhoneStr)&&"".equals("")){
-                Snackbar.make(v, "电话号码不能为空", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-           return;
-            }
-                SerOrderInfoData.SerOrderInfoBean serOrderInfo= infoData.getSerOrderInfo();
-                String address =userNameStr+"("+userPhoneStr+"):"+userAddressStr;
+                if (TextUtils.isEmpty(userPhoneStr) && "".equals("")) {
+                    Snackbar.make(v, "电话号码不能为空", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                    return;
+                }
+                SerOrderInfoData.SerOrderInfoBean serOrderInfo = infoData.getSerOrderInfo();
+                String address = userNameStr + "(" + userPhoneStr + "):" + userAddressStr;
                 serOrderInfo.setContactAddress(address);
                 serOrderInfo.setCustomerName(userNameStr);
                 serOrderInfo.setCustomerPhone(userPhoneStr);
@@ -183,7 +208,7 @@ public class SerOrderInfoActivity extends LeLaoHuiBaseActivity implements View.O
                     serOrderInfo.setOrgId(Integer.valueOf(var.getOrgId()));
                     serOrderInfo.setOrgTypeId(Integer.valueOf(var.getOrgType()));
                     serOrderInfo.setOrgName(var.getOrgName());
-                }else{
+                } else {
                     serOrderInfo.setSupplierId(Long.valueOf(var.getOrgId()));
                     serOrderInfo.setSupplierTypeId(Integer.valueOf(var.getOrgType()));
                     serOrderInfo.setSupplierName(var.getOrgName());
@@ -219,9 +244,9 @@ public class SerOrderInfoActivity extends LeLaoHuiBaseActivity implements View.O
         @Override
         public void onBindViewHolder(ViewHolder viewHolder, int position) {
             viewHolder.product_name.setText("商品名：" + serOrderInfoDetailBeanList.get(position).getSerOrderInfoDetail().getPackageName());
-            viewHolder.order_num_txt.setText("订单号："+ serOrderInfoDetailBeanList.get(position).getSerOrderInfoDetail().getOrderCode());
-            viewHolder.product_price.setText("价格：￥"+serOrderInfoDetailBeanList.get(position).getSerOrderInfoDetail().getPrice()+"元");
-            viewHolder. order_amount_txt.setText("共"+serOrderInfoDetailBeanList.get(position).getSerOrderInfoDetail().getSerNum()+"件");
+            viewHolder.order_num_txt.setText("订单号：" + serOrderInfoDetailBeanList.get(position).getSerOrderInfoDetail().getOrderCode());
+            viewHolder.product_price.setText("价格：￥" + serOrderInfoDetailBeanList.get(position).getSerOrderInfoDetail().getPrice() + "元");
+            viewHolder.order_amount_txt.setText("共" + serOrderInfoDetailBeanList.get(position).getSerOrderInfoDetail().getSerNum() + "件");
         }
 
         @Override

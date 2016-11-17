@@ -16,8 +16,9 @@ import dq.lelaohui.com.nettylibrary.socket.NetManager;
 public class NetService extends Service {
     private static final String TAG="NetService";
 
-    public static final String IP = "192.168.11.189";
-//    public static final String IP = "111.204.236.14";
+    public static final String IP = "www.lelaohui.com.cn";//.5
+    //public static final String IP = "192.168.11.189";//本机
+//    public static final String IP = "111.204.236.14";//.3
     public static final String PORT = "60090";
     private static final String CATEGORY = "lelaohui";
 
