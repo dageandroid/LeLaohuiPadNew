@@ -65,4 +65,20 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="android:layout_marginLeft">@dimen/margin_17dp</item>
     </style>
+    <style name="AddressTextStyle">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/txt_size_18sp</item>
+        <item name="android:paddingBottom">@dimen/margin</item>
+        <item name="android:paddingTop">@dimen/margin</item>
+        <item name="android:singleLine">true</item>
+    </style>
+    <style name="AddressChildTextStyle">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/margin_10dp</item>
+        <item name="android:textSize">@dimen/txt_size_18sp</item>
+        <item name="android:background">@color/chile_txt_color</item>
+    </style>
 </resources>

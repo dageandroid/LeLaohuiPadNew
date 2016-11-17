@@ -43,6 +43,7 @@
     <dimen name="shopping_car_margin">5dp</dimen>
     <dimen name="product_num_wrap_content">30dp</dimen>
     <dimen name="product_num_helght_content">35dp</dimen>
+    <dimen name="address_item_padding_left35dp">35dp</dimen>
     <dimen name="shopping_btn_helght">65dp</dimen>
     <dimen name="shopping_btn_wrap">120dp</dimen>
     <dimen name="food_type_name_padding">5dp</dimen>
