@@ -1,12 +1,10 @@
 package com.lpushcore;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
 import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
-import com.tencent.android.tpush.service.XGPushService;
 
 import static android.content.ContentValues.TAG;
 
@@ -34,12 +32,13 @@ public class LpushManager {
         if(context==null){
             throw new RuntimeException("registerPush is param error......");
         }
-        XGPushConfig.setAccessId(context.getApplicationContext(),2100242144);
-        XGPushConfig.setAccessKey(context.getApplicationContext(),"AP38FXT819QW");
-        XGPushConfig.enableDebug(context.getApplicationContext(), true);
+//        XGPushConfig.setAccessId(context.getApplicationContext(),2100242144);
+//        XGPushConfig.setAccessKey(context.getApplicationContext(),"AP38FXT819QW");
+
         PushRegCallBack  callBack=new PushRegCallBack("271767535");
+        account="271767535";
         Log.i(TAG, "registerPush: "+context.getApplicationContext().getPackageName());
-        XGPushManager.registerPush(context.getApplicationContext(),callBack);
+        XGPushManager.registerPush(context.getApplicationContext(),account,callBack);
 //        if(account==null){
 //            XGPushManager.registerPush(context.getApplicationContext());
 //        }else{
@@ -47,7 +46,6 @@ public class LpushManager {
 ////            XGPushManager.registerPush(context.getApplicationContext(),"271767535",callBack);
 //        }
 
-        Intent service = new Intent(context.getApplicationContext(), XGPushService.class);
-        context.startService(service);
+
     }
 }
