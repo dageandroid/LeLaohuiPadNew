@@ -1,5 +1,7 @@
 package dq.lelaohui.com.lelaohuipad;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -7,16 +9,26 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import dq.lelaohui.com.lelaohuipad.base.LeLaoHuiBaseActivity;
 import dq.lelaohui.com.lelaohuipad.controler.MainControler;
+import dq.lelaohui.com.lelaohuipad.fragement.shop.FooterActivity;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.ServerActivity;
 import dq.lelaohui.com.lelaohuipad.port.IControler;
 
@@ -30,7 +42,7 @@ public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
     private RecyclerView main_view;
     private NavigationView nav_view;
     private DrawerLayout drawer_layout;
-
+    MyAdapter myAdapter=null;
     @Override
     public IControler getControler() {
         return MainControler.getControler();
@@ -41,7 +53,7 @@ public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
         super.onCreate(savedInstanceState);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        initView();
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -59,7 +71,19 @@ public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        myAdapter=new MyAdapter(getApplicationContext(), getData());
+        final GridLayoutManager layoutManager = new GridLayoutManager(this, 5);
+        main_view.setLayoutManager(layoutManager);
+        main_view.setAdapter(myAdapter);
     }
+    public   List<String> getData(){
+        List<String> listData=new ArrayList<String>();
+        listData.add("服务");
+        listData.add("餐品");
+        listData.add("商品");
+        return listData;
+    }
+
 
     @Override
     protected int getLayoutID() {
@@ -150,6 +174,60 @@ public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
 //        fab.setOnClickListener(this);
     }
 
+    public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+        List<String> data;
+        Context context;
+        public MyAdapter(Context context, List<String> data) {
+            this.context = context;
+            this.data = data;
+        }
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.llh_server_menu_item, viewGroup, false);
+            ViewHolder vh = new ViewHolder(view);
+            return vh;
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+            viewHolder.type_menu_txt.setText("" +data.get(position).toString());
+            viewHolder.image_menu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent=null;
+                    if (position==0){
+                        intent=new Intent(getApplicationContext(),ServerActivity.class);
+                    }else{
+                        intent=new Intent(getApplicationContext(),FooterActivity.class);
+                    }
+                    if (intent!=null){
+                        Toast.makeText(LeLaohuiMainActivity.this,"position==="+position,Toast.LENGTH_SHORT).show();
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return data.size();
+        }
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
+            public View rootView;
+            public AppCompatImageView image_menu;
+            public AppCompatTextView type_menu_txt;
+
+            public ViewHolder(View rootView) {
+                super(rootView);
+                this.rootView = rootView;
+                this.image_menu = (AppCompatImageView) rootView.findViewById(R.id.image_menu);
+                this.type_menu_txt = (AppCompatTextView) rootView.findViewById(R.id.type_menu_txt);
+            }
+
+        }
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

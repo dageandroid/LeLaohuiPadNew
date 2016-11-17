@@ -50,7 +50,7 @@ public class NetContant {
         /**
          * 获得服务项内容
          */
-     public static final String QUERY_SERVICE_CATEGORYS="getInitSerProPackList";
+        public static final String QUERY_SERVICE_CATEGORYS="getInitSerProPackList";
 
         /**
          * 获得服务产品信息
@@ -64,7 +64,7 @@ public class NetContant {
          * 获取用户地址
          * query.user.address
          */
-            public static final String QUERY_USER_ADDRESS="query.user.address";
+        public static final String QUERY_USER_ADDRESS="query.user.address";
         /**
          * 确认下单
          */
@@ -74,6 +74,10 @@ public class NetContant {
          * 服务支付接口
          */
         public static final String UPLOAD_SERVER_ORDER_PAYMENY = "serverOrderPayment";
+        /**
+         * 获取订单信息接口
+         */
+        public static final String GET_SERVER_ORDER_SUCC_INFO = "getSerOrderInfos";
 
     }
 

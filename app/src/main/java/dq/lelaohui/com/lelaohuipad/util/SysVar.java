@@ -68,7 +68,7 @@ public class SysVar {
         if (sharedPreferences == null) {
             return null;
         }
-        return sharedPreferences.getString(Protocol_KEY.ORG_NAME, null);
+        return sharedPreferences.getString(Protocol_KEY.ORG_NAME, "test");
     }
 
     public String getUserId() {
@@ -82,7 +82,7 @@ public class SysVar {
         if (sharedPreferences == null) {
             return null;
         }
-        return sharedPreferences.getString(Protocol_KEY.REAL_NAME, null);
+        return sharedPreferences.getString(Protocol_KEY.REAL_NAME, "test");
 
     }
     public String getCenterName() {

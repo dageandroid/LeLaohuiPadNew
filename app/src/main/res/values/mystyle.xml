@@ -29,9 +29,19 @@
         <item name="android:background">@drawable/top_bg_blue</item>
     </style>
 
-    <style name="ViewStyle"></style>
+    <style name="ViewStyle">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">@dimen/hight_1dp</item>
+        <item name="android:background">@android:color/black</item>
+        <item name="android:layout_margin">@dimen/margin</item>
+    </style>
 
-    <style name="linlayout_style"></style>
+    <style name="linlayout_style">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:background">@android:color/white</item>
+        <item name="android:orientation">vertical</item>
+    </style>
 
     <style name="ShoppingOrderTxtBg">
         <item name="android:layout_width">wrap_content</item>
