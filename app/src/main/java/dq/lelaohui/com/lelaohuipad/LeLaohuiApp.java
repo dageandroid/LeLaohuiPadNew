@@ -2,8 +2,6 @@ package dq.lelaohui.com.lelaohuipad;
 
 import android.app.Application;
 
-import com.lpushcore.LpushManager;
-
 import dq.lelaohui.com.lelaohuipad.util.SysVar;
 import dq.lelaohui.com.nettylibrary.port.ReqParam;
 import dq.lelaohui.com.nettylibrary.socket.NetManager;
@@ -39,7 +37,7 @@ public class LeLaohuiApp extends Application {
             netManager = NetManager.getInstance();
         }
         SysVar.getInstance().setmContext(this);
-        LpushManager.getInstance().registerPush(this,null);
+//        LpushManager.getInstance().registerPush(this,null);
     }
 
     public void init(NetManager.NetStatueCallBack statusCallBack) {
