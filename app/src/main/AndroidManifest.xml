@@ -100,7 +100,11 @@
             android:label="@string/title_activity_footer"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
+        <activity
+            android:name=".fragement.shop.MyAddressActivity"
+            android:label="@string/title_activity_footer"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <service
             android:name=".job.lowversion.SyncService"
             android:exported="true"

@@ -23,4 +23,19 @@
         style="@style/AddressChildTextStyle"
         android:text="@string/address_content_txt"
         />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.AppCompatButton
+            style="@style/orderInfoFinishButton"
+            android:id="@+id/edit"
+            android:text="@string/edit_address"
+            />
+        <android.support.v7.widget.AppCompatButton
+            style="@style/orderInfoFinishButton"
+            android:text="@string/delete_address"
+            android:id="@+id/delete"
+            />
+    </LinearLayout>
+
 </LinearLayout>

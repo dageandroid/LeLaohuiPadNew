@@ -1,47 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
     android:orientation="vertical"
     android:paddingBottom="@dimen/margin"
-    android:paddingTop="@dimen/margin"
     android:paddingLeft="@dimen/address_item_padding_left35dp"
-    android:descendantFocusability="blocksDescendants"
-    android:layout_height="match_parent">
+    android:paddingTop="@dimen/margin">
+
     <android.support.v7.widget.AppCompatTextView
-    android:id="@+id/address_type"
-        android:gravity="center|left"
-        android:paddingTop="@dimen/margin"
-        android:textColor="@color/txt_red"
-        android:paddingLeft="@dimen/address_item_padding_left35dp"
+        android:id="@+id/address_type"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center|left"
+        android:paddingLeft="@dimen/address_item_padding_left35dp"
+        android:paddingTop="@dimen/margin"
         android:singleLine="true"
-        android:textSize="@dimen/txt_size_18sp"
-        android:layout_height="wrap_content" />
+        android:textColor="@color/txt_red"
+        android:textSize="@dimen/txt_size_18sp" />
+
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:descendantFocusability="blocksDescendants"
         android:orientation="horizontal"
         android:paddingBottom="@dimen/margin"
-        android:paddingTop="@dimen/margin"
         android:paddingLeft="@dimen/address_item_padding_left35dp"
-        android:layout_height="wrap_content">
+        android:paddingTop="@dimen/margin">
+
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/name"
             style="@style/AddressTextStyle"
-            android:layout_weight="1"
-        />
+            android:layout_weight="1" />
+
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/address"
             style="@style/AddressTextStyle"
-            android:layout_weight="0.8"
-            />
+            android:layout_weight="0.8" />
+
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/operate"
             style="@style/AddressTextStyle"
             android:layout_weight="1"
             android:focusable="false"
-            android:text="@string/operate_address"
-            />
+            android:text="@string/operate_address" />
     </LinearLayout>
 
 </LinearLayout>

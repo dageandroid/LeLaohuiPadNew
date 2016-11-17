@@ -5,13 +5,15 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 
+import java.io.Serializable;
+
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.BaseBean;
 
 /**
  * Created by ZTF on 2016/11/13.
  */
 
-public class UserAddressData  extends BaseBean implements Parcelable {
+public class UserAddressData  extends BaseBean implements Parcelable{
 
     /**
      * userId : 101000000002000001

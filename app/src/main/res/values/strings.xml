@@ -18,6 +18,8 @@
     <string name="shopping_select_txt">请为老人选择餐品</string>
     <string name="shopping_order_txt">总价：</string>
     <string name="add_address">新增收获地址</string>
+    <string name="edit_address">编辑地址</string>
+    <string name="delete_address">删除地址</string>
     <string name="address_content">收件人详细地址：</string>
     <string name="p_address_name">收件人：</string>
     <string name="phone_num">手机号：</string>

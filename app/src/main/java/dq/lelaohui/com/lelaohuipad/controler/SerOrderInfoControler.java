@@ -38,8 +38,8 @@ import static android.content.ContentValues.TAG;
 public class SerOrderInfoControler extends LaoHuiBaseControler {
     public static final String SUCCESS_CODE = "200";
     public static final String DEFEATED_CODE="202";
-    private static SerOrderInfoControler serverControler = null;
     private ServerRequestParam requestParam;
+    private static SerOrderInfoControler serverControler = null;
 
     private SerOrderInfoControler() {
         requestParam = new ServerRequestParam();

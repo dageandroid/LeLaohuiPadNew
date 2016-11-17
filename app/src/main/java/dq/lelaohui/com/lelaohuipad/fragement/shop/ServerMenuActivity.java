@@ -38,6 +38,7 @@ import dq.lelaohui.com.lelaohuipad.fragement.shop.car.BaseShopCart;
 import dq.lelaohui.com.lelaohuipad.port.IControler;
 import dq.lelaohui.com.lelaohuipad.util.ServerRequestParam;
 import dq.lelaohui.com.nettylibrary.socket.RequestParam;
+import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
 import dq.lelaohui.com.nettylibrary.util.ServiceNetContant;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateMenuService;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateService;
@@ -172,11 +173,12 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
                 Log.i(TAG,"getOrderCode=="+getOrderCode);
                 Intent intent = new Intent(ServerMenuActivity.this, SerOrderInfoActivity.class);
                 intent.putExtra("infoData", infoData);
-                startActivity(intent);
+             startActivityForResult(intent, FINISH_ACTION);
+//                startActivity(intent);
             }
         }
     }
-
+public static final int FINISH_ACTION=66666;
     @Override
     protected int getLayoutID() {
         return R.layout.llh_server_two_menu;

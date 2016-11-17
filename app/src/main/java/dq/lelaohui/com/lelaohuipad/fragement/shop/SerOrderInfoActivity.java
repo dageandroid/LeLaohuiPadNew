@@ -3,6 +3,7 @@ package dq.lelaohui.com.lelaohuipad.fragement.shop;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatImageButton;
@@ -31,6 +32,7 @@ import dq.lelaohui.com.lelaohuipad.bean.UserAddressData;
 import dq.lelaohui.com.lelaohuipad.controler.SerOrderInfoControler;
 import dq.lelaohui.com.lelaohuipad.port.IControler;
 import dq.lelaohui.com.lelaohuipad.util.SysVar;
+import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
 import dq.lelaohui.com.nettylibrary.util.ServiceNetContant;
 
 /**
@@ -160,7 +162,9 @@ public class SerOrderInfoActivity extends LeLaoHuiBaseActivity implements View.O
                     Intent intent=new Intent(SerOrderInfoActivity.this,SubSerOrderFinishActivity.class);
                     intent.putExtra("outTradeNo",outTradeNo);
                     Log.i(TAG,"ORDERNO==="+outTradeNo);
-                    startActivity(intent);
+//                    startActivity(intent);
+                    startActivityForResult(intent, ServerMenuActivity.FINISH_ACTION);
+
                 }
             }
         }
@@ -222,6 +226,19 @@ public class SerOrderInfoActivity extends LeLaoHuiBaseActivity implements View.O
                 infoData.setSerOrderInfo(serOrderInfo);
                 infoControler.uploadShoppingData(infoData);
                 break;
+            case R.id.option_address:
+                Intent intent =new Intent(SerOrderInfoActivity.this,MyAddressActivity.class);
+                intent.putExtra(Protocol_KEY.IS_FROM_CREAT_ORDER_ADDRESS,true);
+                if (var.getUserId()!=null){
+                    Log.i(TAG, "var.getUserId()==" + var.getUserId());
+                    intent.putExtra(Protocol_KEY.CUSTOMER_ID,var.getUserId());
+                    intent.putExtra(Protocol_KEY.CUSTOMER_NAME,var.getUserName());
+//                    startActivity(intent);
+                    intent.putExtra(Protocol_KEY.IS_FROM_CREAT_ORDER_ADDRESS, true);
+                    startActivityForResult(intent, GET_ADDRESS);
+
+                }
+                break;
         }
     }
 
@@ -276,5 +293,48 @@ public class SerOrderInfoActivity extends LeLaoHuiBaseActivity implements View.O
 
         }
     }
-
+    public static final int GET_ADDRESS=1011;
+    public static final int ADD_ADDRESS=511;
+    private  UserAddressData addressModel=null;
+    private String addressType = "1";
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==GET_ADDRESS&& resultCode == RESULT_OK
+                && data != null){
+            Parcelable pb=data.getParcelableExtra("addressModel");
+            if (pb!=null){
+                addressModel=(UserAddressData)pb;
+                if ( addressModel.getAddressType()==0) {
+                    user_name_view.setText("" + addressModel.getUserName());
+                    user_phone_view.setText("" + addressModel.getTelephone());
+                    user_address_view.setText("" + addressModel.getAddress());
+                    addressType = "1";
+                } else if (addressModel.getAddressType()==2) {
+                    user_name_view.setText("" + addressModel.getUserName());
+                    user_phone_view.setText("" + addressModel.getTelephone());
+                    user_address_view.setText("" + addressModel.getAddress());
+                    addressType = "0";
+                } else {
+                    user_name_view.setText("" + addressModel.getUserName());
+                    user_phone_view.setText("");
+                    user_address_view.setText("" + addressModel.getAddress());
+                    addressType = "1";
+                }
+            }
+        } else if (requestCode == ADD_ADDRESS && resultCode == RESULT_OK
+                && data != null) {
+            String userNameStr = data.getStringExtra("name");
+            String phoneStr = data.getStringExtra("phone");
+            String addressStr = data.getStringExtra("address");
+            addressType = "0";
+            user_name_view.setText("" + userNameStr);
+            user_phone_view.setText("" + phoneStr);
+            user_address_view.setText("" + addressStr);
+        } else if (requestCode == ServerMenuActivity.FINISH_ACTION
+                && resultCode == RESULT_OK) {
+            setResult(RESULT_OK);
+            finish();
+        }
+    }
 }

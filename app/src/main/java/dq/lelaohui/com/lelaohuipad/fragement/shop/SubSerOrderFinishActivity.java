@@ -1,5 +1,6 @@
 package dq.lelaohui.com.lelaohuipad.fragement.shop;
 
+import android.content.Intent;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
@@ -101,6 +102,14 @@ public class SubSerOrderFinishActivity extends LeLaoHuiBaseActivity {
 
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ServerMenuActivity.FINISH_ACTION
+                && resultCode == RESULT_OK && data != null) {
+            setResult(RESULT_OK);
+            finish();
+        }
+    }
 
 }
