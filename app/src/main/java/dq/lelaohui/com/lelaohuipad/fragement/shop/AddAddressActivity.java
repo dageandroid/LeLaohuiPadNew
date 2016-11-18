@@ -55,9 +55,6 @@ public class AddAddressActivity extends LeLaoHuiBaseActivity {
                                  String address,String phone){
         addressConreoler.addUserAddress(customerId,centerId,addressId,usreName,address,phone);
     }
-    public AddAddressActivity() {
-    }
-
     @Override
     public IControler getControler() {
         return MyAddressConreoler.getControler();
@@ -70,9 +67,9 @@ public class AddAddressActivity extends LeLaoHuiBaseActivity {
         if (action.equals(ServiceNetContant.ServiceResponseAction.ADD_USER_ADDRESS_RESPONSE)){
             Intent intent=new Intent(AddAddressActivity.this,AddAddressActivity.class);
             intent.putExtra(Protocol_KEY.CUSTOMER_ID,customerId);
-//            startActivity(intent);
             setResult(RESULT_OK, intent);
             finish();
+//            startActivity(intent);
         }
     }
     }
@@ -99,20 +96,29 @@ public class AddAddressActivity extends LeLaoHuiBaseActivity {
     }
 
     public  void initView(){
-
+        name=(AppCompatEditText)findViewById(R.id.name);
+        phone=(AppCompatEditText)findViewById(R.id.phone);
+        address=(AppCompatEditText)findViewById(R.id.address);
+        commit=(AppCompatButton) findViewById(R.id.commit);
+        reight_tv=(AppCompatTextView)findViewById(R.id.reight_tv);
+        left_btn=(AppCompatImageButton)findViewById(R.id.left_btn);
         title_tv=(AppCompatTextView)findViewById(R.id.title_tv);
-        if(getIntent()!=null){
-            addressModel=getIntent().getParcelableExtra("addressModel");
+        if(getIntent()!=null) {
             customerId=getIntent().getStringExtra("customerId");
+        }else{
+            customerId=var.getUserId();
+        }
+        if(getIntent().getParcelableExtra("addressModel")!=null){
+            addressModel=getIntent().getParcelableExtra("addressModel");
             title_tv.setText("编辑地址");
-            name.setText(""+addressModel.getUserName());
-            phone.setText(""+addressModel.getTelephone());
-            address.setText(""+addressModel.getAddress());
-
+            if(addressModel!=null){
+                name.setText(""+addressModel.getUserName());
+                phone.setText(""+addressModel.getTelephone());
+                address.setText(""+addressModel.getAddress());
+            }
         }else{
             title_tv.setText("新增地址");
         }
-        commit=(AppCompatButton) findViewById(R.id.commit);
         commit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,18 +127,12 @@ public class AddAddressActivity extends LeLaoHuiBaseActivity {
                 }
             }
         });
-        reight_tv=(AppCompatTextView)findViewById(R.id.reight_tv);
-        left_btn=(AppCompatImageButton)findViewById(R.id.left_btn);
+
         left_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
             }
         });
-        name=(AppCompatEditText)findViewById(R.id.name);
-        phone=(AppCompatEditText)findViewById(R.id.phone);
-        address=(AppCompatEditText)findViewById(R.id.address);
-
-
     }
 }

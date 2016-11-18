@@ -73,7 +73,7 @@ public class AddressRequerstParam {
     public RequestParam addUserAddress(String customerId,int centerId,int addressId,
             String userNameStr,String addressContent,String phone){
         RequestParam requestParam=getRequestParamLLH();
-        requestParam.addHeader(Protocol_KEY.ACTION, NetContant.ServiceAction.DELETE_USER_ADDRESS_INFO);
+        requestParam.addHeader(Protocol_KEY.ACTION, NetContant.ServiceAction.EDIT_USER_ADDRESS_INFO);
         requestParam.addHeader(Protocol_KEY.USERDATA, "query.user.address");
         requestParam.addBody(Protocol_KEY.IS_SERVER_REQ,false);
         requestParam.addBody(Protocol_KEY.USERID,customerId);

@@ -178,7 +178,7 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
             }
         }
     }
-public static final int FINISH_ACTION=66666;
+public static final int FINISH_ACTION=66;
     @Override
     protected int getLayoutID() {
         return R.layout.llh_server_two_menu;
