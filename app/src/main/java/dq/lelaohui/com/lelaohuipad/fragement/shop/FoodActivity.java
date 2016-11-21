@@ -110,28 +110,6 @@ public class FoodActivity extends LeLaoHuiBaseActivity {
 
             }
         });
-    }
-
-    private void initView() {
-        title_tv = (AppCompatTextView) findViewById(R.id.title_tv);
-        title_tv.setText("美食");
-        reight_tv = (AppCompatTextView) findViewById(R.id.reight_tv);
-        left_btn = (AppCompatImageButton) findViewById(R.id.left_btn);
-        left_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
-        select_time = (AppCompatSpinner) findViewById(R.id.select_time);
-        food_type = (RecyclerView) findViewById(R.id.food_type);
-        sliding_tabs = (TabLayout) findViewById(R.id.sliding_tabs);
-        viewpager = (ViewPager) findViewById(R.id.viewpager);
-        show_pp = (ImageView) findViewById(R.id.show_pp);
-        shopping_num_txt = (AppCompatTextView) findViewById(R.id.shopping_num_txt);
-        shopping_num = (FrameLayout) findViewById(R.id.shopping_num);
-        shopping_product_price = (AppCompatTextView) findViewById(R.id.shopping_product_price);
-        upload_shopping_car = (AppCompatButton) findViewById(R.id.upload_shopping_car);
         initTitleData();
         viewpager.setAdapter(new PagerAdapter(getSupportFragmentManager(),list_title,fragments));
         sliding_tabs.setupWithViewPager(viewpager);
@@ -162,6 +140,29 @@ public class FoodActivity extends LeLaoHuiBaseActivity {
 
             }
         });
+    }
+
+    private void initView() {
+        title_tv = (AppCompatTextView) findViewById(R.id.title_tv);
+        title_tv.setText("美食");
+        reight_tv = (AppCompatTextView) findViewById(R.id.reight_tv);
+        left_btn = (AppCompatImageButton) findViewById(R.id.left_btn);
+        left_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+        select_time = (AppCompatSpinner) findViewById(R.id.select_time);
+        food_type = (RecyclerView) findViewById(R.id.food_type);
+        sliding_tabs = (TabLayout) findViewById(R.id.sliding_tabs);
+        viewpager = (ViewPager) findViewById(R.id.viewpager);
+        show_pp = (ImageView) findViewById(R.id.show_pp);
+        shopping_num_txt = (AppCompatTextView) findViewById(R.id.shopping_num_txt);
+        shopping_num = (FrameLayout) findViewById(R.id.shopping_num);
+        shopping_product_price = (AppCompatTextView) findViewById(R.id.shopping_product_price);
+        upload_shopping_car = (AppCompatButton) findViewById(R.id.upload_shopping_car);
+
     }
     private  List<Fragment> fragments=new ArrayList<>();
   public void   initTitleData(){
@@ -229,12 +230,12 @@ public class FoodActivity extends LeLaoHuiBaseActivity {
     }
     protected  void initFoodInfoListData(String mealTime){
     curMealTime=""+this.mealTime;
-    List<FoodInfoData> foodInfoDatas=sortFood(curFoodType,mealTime);
+       foodInfoDatas=sortFood(curFoodType,mealTime);
         for (int i=0;i<foodInfoDatas.size();i++){
-            Log.i(TAG,foodInfoDatas.get(i).getProName());
+            Log.i(TAG,"foodInfoDatas.get(i).getProName()==="+foodInfoDatas.get(i).getProName());
         }
 }
-
+  public  static    List<FoodInfoData> foodInfoDatas=new ArrayList<FoodInfoData>();
     /**
      * 通过食物的类别和用餐时间进行获取食物信息
      * @param cateName

@@ -3,10 +3,21 @@ package dq.lelaohui.com.lelaohuipad.fragement.shop;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import dq.lelaohui.com.lelaohuipad.R;
+import dq.lelaohui.com.lelaohuipad.adapter.FoodInfoAdapter;
+import dq.lelaohui.com.lelaohuipad.bean.FoodInfoData;
 
 /**
  * Created by ZTF on 2016/11/21.
@@ -15,69 +26,58 @@ import dq.lelaohui.com.lelaohuipad.R;
 
 public class SupperActivity  extends Fragment {
 
+    private RecyclerView foot_content;
+    private SwipeRefreshLayout get_data_refresh;
+    FoodInfoAdapter foodInfoAdapter=null;
+    private List<FoodInfoData> foodInfoDataList=new ArrayList<FoodInfoData>();
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        System.out.println("AAAAAAAAAA____onAttach");
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        System.out.println("AAAAAAAAAA____onCreate");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        System.out.println("AAAAAAAAAA____onCreateView");
-        return inflater.inflate(R.layout.llh_head_view, container, false);
+        View view = inflater.inflate(R.layout.llh_food_content, container, false);
+        initView(view);
+        return view;
     }
+    private void initView(View v) {
+        get_data_refresh = (SwipeRefreshLayout) v.findViewById(R.id.get_data_refresh);
+        foot_content = (RecyclerView) v.findViewById(R.id.foot_content);
+        foodInfoDataList= FoodActivity.foodInfoDatas;
+        if (foodInfoDataList==null&&foodInfoDataList.size()==0){
+            Toast.makeText(this.getActivity(),"餐品信息为空",Toast.LENGTH_SHORT).show();
+            return;
+        }else{
+            Log.i("BreakFastActivity","foodInfoDataList==="+foodInfoDataList);
+            foodInfoAdapter=new FoodInfoAdapter(this.getActivity(),foodInfoDataList);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity());
+            linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            foot_content.setLayoutManager(linearLayoutManager);
+            foot_content.setAdapter(foodInfoAdapter);
+            foodInfoAdapter.notifyDataSetChanged();
+        }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        System.out.println("AAAAAAAAAA____onActivityCreated");
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        System.out.println("AAAAAAAAAA____onStart");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        System.out.println("AAAAAAAAAA____onResume");
+
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        System.out.println("AAAAAAAAAA____onPause");
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
     }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        System.out.println("AAAAAAAAAA____onStop");
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        System.out.println("AAAAAAAAAA____onDestroyView");
-    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
-        System.out.println("AAAAAAAAAA____onDestroy");
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        System.out.println("AAAAAAAAAA____onDetach");
-    }
 }
