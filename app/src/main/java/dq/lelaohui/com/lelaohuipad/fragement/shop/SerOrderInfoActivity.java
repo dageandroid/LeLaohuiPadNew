@@ -89,14 +89,14 @@ public class SerOrderInfoActivity extends LeLaoHuiBaseActivity implements View.O
         option_pay = (TextView) findViewById(R.id.option_pay);
         option_pay.setOnClickListener(this);
         shopping_product_price = (AppCompatTextView) findViewById(R.id.shopping_product_price);
-        shopping_product_price.setOnClickListener(this);
-        upload_shopping_car = (AppCompatButton) findViewById(R.id.upload_shopping_car);
+//        shopping_product_price.setOnClickListener(this);
+      upload_shopping_car = (AppCompatButton) findViewById(R.id.upload_shopping_car);
         upload_shopping_car.setOnClickListener(this);
 
     }
 
     private SerOrderInfoData infoData = null;
-
+    private double amountPayable;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,7 +107,7 @@ public class SerOrderInfoActivity extends LeLaoHuiBaseActivity implements View.O
         if (getIntent() != null) {
             infoData = getIntent().getParcelableExtra("infoData");
             String orderCode = infoData.getSerOrderInfo().getOrderCode();
-            double amountPayable = infoData.getSerOrderInfo().getAmountPayable();
+            amountPayable = infoData.getSerOrderInfo().getAmountPayable();
             int payStatus = infoData.getSerOrderInfo().getPayStatus();
             for (int i = 0; i < infoData.getSerOrderInfoDetailBeanList().size(); i++) {
                 String packagerName = infoData.getSerOrderInfoDetailBeanList().get(i).getSerOrderInfoDetail().getPackageName();
@@ -116,6 +116,7 @@ public class SerOrderInfoActivity extends LeLaoHuiBaseActivity implements View.O
             Log.i(TAG, "OrderCode==" + orderCode);
             order_number.setText("订单号：" + orderCode);
             order_price_count.setText("总价： ￥" + amountPayable + "元");
+            shopping_product_price.setText("总价： ￥" + amountPayable + "元");
             if (payStatus == 0) {
                 pay_status.setText("未支付");
             }
@@ -131,7 +132,6 @@ public class SerOrderInfoActivity extends LeLaoHuiBaseActivity implements View.O
     public IControler getControler() {
         return SerOrderInfoControler.getControler();
     }
-
 
     private   String outTradeNo=null;//订单号
     @Override

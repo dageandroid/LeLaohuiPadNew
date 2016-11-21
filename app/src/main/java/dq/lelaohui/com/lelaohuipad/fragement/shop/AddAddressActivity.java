@@ -69,7 +69,6 @@ public class AddAddressActivity extends LeLaoHuiBaseActivity {
             intent.putExtra(Protocol_KEY.CUSTOMER_ID,customerId);
             setResult(RESULT_OK, intent);
             finish();
-//            startActivity(intent);
         }
     }
     }

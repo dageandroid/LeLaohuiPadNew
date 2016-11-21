@@ -125,21 +125,6 @@ public class MyAddressConreoler  extends LaoHuiBaseControler {
     }
 
     /**
-     * 编辑地址
-     * @param userId
-     * @param centerId
-     * @param addressId
-     */
-    public void editDefaultAddress(String userId,int centerId,int addressId) {
-        LeLaohuiApp app = (LeLaohuiApp) getContext();
-        if (app == null) {
-            throw new RuntimeException(" app is null exception");
-        }
-        RequestParam requestParam = addressRequerstParam.deleteUserAddress(userId,centerId,addressId);
-        app.reqData(requestParam);
-    }
-
-    /**
      * 添加用户地址
      * @param userNameStr
      * @param addressContent

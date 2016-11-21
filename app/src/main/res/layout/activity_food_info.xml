@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/white" >
+
+    <include
+        android:id="@+id/titlebar"
+        layout="@layout/llh_head_view" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/titlebar" >
+
+        <LinearLayout
+            android:id="@+id/food_top"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_40dp"
+            android:orientation="horizontal" >
+
+            <Spinner
+                android:id="@+id/spnner"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+
+                android:paddingLeft="10dp"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="@dimen/txt_size_24sp" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/darker_gray" />
+
+            <Button
+                android:id="@+id/break_btn"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_50dp"
+                android:layout_weight="1"
+                android:button="@null"
+                android:checked="true"
+                android:text="早餐"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="@dimen/txt_size_24sp" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/darker_gray" />
+
+            <Button
+                android:id="@+id/lunch_btn"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_50dp"
+                android:layout_weight="1"
+                android:text="午餐"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="@dimen/txt_size_24sp" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/darker_gray" />
+
+            <Button
+                android:id="@+id/dinner_btn"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_50dp"
+                android:layout_weight="1"
+                android:text="晚餐"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="@dimen/txt_size_24sp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/view_line"
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/food_top"
+            android:background="@android:color/darker_gray" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/llh_shopping_bottom"
+            android:layout_below="@+id/view_line"
+            android:orientation="horizontal" >
+
+            <ListView
+                android:id="@+id/left_listview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2.55"
+                android:background="#ffF2F2F1"
+                android:divider="@drawable/seekbg"
+                android:cacheColorHint="#00000000"
+                android:fadingEdge="none" >
+            </ListView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.87"
+                android:orientation="vertical" >
+                <TextView
+                    android:id="@+id/rightlist_tips"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/margin"
+                    android:text="今天 早餐"
+                    android:textSize="@dimen/txt_size_24sp" />
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0dp"
+                    android:background="@android:color/darker_gray"
+                    />
+
+                <ListView
+                    android:id="@+id/right_listview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#ffF2F2F1"
+                    android:cacheColorHint="#00000000"
+                    android:divider="@drawable/seekbg"
+                    android:fadingEdge="none" >
+                </ListView>
+            </LinearLayout>
+        </LinearLayout>
+
+                <include
+                    android:id="@+id/llh_shopping_bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/margin_45dp"
+                    layout="@layout/shopping_car"
+                    android:layout_alignParentBottom="true"
+                    ></include>
+    </RelativeLayout>
+
+</RelativeLayout>

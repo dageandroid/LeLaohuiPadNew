@@ -28,6 +28,8 @@ import java.util.List;
 
 import dq.lelaohui.com.lelaohuipad.base.LeLaoHuiBaseActivity;
 import dq.lelaohui.com.lelaohuipad.controler.MainControler;
+import dq.lelaohui.com.lelaohuipad.fragement.shop.FoodActivity;
+import dq.lelaohui.com.lelaohuipad.fragement.shop.FoodInfosActivity;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.FooterActivity;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.ServerActivity;
 import dq.lelaohui.com.lelaohuipad.port.IControler;
@@ -203,7 +205,7 @@ public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
                     if (intent!=null){
                         Toast.makeText(LeLaohuiMainActivity.this,"position==="+position,Toast.LENGTH_SHORT).show();
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
+//                        startActivity(intent);
                     }
                 }
             });
@@ -232,8 +234,11 @@ public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button:
-
+              Intent  intent=new Intent(getApplicationContext(),FoodActivity.class);
+//                Intent  intent=new Intent(getApplicationContext(),FoodInfosActivity.class);
+                startActivity(intent);
                 break;
+
             case R.id.fab:
 
                 break;

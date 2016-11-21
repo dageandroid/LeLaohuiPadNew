@@ -80,7 +80,7 @@ public class AddressRequerstParam {
         requestParam.addBody(Protocol_KEY.CENTERID,centerId);
         requestParam.addBody(Protocol_KEY.USERNAME,userNameStr);
         requestParam.addBody(Protocol_KEY.ADDRESS_ID,addressId);
-        requestParam.addBody(Protocol_KEY.ADDRESS_ID,phone);
+        requestParam.addBody(Protocol_KEY.ADDRESS,addressContent);
         requestParam.addBody(Protocol_KEY.PHONE,phone);
         return requestParam;
     }
