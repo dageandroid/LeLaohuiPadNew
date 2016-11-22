@@ -14,7 +14,6 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.ProCateServiceDao;
-import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.port.NoToJson;
 
 @Entity
 public class ProCateService extends BaseBean implements Serializable, Parcelable {

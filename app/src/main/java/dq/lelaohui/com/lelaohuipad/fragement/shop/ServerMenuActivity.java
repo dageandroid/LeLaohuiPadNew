@@ -38,7 +38,6 @@ import dq.lelaohui.com.lelaohuipad.fragement.shop.car.BaseShopCart;
 import dq.lelaohui.com.lelaohuipad.port.IControler;
 import dq.lelaohui.com.lelaohuipad.util.ServerRequestParam;
 import dq.lelaohui.com.nettylibrary.socket.RequestParam;
-import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
 import dq.lelaohui.com.nettylibrary.util.ServiceNetContant;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateMenuService;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateService;

@@ -90,7 +90,7 @@ public class SerOrderInfoActivity extends LeLaoHuiBaseActivity implements View.O
         option_pay.setOnClickListener(this);
         shopping_product_price = (AppCompatTextView) findViewById(R.id.shopping_product_price);
 //        shopping_product_price.setOnClickListener(this);
-      upload_shopping_car = (AppCompatButton) findViewById(R.id.upload_shopping_car);
+        upload_shopping_car = (AppCompatButton) findViewById(R.id.upload_shopping_car);
         upload_shopping_car.setOnClickListener(this);
 
     }

@@ -29,7 +29,6 @@ import java.util.List;
 import dq.lelaohui.com.lelaohuipad.base.LeLaoHuiBaseActivity;
 import dq.lelaohui.com.lelaohuipad.controler.MainControler;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.FoodActivity;
-import dq.lelaohui.com.lelaohuipad.fragement.shop.FoodInfosActivity;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.FooterActivity;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.ServerActivity;
 import dq.lelaohui.com.lelaohuipad.port.IControler;
@@ -235,7 +234,6 @@ public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
         switch (v.getId()) {
             case R.id.button:
               Intent  intent=new Intent(getApplicationContext(),FoodActivity.class);
-//                Intent  intent=new Intent(getApplicationContext(),FoodInfosActivity.class);
                 startActivity(intent);
                 break;
 

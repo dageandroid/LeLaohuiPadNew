@@ -12,14 +12,23 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import dq.lelaohui.com.lelaohuipad.R;
-import dq.lelaohui.com.lelaohuipad.bean.FoodInfoData;
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.FoodInfoData;
 
 /**
  * Created by ZTF on 2016/11/21.
  */
 
 public class FoodInfoAdapter extends RecyclerView.Adapter<FoodInfoAdapter.ViewHolder>{
-    Context context;
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
+    private Context context;
+
+    public void setInfoDatas(List<FoodInfoData> infoDatas) {
+        this.infoDatas = infoDatas;
+    }
+
     List<FoodInfoData> infoDatas;
 
     public FoodInfoAdapter(Context context, List<FoodInfoData> infoDatas) {
@@ -40,13 +49,19 @@ public class FoodInfoAdapter extends RecyclerView.Adapter<FoodInfoAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
+      FoodInfoData infoData=  infoDatas.get(position);
+        if (infoData!=null){
+            holder.setData(infoData);
+        }
     }
 
 
     @Override
     public int getItemCount() {
-        return 0;
+        if (infoDatas==null&&infoDatas.size()==0){
+            return 0;
+        }
+        return infoDatas.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -76,7 +91,7 @@ public class FoodInfoAdapter extends RecyclerView.Adapter<FoodInfoAdapter.ViewHo
          this.food_name.setText(foodInfoData.getProName());
          this.food_price.setText("价格："+foodInfoData.getProPrice()+"元");
          this.food_remark.setText("描述："+foodInfoData.getRemark());
-         this.product_num.setText("供应商："+foodInfoData.getSupplierName());
+//         this.product_num.setText("供应商："+foodInfoData.getSupplierName());
         }
 
     }

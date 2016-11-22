@@ -7,21 +7,15 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.support.v4.view.LayoutInflaterCompat;
-import android.support.v4.view.LayoutInflaterFactory;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.Toast;
 
 import java.lang.ref.SoftReference;
 
@@ -53,7 +47,7 @@ public class ServerActivity extends LeLaoHuiBaseActivity implements LoaderManage
         serverControler.doQueryServerCategory();
         getSupportLoaderManager().initLoader(0, null, this);
 //        Cursor cursor = serverControler.getQueryAll(new ProCateService());
-      Cursor cursor = serverControler.getQueryFirstCursor();
+        Cursor cursor = serverControler.getQueryFirstCursor();
         Log.i(TAG, "onCreate: cursor count=" + cursor.getCount()+","+cursor.getExtras());
         adapter = new MyShopRecyleViewAdapter(this, cursor);
         final ProCateServiceDao dao=  (ProCateServiceDao) serverControler.getBaseDaoOperator().get();

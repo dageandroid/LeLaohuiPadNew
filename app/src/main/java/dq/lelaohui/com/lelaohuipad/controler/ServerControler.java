@@ -3,13 +3,9 @@ package dq.lelaohui.com.lelaohuipad.controler;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.google.gson.reflect.TypeToken;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import dq.lelaohui.com.lelaohuipad.LeLaohuiApp;
@@ -19,16 +15,9 @@ import dq.lelaohui.com.lelaohuipad.dao.ProCateServiceDaoOperator;
 import dq.lelaohui.com.lelaohuipad.dao.ProMenumServiceDaoOperator;
 import dq.lelaohui.com.lelaohuipad.util.ServerRequestParam;
 import dq.lelaohui.com.nettylibrary.socket.RequestParam;
-import dq.lelaohui.com.nettylibrary.util.NetContant;
-import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
 import dq.lelaohui.com.nettylibrary.util.ServiceNetContant;
-import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.BaseBean;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateService;
-import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.ProCateMenuServiceDao;
-import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.ProCateServiceDao;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager.BaseDaoOperator;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by ThinkPad on 2016/10/20.

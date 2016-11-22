@@ -1,6 +1,7 @@
 package dq.lelaohui.com.lelaohuipad.adapter;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,4 +57,14 @@ public class FoodTimeSpinnerAdapter extends ArrayAdapter<String> {
             return convertView;
         }
 
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
     }
+
+    @Nullable
+    @Override
+    public String getItem(int position) {
+        return super.getItem(position);
+    }
+}

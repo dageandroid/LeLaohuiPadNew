@@ -9,9 +9,7 @@ import java.util.List;
 
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.BaseBean;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateMenuService;
-import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateService;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.ProCateMenuServiceDao;
-import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.ProCateServiceDao;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager.BaseDaoOperator;
 
 /**

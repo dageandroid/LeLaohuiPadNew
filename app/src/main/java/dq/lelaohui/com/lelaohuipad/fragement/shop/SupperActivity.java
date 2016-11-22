@@ -17,19 +17,20 @@ import java.util.List;
 
 import dq.lelaohui.com.lelaohuipad.R;
 import dq.lelaohui.com.lelaohuipad.adapter.FoodInfoAdapter;
-import dq.lelaohui.com.lelaohuipad.bean.FoodInfoData;
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.FoodInfoData;
 
 /**
  * Created by ZTF on 2016/11/21.
  * 晚餐
  */
 
-public class SupperActivity  extends Fragment {
+public class SupperActivity extends Fragment {
 
     private RecyclerView foot_content;
     private SwipeRefreshLayout get_data_refresh;
-    FoodInfoAdapter foodInfoAdapter=null;
-    private List<FoodInfoData> foodInfoDataList=new ArrayList<FoodInfoData>();
+    FoodInfoAdapter foodInfoAdapter = null;
+    private List<FoodInfoData> foodInfoDataList = new ArrayList<FoodInfoData>();
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -46,16 +47,17 @@ public class SupperActivity  extends Fragment {
         initView(view);
         return view;
     }
+
     private void initView(View v) {
         get_data_refresh = (SwipeRefreshLayout) v.findViewById(R.id.get_data_refresh);
         foot_content = (RecyclerView) v.findViewById(R.id.foot_content);
-        foodInfoDataList= FoodActivity.foodInfoDatas;
-        if (foodInfoDataList==null&&foodInfoDataList.size()==0){
-            Toast.makeText(this.getActivity(),"餐品信息为空",Toast.LENGTH_SHORT).show();
+//        foodInfoDataList = FoodActivity.foodInfoDatas;
+        if (foodInfoDataList == null && foodInfoDataList.size() == 0) {
+            Toast.makeText(this.getActivity(), "餐品信息为空", Toast.LENGTH_SHORT).show();
             return;
-        }else{
-            Log.i("BreakFastActivity","foodInfoDataList==="+foodInfoDataList);
-            foodInfoAdapter=new FoodInfoAdapter(this.getActivity(),foodInfoDataList);
+        } else {
+            Log.i("BreakFastActivity", "foodInfoDataList===" + foodInfoDataList);
+//            foodInfoAdapter = new FoodInfoAdapter(this.getActivity(), foodInfoDataList);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity());
             linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             foot_content.setLayoutManager(linearLayoutManager);
@@ -75,6 +77,7 @@ public class SupperActivity  extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();

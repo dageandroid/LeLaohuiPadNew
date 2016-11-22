@@ -4,6 +4,8 @@ import com.google.gson.annotations.Expose;
 
 import java.util.List;
 
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.FoodInfoData;
+
 /**
  * Created by ZTF on 2016/11/20.
  */

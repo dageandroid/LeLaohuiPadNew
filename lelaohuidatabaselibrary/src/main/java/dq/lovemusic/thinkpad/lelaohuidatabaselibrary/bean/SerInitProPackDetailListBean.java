@@ -34,10 +34,19 @@ public class SerInitProPackDetailListBean extends BaseBean implements Parcelable
     @Id(autoincrement = true)
     @NoToJson
     private Long  id;
-    @Generated(hash = 526826160)
-    public SerInitProPackDetailListBean(int packDetailId, int packId,
-            String serviceId, String serviceName, String pictureUrl, int orgTypeId,
-            int orgId, Long id) {
+
+    public int getPackageId() {
+        return packageId;
+    }
+
+    public void setPackageId(int packageId) {
+        this.packageId = packageId;
+    }
+
+    private int packageId;
+    @Generated(hash = 1920477268)
+    public SerInitProPackDetailListBean(int packDetailId, int packId, String serviceId, String serviceName, String pictureUrl, int orgTypeId,
+            int orgId, Long id, int packageId) {
         this.packDetailId = packDetailId;
         this.packId = packId;
         this.serviceId = serviceId;
@@ -46,6 +55,7 @@ public class SerInitProPackDetailListBean extends BaseBean implements Parcelable
         this.orgTypeId = orgTypeId;
         this.orgId = orgId;
         this.id = id;
+        this.packageId = packageId;
     }
 
     @Generated(hash = 955564226)
