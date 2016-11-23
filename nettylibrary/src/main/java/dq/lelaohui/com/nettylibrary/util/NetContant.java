@@ -79,6 +79,19 @@ public class NetContant {
          */
         public static final String GET_SERVER_ORDER_SUCC_INFO = "getSerOrderInfos";
 
+        /**
+         * 获取用户地址信息
+         */
+        public static final String GET_USER_ADDRESS_INFO = "query.user.address";
+        /**
+         * 删除用户信息
+         */
+        public static final String DELETE_USER_ADDRESS_INFO = "del.user.address";
+        /**
+         * 插入用户信息
+         */
+        public static final String EDIT_USER_ADDRESS_INFO = "add.user.address";
+
     }
 
 }

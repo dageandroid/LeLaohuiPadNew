@@ -7,13 +7,24 @@ import com.google.gson.annotations.Expose;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
+
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.port.NoToJson;
 
 /**
  * Created by ZTF on 2016/11/20.
  */
 @Entity
 public class FoodInfoData extends BaseBean implements Parcelable {
-        /**
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
          * cateId : 320
          * cateName : 菜
          * proId : 10147
@@ -27,6 +38,8 @@ public class FoodInfoData extends BaseBean implements Parcelable {
          * supplierName : 罗庄餐厅A
          * supplierType : 4
          */
+        @Id(autoincrement = true)
+        private Long id;
     @Expose
     private int cateId;
     @Expose
@@ -211,11 +224,12 @@ public class FoodInfoData extends BaseBean implements Parcelable {
         this.isScope = in.readString();
     }
 
-    @Generated(hash = 840710338)
-    public FoodInfoData(int cateId, String cateName, String proId, String proName,
+    @Generated(hash = 1381895384)
+    public FoodInfoData(Long id, int cateId, String cateName, String proId, String proName,
             String supplierId, int proPrice, String proPic, String mealTime, String mealType,
             String remark, String supplierName, String supplierType, int buyNum,
             String isScope) {
+        this.id = id;
         this.cateId = cateId;
         this.cateName = cateName;
         this.proId = proId;

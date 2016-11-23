@@ -40,9 +40,22 @@ public class Protocol_KEY {
      */
     public static final String MEALTIME = "mealtime";
     /**
+     * 购买者Id
+     */
+    public static final String BUY_USER_ID="buyUserId";
+    /**
+     * 提交购物车相关信息
+     */
+    public static final String CONFIRM_DATA="confirmData";
+
+    /**
      * 应急电话
      */
     public static final String HELP_PHONE = "helpPhone";
+    /**
+     * 用户电话
+     */
+    public static final String PHONE = "phone";
     /**
      * String	0—未绑定老人
      * 1—已经绑定老人
@@ -144,6 +157,10 @@ public class Protocol_KEY {
      */
     public static final String CUSTOMER_ID = "customerId";
     /**
+     * 老人姓名
+     */
+    public static final String CUSTOMER_NAME = "customerName";
+    /**
      * 真实姓名
      */
     public static final String REAL_NAME = "realName";
@@ -167,4 +184,40 @@ public class Protocol_KEY {
      * 订单号
      */
     public static final String ORDER_NO = "orderNo";
+
+    /**
+     * 是否创建新的地址
+     */
+    public static final String IS_FROM_CREAT_ORDER_ADDRESS = "isFromCreatOrder";
+    /**
+     * 地址Id
+     */
+    public static final String ADDRESS_ID = "addressId";
+    /**
+     * address 详情
+     */
+    public static final String ADDRESS = "address";
+    public static final class CACHE_KEY {
+        /**
+         */
+        public static final String PRODUCT_TYPE_KEY = "PRODUCT_TYPE_KEY";
+        /**
+         */
+        public static final String SERVICE_TYPE_KEY = "SERVICE_TYPE_KEY";
+        /**
+         * 明天
+         */
+        public static final String FOOT_TOMORROW_KEY = "FOOT_TOMORROW_KEY";
+        /**
+         * 后天
+         */
+        public static final String FOOT_AFTERTOMORROW_KEY = "FOOT_AFTERTOMORROW_KEY";
+        public static final String FOOT_TODAY_KEY = "FOOT_TODAY_KEY";
+        /**
+         * 成功
+         */
+        public static final String SUCCESS_CODE = "2";
+    }
+
+
 }

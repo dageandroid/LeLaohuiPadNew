@@ -1,5 +1,7 @@
 package dq.lelaohui.com.lelaohuipad.dao;
 import android.database.Cursor;
+import android.util.Log;
+
 import org.greenrobot.greendao.AbstractDao;
 import org.greenrobot.greendao.query.WhereCondition;
 
@@ -110,6 +112,7 @@ public class ProFoodInfoDaoOperator extends BaseDaoOperator {
      */
     public Cursor queryFoodType(String mealType){
         WhereCondition mealTypeContin= FoodInfoDataDao.Properties.MealType.eq(mealType);
+        Log.i("ProFoodInfoDaoOperator","mealTypeContin=="+mealTypeContin.toString());
         return super.query(FoodInfoData.class,mealTypeContin);
     }
 
