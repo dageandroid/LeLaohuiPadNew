@@ -13,11 +13,11 @@ import org.greenrobot.greendao.annotation.Generated;
  */
 @Entity
 public class FootCateBean extends  BaseBean{
-    public int getCateId() {
+    public Long getCateId() {
         return cateId;
     }
 
-    public void setCateId(int cateId) {
+    public void setCateId(Long cateId) {
         this.cateId = cateId;
     }
 
@@ -30,17 +30,17 @@ public class FootCateBean extends  BaseBean{
     }
     @Id(autoincrement = false)
     @Property( nameInDb="_id")
-    private int cateId;
+    private Long cateId;
     @Keep
     public  FootCateBean(FoodInfoData data){
-        setCateId(data.getCateId());
+        setCateId(Long.valueOf(data.getCateId()+""));
         setCateName(data.getCateName());
         setMealTime(data.getMealTime());
         setMealType(data.getMealType());
     }
-    private String cateName;
-    @Generated(hash = 1985388432)
-    public FootCateBean(int cateId, String cateName, String mealTime,
+
+    @Generated(hash = 636292879)
+    public FootCateBean(Long cateId, String cateName, String mealTime,
             String mealType) {
         this.cateId = cateId;
         this.cateName = cateName;
@@ -51,6 +51,7 @@ public class FootCateBean extends  BaseBean{
     @Generated(hash = 1003289416)
     public FootCateBean() {
     }
+    private String cateName;
 
     public String getMealTime() {
         return mealTime;

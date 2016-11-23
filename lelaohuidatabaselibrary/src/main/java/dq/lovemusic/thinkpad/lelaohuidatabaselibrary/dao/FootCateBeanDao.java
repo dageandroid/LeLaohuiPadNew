@@ -15,7 +15,7 @@ import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.FootCateBean;
 /** 
  * DAO for table "FOOT_CATE_BEAN".
 */
-public class FootCateBeanDao extends AbstractDao<FootCateBean, Integer> {
+public class FootCateBeanDao extends AbstractDao<FootCateBean, Long> {
 
     public static final String TABLENAME = "FOOT_CATE_BEAN";
 
@@ -24,7 +24,7 @@ public class FootCateBeanDao extends AbstractDao<FootCateBean, Integer> {
      * Can be used for QueryBuilder and for referencing column names.
      */
     public static class Properties {
-        public final static Property CateId = new Property(0, int.class, "cateId", true, "_id");
+        public final static Property CateId = new Property(0, Long.class, "cateId", true, "_id");
         public final static Property CateName = new Property(1, String.class, "cateName", false, "CATE_NAME");
         public final static Property MealTime = new Property(2, String.class, "mealTime", false, "MEAL_TIME");
         public final static Property MealType = new Property(3, String.class, "mealType", false, "MEAL_TYPE");
@@ -43,7 +43,7 @@ public class FootCateBeanDao extends AbstractDao<FootCateBean, Integer> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"FOOT_CATE_BEAN\" (" + //
-                "\"_id\" INTEGER PRIMARY KEY NOT NULL ," + // 0: cateId
+                "\"_id\" INTEGER PRIMARY KEY ," + // 0: cateId
                 "\"CATE_NAME\" TEXT," + // 1: cateName
                 "\"MEAL_TIME\" TEXT," + // 2: mealTime
                 "\"MEAL_TYPE\" TEXT);"); // 3: mealType
@@ -58,7 +58,11 @@ public class FootCateBeanDao extends AbstractDao<FootCateBean, Integer> {
     @Override
     protected final void bindValues(DatabaseStatement stmt, FootCateBean entity) {
         stmt.clearBindings();
-        stmt.bindLong(1, entity.getCateId());
+ 
+        Long cateId = entity.getCateId();
+        if (cateId != null) {
+            stmt.bindLong(1, cateId);
+        }
  
         String cateName = entity.getCateName();
         if (cateName != null) {
@@ -79,7 +83,11 @@ public class FootCateBeanDao extends AbstractDao<FootCateBean, Integer> {
     @Override
     protected final void bindValues(SQLiteStatement stmt, FootCateBean entity) {
         stmt.clearBindings();
-        stmt.bindLong(1, entity.getCateId());
+ 
+        Long cateId = entity.getCateId();
+        if (cateId != null) {
+            stmt.bindLong(1, cateId);
+        }
  
         String cateName = entity.getCateName();
         if (cateName != null) {
@@ -98,14 +106,14 @@ public class FootCateBeanDao extends AbstractDao<FootCateBean, Integer> {
     }
 
     @Override
-    public Integer readKey(Cursor cursor, int offset) {
-        return cursor.getInt(offset + 0);
+    public Long readKey(Cursor cursor, int offset) {
+        return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
     }    
 
     @Override
     public FootCateBean readEntity(Cursor cursor, int offset) {
         FootCateBean entity = new FootCateBean( //
-            cursor.getInt(offset + 0), // cateId
+            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // cateId
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // cateName
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // mealTime
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3) // mealType
@@ -115,19 +123,20 @@ public class FootCateBeanDao extends AbstractDao<FootCateBean, Integer> {
      
     @Override
     public void readEntity(Cursor cursor, FootCateBean entity, int offset) {
-        entity.setCateId(cursor.getInt(offset + 0));
+        entity.setCateId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setCateName(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setMealTime(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setMealType(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
      }
     
     @Override
-    protected final Integer updateKeyAfterInsert(FootCateBean entity, long rowId) {
-        return entity.getCateId();
+    protected final Long updateKeyAfterInsert(FootCateBean entity, long rowId) {
+        entity.setCateId(rowId);
+        return rowId;
     }
     
     @Override
-    public Integer getKey(FootCateBean entity) {
+    public Long getKey(FootCateBean entity) {
         if(entity != null) {
             return entity.getCateId();
         } else {
@@ -137,7 +146,7 @@ public class FootCateBeanDao extends AbstractDao<FootCateBean, Integer> {
 
     @Override
     public boolean hasKey(FootCateBean entity) {
-        throw new UnsupportedOperationException("Unsupported for entities with a non-null key");
+        return entity.getCateId() != null;
     }
 
     @Override

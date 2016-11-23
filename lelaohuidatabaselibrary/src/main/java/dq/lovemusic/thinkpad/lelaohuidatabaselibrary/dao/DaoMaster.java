@@ -21,6 +21,7 @@ public class DaoMaster extends AbstractDaoMaster {
 
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(Database db, boolean ifNotExists) {
+        FoodInfoDataDao.createTable(db, ifNotExists);
         FootCateBeanDao.createTable(db, ifNotExists);
         ProCateMenuServiceDao.createTable(db, ifNotExists);
         ProCateServiceDao.createTable(db, ifNotExists);
@@ -30,6 +31,7 @@ public class DaoMaster extends AbstractDaoMaster {
 
     /** Drops underlying database table using DAOs. */
     public static void dropAllTables(Database db, boolean ifExists) {
+        FoodInfoDataDao.dropTable(db, ifExists);
         FootCateBeanDao.dropTable(db, ifExists);
         ProCateMenuServiceDao.dropTable(db, ifExists);
         ProCateServiceDao.dropTable(db, ifExists);
@@ -53,6 +55,7 @@ public class DaoMaster extends AbstractDaoMaster {
 
     public DaoMaster(Database db) {
         super(db, SCHEMA_VERSION);
+        registerDaoClass(FoodInfoDataDao.class);
         registerDaoClass(FootCateBeanDao.class);
         registerDaoClass(ProCateMenuServiceDao.class);
         registerDaoClass(ProCateServiceDao.class);
