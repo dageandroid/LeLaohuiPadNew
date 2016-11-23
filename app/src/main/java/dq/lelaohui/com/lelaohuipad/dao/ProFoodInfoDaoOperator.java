@@ -128,7 +128,7 @@ public class ProFoodInfoDaoOperator extends BaseDaoOperator {
     public Cursor queryFoodType(String mealType){
         WhereCondition mealTypeContin= FoodInfoDataDao.Properties.MealType.eq(mealType);
         Log.i("ProFoodInfoDaoOperator","mealTypeContin=="+mealTypeContin.toString());
-        return super.query(FoodInfoData.class,mealTypeContin);
+        return super.query(FootCateBean.class,mealTypeContin);
     }
 
 }
