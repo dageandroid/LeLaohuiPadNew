@@ -5,13 +5,14 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 
+import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 
 /**
  * Created by ZTF on 2016/11/20.
  */
-//@Entity
+@Entity
 public class FoodInfoData extends BaseBean implements Parcelable {
     public Long getId() {
         return id;
