@@ -10,6 +10,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,10 +34,17 @@ public class BreakFastActivity extends Fragment   {
     private RecyclerView foot_content;
     private SwipeRefreshLayout get_data_refresh;
 
-    public void setFoodInfoCursor(Cursor foodInfoCursor) {
-        if (foodInfoCursor!=null){
-            myFoodInfoAdapter.setCursor(foodInfoCursor);
-            myFoodInfoAdapter.notifyDataSetChanged();
+    public void setFoodInfoCursor(Cursor foodInfoCursor,FoodInfoDataDao dataDao) {
+        if (foodInfoCursor!=null&&myFoodInfoAdapter!=null){
+            Log.i("BreakFastActivity","foodInfoCursor==="+foodInfoCursor.getCount());
+//            myFoodInfoAdapter.setCursor(foodInfoCursor);
+//            myFoodInfoAdapter.notifyDataSetChanged();
+            myFoodInfoAdapter=new MyFoodInfoAdapter(getContext(),foodInfoCursor);
+            myFoodInfoAdapter.setDao(dataDao);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity());
+            linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            foot_content.setLayoutManager(linearLayoutManager);
+            foot_content.setAdapter(myFoodInfoAdapter);
         }
     }
     private Cursor foodInfoCursor=null;
@@ -74,15 +82,10 @@ public class BreakFastActivity extends Fragment   {
     public  class  MyFoodInfoAdapter extends BaseDataBaseAdapter<MyFoodInfoAdapter.ViewHolder> {
     private SoftReference<FoodInfoDataDao> softReference = null;
     private LayoutInflater layoutInflater=null;
-    private String TAG="MyFoodTypeRecyleViewAdapter";
+    private String TAG="MyFoodInfoAdapter";
     private Context context;
     public void setContext(Context context) {
          this.context = context;
-    }
-
-    private Cursor cursor=null;
-    public void setCursor(Cursor cursor) {
-        this.cursor = cursor;
     }
 
     @Override
@@ -91,6 +94,7 @@ public class BreakFastActivity extends Fragment   {
             FoodInfoDataDao dao = softReference.get();
             if (dao != null) {
                 FoodInfoData pc = dao.readEntity(cursor, 0);
+                Log.i("MyFoodInfoAdapter","FoodInfoData=="+pc.getProName());
                 holder.setData(pc);
             }
         }
@@ -101,8 +105,10 @@ public class BreakFastActivity extends Fragment   {
     public MyFoodInfoAdapter(Context context, Cursor c) {
         super(context, c);
         layoutInflater= LayoutInflater.from(context);
-        this.cursor=c;
     }
+        public void    setDao(FoodInfoDataDao foodInfoDataDao){
+            softReference = new SoftReference<FoodInfoDataDao>(foodInfoDataDao);
+        }
     @Override
     public View getItemView() {
         return layoutInflater.inflate(R.layout.llh_food_cv_item,null);

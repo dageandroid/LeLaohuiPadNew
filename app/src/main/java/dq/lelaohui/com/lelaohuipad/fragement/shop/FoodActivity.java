@@ -41,6 +41,7 @@ import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
 import dq.lelaohui.com.nettylibrary.util.ServiceNetContant;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.FoodInfoData;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.FootCateBean;
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.FoodInfoDataDao;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.FootCateBeanDao;
 
 
@@ -64,7 +65,6 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
     private FootterControler footterControler = null;
     private FoodTimeSpinnerAdapter spinnerAdapter = null;
     private String[] dataStringArray = new String[3];//时间数组
-    private boolean isScroll = true;
     private final static String TODAY_FOOD = "0";//餐品选择时间
     private final static String TOMORROW_FOOD = "1";
     private final static String POSTNATAL_FOOD = "2";
@@ -72,12 +72,9 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
     private final static String BREAK_FOOD = "1";
     private String curMealTime = BREAK_FOOD;//当前吃饭时间
     private static final String TAG = "FoodActivity";
-    private String cacheKey = Protocol_KEY.CACHE_KEY.FOOT_TODAY_KEY;
     private SysVar var = null;
     private int mealTime = 1;//早中晚时间标示
     private String curFoodType;//当前食物类型
-    private ArrayList<String> foodTypeList = new ArrayList<String>();//食物类型集合
-    private List<FoodInfoData> curFoodList = new ArrayList<FoodInfoData>();// 当前食物列表
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +107,14 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
         food_type.setLayoutManager(linearLayoutManager);
         getSupportLoaderManager().initLoader(0, null, this);
         footterControler.doQueryFoodInfo(String.valueOf(0), var.getUserId());
+
+        footCateAdapter.setmOnItemClickListener(new BaseDataBaseAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, Cursor c) {
+
+            }
+        });
+
     }
 
 
@@ -122,12 +127,24 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
         }
         initTitleData();
         sliding_tabs.setupWithViewPager(viewpager);
-//        sliding_tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-//            @Override
-//            public void onItemClick(View view, Cursor c) {
-//
-//            }
-//        });
+        sliding_tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int position=tab.getPosition();
+                Log.i(TAG,"TAB  POSITION=="+position);
+          initFoodInfoListData(position,position+1);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     private void setViewPager( List<String>   list_title,List<Fragment> fragments) {
@@ -148,20 +165,6 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
         select_time.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                switch (i) {
-//                    case 0:
-//                        cacheKey = Protocol_KEY.CACHE_KEY.FOOT_TODAY_KEY;
-////                        isScope = TODAY_FOOD;
-//                        break;
-//                    case 1:
-//                        cacheKey = Protocol_KEY.CACHE_KEY.FOOT_TOMORROW_KEY;
-////                        isScope = TOMORROW_FOOD;
-//                        break;
-//                    case 2:
-//                        cacheKey = Protocol_KEY.CACHE_KEY.FOOT_AFTERTOMORROW_KEY;
-////                        isScope = POSTNATAL_FOOD;
-//                        break;
-//                }
                 isScope=String.valueOf(i);
                 footterControler.doQueryFoodInfo(String.valueOf(i), var.getUserId());
             }
@@ -218,104 +221,34 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
         return FootterControler.getControler();
     }
 
-    private HashMap<String,List<FoodInfoData>> leftMenum=new HashMap<>();
     @Override
     public void result(Bundle bundle) {
-        if (bundle != null) {
-            String action = bundle.getString("action");
-            if (action.equals(ServiceNetContant.ServiceResponseAction.QUERY_FOOD_INFO_RESPONSE)) {
-                ArrayList<FoodInfoData> foodInfoDataList = bundle.getParcelableArrayList("foodInfo");
-                if (foodInfoDataList != null && foodInfoDataList.size() > 0) {
-                    for(FoodInfoData data:foodInfoDataList){
-//                        if(leftMenum.get(data.getMealTime()))
-//                        leftMenum.put()
-                    }
-                    PagerAdapter pa= (PagerAdapter) viewpager.getAdapter();
-//                    BreakFastActivity foodFleatemnt= (BreakFastActivity) pa.getItem(viewpager.getCurrentItem());
-//                    foodFleatemnt.setFoodInfoDataList(foodInfoDataList);
-                }
-            }
-        }
+
     }
 
     MyFoodTypeRecyleViewAdapter foodTypeAdapter = null;
 
-
-
-//    /**
-//     * 获取想对时间段相对餐品类型下的餐品信息
-//     * @param mealTime
-//     */
-//    protected void initFoodInfoListData(String mealTime) {
-//        curMealTime = "" + this.mealTime;
-//        foodInfoDatas = sortFood(curFoodType, mealTime);
-////        for (int i = 0; i < foodInfoDatas.size(); i++) {
-////            Log.i(TAG, "foodInfoDatas.get(i).getProName()===" + foodInfoDatas.get(i).getProName());
-////        }
-//    }
     /**
      * 获取想对时间段相对餐品类型下的餐品信息
      * @param mealTime
      */
-    protected void initFoodInfoListData(int postion,String mealTime) {
+    protected void initFoodInfoListData(int postion,int mealTime) {
         curMealTime = "" + this.mealTime;
-//        List<FoodInfoData> foodInfoDatas = sortFood(curFoodType, mealTime);
-        Cursor foodInfoDatas=sortFoodCursor(curFoodType, mealTime);
+        Cursor foodInfoDatas=sortFoodCursor("汤/粥", String.valueOf(mealTime));
         PagerAdapter pa= (PagerAdapter) viewpager.getAdapter();
         BreakFastActivity foodFleatemnt= (BreakFastActivity) pa.getItem(postion);
-        foodFleatemnt.setFoodInfoCursor(foodInfoDatas);
-//        foodFleatemnt.setFoodInfoDataList(foodInfoDatas);
-//        for (int i = 0; i < foodInfoDatas.size(); i++) {
-//            Log.i(TAG, "foodInfoDatas.get(i).getProName()===" + foodInfoDatas.get(i).getProName());
-//        }
+        if(foodInfoDatas!=null){
+            final FoodInfoDataDao foodInfoDataDao = (FoodInfoDataDao) footterControler.getBaseDaoOperator().get();
+            foodFleatemnt.setFoodInfoCursor(foodInfoDatas,foodInfoDataDao);
+        }
     }
 
     public Cursor sortFoodCursor(String cateName, String mealTime){
         Cursor cursorFoodInfo=footterControler.getFoodInfoCursor(mealTime,cateName,isScope);
+        Log.i(TAG,"cursorFoodInfo==="+cursorFoodInfo.getCount());
         return cursorFoodInfo;
     }
 
-    /**
-     * 通过食物的类别和用餐时间进行获取食物信息
-     *
-     * @param cateName
-     * @param mealTime
-     * @return
-     */
-    public List<FoodInfoData> sortFood(String cateName, String mealTime) {
-        curFoodList.clear();
-        Cursor queryFoodInfo=footterControler.getFoodInfoCursor(mealTime,cateName,isScope);
-
-
-//        for (int i = 0; i < foodInfoDataList.size(); i++) {
-//            FoodInfoData foodInfoData = foodInfoDataList.get(i);
-//            if (foodInfoData.getCateName().equals(cateName) && foodInfoData.getMealTime().equals(mealTime)) {
-//                curFoodList.add(foodInfoData);
-//            }
-//        }
-        return curFoodList;
-    }
-
-    /**
-     * 获取食物类型list
-     *
-     * @return
-     */
-    public ArrayList<String> getFoodType() {
-        foodTypeList.clear();
-//        if (foodInfoDataList != null && foodInfoDataList.size() > 0) {
-//            for (int i = 0; i < foodInfoDataList.size(); i++) {
-//                FoodInfoData foodInfoData = foodInfoDataList.get(i);
-//                if (!foodTypeList.contains(foodInfoData.getCateName())) {
-//                    foodTypeList.add(foodInfoData.getCateName());
-//                }
-//            }
-//        }
-//        if (foodTypeList.size() > 0) {
-//            curFoodType = foodTypeList.get(0);
-//        }
-        return foodTypeList;
-    }
 
     private int changeId=-1;
     @Override

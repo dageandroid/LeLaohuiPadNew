@@ -122,20 +122,6 @@ public class FootterControler extends LaoHuiBaseControler {
             Log.i(TAG,"insert food info data erro...");
         }
 }
-//    /**
-//     *获取餐饮类别
-//     */
-//    public void doQueryFoodCategory(){
-//        LeLaohuiApp app= (LeLaohuiApp) getContext();
-//        if(app==null){
-//            throw  new RuntimeException(" app is null exception");
-//        }
-//        RequestParam requestParam=new RequestParam();
-//        requestParam.addHeader(NetContant.Protocol_KEY.ACTION, NetContant.ServiceAction.QUERY_FOOD_INFO);
-//        requestParam.addBody(NetContant.Protocol_KEY.ORG_ID,sysVar.getOrgId());
-//        requestParam.addBody(NetContant.Protocol_KEY.ORG_TYPE,sysVar.getOrgType());
-//        app.reqData(requestParam);
-//    }
 
     /**
      * 获取餐品信息相关接口
