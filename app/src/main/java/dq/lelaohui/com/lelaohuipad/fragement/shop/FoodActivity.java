@@ -38,7 +38,8 @@ import dq.lelaohui.com.lelaohuipad.util.SysVar;
 import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
 import dq.lelaohui.com.nettylibrary.util.ServiceNetContant;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.FoodInfoData;
-import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.FoodInfoDataDao;
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.FootCateBean;
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.FootCateBeanDao;
 
 
 /**
@@ -95,9 +96,10 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
 
         Cursor cursor =footterControler.getFoodTypeCursor(isScope);
         footCateAdapter =new MyFoodTypeRecyleViewAdapter(this,cursor);
-       if(cursor.getCount()!=0){
-           footCateAdapter.setDao((FoodInfoDataDao) footterControler.getBaseDaoOperator().get());
-       }
+//       if(cursor.getCount()!=0){
+//           footCateAdapter.setDao( FootCateBeanDao) footterControler.getBaseDaoOperator().get(FootCateBean.class)));
+//       }
+        footCateAdapter.setDao((FootCateBeanDao) footterControler.getBaseDaoOperator().get(FootCateBean.class));
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         food_type.setAdapter(  footCateAdapter);
@@ -254,16 +256,12 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
         changeId=id;
         return null;
     }
-
+    private String DB_VERSION_FOOT_TYPE="CATETYPE";
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if(foodTypeAdapter!=null){
-            if(changeId==0){
-                footCateAdapter.setDao((FoodInfoDataDao) footterControler.getBaseDaoOperator().get());
-                foodTypeAdapter.swapCursor(data);
-                foodTypeAdapter.notifyDataSetChanged();
-            }
-        }
+        footCateAdapter.setDao((FootCateBeanDao) footterControler.getBaseDaoOperator().get(FootCateBean.class));
+        foodTypeAdapter.swapCursor(data);
+        foodTypeAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -332,15 +330,15 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
     }
 
     public static class MyFoodTypeRecyleViewAdapter extends BaseDataBaseAdapter<MyFoodTypeRecyleViewAdapter.ViewHolder> {
-        private SoftReference<FoodInfoDataDao> softReference = null;
+        private SoftReference<  FootCateBeanDao> softReference = null;
         private LayoutInflater layoutInflater=null;
         private String TAG="MyFoodTypeRecyleViewAdapter";
         @Override
         public void onBindViewHolder(ViewHolder holder, Cursor cursor) {
             if (softReference != null) {
-                FoodInfoDataDao dao = softReference.get();
+                FootCateBeanDao dao = softReference.get();
                 if (dao != null) {
-                    FoodInfoData pc = dao.readEntity(cursor, 0);
+                   FootCateBean pc = dao.readEntity(cursor, 0);
                     holder.setData(pc);
                 }
             }
@@ -356,8 +354,8 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
             return layoutInflater.inflate(R.layout.food_type_list_item,null);
         }
 
-        public void setDao(FoodInfoDataDao dao) {
-            softReference = new SoftReference<FoodInfoDataDao>(dao);
+        public void setDao( FootCateBeanDao dao) {
+            softReference = new SoftReference< FootCateBeanDao>(dao);
         }
 
         public MyFoodTypeRecyleViewAdapter(Context context, Cursor c, int flags) {
@@ -384,7 +382,7 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
                 this.food_type = (TextView) rootView.findViewById(R.id.food_type);
             }
 
-            public void setData(FoodInfoData pc) {
+            public void setData(FootCateBean pc) {
                 this.food_type.setText(pc.getCateName());
             }
         }
