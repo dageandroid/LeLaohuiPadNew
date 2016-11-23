@@ -63,8 +63,13 @@ public class ProFoodInfoDaoOperator extends BaseDaoOperator {
         insert(FoodInfoData.class,t);
         if(t!=null&&!t.isEmpty()){
             List<FootCateBean> footCateBeanList=new ArrayList<>();
+            List<Integer> key=new ArrayList<>();
             for(int i=0;i<t.size();i++){
                 FoodInfoData data= (FoodInfoData) t.get(i);
+                if(key.contains(data.getCateId())){
+                    continue;
+                }
+                key.add(data.getCateId());
                 footCateBeanList.add(new FootCateBean(data));
             }
             if(footCateBeanList!=null&&!footCateBeanList.isEmpty()){
@@ -96,7 +101,7 @@ public class ProFoodInfoDaoOperator extends BaseDaoOperator {
 
     @Override
     public AbstractDao get() {
-        return getDao(FoodInfoData.class);
+        return  get(FoodInfoData.class);
     }
 
     /**
