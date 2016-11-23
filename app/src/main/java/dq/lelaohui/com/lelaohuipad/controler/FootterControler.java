@@ -103,11 +103,10 @@ public class FootterControler extends LaoHuiBaseControler {
                         bundle.putParcelableArrayList("foodInfo", (ArrayList<? extends Parcelable>) data);
                         getIControlerCallBack().result(bundle);
                     }
-
                 }
             }
             }else{
-
+            Log.i(TAG,"");
         }
     }
 

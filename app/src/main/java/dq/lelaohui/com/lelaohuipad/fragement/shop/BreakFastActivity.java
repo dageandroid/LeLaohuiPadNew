@@ -1,5 +1,6 @@
 package dq.lelaohui.com.lelaohuipad.fragement.shop;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -20,11 +21,17 @@ import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.FoodInfoData;
  * 早餐
  */
 
-public class BreakFastActivity extends Fragment {
+public class BreakFastActivity extends Fragment   {
 
     private RecyclerView foot_content;
     private SwipeRefreshLayout get_data_refresh;
-//    FoodInfoAdapter foodInfoAdapter = null;
+
+    public void setFoodInfoCursor(Cursor foodInfoCursor) {
+        this.foodInfoCursor = foodInfoCursor;
+    }
+
+    //    FoodInfoAdapter foodInfoAdapter = null;
+    private Cursor foodInfoCursor=null;
 
     public void setFoodInfoDataList(List<FoodInfoData> foodInfoDataList) {
 //        if(foodInfoAdapter!=null){
