@@ -24,6 +24,14 @@ public class ServiceNetContant {
          */
         public static final String  QUERY_USER_ADDRESS_RESPONSE="query.user.address.response";
         /**
+         * 删除用户地址
+         */
+        public static final String  DELETE_USER_ADDRESS_RESPONSE="del.user.address.response";
+        /**
+         * 添加用户地址
+         */
+        public static final String  ADD_USER_ADDRESS_RESPONSE="add.user.address.response";
+        /**
          *确认下单接口
          */
         public static final String  SAVE_MOBILE_ORDER_INFO="saveMobileOrderInfo.response";
@@ -35,5 +43,10 @@ public class ServiceNetContant {
          * 提交订单，支付完成，返回订单信息接口
          */
         public static final String GET_SERVER_ORDER_SUCC_INFO_RESPONSE = "getSerOrderInfos.response";
+        /**
+         * 获取餐品信息相关接口
+         */
+        public static final String QUERY_FOOD_INFO_RESPONSE = "query.food.info.response";
+
     }
 }

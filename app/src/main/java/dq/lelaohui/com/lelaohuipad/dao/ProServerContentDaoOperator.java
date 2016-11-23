@@ -8,11 +8,8 @@ import org.greenrobot.greendao.query.WhereCondition;
 import java.util.List;
 
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.BaseBean;
-import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateMenuService;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.SerInitProPack;
-import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.ProCateMenuServiceDao;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.SerInitProPackDao;
-import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.SerInitProPackDetailListBeanDao;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager.BaseDaoOperator;
 
 /**
@@ -88,8 +85,6 @@ public class ProServerContentDaoOperator  extends BaseDaoOperator {
         WhereCondition cateidContin= SerInitProPackDao.Properties.ServiceCateId.eq(cateId);
         return super.query(SerInitProPack.class,condition,orgTypeIdContin,cateidContin);
     }
-
-
     /**
      * 查询所有
      * @return

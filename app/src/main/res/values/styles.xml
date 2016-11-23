@@ -65,4 +65,46 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="android:layout_marginLeft">@dimen/margin_17dp</item>
     </style>
+    <style name="AddressTextStyle">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/txt_size_18sp</item>
+        <item name="android:paddingBottom">@dimen/margin</item>
+        <item name="android:paddingTop">@dimen/margin</item>
+        <item name="android:singleLine">true</item>
+    </style>
+    <style name="AddressChildTextStyle">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/margin_10dp</item>
+        <item name="android:textSize">@dimen/txt_size_18sp</item>
+        <item name="android:background">@color/chile_txt_color</item>
+    </style>
+    <style name="AddAddressLayout">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">@dimen/margin_45dp</item>
+        <item name="android:layout_marginTop">@dimen/margin</item>
+        <item name="android:background">@android:color/white</item>
+        <item name="android:textSize">@dimen/txt_size_18sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+    <style name="AddAddressTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/margin_10dp</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">@dimen/txt_size_18sp</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="AddAddressEditView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/margin_left_15dp</item>
+        <item name="android:layout_marginRight">@dimen/margin_10dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">@dimen/txt_size_18sp</item>
+    </style>
 </resources>

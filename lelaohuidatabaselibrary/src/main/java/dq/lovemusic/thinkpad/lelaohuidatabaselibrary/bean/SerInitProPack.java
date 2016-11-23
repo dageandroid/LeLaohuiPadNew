@@ -14,7 +14,6 @@ import org.greenrobot.greendao.annotation.ToMany;
 import java.util.ArrayList;
 import java.util.List;
 
-import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.port.NoToJson;
 import org.greenrobot.greendao.DaoException;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.DaoSession;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.SerInitProPackDetailListBeanDao;
@@ -92,33 +91,6 @@ public class SerInitProPack extends BaseBean implements Parcelable{
      */
     @ToMany(joinProperties={@JoinProperty(name="packageId",referencedName="packageId"),@JoinProperty(name="orgId",referencedName="orgId"),@JoinProperty(name="orgTypeId",referencedName="orgTypeId")})
     public List<SerInitProPackDetailListBean> serInitProPackDetailList;
-    /** Used to resolve relations */
-    @Generated(hash = 2040040024)
-    public transient DaoSession daoSession;
-    /** Used for active entity operations. */
-    @Generated(hash = 823979279)
-    public transient SerInitProPackDao myDao;
-    @Generated(hash = 1811115027)
-    public SerInitProPack(Long id, int packageId, String packageName, String orgName, int orgTypeId, int orgId, int serviceCateId, int isPro, String pictureUrl, String reamark, int saleNums,
-            int price,int serNum) {
-        this.id = id;
-        this.packageId = packageId;
-        this.packageName = packageName;
-        this.orgName = orgName;
-        this.orgTypeId = orgTypeId;
-        this.orgId = orgId;
-        this.serviceCateId = serviceCateId;
-        this.isPro = isPro;
-        this.pictureUrl = pictureUrl;
-        this.reamark = reamark;
-        this.saleNums = saleNums;
-        this.price = price;
-        this.serNum = serNum;
-    }
-
-    @Generated(hash = 726855854)
-    public SerInitProPack() {
-    }
     public int getSerNum() {
         return serNum;
     }
@@ -204,33 +176,6 @@ public class SerInitProPack extends BaseBean implements Parcelable{
     public void setPrice(int price) {
         this.price = price;
     }
-    /**
-     * To-many relationship, resolved on first access (and after reset).
-     * Changes to to-many relations are not persisted, make changes to the target entity.
-     */
-    @Generated(hash = 1057147922)
-    public List<SerInitProPackDetailListBean> getSerInitProPackDetailList() {
-        if (serInitProPackDetailList == null) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            SerInitProPackDetailListBeanDao targetDao = daoSession.getSerInitProPackDetailListBeanDao();
-            List<SerInitProPackDetailListBean> serInitProPackDetailListNew = targetDao._querySerInitProPack_SerInitProPackDetailList(packageId, orgId, orgTypeId);
-            synchronized (this) {
-                if (serInitProPackDetailList == null) {
-                    serInitProPackDetailList = serInitProPackDetailListNew;
-                }
-            }
-        }
-        return serInitProPackDetailList;
-    }
-
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
-    @Generated(hash = 424410257)
-    public synchronized void resetSerInitProPackDetailList() {
-        serInitProPackDetailList = null;
-    }
 
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
@@ -256,24 +201,7 @@ public class SerInitProPack extends BaseBean implements Parcelable{
         myDao.refresh(this);
     }
 
-    /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
-     * Entity must attached to an entity context.
-     */
-    @Generated(hash = 713229351)
-    public void update() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }
-        myDao.update(this);
-    }
 
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 191248925)
-    public void __setDaoSession(DaoSession daoSession) {
-        this.daoSession = daoSession;
-        myDao = daoSession != null ? daoSession.getSerInitProPackDao() : null;
-    }
 
     @Override
     public int describeContents() {
@@ -297,6 +225,49 @@ public class SerInitProPack extends BaseBean implements Parcelable{
         dest.writeInt(this.serNum);
         dest.writeList(this.serInitProPackDetailList);
     }
+    /**
+     * To-many relationship, resolved on first access (and after reset).
+     * Changes to to-many relations are not persisted, make changes to the target entity.
+     */
+    @Generated(hash = 1240722095)
+    public List<SerInitProPackDetailListBean> getSerInitProPackDetailList() {
+        if (serInitProPackDetailList == null) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            SerInitProPackDetailListBeanDao targetDao = daoSession.getSerInitProPackDetailListBeanDao();
+            List<SerInitProPackDetailListBean> serInitProPackDetailListNew = targetDao._querySerInitProPack_SerInitProPackDetailList(packageId, orgId, orgTypeId);
+            synchronized (this) {
+                if (serInitProPackDetailList == null) {
+                    serInitProPackDetailList = serInitProPackDetailListNew;
+                }
+            }
+        }
+        return serInitProPackDetailList;
+    }
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    @Generated(hash = 424410257)
+    public synchronized void resetSerInitProPackDetailList() {
+        serInitProPackDetailList = null;
+    }
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 713229351)
+    public void update() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.update(this);
+    }
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 191248925)
+    public void __setDaoSession(DaoSession daoSession) {
+        this.daoSession = daoSession;
+        myDao = daoSession != null ? daoSession.getSerInitProPackDao() : null;
+    }
 
     protected SerInitProPack(Parcel in) {
         this.id = (Long) in.readValue(Long.class.getClassLoader());
@@ -315,6 +286,26 @@ public class SerInitProPack extends BaseBean implements Parcelable{
         this.serInitProPackDetailList = new ArrayList<SerInitProPackDetailListBean>();
         in.readList(this.serInitProPackDetailList, SerInitProPackDetailListBean.class.getClassLoader());
     }
+    @Generated(hash = 1514792050)
+    public SerInitProPack(Long id, int packageId, String packageName, String orgName, int orgTypeId, int orgId, int serviceCateId, int isPro, String pictureUrl, String reamark, int saleNums, int price,
+            int serNum) {
+        this.id = id;
+        this.packageId = packageId;
+        this.packageName = packageName;
+        this.orgName = orgName;
+        this.orgTypeId = orgTypeId;
+        this.orgId = orgId;
+        this.serviceCateId = serviceCateId;
+        this.isPro = isPro;
+        this.pictureUrl = pictureUrl;
+        this.reamark = reamark;
+        this.saleNums = saleNums;
+        this.price = price;
+        this.serNum = serNum;
+    }
+    @Generated(hash = 726855854)
+    public SerInitProPack() {
+    }
 
     public static final Parcelable.Creator<SerInitProPack> CREATOR = new Parcelable.Creator<SerInitProPack>() {
         @Override
@@ -327,4 +318,10 @@ public class SerInitProPack extends BaseBean implements Parcelable{
             return new SerInitProPack[size];
         }
     };
+    /** Used to resolve relations */
+    @Generated(hash = 2040040024)
+    private transient DaoSession daoSession;
+    /** Used for active entity operations. */
+    @Generated(hash = 823979279)
+    private transient SerInitProPackDao myDao;
 }

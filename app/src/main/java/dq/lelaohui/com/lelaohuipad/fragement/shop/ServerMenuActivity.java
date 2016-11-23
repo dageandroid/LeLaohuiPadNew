@@ -172,11 +172,12 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
                 Log.i(TAG,"getOrderCode=="+getOrderCode);
                 Intent intent = new Intent(ServerMenuActivity.this, SerOrderInfoActivity.class);
                 intent.putExtra("infoData", infoData);
-                startActivity(intent);
+             startActivityForResult(intent, FINISH_ACTION);
+//                startActivity(intent);
             }
         }
     }
-
+public static final int FINISH_ACTION=66;
     @Override
     protected int getLayoutID() {
         return R.layout.llh_server_two_menu;

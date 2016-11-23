@@ -35,6 +35,7 @@ public class SerInitProPackDetailListBeanDao extends AbstractDao<SerInitProPackD
         public final static Property OrgTypeId = new Property(5, int.class, "orgTypeId", false, "ORG_TYPE_ID");
         public final static Property OrgId = new Property(6, int.class, "orgId", false, "ORG_ID");
         public final static Property Id = new Property(7, Long.class, "id", true, "_id");
+        public final static Property PackageId = new Property(8, int.class, "packageId", false, "PACKAGE_ID");
     }
 
     private Query<SerInitProPackDetailListBean> serInitProPack_SerInitProPackDetailListQuery;
@@ -58,7 +59,8 @@ public class SerInitProPackDetailListBeanDao extends AbstractDao<SerInitProPackD
                 "\"PICTURE_URL\" TEXT," + // 4: pictureUrl
                 "\"ORG_TYPE_ID\" INTEGER NOT NULL ," + // 5: orgTypeId
                 "\"ORG_ID\" INTEGER NOT NULL ," + // 6: orgId
-                "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT );"); // 7: id
+                "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 7: id
+                "\"PACKAGE_ID\" INTEGER NOT NULL );"); // 8: packageId
     }
 
     /** Drops the underlying database table. */
@@ -94,6 +96,7 @@ public class SerInitProPackDetailListBeanDao extends AbstractDao<SerInitProPackD
         if (id != null) {
             stmt.bindLong(8, id);
         }
+        stmt.bindLong(9, entity.getPackageId());
     }
 
     @Override
@@ -123,6 +126,7 @@ public class SerInitProPackDetailListBeanDao extends AbstractDao<SerInitProPackD
         if (id != null) {
             stmt.bindLong(8, id);
         }
+        stmt.bindLong(9, entity.getPackageId());
     }
 
     @Override
@@ -140,7 +144,8 @@ public class SerInitProPackDetailListBeanDao extends AbstractDao<SerInitProPackD
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // pictureUrl
             cursor.getInt(offset + 5), // orgTypeId
             cursor.getInt(offset + 6), // orgId
-            cursor.isNull(offset + 7) ? null : cursor.getLong(offset + 7) // id
+            cursor.isNull(offset + 7) ? null : cursor.getLong(offset + 7), // id
+            cursor.getInt(offset + 8) // packageId
         );
         return entity;
     }
@@ -155,6 +160,7 @@ public class SerInitProPackDetailListBeanDao extends AbstractDao<SerInitProPackD
         entity.setOrgTypeId(cursor.getInt(offset + 5));
         entity.setOrgId(cursor.getInt(offset + 6));
         entity.setId(cursor.isNull(offset + 7) ? null : cursor.getLong(offset + 7));
+        entity.setPackageId(cursor.getInt(offset + 8));
      }
     
     @Override
@@ -183,18 +189,18 @@ public class SerInitProPackDetailListBeanDao extends AbstractDao<SerInitProPackD
     }
     
     /** Internal query to resolve the "serInitProPackDetailList" to-many relationship of SerInitProPack. */
-    public List<SerInitProPackDetailListBean> _querySerInitProPack_SerInitProPackDetailList(int packId, int orgId, int orgTypeId) {
+    public List<SerInitProPackDetailListBean> _querySerInitProPack_SerInitProPackDetailList(int packageId, int orgId, int orgTypeId) {
         synchronized (this) {
             if (serInitProPack_SerInitProPackDetailListQuery == null) {
                 QueryBuilder<SerInitProPackDetailListBean> queryBuilder = queryBuilder();
-                queryBuilder.where(Properties.PackId.eq(null));
+                queryBuilder.where(Properties.PackageId.eq(null));
                 queryBuilder.where(Properties.OrgId.eq(null));
                 queryBuilder.where(Properties.OrgTypeId.eq(null));
                 serInitProPack_SerInitProPackDetailListQuery = queryBuilder.build();
             }
         }
         Query<SerInitProPackDetailListBean> query = serInitProPack_SerInitProPackDetailListQuery.forCurrentThread();
-        query.setParameter(0, packId);
+        query.setParameter(0, packageId);
         query.setParameter(1, orgId);
         query.setParameter(2, orgTypeId);
         return query.list();

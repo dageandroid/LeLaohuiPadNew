@@ -28,6 +28,9 @@
     <dimen name="margin_16dp">16dp</dimen>
     <dimen name="margin_17dp">17dp</dimen>
     <dimen name="margin_top">5dp</dimen>
+    <dimen name="margin_45dp">45dp</dimen>
+    <dimen name="margin_55dp">55dp</dimen>
+    <dimen name="margin_50dp">50dp</dimen>
     <dimen name="margin_left_10dp">10dp</dimen>
     <dimen name="margin_reight_10dp">10dp</dimen>
     <dimen name="margin_top_10dp">10dp</dimen>
@@ -43,6 +46,7 @@
     <dimen name="shopping_car_margin">5dp</dimen>
     <dimen name="product_num_wrap_content">30dp</dimen>
     <dimen name="product_num_helght_content">35dp</dimen>
+    <dimen name="address_item_padding_left35dp">35dp</dimen>
     <dimen name="shopping_btn_helght">65dp</dimen>
     <dimen name="shopping_btn_wrap">120dp</dimen>
     <dimen name="food_type_name_padding">5dp</dimen>

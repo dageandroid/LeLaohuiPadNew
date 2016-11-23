@@ -95,7 +95,7 @@ public class BaseShopCart {
             }
 
             badgeView=new BadgeView(mContext);
-            badgeView.setGravity(Gravity.TOP|Gravity.RIGHT);
+            badgeView.setGravity(Gravity.TOP|Gravity.LEFT|Gravity.CENTER);
             badgeView.setTargetView(uiOperator.getCardView());
         }
         int size=getCartSize();
