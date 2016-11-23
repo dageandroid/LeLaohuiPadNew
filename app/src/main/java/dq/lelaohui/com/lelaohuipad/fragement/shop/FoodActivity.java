@@ -16,14 +16,12 @@ import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
@@ -75,32 +73,81 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
     private SysVar var = null;
     private int mealTime = 1;//早中晚时间标示
     private String curFoodType;//当前食物类型
-    private ArrayList<String> foodTypeList = new ArrayList<String>();//食物类型集合
-    private List<FoodInfoData> curFoodList = new ArrayList<FoodInfoData>();// 当前食物列表
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         footterControler = (FootterControler) getControler();
         var = SysVar.getInstance();
-        getSupportLoaderManager().initLoader(0, null, this);
-        Cursor cursor =footterControler.getFoodTypeCursor(isScope);
-        Log.i(TAG,"cursor=="+cursor.getCount());
         initView();
-        setTimeData();
-        foodTypeAdapter=new MyFoodTypeRecyleViewAdapter(this,cursor);
-        final FoodInfoDataDao dao=  (FoodInfoDataDao) footterControler.getBaseDaoOperator().get();
-        foodTypeAdapter.setDao(dao);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(FoodActivity.this);
+        setSelectTime();
+        initFootType();
+        initInfoDetailView();
+    }
+    MyFoodTypeRecyleViewAdapter footCateAdapter =null;
+    /**
+     * 初始化左侧菜单
+     */
+    private void initFootType() {
+        if(food_type==null){
+            food_type = (RecyclerView) findViewById(R.id.food_type);
+        }
+
+        Cursor cursor =footterControler.getFoodTypeCursor(isScope);
+        footCateAdapter =new MyFoodTypeRecyleViewAdapter(this,cursor);
+       if(cursor.getCount()!=0){
+           footCateAdapter.setDao((FoodInfoDataDao) footterControler.getBaseDaoOperator().get());
+       }
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        food_type.setAdapter(  footCateAdapter);
         food_type.setLayoutManager(linearLayoutManager);
-        food_type.setAdapter(foodTypeAdapter);
-        foodTypeAdapter.setmOnItemClickListener(new BaseDataBaseAdapter.OnRecyclerViewItemClickListener() {
+        getSupportLoaderManager().initLoader(0, null, this);
+        footterControler.doQueryFoodInfo(String.valueOf(0), var.getUserId());
+    }
+
+
+    /**
+     * 设置食品详细页面
+     */
+    private void initInfoDetailView() {
+        if(viewpager==null){
+            viewpager = (ViewPager) findViewById(R.id.viewpager);
+        }
+        initTitleData();
+        sliding_tabs.setupWithViewPager(viewpager);
+        sliding_tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onItemClick(View view, Cursor c) {
+            public void onTabSelected(TabLayout.Tab tab) {
+                int postion=tab.getPosition();
+                viewpager.setCurrentItem(postion);
+                mealTime=postion+1;
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
 
             }
         });
+    }
+
+    private void setViewPager( List<String>   list_title,List<Fragment> fragments) {
+        viewpager.setAdapter(new PagerAdapter(getSupportFragmentManager(), list_title, fragments));
+    }
+
+    /**
+     * 设置日期选择spinner控件
+     */
+    private void setSelectTime() {
+        if( select_time==null){
+            select_time = (AppCompatSpinner) findViewById(R.id.select_time);
+        }
+        setTimeData();
         spinnerAdapter = new FoodTimeSpinnerAdapter(this, dataStringArray);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         select_time.setAdapter(spinnerAdapter);
@@ -130,37 +177,8 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
 
             }
         });
-        initTitleData();
-        viewpager.setAdapter(new PagerAdapter(getSupportFragmentManager(), list_title, fragments));
-        sliding_tabs.setupWithViewPager(viewpager);
-        sliding_tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                int postion=tab.getPosition();
-                viewpager.setCurrentItem(postion);
-//                if (tab.getPosition() == 0) {
-//                    mealTime = 1;
-//                } else if (tab.getPosition() == 1) {
-//                    mealTime = 2;
-//                } else {
-//                    mealTime = 3;
-//                }
-                mealTime=postion+1;
-                initFoodInfoListData(postion,"" + mealTime);
-
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
     }
+
     private void initView() {
         title_tv = (AppCompatTextView) findViewById(R.id.title_tv);
         title_tv.setText("美食");
@@ -172,10 +190,10 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
                 onBackPressed();
             }
         });
-        select_time = (AppCompatSpinner) findViewById(R.id.select_time);
-        food_type = (RecyclerView) findViewById(R.id.food_type);
+
+
         sliding_tabs = (TabLayout) findViewById(R.id.sliding_tabs);
-        viewpager = (ViewPager) findViewById(R.id.viewpager);
+
         show_pp = (ImageView) findViewById(R.id.show_pp);
         shopping_num_txt = (AppCompatTextView) findViewById(R.id.shopping_num_txt);
         shopping_num = (FrameLayout) findViewById(R.id.shopping_num);
@@ -184,22 +202,22 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
 
     }
 
-    private List<Fragment> fragments = new ArrayList<>();
 
     /**
      * 初始化TabLayout
      */
     public void initTitleData() {
-        list_title = new ArrayList<>();
+        List<String>   list_title = new ArrayList<>();
         list_title.add("早餐");
         list_title.add("午餐");
         list_title.add("晚餐");
+        List<Fragment> fragments = new ArrayList<>();
         fragments.add(new BreakFastActivity());
         fragments.add(new BreakFastActivity());
         fragments.add(new BreakFastActivity());
+        setViewPager(list_title,fragments);
     }
 
-    private List<String> list_title = new ArrayList<>();//早餐午餐晚餐
 
     @Override
     public IControler getControler() {
@@ -219,7 +237,7 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
 //                        leftMenum.put()
                     }
                     PagerAdapter pa= (PagerAdapter) viewpager.getAdapter();
-                    BreakFastActivity foodFleatemnt= (BreakFastActivity) pa.getItem(viewpager.getCurrentItem());
+//                    BreakFastActivity foodFleatemnt= (BreakFastActivity) pa.getItem(viewpager.getCurrentItem());
 //                    foodFleatemnt.setFoodInfoDataList(foodInfoDataList);
                 }
             }
@@ -229,101 +247,23 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
     MyFoodTypeRecyleViewAdapter foodTypeAdapter = null;
 
 
-    /**
-     * 设置餐品类型
-     * @param foodType
-     */
-    public void setLeftSeletFoodType(String foodType) {
-        if (foodTypeList.size() == 0) {
-            Toast.makeText(this, "食物类型为空！", Toast.LENGTH_SHORT).show();
-            return;
-        } else {
-            curFoodType = foodType;
-        }
-//        initFoodInfoListData(curMealTime);
-    }
 
-//    /**
-//     * 获取想对时间段相对餐品类型下的餐品信息
-//     * @param mealTime
-//     */
-//    protected void initFoodInfoListData(String mealTime) {
-//        curMealTime = "" + this.mealTime;
-//        foodInfoDatas = sortFood(curFoodType, mealTime);
-////        for (int i = 0; i < foodInfoDatas.size(); i++) {
-////            Log.i(TAG, "foodInfoDatas.get(i).getProName()===" + foodInfoDatas.get(i).getProName());
-////        }
-//    }
-    /**
-     * 获取想对时间段相对餐品类型下的餐品信息
-     * @param mealTime
-     */
-    protected void initFoodInfoListData(int postion,String mealTime) {
-        curMealTime = "" + this.mealTime;
-        List<FoodInfoData> foodInfoDatas = sortFood(curFoodType, mealTime);
-        PagerAdapter pa= (PagerAdapter) viewpager.getAdapter();
-        BreakFastActivity foodFleatemnt= (BreakFastActivity) pa.getItem(postion);
-        foodFleatemnt.setFoodInfoDataList(foodInfoDatas);
-//        for (int i = 0; i < foodInfoDatas.size(); i++) {
-//            Log.i(TAG, "foodInfoDatas.get(i).getProName()===" + foodInfoDatas.get(i).getProName());
-//        }
-    }
-
-    public Cursor sortFoodCursor(String cateName, String mealTime){
-        Cursor cursorFoodInfo=footterControler.getFoodInfoCursor(mealTime,cateName,isScope);
-        return cursorFoodInfo;
-    }
-
-    /**
-     * 通过食物的类别和用餐时间进行获取食物信息
-     *
-     * @param cateName
-     * @param mealTime
-     * @return
-     */
-    public List<FoodInfoData> sortFood(String cateName, String mealTime) {
-        curFoodList.clear();
-        Cursor queryFoodInfo=footterControler.getFoodInfoCursor(mealTime,cateName,isScope);
-
-
-//        for (int i = 0; i < foodInfoDataList.size(); i++) {
-//            FoodInfoData foodInfoData = foodInfoDataList.get(i);
-//            if (foodInfoData.getCateName().equals(cateName) && foodInfoData.getMealTime().equals(mealTime)) {
-//                curFoodList.add(foodInfoData);
-//            }
-//        }
-        return curFoodList;
-    }
-
-    /**
-     * 获取食物类型list
-     *
-     * @return
-     */
-    public ArrayList<String> getFoodType() {
-        foodTypeList.clear();
-//        if (foodInfoDataList != null && foodInfoDataList.size() > 0) {
-//            for (int i = 0; i < foodInfoDataList.size(); i++) {
-//                FoodInfoData foodInfoData = foodInfoDataList.get(i);
-//                if (!foodTypeList.contains(foodInfoData.getCateName())) {
-//                    foodTypeList.add(foodInfoData.getCateName());
-//                }
-//            }
-//        }
-//        if (foodTypeList.size() > 0) {
-//            curFoodType = foodTypeList.get(0);
-//        }
-        return foodTypeList;
-    }
-
+    private int changeId=-1;
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        changeId=id;
         return null;
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
+        if(foodTypeAdapter!=null){
+            if(changeId==0){
+                footCateAdapter.setDao((FoodInfoDataDao) footterControler.getBaseDaoOperator().get());
+                foodTypeAdapter.swapCursor(data);
+                foodTypeAdapter.notifyDataSetChanged();
+            }
+        }
     }
 
     @Override
@@ -376,31 +316,8 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
      * 设置餐品时间 今天，明天，后天
      */
     public void setTimeData() {
-//        Date date = new Date();// 取时间
-//        Calendar calendar = new GregorianCalendar();
-//        calendar.setTime(date);
-//        calendar.add(calendar.DATE, 0);//
-//        date = calendar.getTime(); // 这个时间就是日期往后推一天的结果
-//        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-//        String dateString = formatter.format(date);
         dataStringArray[0] = "今日";
-
-//        date = new Date();// 取时间
-//        calendar = new GregorianCalendar();
-//        calendar.setTime(date);
-//        calendar.add(calendar.DATE, 1);// 把日期往后增加一天.整数往后推,负数往前移动
-//        date = calendar.getTime(); // 这个时间就是日期往后推一天的结果
-//        formatter = new SimpleDateFormat("yyyy-MM-dd");
-//        dateString = formatter.format(date);
         dataStringArray[1] = "明日";
-
-//        date = new Date();// 取时间
-//        calendar = new GregorianCalendar();
-//        calendar.setTime(date);
-//        calendar.add(calendar.DATE, 2);// 把日期往后增加2天.整数往后推,负数往前移动
-//        date = calendar.getTime(); // 这个时间就是日期往后推一天的结果
-//        formatter = new SimpleDateFormat("yyyy-MM-dd");
-//        dateString = formatter.format(date);
         dataStringArray[2] = "后日";
     }
 
