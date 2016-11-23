@@ -10,6 +10,7 @@ import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.BaseBean;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.FoodInfoData;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.FootCateBean;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.FoodInfoDataDao;
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.FootCateBeanDao;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager.BaseDaoOperator;
 
 /**
@@ -116,8 +117,8 @@ public class ProFoodInfoDaoOperator extends BaseDaoOperator {
      * @return
      */
     public Cursor queryFoodType(String mealTime, String mealType){
-        WhereCondition mealTimeConin= FoodInfoDataDao.Properties.MealTime.eq(mealTime);
-        WhereCondition mealTypeContin= FoodInfoDataDao.Properties.MealType.eq(mealType);
+        WhereCondition mealTimeConin=  FootCateBeanDao.Properties.MealTime.eq(mealTime);
+        WhereCondition mealTypeContin=  FootCateBeanDao.Properties.MealType.eq(mealType);
         return super.query(FootCateBean.class,mealTimeConin,mealTypeContin);
     }
     /**
@@ -126,7 +127,7 @@ public class ProFoodInfoDaoOperator extends BaseDaoOperator {
      * @return
      */
     public Cursor queryFoodType(String mealType){
-        WhereCondition mealTypeContin= FoodInfoDataDao.Properties.MealType.eq(mealType);
+        WhereCondition mealTypeContin= FootCateBeanDao.Properties.MealType.eq(mealType);
         Log.i("ProFoodInfoDaoOperator","mealTypeContin=="+mealTypeContin.toString());
         return super.query(FootCateBean.class,mealTypeContin);
     }
