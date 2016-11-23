@@ -66,7 +66,7 @@ public class ProFoodInfoDaoOperator extends BaseDaoOperator {
             }
             if(footCateBeanList!=null&&!footCateBeanList.isEmpty()){
 
-                intsert( footCateBeanList);
+                insert(FootCateBean.class, footCateBeanList);
             }
         }
 
