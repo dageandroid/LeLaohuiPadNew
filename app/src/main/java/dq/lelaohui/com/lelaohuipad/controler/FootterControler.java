@@ -96,7 +96,7 @@ public class FootterControler extends LaoHuiBaseControler {
             if (foodInfoCate.getCode() == 0) {
                 if (getIControlerCallBack() != null) {//解析数据成功，通知UI界面
                     List<FoodInfoData> data = foodInfoCate.getData();
-//                    instertData(data);
+                    instertData(data);
                     if (data != null && data.size() > 0) {
                         Bundle bundle = new Bundle();
                         bundle.putString("action", ServiceNetContant.ServiceResponseAction.QUERY_FOOD_INFO_RESPONSE);

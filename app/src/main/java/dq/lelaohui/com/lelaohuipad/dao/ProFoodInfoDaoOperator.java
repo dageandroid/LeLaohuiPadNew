@@ -8,6 +8,7 @@ import org.greenrobot.greendao.query.WhereCondition;
 import java.util.List;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.BaseBean;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.FoodInfoData;
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.FootCateBean;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.FoodInfoDataDao;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager.BaseDaoOperator;
 
@@ -54,7 +55,21 @@ public class ProFoodInfoDaoOperator extends BaseDaoOperator {
 
     @Override
     public void intsert(List<? extends BaseBean> t) {
+
         insert(FoodInfoData.class,t);
+        if(t!=null&&!t.isEmpty()){
+            List<FootCateBean> footCateBeanList=null;
+            for(int i=0;i<t.size();i++){
+                FoodInfoData data= (FoodInfoData) t.get(i);
+                footCateBeanList.add(new FootCateBean(data));
+            }
+            if(footCateBeanList!=null&&!footCateBeanList.isEmpty()){
+
+                intsert( footCateBeanList);
+            }
+        }
+
+
     }
 
     @Override
@@ -103,7 +118,7 @@ public class ProFoodInfoDaoOperator extends BaseDaoOperator {
     public Cursor queryFoodType(String mealTime, String mealType){
         WhereCondition mealTimeConin= FoodInfoDataDao.Properties.MealTime.eq(mealTime);
         WhereCondition mealTypeContin= FoodInfoDataDao.Properties.MealType.eq(mealType);
-        return super.query(FoodInfoData.class,mealTimeConin,mealTypeContin);
+        return super.query(FootCateBean.class,mealTimeConin,mealTypeContin);
     }
     /**
      * 查询餐品类型

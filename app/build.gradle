@@ -52,4 +52,5 @@ dependencies {
     compile project(':LeLaoHuipushcore')
     compile project(':LeLaoHuifacelogon')
     compile project(':LeLaoHuivoice')
+    compile 'com.android.support:appcompat-v7:25.0.0'
 }
