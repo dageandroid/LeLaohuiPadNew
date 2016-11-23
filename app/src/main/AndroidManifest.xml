@@ -95,6 +95,18 @@
             android:label="@string/title_activity_footer"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".fragement.shop.AddAddressActivity"
+            android:label="@string/title_activity_footer"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".fragement.shop.FoodActivity"
+            android:label="@string/title_activity_footer"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".fragement.shop.SerOrderInfoActivity"
             android:label="@string/title_activity_footer"

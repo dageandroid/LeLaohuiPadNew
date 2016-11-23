@@ -95,6 +95,12 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         food_type.setLayoutManager(linearLayoutManager);
         food_type.setAdapter(foodTypeAdapter);
+        foodTypeAdapter.setmOnItemClickListener(new BaseDataBaseAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, Cursor c) {
+
+            }
+        });
         spinnerAdapter = new FoodTimeSpinnerAdapter(this, dataStringArray);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         select_time.setAdapter(spinnerAdapter);
@@ -257,12 +263,16 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
         List<FoodInfoData> foodInfoDatas = sortFood(curFoodType, mealTime);
         PagerAdapter pa= (PagerAdapter) viewpager.getAdapter();
         BreakFastActivity foodFleatemnt= (BreakFastActivity) pa.getItem(postion);
-//        foodFleatemnt.setFoodInfoDataList(foodInfoDatas);
+        foodFleatemnt.setFoodInfoDataList(foodInfoDatas);
 //        for (int i = 0; i < foodInfoDatas.size(); i++) {
 //            Log.i(TAG, "foodInfoDatas.get(i).getProName()===" + foodInfoDatas.get(i).getProName());
 //        }
     }
 
+    public Cursor sortFoodCursor(String cateName, String mealTime){
+        Cursor cursorFoodInfo=footterControler.getFoodInfoCursor(mealTime,cateName,isScope);
+        return cursorFoodInfo;
+    }
 
     /**
      * 通过食物的类别和用餐时间进行获取食物信息
@@ -273,6 +283,9 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
      */
     public List<FoodInfoData> sortFood(String cateName, String mealTime) {
         curFoodList.clear();
+        Cursor queryFoodInfo=footterControler.getFoodInfoCursor(mealTime,cateName,isScope);
+
+
 //        for (int i = 0; i < foodInfoDataList.size(); i++) {
 //            FoodInfoData foodInfoData = foodInfoDataList.get(i);
 //            if (foodInfoData.getCateName().equals(cateName) && foodInfoData.getMealTime().equals(mealTime)) {
