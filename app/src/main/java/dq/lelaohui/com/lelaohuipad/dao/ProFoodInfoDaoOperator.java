@@ -1,11 +1,14 @@
 package dq.lelaohui.com.lelaohuipad.dao;
+
 import android.database.Cursor;
 import android.util.Log;
 
 import org.greenrobot.greendao.AbstractDao;
 import org.greenrobot.greendao.query.WhereCondition;
 
+import java.util.ArrayList;
 import java.util.List;
+
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.BaseBean;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.FoodInfoData;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.FootCateBean;
@@ -59,7 +62,7 @@ public class ProFoodInfoDaoOperator extends BaseDaoOperator {
 
         insert(FoodInfoData.class,t);
         if(t!=null&&!t.isEmpty()){
-            List<FootCateBean> footCateBeanList=null;
+            List<FootCateBean> footCateBeanList=new ArrayList<>();
             for(int i=0;i<t.size();i++){
                 FoodInfoData data= (FoodInfoData) t.get(i);
                 footCateBeanList.add(new FootCateBean(data));
