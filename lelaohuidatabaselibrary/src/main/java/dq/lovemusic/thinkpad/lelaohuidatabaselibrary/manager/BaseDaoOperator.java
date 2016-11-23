@@ -32,7 +32,9 @@ public abstract class BaseDaoOperator implements DBOperatorImp {
     public void setmContext(Context mContext) {
         this.mContext = mContext;
     }
-
+    public AbstractDao get(Class t) {
+        return getDao(t);
+    }
     private Context mContext;
     private AbstractDaoSession getWritableDao() {
         if(mContext==null){
