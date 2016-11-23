@@ -47,7 +47,6 @@ public class Protocol_KEY {
      * 提交购物车相关信息
      */
     public static final String CONFIRM_DATA="confirmData";
-
     /**
      * 应急电话
      */
@@ -157,6 +156,10 @@ public class Protocol_KEY {
      */
     public static final String CUSTOMER_ID = "customerId";
     /**
+     * 结束时间
+     */
+    public static final String END_TIME = "endTime";
+    /**
      * 老人姓名
      */
     public static final String CUSTOMER_NAME = "customerName";
@@ -180,6 +183,19 @@ public class Protocol_KEY {
      * supplierName
      */
     public static final String SUPPLIERNAME = "supplierName";
+
+    /**
+     * 总额
+     */
+    public static final String TOTAL_MONEY="totalMoney";
+/**
+ * 老人Id
+ */
+    public static  final String OLD_MAN_ID="oldManId";
+    /**
+     * orderData 订单数据
+     */
+    public static  final String ORDER_DATA="orderData";
     /**
      * 订单号
      */
@@ -197,6 +213,9 @@ public class Protocol_KEY {
      * address 详情
      */
     public static final String ADDRESS = "address";
+
+
+
     public static final class CACHE_KEY {
         /**
          */

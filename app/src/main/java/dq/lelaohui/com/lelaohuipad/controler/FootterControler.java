@@ -169,6 +169,54 @@ public class FootterControler extends LaoHuiBaseControler {
         requestParam.addBody(Protocol_KEY.ORG_TYPE,String.valueOf(getOrgType()));
         return requestParam;
     }
+    private RequestParam getRequestParam(String interfaceName) {
+        RequestParam requestParam=new RequestParam();
+        requestParam.addHeader(Protocol_KEY.ACTION,interfaceName );
+        requestParam.addBody(Protocol_KEY.CENTERID,getCenterId());
+        requestParam.addBody(Protocol_KEY.ORG_ID,String.valueOf(getOrgId()));
+        requestParam.addBody(Protocol_KEY.ORG_TYPE,String.valueOf(getOrgType()));
+        return requestParam;
+    }
+    /**
+     * 提交餐品信息
+     */
+private void confirmFoodOrder(int payType,int totalMoney,String addressStr,String phone,
+                              String  isScope, int mealtime, String userIdStr,String buyUserId, ArrayList<Bundle> cofirmOrderData){
+    LeLaohuiApp app= (LeLaohuiApp) getContext();
+    if(app==null){
+        throw  new RuntimeException(" app is null exception");
+    }
+    RequestParam requestParam = getRequestParam(isScope, userIdStr,NetContant.ServiceAction.FOOD_ORDER_CONFIRM);
+    requestParam.addBody(Protocol_KEY.CHANNEL,"1");
+    requestParam.addBody(Protocol_KEY.IS_DISTR,"1");
+    requestParam.addBody(Protocol_KEY.MEALTIME,mealtime);
+    requestParam.addBody(Protocol_KEY.BUY_USER_ID,buyUserId);
+    requestParam.addBody(Protocol_KEY.PAY_TYPE,payType);
+    requestParam.addBody(Protocol_KEY.TOTAL_MONEY,totalMoney);
+    requestParam.addBody(Protocol_KEY.OLD_MAN_ID,buyUserId);
+    requestParam.addBody(Protocol_KEY.ORDER_DATA,cofirmOrderData);
+    requestParam.addBody(Protocol_KEY.CUSTOMER_ID,buyUserId);
+    requestParam.addBody(Protocol_KEY.ADDRESS,addressStr);
+    requestParam.addBody(Protocol_KEY.PHONE,phone);
+    requestParam.addBody(Protocol_KEY.MEALTIME,mealtime);
+    requestParam.addBody(Protocol_KEY.ISSCOPE,Integer.parseInt(isScope));
+    app.reqData(requestParam);
+}
+/**
+ * 支付接口
+ */
+    public void foodPaymentOrder(String  outTradeNo,String userName,double totalFee,String  oldManId){
+        LeLaohuiApp app= (LeLaohuiApp) getContext();
+        if(app==null){
+            throw  new RuntimeException(" app is null exception");
+        }
+        RequestParam requestParam = getRequestParam(NetContant.ServiceAction.FOOD_ORDER_PAYMEN);
+        requestParam.addBody(Protocol_KEY.USERID,oldManId);
+        requestParam.addBody(Protocol_KEY.REAL_NAME,userName);
+        requestParam.addBody(Protocol_KEY.ORDER_NO,outTradeNo);
+        requestParam.addBody(Protocol_KEY.PAY_AMT,totalFee);
+        app.reqData(requestParam);
+    }
 
     /**
      * 提交购物车相关信息接口
@@ -183,7 +231,7 @@ public class FootterControler extends LaoHuiBaseControler {
         requestParam.addBody(Protocol_KEY.IS_DISTR,"1");
         requestParam.addBody(Protocol_KEY.MEALTIME,mealtime);
         requestParam.addBody(Protocol_KEY.BUY_USER_ID,buyUserId);
-        requestParam.addBody("cofirmData",cofirmOrderData);
+        requestParam.addBody(Protocol_KEY.CONFIRM_DATA,cofirmOrderData);
         app.reqData(requestParam);
     }
     ProFoodInfoDaoOperator dao;

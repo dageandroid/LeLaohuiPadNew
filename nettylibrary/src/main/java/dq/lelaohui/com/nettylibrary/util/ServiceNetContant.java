@@ -48,5 +48,16 @@ public class ServiceNetContant {
          */
         public static final String QUERY_FOOD_INFO_RESPONSE = "query.food.info.response";
 
+        /**
+         * 餐品订单支付接口
+         */
+        public static final String     FOOD_ORDER_PAYMENT_RESPONSE="food.order.payment.response";
+
+        /**
+         * 提交食物订单接口
+         */
+        public static final String     FOOD_ORDER_CONFIRM_RESPONSE="food.order.confirm.response";
+
+
     }
 }

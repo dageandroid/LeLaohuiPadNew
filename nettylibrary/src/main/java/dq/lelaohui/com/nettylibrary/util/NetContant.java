@@ -42,6 +42,16 @@ public class NetContant {
          * 提交餐品购物车相关内容接口
          */
         public static final String CONFIRM_FOOD_ORDER="confirm.food.order";
+
+        /**
+         *食物订单提交
+         */
+        public static final String FOOD_ORDER_CONFIRM="food.order.confirm";
+        /**
+         * 食物订单支付
+         */
+        public static final String FOOD_ORDER_PAYMEN="food.order.payment";
+
         /**
          * 获得服务一级和获取二级类别都使用该接口
          */
@@ -91,6 +101,14 @@ public class NetContant {
          * 插入用户信息
          */
         public static final String EDIT_USER_ADDRESS_INFO = "add.user.address";
+        /**
+         * 获取库存信息
+         */
+        public static final String GET_STOCK_DETAIL_BY_USER = "getStockDetailByUser";
+        /**
+         * 查询预约服务接口
+         */
+        public static final String GET_SERVER_DETAIL_BY_INFO = "getDetailByUserAndDate";
 
     }
 

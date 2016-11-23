@@ -16,12 +16,14 @@ import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
@@ -73,6 +75,8 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
     private SysVar var = null;
     private int mealTime = 1;//早中晚时间标示
     private String curFoodType;//当前食物类型
+    private ArrayList<String> foodTypeList = new ArrayList<String>();//食物类型集合
+    private List<FoodInfoData> curFoodList = new ArrayList<FoodInfoData>();// 当前食物列表
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,24 +120,12 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
         }
         initTitleData();
         sliding_tabs.setupWithViewPager(viewpager);
-        sliding_tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                int postion=tab.getPosition();
-                viewpager.setCurrentItem(postion);
-                mealTime=postion+1;
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
+//        sliding_tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+//            @Override
+//            public void onItemClick(View view, Cursor c) {
+//
+//            }
+//        });
     }
 
     private void setViewPager( List<String>   list_title,List<Fragment> fragments) {
@@ -247,6 +239,81 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
     MyFoodTypeRecyleViewAdapter foodTypeAdapter = null;
 
 
+
+//    /**
+//     * 获取想对时间段相对餐品类型下的餐品信息
+//     * @param mealTime
+//     */
+//    protected void initFoodInfoListData(String mealTime) {
+//        curMealTime = "" + this.mealTime;
+//        foodInfoDatas = sortFood(curFoodType, mealTime);
+////        for (int i = 0; i < foodInfoDatas.size(); i++) {
+////            Log.i(TAG, "foodInfoDatas.get(i).getProName()===" + foodInfoDatas.get(i).getProName());
+////        }
+//    }
+    /**
+     * 获取想对时间段相对餐品类型下的餐品信息
+     * @param mealTime
+     */
+    protected void initFoodInfoListData(int postion,String mealTime) {
+        curMealTime = "" + this.mealTime;
+//        List<FoodInfoData> foodInfoDatas = sortFood(curFoodType, mealTime);
+        Cursor foodInfoDatas=sortFoodCursor(curFoodType, mealTime);
+        PagerAdapter pa= (PagerAdapter) viewpager.getAdapter();
+        BreakFastActivity foodFleatemnt= (BreakFastActivity) pa.getItem(postion);
+        foodFleatemnt.setFoodInfoCursor(foodInfoDatas);
+//        foodFleatemnt.setFoodInfoDataList(foodInfoDatas);
+//        for (int i = 0; i < foodInfoDatas.size(); i++) {
+//            Log.i(TAG, "foodInfoDatas.get(i).getProName()===" + foodInfoDatas.get(i).getProName());
+//        }
+    }
+
+    public Cursor sortFoodCursor(String cateName, String mealTime){
+        Cursor cursorFoodInfo=footterControler.getFoodInfoCursor(mealTime,cateName,isScope);
+        return cursorFoodInfo;
+    }
+
+    /**
+     * 通过食物的类别和用餐时间进行获取食物信息
+     *
+     * @param cateName
+     * @param mealTime
+     * @return
+     */
+    public List<FoodInfoData> sortFood(String cateName, String mealTime) {
+        curFoodList.clear();
+        Cursor queryFoodInfo=footterControler.getFoodInfoCursor(mealTime,cateName,isScope);
+
+
+//        for (int i = 0; i < foodInfoDataList.size(); i++) {
+//            FoodInfoData foodInfoData = foodInfoDataList.get(i);
+//            if (foodInfoData.getCateName().equals(cateName) && foodInfoData.getMealTime().equals(mealTime)) {
+//                curFoodList.add(foodInfoData);
+//            }
+//        }
+        return curFoodList;
+    }
+
+    /**
+     * 获取食物类型list
+     *
+     * @return
+     */
+    public ArrayList<String> getFoodType() {
+        foodTypeList.clear();
+//        if (foodInfoDataList != null && foodInfoDataList.size() > 0) {
+//            for (int i = 0; i < foodInfoDataList.size(); i++) {
+//                FoodInfoData foodInfoData = foodInfoDataList.get(i);
+//                if (!foodTypeList.contains(foodInfoData.getCateName())) {
+//                    foodTypeList.add(foodInfoData.getCateName());
+//                }
+//            }
+//        }
+//        if (foodTypeList.size() > 0) {
+//            curFoodType = foodTypeList.get(0);
+//        }
+        return foodTypeList;
+    }
 
     private int changeId=-1;
     @Override
