@@ -9,7 +9,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 
-import dq.lelaohui.com.lelaohuipad.LeLaohuiApp;
 import dq.lelaohui.com.lelaohuipad.bean.SerOrderInfoData;
 import dq.lelaohui.com.nettylibrary.socket.RequestParam;
 import dq.lelaohui.com.nettylibrary.util.NetContant;
@@ -143,7 +142,6 @@ public class ServerRequestParam {
      */
     public RequestParam  doQueryServerCategory(String interfaceNameStr,String cateKeyStr, Bundle parmBundle){
         {
-
             RequestParam requestParam=getRequestParam();
             requestParam.addHeader(Protocol_KEY.ACTION,interfaceNameStr);
             requestParam.addBody(Protocol_KEY.IS_SERVER_REQ,true);
