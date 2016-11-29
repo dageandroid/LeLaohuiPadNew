@@ -89,6 +89,17 @@ public class ServerSubscribeActivity extends LeLaoHuiBaseActivity {
     private void setViewPager( List<String>   list_title,List<Fragment> fragments) {
         ctrl_server_subscribe.setAdapter(new ServerSubscribeActivity.PagerAdapter(getSupportFragmentManager(), list_title, fragments));
     }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
     /**
      * 页面切换
      */
