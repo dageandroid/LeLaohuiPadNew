@@ -43,6 +43,7 @@ public class SerOrderInfoCate  {
     public void setObj(String obj) {
         this.obj = obj;
     }
+
     public SerOrderInfoData getData(){
         if(TextUtils.isEmpty(obj)){
             return null;

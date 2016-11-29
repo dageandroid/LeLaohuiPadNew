@@ -26,10 +26,6 @@ public class NetIntentService extends IntentService {
         super("NetIntentService");
     }
 
-
-
-
-
     @Override
     protected void onHandleIntent(Intent intent) {
         if (intent != null) {

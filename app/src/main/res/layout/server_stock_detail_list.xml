@@ -2,18 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/gift_packs"
         android:textSize="@dimen/txt_size_22sp"
         android:textColor="@android:color/black"
         android:layout_width="fill_parent"
         android:text="乐老汇大礼包"
+        android:background="@color/help_button_view"
         android:gravity="center"
-        android:layout_height="wrap_content" />
+        android:layout_height="@dimen/ser_order_hight" />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/detail_list_data"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        android:layout_height="wrap_content">
+    </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

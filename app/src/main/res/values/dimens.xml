@@ -60,7 +60,9 @@
     <dimen name="hight_1dp">1dp</dimen>
     <dimen name="hight_2dp">2dp</dimen>
     <dimen name="add_pro_hight">45dp</dimen>
+    <dimen name="ser_order_hight">50dp</dimen>
     <dimen name="ico_car_have_hight">45dp</dimen>
     <dimen name="ico_car_have_width">55dp</dimen>
+    <dimen name="server_filter_hight">45dp</dimen>
     <dimen name="margin_40dp">40dp</dimen>
 </resources>

@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatTextView;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,9 +41,14 @@ public class ServerSubscribeActivity extends LeLaoHuiBaseActivity {
     }
 
     public  void initView(){
-
         reight_tv= (AppCompatTextView) findViewById(R.id.reight_tv);
         left_btn= (AppCompatImageButton) findViewById(R.id.left_btn);
+        left_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         title_tv= (AppCompatTextView) findViewById(R.id.title_tv);
         title_tv.setText("服务预约");
         server_subscribe_tab= (TabLayout) findViewById(R.id.server_subscribe_tab);

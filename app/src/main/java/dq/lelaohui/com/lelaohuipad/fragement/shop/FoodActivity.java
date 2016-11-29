@@ -100,7 +100,9 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
 //       if(cursor.getCount()!=0){
 //           footCateAdapter.setDao( FootCateBeanDao) footterControler.getBaseDaoOperator().get(FootCateBean.class)));
 //       }
-        footCateAdapter.setDao((FootCateBeanDao) footterControler.getBaseDaoOperator().get(FootCateBean.class));
+
+        final FootCateBeanDao footCateBeanDao=     (FootCateBeanDao) footterControler.getBaseDaoOperator().get(FootCateBean.class);
+        footCateAdapter.setDao(footCateBeanDao);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         food_type.setAdapter(  footCateAdapter);
@@ -111,7 +113,10 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
         footCateAdapter.setmOnItemClickListener(new BaseDataBaseAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, Cursor c) {
-
+                FootCateBean footCateBean= footCateBeanDao.readEntity(c,0);
+                if (footCateBean!=null){
+                    curFoodType=  footCateBean.getCateName();
+                }
             }
         });
 
@@ -131,8 +136,7 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int position=tab.getPosition();
-                Log.i(TAG,"TAB  POSITION=="+position);
-          initFoodInfoListData(position,position+1);
+                initFoodInfoListData(position,position+1);
             }
 
             @Override
@@ -234,7 +238,7 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
      */
     protected void initFoodInfoListData(int postion,int mealTime) {
         curMealTime = "" + this.mealTime;
-        Cursor foodInfoDatas=sortFoodCursor("汤/粥", String.valueOf(mealTime));
+        Cursor foodInfoDatas=sortFoodCursor(curFoodType, String.valueOf(mealTime));
         PagerAdapter pa= (PagerAdapter) viewpager.getAdapter();
         BreakFastActivity foodFleatemnt= (BreakFastActivity) pa.getItem(postion);
         if(foodInfoDatas!=null){
@@ -256,7 +260,6 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
         changeId=id;
         return null;
     }
-    private String DB_VERSION_FOOT_TYPE="CATETYPE";
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         footCateAdapter.setDao((FootCateBeanDao) footterControler.getBaseDaoOperator().get(FootCateBean.class));
