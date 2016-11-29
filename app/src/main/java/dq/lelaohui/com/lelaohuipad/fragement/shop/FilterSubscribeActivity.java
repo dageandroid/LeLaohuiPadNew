@@ -120,6 +120,17 @@ public class FilterSubscribeActivity extends LeLaoHuiBaseActivity {
     public void usable() {
 
     }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
     /**
      * 服务预约包
      */
