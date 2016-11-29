@@ -85,4 +85,13 @@ public class FooterActivity extends LeLaoHuiBaseActivity implements LoaderManage
 
     }
 
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
 }

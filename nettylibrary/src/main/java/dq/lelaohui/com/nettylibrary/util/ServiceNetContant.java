@@ -59,5 +59,6 @@ public class ServiceNetContant {
         public static final String     FOOD_ORDER_CONFIRM_RESPONSE="food.order.confirm.response";
 
 
+        public static String GET_STOCK_DETAIL_BY_USER_RESPONSE="";
     }
 }
