@@ -3,7 +3,6 @@ package dq.lelaohui.com.lelaohuipad.fragement.shop;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.widget.AppCompatButton;
@@ -14,14 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import dq.lelaohui.com.lelaohuipad.R;
 import dq.lelaohui.com.lelaohuipad.base.LeLaoHuiBaseActivity;
-import dq.lelaohui.com.lelaohuipad.bean.UserAddressBean;
 import dq.lelaohui.com.lelaohuipad.bean.UserAddressData;
 import dq.lelaohui.com.lelaohuipad.controler.MyAddressConreoler;
 import dq.lelaohui.com.lelaohuipad.port.IControler;
@@ -128,6 +125,16 @@ public class MyAddressActivity extends LeLaoHuiBaseActivity {
         });
     }
 
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
 
     class MyExpandableListViewAdapter extends BaseExpandableListAdapter {
 
@@ -177,7 +184,7 @@ public class MyAddressActivity extends LeLaoHuiBaseActivity {
                                  View convertView, ViewGroup parent) {
             GroupHolder groupHolder = null;
             if (convertView == null) {
-                convertView = (View) getLayoutInflater().from(context).inflate(
+                convertView = getLayoutInflater().from(context).inflate(
                         R.layout.address_father_item, null);
                 groupHolder = new GroupHolder();
                 groupHolder.name = (AppCompatTextView) convertView
@@ -228,7 +235,7 @@ public class MyAddressActivity extends LeLaoHuiBaseActivity {
 
             final UserAddressData addressModel = userAddressDataList.get(groupPosition);
 
-            convertView = (View) getLayoutInflater().from(context).inflate(
+            convertView = getLayoutInflater().from(context).inflate(
                     R.layout.address_child_item, null);
             AppCompatTextView name = (AppCompatTextView) convertView.findViewById(R.id.name);
             AppCompatTextView phonenum = (AppCompatTextView) convertView
