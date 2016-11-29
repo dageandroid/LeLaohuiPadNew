@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
@@ -76,22 +77,24 @@
                     android:text="0"
                     android:textSize="@dimen/txt_size_26sp" />
 
-                <android.support.v7.widget.AppCompatImageView
+                <android.support.v7.widget.AppCompatButton
                     android:id="@+id/add_product"
-                    android:layout_width="@dimen/add_pro_hight"
+                    android:layout_width="45dp"
                     android:layout_height="@dimen/add_pro_hight"
                     android:layout_alignLeft="@+id/subtract_product"
                     android:layout_alignParentTop="true"
+                    android:clickable="true"
                     android:layout_alignStart="@+id/subtract_product"
-                    android:src="@drawable/add_btn" />
+                    android:background="@drawable/add_btn" />
 
-                <android.support.v7.widget.AppCompatImageView
+                <android.support.v7.widget.AppCompatButton
                     android:id="@+id/subtract_product"
                     android:layout_width="@dimen/add_pro_hight"
                     android:layout_height="@dimen/add_pro_hight"
                     android:layout_below="@+id/product_num"
+                    android:clickable="true"
                     android:layout_centerHorizontal="true"
-                    android:src="@drawable/minus_btn" />
+                    android:background="@drawable/minus_btn" />
 
             </RelativeLayout>
 
@@ -102,8 +105,11 @@
                 android:layout_alignLeft="@+id/food_remark"
                 android:layout_alignStart="@+id/food_remark"
                 android:layout_alignTop="@+id/food_name"
-                android:scaleType="fitXY"
-                android:src="@drawable/icon_launcher" />
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_launcher"
+                android:adjustViewBounds="true"
+                android:cropToPadding="true"
+                card_view:srcCompat="@drawable/app" />
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>

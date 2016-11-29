@@ -2,6 +2,7 @@ package dq.lelaohui.com.lelaohuipad.base;
 
 import android.os.Bundle;
 
+import dq.lelaohui.com.lelaohuipad.LeLaohuiApp;
 import dq.lelaohui.com.lelaohuipad.port.IControler;
 import dq.lelaohui.com.lelaohuipad.port.IControlerCallBack;
 import dq.lelaohui.com.nettylibrary.activity.BaseActivity;
@@ -22,6 +23,7 @@ public abstract  class LeLaoHuiBaseActivity extends BaseActivity implements NetM
         controler.setContext(this);
         setDataCallBack(controler);
         controler.setIControlerCallBack(this);
+        ((LeLaohuiApp) getApplication()).setProgressBarListener(this);
     }
     protected String getIcControlerAction(Bundle bundle){
         if(bundle==null){
@@ -35,4 +37,6 @@ public abstract  class LeLaoHuiBaseActivity extends BaseActivity implements NetM
         }
         return bundle.get(IC_CONTROLER_DATA);
     }
+
+
 }

@@ -39,6 +39,7 @@ public class FoodInfoDataDao extends AbstractDao<FoodInfoData, Long> {
         public final static Property SupplierType = new Property(12, String.class, "supplierType", false, "SUPPLIER_TYPE");
         public final static Property BuyNum = new Property(13, int.class, "buyNum", false, "BUY_NUM");
         public final static Property IsScope = new Property(14, String.class, "isScope", false, "IS_SCOPE");
+        public final static Property UnineqKey = new Property(15, String.class, "unineqKey", false, "UNINEQ_KEY");
     }
 
 
@@ -57,7 +58,7 @@ public class FoodInfoDataDao extends AbstractDao<FoodInfoData, Long> {
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "\"CATE_ID\" INTEGER NOT NULL ," + // 1: cateId
                 "\"CATE_NAME\" TEXT," + // 2: cateName
-                "\"PRO_ID\" TEXT," + // 3: proId
+                "\"PRO_ID\" TEXT UNIQUE ," + // 3: proId
                 "\"PRO_NAME\" TEXT," + // 4: proName
                 "\"SUPPLIER_ID\" TEXT," + // 5: supplierId
                 "\"PRO_PRICE\" INTEGER NOT NULL ," + // 6: proPrice
@@ -68,7 +69,8 @@ public class FoodInfoDataDao extends AbstractDao<FoodInfoData, Long> {
                 "\"SUPPLIER_NAME\" TEXT," + // 11: supplierName
                 "\"SUPPLIER_TYPE\" TEXT," + // 12: supplierType
                 "\"BUY_NUM\" INTEGER NOT NULL ," + // 13: buyNum
-                "\"IS_SCOPE\" TEXT);"); // 14: isScope
+                "\"IS_SCOPE\" TEXT," + // 14: isScope
+                "\"UNINEQ_KEY\" TEXT UNIQUE );"); // 15: unineqKey
     }
 
     /** Drops the underlying database table. */
@@ -143,6 +145,11 @@ public class FoodInfoDataDao extends AbstractDao<FoodInfoData, Long> {
         if (isScope != null) {
             stmt.bindString(15, isScope);
         }
+ 
+        String unineqKey = entity.getUnineqKey();
+        if (unineqKey != null) {
+            stmt.bindString(16, unineqKey);
+        }
     }
 
     @Override
@@ -211,6 +218,11 @@ public class FoodInfoDataDao extends AbstractDao<FoodInfoData, Long> {
         if (isScope != null) {
             stmt.bindString(15, isScope);
         }
+ 
+        String unineqKey = entity.getUnineqKey();
+        if (unineqKey != null) {
+            stmt.bindString(16, unineqKey);
+        }
     }
 
     @Override
@@ -235,7 +247,8 @@ public class FoodInfoDataDao extends AbstractDao<FoodInfoData, Long> {
             cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // supplierName
             cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // supplierType
             cursor.getInt(offset + 13), // buyNum
-            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14) // isScope
+            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // isScope
+            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15) // unineqKey
         );
         return entity;
     }
@@ -257,6 +270,7 @@ public class FoodInfoDataDao extends AbstractDao<FoodInfoData, Long> {
         entity.setSupplierType(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
         entity.setBuyNum(cursor.getInt(offset + 13));
         entity.setIsScope(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
+        entity.setUnineqKey(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
      }
     
     @Override

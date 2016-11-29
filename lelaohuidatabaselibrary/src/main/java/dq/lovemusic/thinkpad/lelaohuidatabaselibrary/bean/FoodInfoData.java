@@ -2,12 +2,15 @@ package dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 import com.google.gson.annotations.Expose;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Keep;
+import org.greenrobot.greendao.annotation.Unique;
 
 /**
  * Created by ZTF on 2016/11/20.
@@ -43,8 +46,10 @@ public class FoodInfoData extends BaseBean implements Parcelable {
     @Expose
     private String cateName;
     @Expose
+    @Unique
     private String proId;
     @Expose
+
     private String proName;
     @Expose
     private String supplierId;
@@ -66,6 +71,15 @@ public class FoodInfoData extends BaseBean implements Parcelable {
     private int buyNum;
     @Expose
     private String isScope;
+    @Keep
+    public String getUnineqKey() {
+        if(TextUtils.isEmpty(super.getUnineqKey())){
+            return cateId+"_"+proId+"_"+supplierId+"_"+mealTime+"_"+mealType;
+        }
+        return super.getUnineqKey();
+    }
+
+
 
     public int getBuyNum() {
         return buyNum;
@@ -222,11 +236,12 @@ public class FoodInfoData extends BaseBean implements Parcelable {
         this.isScope = in.readString();
     }
 
-    @Generated(hash = 1381895384)
+    @Generated(hash = 1748595060)
+    @Keep
     public FoodInfoData(Long id, int cateId, String cateName, String proId, String proName,
             String supplierId, int proPrice, String proPic, String mealTime, String mealType,
             String remark, String supplierName, String supplierType, int buyNum,
-            String isScope) {
+            String isScope, String unineqKey) {
         this.id = id;
         this.cateId = cateId;
         this.cateName = cateName;
@@ -242,6 +257,7 @@ public class FoodInfoData extends BaseBean implements Parcelable {
         this.supplierType = supplierType;
         this.buyNum = buyNum;
         this.isScope = isScope;
+        setUnineqKey(unineqKey);
     }
 
     public static final Creator<FoodInfoData> CREATOR = new Creator<FoodInfoData>() {

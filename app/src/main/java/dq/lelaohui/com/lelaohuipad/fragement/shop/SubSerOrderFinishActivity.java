@@ -1,7 +1,6 @@
 package dq.lelaohui.com.lelaohuipad.fragement.shop;
 
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
@@ -112,4 +111,13 @@ public class SubSerOrderFinishActivity extends LeLaoHuiBaseActivity {
         }
     }
 
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
 }

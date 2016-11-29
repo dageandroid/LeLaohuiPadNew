@@ -118,6 +118,16 @@ public class ServerActivity extends LeLaoHuiBaseActivity implements LoaderManage
         get_data_refresh = (SwipeRefreshLayout) findViewById(R.id.get_data_refresh);
     }
 
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
     public static class MyShopRecyleViewAdapter extends BaseDataBaseAdapter<MyShopRecyleViewAdapter.ViewHolder> {
         private SoftReference<ProCateServiceDao> softReference = null;
         private LayoutInflater layoutInflater=null;
@@ -132,6 +142,11 @@ public class ServerActivity extends LeLaoHuiBaseActivity implements LoaderManage
                     holder.setData(pc);
                 }
             }
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder holder, Cursor cursor, int postion) {
+            onBindViewHolder( holder,  cursor);
         }
 
         public MyShopRecyleViewAdapter(Context context, Cursor c) {

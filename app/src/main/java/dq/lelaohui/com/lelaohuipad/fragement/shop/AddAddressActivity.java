@@ -134,4 +134,14 @@ public class AddAddressActivity extends LeLaoHuiBaseActivity {
             }
         });
     }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
 }

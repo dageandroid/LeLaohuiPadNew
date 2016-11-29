@@ -51,11 +51,10 @@ public abstract class BaseDaoOperator implements DBOperatorImp {
            AbstractDao dao=  daoSession.getDao(entityClass);
            if(value instanceof ArrayList){
               ArrayList<?>  obj= (ArrayList<?>) value;
-               obj.toArray();
-               Log.i(Tag, "insert: "+obj.toString());
-               dao.insertInTx(obj.toArray());
+
+               dao.insertOrReplace(obj.toArray());
            }else{
-               dao.insert(value);
+               dao.insertOrReplace(value);
            }
        }catch (Exception e){
            e.printStackTrace();
@@ -69,13 +68,11 @@ public abstract class BaseDaoOperator implements DBOperatorImp {
     protected Cursor query(Class<? extends Object> entityClass,WhereCondition condition,WhereCondition ...conditions){
         DaoSession daoSession = (DaoSession) getReadDao();
         AbstractDao dao=  daoSession.getDao(entityClass);
-
-        CursorQuery cursorQuery= dao.queryBuilder().where(condition,conditions).distinct().buildCursor();
+        CursorQuery cursorQuery= dao.queryBuilder().distinct().where(condition,conditions).buildCursor();
         Cursor cursor=cursorQuery.query();
         Log.i(Tag, "query: "+cursor.getCount());
         return cursor;
     }
-
     protected Cursor query(Class<? extends Object> entityClass){
         DaoSession daoSession = (DaoSession) getReadDao();
         AbstractDao dao=  daoSession.getDao(entityClass);

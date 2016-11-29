@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:ellipsize="marquee"
-    android:textSize="@dimen/txt_size_14sp"
+    android:textSize="13sp"
     android:text="萨菲"
     android:textColor="@color/color_black"
     android:textAlignment="inherit"/>

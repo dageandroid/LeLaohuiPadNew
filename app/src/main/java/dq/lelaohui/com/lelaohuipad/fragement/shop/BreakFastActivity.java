@@ -3,52 +3,43 @@ package dq.lelaohui.com.lelaohuipad.fragement.shop;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.AppCompatImageView;
-import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.lang.ref.SoftReference;
-import java.util.List;
-
 import dq.lelaohui.com.lelaohuipad.R;
-import dq.lelaohui.com.lelaohuipad.adapter.BaseDataBaseAdapter;
-import dq.lelaohui.com.lelaohuipad.adapter.FoodInfoAdapter;
+import dq.lelaohui.com.lelaohuipad.bean.ServerCartBean;
+import dq.lelaohui.com.lelaohuipad.controler.FootterControler;
+import dq.lelaohui.com.lelaohuipad.fragement.shop.adapter.BaseShopInfoRecyleViewAdapter;
+import dq.lelaohui.com.lelaohuipad.fragement.shop.car.BaseShopCart;
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.BaseBean;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.FoodInfoData;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.FoodInfoDataDao;
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager.BaseDaoOperator;
 
 /**
  * Created by ZTF on 2016/11/21.
  * 早餐
  */
 
-public class BreakFastActivity extends Fragment   {
+public class BreakFastActivity extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private RecyclerView foot_content;
     private SwipeRefreshLayout get_data_refresh;
+    private FootInfoCursor footInfoCursor = null;
 
-    public void setFoodInfoCursor(Cursor foodInfoCursor,FoodInfoDataDao dataDao) {
-        if (foodInfoCursor!=null&&myFoodInfoAdapter!=null){
-            Log.i("BreakFastActivity","foodInfoCursor==="+foodInfoCursor.getCount());
-//            myFoodInfoAdapter.setCursor(foodInfoCursor);
-//            myFoodInfoAdapter.notifyDataSetChanged();
-            myFoodInfoAdapter=new MyFoodInfoAdapter(getContext(),foodInfoCursor);
-            myFoodInfoAdapter.setDao(dataDao);
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity());
-            linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-            foot_content.setLayoutManager(linearLayoutManager);
-            foot_content.setAdapter(myFoodInfoAdapter);
-        }
+    public void setFootInfoCursor(FootInfoCursor footInfoCursor) {
+        this.footInfoCursor = footInfoCursor;
     }
-    private Cursor foodInfoCursor=null;
-    MyFoodInfoAdapter myFoodInfoAdapter=null;
+
+
+    MyFoodInfoAdapter myFoodInfoAdapter = null;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,94 +53,78 @@ public class BreakFastActivity extends Fragment   {
     }
 
     private void initView(View v) {
-            get_data_refresh = (SwipeRefreshLayout) v.findViewById(R.id.get_data_refresh);
-            foot_content = (RecyclerView) v.findViewById(R.id.foot_content);
-            myFoodInfoAdapter = new MyFoodInfoAdapter();
-            myFoodInfoAdapter.setContext(getContext());
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity());
-            linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-            foot_content.setLayoutManager(linearLayoutManager);
-            foot_content.setAdapter(myFoodInfoAdapter);
+        get_data_refresh = (SwipeRefreshLayout) v.findViewById(R.id.get_data_refresh);
+        foot_content = (RecyclerView) v.findViewById(R.id.foot_content);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        foot_content.setLayoutManager(linearLayoutManager);
+        myFoodInfoAdapter = new MyFoodInfoAdapter(getContext(), null);
+        myFoodInfoAdapter.setDao(footInfoCursor.getDao().get(FoodInfoData.class));
+//        footInfoCursor.getShopCart().setCardDataChange(this);
+        myFoodInfoAdapter.setShopCartBase(footInfoCursor.getShopCart());
+        foot_content.setAdapter(myFoodInfoAdapter);
+        get_data_refresh.setOnRefreshListener(this);
+        get_data_refresh.setRefreshing(false);
     }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
 
+    public void notifyDataChanger() {
+        if (this.footInfoCursor != null) {
+            myFoodInfoAdapter.changeCursor(this.footInfoCursor.getCuror());
+        }
+    }
+
+    @Override
+    public void onRefresh() {
+
+    }
+
+
     /**
      * 显示服务信息
      */
-    public  class  MyFoodInfoAdapter extends BaseDataBaseAdapter<MyFoodInfoAdapter.ViewHolder> {
-    private SoftReference<FoodInfoDataDao> softReference = null;
-    private LayoutInflater layoutInflater=null;
-    private String TAG="MyFoodInfoAdapter";
-    private Context context;
-    public void setContext(Context context) {
-         this.context = context;
-    }
-
-    @Override
-    public void onBindViewHolder(MyFoodInfoAdapter.ViewHolder holder, Cursor cursor) {
-        if (softReference != null) {
-            FoodInfoDataDao dao = softReference.get();
-            if (dao != null) {
-                FoodInfoData pc = dao.readEntity(cursor, 0);
-                Log.i("MyFoodInfoAdapter","FoodInfoData=="+pc.getProName());
-                holder.setData(pc);
+    public class MyFoodInfoAdapter extends BaseShopInfoRecyleViewAdapter {
+        public MyFoodInfoAdapter(Context context, Cursor c) {
+            super(context, c);
+        }
+        protected void daoToEntity(ViewHolder holder, Cursor cursor,int postion) {
+            FoodInfoDataDao dataDao= (FoodInfoDataDao) getDao();
+            if(dataDao!=null){
+                FoodInfoData foodInfoData=dataDao.readEntity(cursor,0);
+                holder.setData(foodInfoData,postion);
             }
         }
-    }
-    public    MyFoodInfoAdapter(){
-
-    }
-    public MyFoodInfoAdapter(Context context, Cursor c) {
-        super(context, c);
-        layoutInflater= LayoutInflater.from(context);
-    }
-        public void    setDao(FoodInfoDataDao foodInfoDataDao){
-            softReference = new SoftReference<FoodInfoDataDao>(foodInfoDataDao);
+        @NonNull
+        public ServerCartBean getServerCartBean(BaseBean baseBean, int position) {
+            FoodInfoData serInitProPack= ( FoodInfoData) baseBean;
+            int proId = Integer.parseInt(serInitProPack.getProId());
+            String proName = serInitProPack.getProName();
+            double proPrice = serInitProPack.getProPrice();
+            int proNum = serInitProPack.getBuyNum();
+            ServerCartBean shoppingCarListBean = new ServerCartBean(proName, proPrice, proNum, proId,serInitProPack.getRemark() );
+            shoppingCarListBean.setBean(serInitProPack);
+            shoppingCarListBean.uniqueKey=serInitProPack.getUnineqKey();
+            shoppingCarListBean.posion = position;
+            return shoppingCarListBean;
         }
-    @Override
-    public View getItemView() {
-        return layoutInflater.inflate(R.layout.llh_food_cv_item,null);
-    }
-
-    @Override
-    public ViewHolder onCreatViewHolder(View view) {
-        return new ViewHolder(view);
-    }
-
-    public  class ViewHolder extends RecyclerView.ViewHolder {
-        public View rootView;
-        public AppCompatTextView food_name;
-        public AppCompatTextView food_price;
-        public AppCompatTextView food_remark;
-        public AppCompatTextView product_num;
-        public AppCompatImageView add_product;
-        public AppCompatImageView subtract_product;
-        public AppCompatImageView food_img;
-        public CardView card_view;
-
-        public ViewHolder(View rootView) {
-            super(rootView);
-            this.rootView = rootView;
-            this.food_name = (AppCompatTextView) rootView.findViewById(R.id.food_name);
-            this.food_price = (AppCompatTextView) rootView.findViewById(R.id.food_price);
-            this.food_remark = (AppCompatTextView) rootView.findViewById(R.id.food_remark);
-            this.product_num = (AppCompatTextView) rootView.findViewById(R.id.product_num);
-            this.add_product = (AppCompatImageView) rootView.findViewById(R.id.add_product);
-            this.subtract_product = (AppCompatImageView) rootView.findViewById(R.id.subtract_product);
-            this.food_img = (AppCompatImageView) rootView.findViewById(R.id.food_img);
-            this.card_view = (CardView) rootView.findViewById(R.id.card_view);
-        }
-        public void    setData(FoodInfoData foodInfoData){
-            this.food_name.setText(foodInfoData.getProName());
-            this.food_price.setText("价格："+foodInfoData.getProPrice()+"元");
-            this.food_remark.setText("描述："+foodInfoData.getRemark());
-//         this.product_num.setText("供应商："+foodInfoData.getSupplierName());
+        public void setShopCartBase(BaseShopCart shopCartBase) {
+            shopCartBase.setCardDataChange(this);
+           super.setShopCartBase(shopCartBase);
         }
 
     }
-}
 
+    public interface FootInfoCursor {
+        Cursor getCuror();
+
+        BaseDaoOperator getDao();
+
+        FootterControler getFootControler();
+
+        BaseShopCart getShopCart();
+    }
 }

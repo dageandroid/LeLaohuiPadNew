@@ -34,7 +34,7 @@ import dq.lelaohui.com.nettylibrary.socket.NetManager;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends LeLaoHuiBaseActivity implements NetManager.ProgressBarListener {
+public class LoginActivity extends LeLaoHuiBaseActivity  {
 
     /**
      * Id to identity READ_CONTACTS permission request.

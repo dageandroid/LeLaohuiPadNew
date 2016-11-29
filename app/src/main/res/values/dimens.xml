@@ -15,7 +15,7 @@
     <dimen name="txt_size_20sp">20sp</dimen>
     <dimen name="txt_size_22sp">22sp</dimen>
     <dimen name="txt_size_24sp">24sp</dimen>
-    <dimen name="txt_size_26sp">26sp</dimen>
+    <dimen name="txt_size_26sp">14sp</dimen>
     <dimen name="txt_size_28sp">28sp</dimen>
     <dimen name="margin_left">5dp</dimen>
     <dimen name="margin_reight">5dp</dimen>
@@ -59,8 +59,8 @@
     <dimen name="shopping_car_txt_hight">30dp</dimen>
     <dimen name="hight_1dp">1dp</dimen>
     <dimen name="hight_2dp">2dp</dimen>
-    <dimen name="add_pro_hight">45dp</dimen>
-    <dimen name="ico_car_have_hight">45dp</dimen>
+    <dimen name="add_pro_hight">35dp</dimen>
+    <dimen name="ico_car_have_hight">35dp</dimen>
     <dimen name="ico_car_have_width">55dp</dimen>
     <dimen name="margin_40dp">40dp</dimen>
 </resources>

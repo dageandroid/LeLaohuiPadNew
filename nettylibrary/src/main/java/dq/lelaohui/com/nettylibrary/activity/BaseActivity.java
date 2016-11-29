@@ -8,9 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 
 import dq.lelaohui.com.nettylibrary.port.NetDataCallBack;
 import dq.lelaohui.com.nettylibrary.reciver.NetResponseReceiver;
+import dq.lelaohui.com.nettylibrary.socket.NetManager;
 import dq.lelaohui.com.nettylibrary.util.NetContant;
 
-public abstract class BaseActivity extends AppCompatActivity  {
+public abstract class BaseActivity extends AppCompatActivity implements NetManager.ProgressBarListener{
     public NetResponseReceiver getResponseReciver() {
         return responseReciver;
     }
@@ -27,6 +28,7 @@ public abstract class BaseActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutID());
+
     }
     private void regeistNetBroaCarst()     {
          broadManager=LocalBroadcastManager.getInstance(this);
