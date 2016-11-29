@@ -1,9 +1,10 @@
 package dq.lelaohui.com.lelaohuipad.bean;
 
+import android.text.TextUtils;
+
 import java.io.Serializable;
 
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.BaseBean;
-import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.SerInitProPack;
 
 /**
  * 购物车商品显示bean
@@ -17,6 +18,16 @@ public class ShoppingCarListBean  implements Serializable{
 	public int proId;
 	public  int id;
 	public int posion;
+	public String uniqueKey;
+	public void setProDetail(String proDetail) {
+		this.proDetail = proDetail;
+	}
+
+	public String getProDetail() {
+		return proDetail;
+	}
+
+	public String proDetail;
 	public int getProId() {
 		return proId;
 	}
@@ -54,32 +65,39 @@ public class ShoppingCarListBean  implements Serializable{
 	public ShoppingCarListBean(){
 
 	}
-	public ShoppingCarListBean(BaseBean bean){
-		this.bean=bean;
-	}
 	public ShoppingCarListBean(String proName, double proPrice, int proNum,int proId) {
 		this.proName=proName;
 		this.proPrice=proPrice;
 		this.proNum=proNum;
 		this.proId=proId;
 	}
-	public ShoppingCarListBean(SerInitProPack serInitProPack) {
-		 proId=serInitProPack.getId().intValue();
-		 proName=serInitProPack.getPackageName();
-		 proPrice=serInitProPack.getPrice();
-		setBean(serInitProPack);
-		proNum=1;
-	}
 	public String getKey(){
-		return this.proName+"_"+proId+"_"+proPrice;
+		if (bean != null&&!TextUtils.isEmpty(bean.getUnineqKey())) {
+			uniqueKey= bean.getUnineqKey();
+		}else{
+			uniqueKey=this.proName+"_"+proId+"_"+proPrice;
+		}
+		return uniqueKey;
 	}
 	@Override
 	public boolean equals(Object obj) {
 		ShoppingCarListBean carListBean= (ShoppingCarListBean) obj;
+		boolean isequals=getKey().equals(carListBean.getKey());
+		System.out.println(isequals);
+		return isequals;
+	}
 
-		if(this.id==carListBean.id&&this.proName.equals(carListBean.getProName())&&this.proPrice==carListBean.proPrice){
-			return true;
-		}
-		return false;
+	@Override
+	public String toString() {
+		return "ShoppingCarListBean{" +
+				"proName='" + proName + '\'' +
+				", proPrice=" + proPrice +
+				", proNum=" + proNum +
+				", proId=" + proId +
+				", id=" + id +
+				", posion=" + posion +
+				", proDetail='" + proDetail + '\'' +
+				", bean=" + bean +
+				'}';
 	}
 }

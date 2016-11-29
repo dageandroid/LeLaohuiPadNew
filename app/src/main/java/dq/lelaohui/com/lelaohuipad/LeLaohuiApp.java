@@ -46,7 +46,9 @@ public class LeLaohuiApp extends Application {
 //        ServerUtil.startNetServer(this, NetService.class);
         startNet();
     }
-
+    public void setProgressBarListener(NetManager.ProgressBarListener listener){
+        netManager.setProgressBarListener(listener);
+    }
     private void startNet() {
         netManager.startNet();
     }

@@ -96,10 +96,10 @@ public class FootterControler extends LaoHuiBaseControler {
             if (foodInfoCate.getCode() == 0) {
                 if (getIControlerCallBack() != null) {//解析数据成功，通知UI界面
                     List<FoodInfoData> data = foodInfoCate.getData();
-                    instertData(data);
                     if (data != null && data.size() > 0) {
+                        instertData(data);
                         Bundle bundle = new Bundle();
-                        bundle.putString("action", ServiceNetContant.ServiceResponseAction.QUERY_FOOD_INFO_RESPONSE);
+                        bundle.putString(CONTROLER_ACTION, ServiceNetContant.ServiceResponseAction.QUERY_FOOD_INFO_RESPONSE);
                         bundle.putParcelableArrayList("foodInfo", (ArrayList<? extends Parcelable>) data);
                         getIControlerCallBack().result(bundle);
                     }
@@ -230,11 +230,11 @@ private void confirmFoodOrder(int payType,int totalMoney,String addressStr,Strin
         }
         return null;
     }
-    private Cursor queryFoodInfoCursor(String mealTime,String cateName,String mealType){
+    private Cursor queryFoodInfoCursor(String mealTime,int cateId,String mealType){
         Cursor cursor=null;
         if(getBaseDaoOperator()!=null){
             ProFoodInfoDaoOperator  sdao= (ProFoodInfoDaoOperator) getBaseDaoOperator();
-            cursor= sdao.queryFoodInfo(mealTime,cateName,mealType);
+            cursor= sdao.queryFoodInfo(mealTime,cateId,mealType);
         }else{
             throw new RuntimeException("获取数据库对象为null");
         }
@@ -282,12 +282,12 @@ private void confirmFoodOrder(int payType,int totalMoney,String addressStr,Strin
     /**
      * 查询获取餐品信息
      * @param mealTime
-     * @param cateName
+     * @param cateId
      * @param mealType
      * @return
      */
-    public Cursor getFoodInfoCursor(String mealTime,String cateName,String mealType){
-        return queryFoodInfoCursor(mealTime,cateName,mealType);
+    public Cursor getFoodInfoCursor(String mealTime,int cateId,String mealType){
+        return queryFoodInfoCursor(mealTime,cateId,mealType);
     }
     @Override
     public BaseDaoOperator getBaseDaoOperator() {

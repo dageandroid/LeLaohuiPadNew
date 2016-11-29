@@ -25,7 +25,6 @@ import java.util.List;
 
 import dq.lelaohui.com.lelaohuipad.R;
 import dq.lelaohui.com.lelaohuipad.base.LeLaoHuiBaseActivity;
-import dq.lelaohui.com.lelaohuipad.bean.SerOrderInfo;
 import dq.lelaohui.com.lelaohuipad.bean.SerOrderInfoData;
 import dq.lelaohui.com.lelaohuipad.bean.ServerOrderPayment;
 import dq.lelaohui.com.lelaohuipad.bean.UserAddressData;
@@ -240,6 +239,16 @@ public class SerOrderInfoActivity extends LeLaoHuiBaseActivity implements View.O
                 }
                 break;
         }
+    }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
     }
 
     public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {

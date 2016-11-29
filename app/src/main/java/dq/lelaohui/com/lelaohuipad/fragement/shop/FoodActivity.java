@@ -1,60 +1,55 @@
 package dq.lelaohui.com.lelaohuipad.fragement.shop;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.CursorAdapter;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.ListView;
 
-import java.lang.ref.SoftReference;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Vector;
 
 import dq.lelaohui.com.lelaohuipad.R;
-import dq.lelaohui.com.lelaohuipad.adapter.BaseDataBaseAdapter;
 import dq.lelaohui.com.lelaohuipad.adapter.FoodTimeSpinnerAdapter;
 import dq.lelaohui.com.lelaohuipad.base.LeLaoHuiBaseActivity;
+import dq.lelaohui.com.lelaohuipad.bean.ShoppingCarListBean;
 import dq.lelaohui.com.lelaohuipad.controler.FootterControler;
+import dq.lelaohui.com.lelaohuipad.fragement.shop.adapter.MyFoodTypeRecyleViewAdapter;
+import dq.lelaohui.com.lelaohuipad.fragement.shop.adapter.PagerAdapter;
+import dq.lelaohui.com.lelaohuipad.fragement.shop.car.BaseShopCart;
 import dq.lelaohui.com.lelaohuipad.port.IControler;
 import dq.lelaohui.com.lelaohuipad.util.SysVar;
-import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
+import dq.lelaohui.com.nettylibrary.socket.RequestParam;
 import dq.lelaohui.com.nettylibrary.util.ServiceNetContant;
-import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.FoodInfoData;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.FootCateBean;
-import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.FoodInfoDataDao;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.FootCateBeanDao;
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager.BaseDaoOperator;
 
 
 /**
  * Created by ZTF on 2016/11/18.
  */
 
-public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager.LoaderCallbacks<Cursor> {
+public class FoodActivity extends LeLaoHuiBaseActivity implements   BaseShopCart.UiOperator, LoaderManager.LoaderCallbacks<Cursor>,BreakFastActivity.FootInfoCursor {
     private AppCompatTextView title_tv;
     private AppCompatImageButton left_btn;
     private AppCompatTextView reight_tv;
     private AppCompatSpinner select_time;
-    private RecyclerView food_type;
+    private ListView food_type;
     private TabLayout sliding_tabs;
     private ViewPager viewpager;
     private ImageView show_pp;
@@ -75,51 +70,87 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
     private SysVar var = null;
     private int mealTime = 1;//早中晚时间标示
     private String curFoodType;//当前食物类型
+    private View llh_shopping_bottom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         footterControler = (FootterControler) getControler();
+        footterControler.setContext(this);
         var = SysVar.getInstance();
         initView();
         setSelectTime();
         initFootType();
         initInfoDetailView();
+
+
     }
-    MyFoodTypeRecyleViewAdapter footCateAdapter =null;
+
+    MyFoodTypeRecyleViewAdapter footCateAdapter = null;
+    private int cateSelectId=-1;
     /**
      * 初始化左侧菜单
      */
     private void initFootType() {
-        if(food_type==null){
-            food_type = (RecyclerView) findViewById(R.id.food_type);
+        if (food_type == null) {
+            food_type = (ListView) findViewById(R.id.food_type);
         }
 
-        Cursor cursor =footterControler.getFoodTypeCursor(isScope);
-        footCateAdapter =new MyFoodTypeRecyleViewAdapter(this,cursor);
-//       if(cursor.getCount()!=0){
-//           footCateAdapter.setDao( FootCateBeanDao) footterControler.getBaseDaoOperator().get(FootCateBean.class)));
-//       }
-
-        final FootCateBeanDao footCateBeanDao=     (FootCateBeanDao) footterControler.getBaseDaoOperator().get(FootCateBean.class);
-        footCateAdapter.setDao(footCateBeanDao);
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        food_type.setAdapter(  footCateAdapter);
-        food_type.setLayoutManager(linearLayoutManager);
+        final Cursor cursor = footterControler.getFoodTypeCursor(""+select_time.getSelectedItemPosition());
+        footCateAdapter = new MyFoodTypeRecyleViewAdapter(this, cursor,CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+        Log.i(TAG, "initFootType: "+cursor.getCount());
+        if (cursor.getCount() == 0) {
+            footterControler.doQueryFoodInfo(String.valueOf(0), var.getUserId());
+        }else{
+            initPageData();
+        }
+        footCateAdapter.setDao((FootCateBeanDao) footterControler.getBaseDaoOperator().get(FootCateBean.class));
+        food_type.setAdapter(footCateAdapter);
+        food_type.getSelectedItemId();
         getSupportLoaderManager().initLoader(0, null, this);
-        footterControler.doQueryFoodInfo(String.valueOf(0), var.getUserId());
-
-        footCateAdapter.setmOnItemClickListener(new BaseDataBaseAdapter.OnRecyclerViewItemClickListener() {
-            @Override
-            public void onItemClick(View view, Cursor c) {
-                FootCateBean footCateBean= footCateBeanDao.readEntity(c,0);
-                if (footCateBean!=null){
-                    curFoodType=  footCateBean.getCateName();
+        food_type.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                cateSelectId=(int)l;
+                if(viewpager==null){
+                    return ;
                 }
+                initPageItem(viewpager.getCurrentItem());
             }
         });
 
+    }
+    private String getMealTime(){
+        if( sliding_tabs==null){
+            return "1";
+        }
+        return ""+(  select_time.getSelectedItemPosition()+1);
+
+    }
+    private String getMealType(){
+        if(select_time==null){
+            return "0";
+        }
+        return  ""+(viewpager.getCurrentItem());
+    }
+    private void initPageData() {
+        if( food_type!=null){
+            food_type.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    food_type.performItemClick(food_type.getChildAt(0),0,1);
+                }
+            },500);
+        }
+        if( sliding_tabs!=null){
+            int [] dy=new int[2];
+            sliding_tabs.getChildAt(0).getLocationOnScreen(dy);
+            sliding_tabs.getChildAt(0).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    sliding_tabs.getChildAt(0).performClick();
+                }
+            },500);
+        }
     }
 
 
@@ -127,16 +158,17 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
      * 设置食品详细页面
      */
     private void initInfoDetailView() {
-        if(viewpager==null){
+        if (viewpager == null) {
             viewpager = (ViewPager) findViewById(R.id.viewpager);
+            initTitleData();
         }
-        initTitleData();
-        sliding_tabs.setupWithViewPager(viewpager);
+        sliding_tabs.setupWithViewPager(viewpager,true);
         sliding_tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                int position=tab.getPosition();
-                initFoodInfoListData(position,position+1);
+                int position = tab.getPosition();
+                Log.i(TAG, "TAB  POSITION==" + position);
+
             }
 
             @Override
@@ -149,9 +181,39 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
 
             }
         });
+        viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                int id = getSelectCateId();
+                initPageItem(position);
+                Log.i(TAG, "onPageSelected: ");
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
-    private void setViewPager( List<String>   list_title,List<Fragment> fragments) {
+    private int getSelectCateId() {
+        return  cateSelectId;
+    }
+
+    private void initPageItem(int position) {
+        PagerAdapter pagerAdapter = (PagerAdapter) viewpager.getAdapter();
+        if (pagerAdapter != null) {
+            BreakFastActivity fragment = (BreakFastActivity) pagerAdapter.getItem(position);
+            fragment.notifyDataChanger();
+        }
+    }
+
+    private void setViewPager(List<String> list_title, List<Fragment> fragments) {
         viewpager.setAdapter(new PagerAdapter(getSupportFragmentManager(), list_title, fragments));
     }
 
@@ -159,7 +221,7 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
      * 设置日期选择spinner控件
      */
     private void setSelectTime() {
-        if( select_time==null){
+        if (select_time == null) {
             select_time = (AppCompatSpinner) findViewById(R.id.select_time);
         }
         setTimeData();
@@ -169,7 +231,6 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
         select_time.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                isScope=String.valueOf(i);
                 footterControler.doQueryFoodInfo(String.valueOf(i), var.getUserId());
             }
 
@@ -191,16 +252,13 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
                 onBackPressed();
             }
         });
-
-
         sliding_tabs = (TabLayout) findViewById(R.id.sliding_tabs);
-
         show_pp = (ImageView) findViewById(R.id.show_pp);
         shopping_num_txt = (AppCompatTextView) findViewById(R.id.shopping_num_txt);
         shopping_num = (FrameLayout) findViewById(R.id.shopping_num);
         shopping_product_price = (AppCompatTextView) findViewById(R.id.shopping_product_price);
         upload_shopping_car = (AppCompatButton) findViewById(R.id.upload_shopping_car);
-
+        llh_shopping_bottom = findViewById(R.id.llh_shopping_bottom);
     }
 
 
@@ -208,110 +266,124 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
      * 初始化TabLayout
      */
     public void initTitleData() {
-        List<String>   list_title = new ArrayList<>();
+        List<String> list_title = new ArrayList<>();
         list_title.add("早餐");
         list_title.add("午餐");
         list_title.add("晚餐");
         List<Fragment> fragments = new ArrayList<>();
-        fragments.add(new BreakFastActivity());
-        fragments.add(new BreakFastActivity());
-        fragments.add(new BreakFastActivity());
-        setViewPager(list_title,fragments);
+        for(int i=0;i<list_title.size();i++){
+            BreakFastActivity ba=new BreakFastActivity();
+            ba.setFootInfoCursor(this);
+            fragments.add(ba);
+        }
+        setViewPager(list_title, fragments);
     }
 
 
     @Override
+    public Cursor getCuror() {
+        String mealTime=getMealTime();
+        int selectCateId=getSelectCateId();
+        String mealType=getMealType();
+        Log.i(TAG, "getCuror: mealTime="+mealTime+",selectCateId="+selectCateId+",mealType="+mealType);
+        Cursor cur=getFootControler().getFoodInfoCursor(mealTime,selectCateId,mealType);
+        return cur;
+    }
+
+    @Override
+    public BaseDaoOperator getDao() {
+        return getControler().getBaseDaoOperator();
+    }
+
+    @Override
+    public FootterControler getFootControler() {
+        return (FootterControler)getControler();
+    }
+
+    @Override
+    public BaseShopCart getShopCart() {
+        BaseShopCart shopCartBase = new BaseShopCart(this);
+        shopCartBase.setUiOperator(this);
+//        shopCartBase.init();
+        return shopCartBase;
+    }
+
+    @Override
     public IControler getControler() {
+        FootterControler.getControler().setContext(this);
         return FootterControler.getControler();
     }
 
     @Override
     public void result(Bundle bundle) {
-
-    }
-
-    MyFoodTypeRecyleViewAdapter foodTypeAdapter = null;
-
-    /**
-     * 获取想对时间段相对餐品类型下的餐品信息
-     * @param mealTime
-     */
-    protected void initFoodInfoListData(int postion,int mealTime) {
-        curMealTime = "" + this.mealTime;
-        Cursor foodInfoDatas=sortFoodCursor(curFoodType, String.valueOf(mealTime));
-        PagerAdapter pa= (PagerAdapter) viewpager.getAdapter();
-        BreakFastActivity foodFleatemnt= (BreakFastActivity) pa.getItem(postion);
-        if(foodInfoDatas!=null){
-            final FoodInfoDataDao foodInfoDataDao = (FoodInfoDataDao) footterControler.getBaseDaoOperator().get();
-            foodFleatemnt.setFoodInfoCursor(foodInfoDatas,foodInfoDataDao);
+        if (bundle == null) {
+            return;
+        }
+        String action = bundle.getString("action");
+        if (ServiceNetContant.ServiceResponseAction.QUERY_FOOD_INFO_RESPONSE.equals(action)) {
+            footCateAdapter.swapCursor(footterControler.getFoodTypeCursor(""+select_time.getSelectedItemPosition()));
+            initPageData();
         }
     }
 
-    public Cursor sortFoodCursor(String cateName, String mealTime){
-        Cursor cursorFoodInfo=footterControler.getFoodInfoCursor(mealTime,cateName,isScope);
-        Log.i(TAG,"cursorFoodInfo==="+cursorFoodInfo.getCount());
-        return cursorFoodInfo;
-    }
 
 
-    private int changeId=-1;
+    private int changeId = -1;
+
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        changeId=id;
-        return null;
+        changeId = id;
+        FootLoader cursor = null;
+        cursor = new FootLoader(this, new FootLoader.CursorCallBack() {
+            @Override
+            public Cursor getFoodTypeCursor() {
+                return footterControler.getFoodTypeCursor(""+select_time.getSelectedItemPosition());
+            }
+        });
+
+        return cursor;
     }
+
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        footCateAdapter.setDao((FootCateBeanDao) footterControler.getBaseDaoOperator().get(FootCateBean.class));
-        foodTypeAdapter.swapCursor(data);
-        foodTypeAdapter.notifyDataSetChanged();
-    }
+        footCateAdapter.swapCursor(footterControler.getFoodTypeCursor(""+select_time.getSelectedItemPosition()));
+   }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
+        footCateAdapter.swapCursor(null);
     }
 
-    /**
-     * 页面切换
-     */
-    public class PagerAdapter extends FragmentPagerAdapter {
-        List<String> titles;
-
-
-        List<Fragment> fragments;
-
-        public PagerAdapter(FragmentManager fm, List<String> titles, List<Fragment> fragments) {
-            super(fm);
-            this.titles = titles;
-            this.fragments = fragments;
-        }
-        public PagerAdapter(FragmentManager fm){
-            super(fm);
-        }
-        @Override
-        public Fragment getItem(int position) {
-            return fragments.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return fragments.size();
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return titles.get(position);
-        }
-        public void setFragments(List<Fragment> fragments) {
-            this.fragments = fragments;
-        }
-
-        public void setTitles(List<String> titles) {
-            this.titles = titles;
-        }
-
+    @Override
+    public void setPromot(String promot) {
+        shopping_product_price.setText("总价：" + promot);
     }
+
+    @Override
+    public View getParnetView() {
+        return llh_shopping_bottom;
+    }
+
+    @Override
+    public View getCardView() {
+        return show_pp;
+    }
+
+    @Override
+    public View getOrderView() {
+        return upload_shopping_car;
+    }
+
+    @Override
+    public View getPormotView() {
+        return shopping_num_txt;
+    }
+
+    @Override
+    public RequestParam getOrderParam(Vector<ShoppingCarListBean> data) {
+        return null;
+    }
+
 
     /**
      * 设置餐品时间 今天，明天，后天
@@ -332,63 +404,14 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements  LoaderManager
 
     }
 
-    public static class MyFoodTypeRecyleViewAdapter extends BaseDataBaseAdapter<MyFoodTypeRecyleViewAdapter.ViewHolder> {
-        private SoftReference<  FootCateBeanDao> softReference = null;
-        private LayoutInflater layoutInflater=null;
-        private String TAG="MyFoodTypeRecyleViewAdapter";
-        @Override
-        public void onBindViewHolder(ViewHolder holder, Cursor cursor) {
-            if (softReference != null) {
-                FootCateBeanDao dao = softReference.get();
-                if (dao != null) {
-                   FootCateBean pc = dao.readEntity(cursor, 0);
-                    holder.setData(pc);
-                }
-            }
-        }
+    @Override
+    public void showProgress() {
 
-        public MyFoodTypeRecyleViewAdapter(Context context, Cursor c) {
-            super(context, c);
-            layoutInflater= LayoutInflater.from(context);
-        }
+    }
 
-        @Override
-        public View getItemView() {
-            return layoutInflater.inflate(R.layout.food_type_list_item,null);
-        }
+    @Override
+    public void hideProgress() {
 
-        public void setDao( FootCateBeanDao dao) {
-            softReference = new SoftReference< FootCateBeanDao>(dao);
-        }
-
-        public MyFoodTypeRecyleViewAdapter(Context context, Cursor c, int flags) {
-            super(context, c, flags);
-            layoutInflater= LayoutInflater.from(context);
-        }
-
-
-        @Override
-        public ViewHolder onCreatViewHolder(View view) {
-            return new ViewHolder(view);
-        }
-
-
-        public static class ViewHolder extends RecyclerView.ViewHolder {
-            public View rootView;
-            public TextView distance;
-            public TextView food_type;
-
-            public ViewHolder(View rootView) {
-                super(rootView);
-                this.rootView = rootView;
-                this.distance = (TextView) rootView.findViewById(R.id.distance);
-                this.food_type = (TextView) rootView.findViewById(R.id.food_type);
-            }
-
-            public void setData(FootCateBean pc) {
-                this.food_type.setText(pc.getCateName());
-            }
-        }
     }
 }
 

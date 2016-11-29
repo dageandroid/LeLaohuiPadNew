@@ -6,7 +6,6 @@ import android.util.Log;
 import org.greenrobot.greendao.AbstractDao;
 import org.greenrobot.greendao.query.WhereCondition;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.BaseBean;
@@ -60,21 +59,12 @@ public class ProFoodInfoDaoOperator extends BaseDaoOperator {
     @Override
     public void intsert(List<? extends BaseBean> t) {
 
-        insert(FoodInfoData.class,t);
+
         if(t!=null&&!t.isEmpty()){
-            List<FootCateBean> footCateBeanList=new ArrayList<>();
-            List<Integer> key=new ArrayList<>();
             for(int i=0;i<t.size();i++){
                 FoodInfoData data= (FoodInfoData) t.get(i);
-                if(key.contains(data.getCateId())){
-                    continue;
-                }
-                key.add(data.getCateId());
-                footCateBeanList.add(new FootCateBean(data));
-            }
-            if(footCateBeanList!=null&&!footCateBeanList.isEmpty()){
-
-                insert(FootCateBean.class, footCateBeanList);
+                insert(FoodInfoData.class,data);
+                insert(FootCateBean.class, new FootCateBean(data));
             }
         }
 
@@ -107,13 +97,12 @@ public class ProFoodInfoDaoOperator extends BaseDaoOperator {
     /**
      * 查询获取相对应的餐品信息
      * @param mealTime   早中晚
-     * @param cateName    菜单名
      * @param mealType   今明后
      * @return
      */
-    public Cursor queryFoodInfo(String mealTime,String cateName,String mealType){
+    public Cursor queryFoodInfo(String mealTime,int cateId,String mealType){
         WhereCondition mealTimeConin= FoodInfoDataDao.Properties.MealTime.eq(mealTime);
-        WhereCondition cateNameContin=FoodInfoDataDao.Properties.CateName.eq(cateName);
+        WhereCondition cateNameContin=FoodInfoDataDao.Properties.CateId.eq(cateId);
         WhereCondition mealTypeContin= FoodInfoDataDao.Properties.MealType.eq(mealType);
         return super.query(FoodInfoData.class,mealTimeConin,cateNameContin,mealTypeContin);
     }
@@ -126,8 +115,8 @@ public class ProFoodInfoDaoOperator extends BaseDaoOperator {
      */
     public Cursor queryFoodType(String mealTime, String mealType){
         WhereCondition mealTimeConin= FootCateBeanDao.Properties.MealTime.eq(mealTime);
-        WhereCondition mealTypeContin= FootCateBeanDao.Properties.MealType.eq(mealType);
-        return super.query(FootCateBean.class,mealTimeConin,mealTypeContin);
+//        WhereCondition mealTypeContin= FootCateBeanDao.Properties.MealType.eq(mealType);
+        return super.query(FootCateBean.class,mealTimeConin);
     }
     /**
      * 查询餐品类型

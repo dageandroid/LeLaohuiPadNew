@@ -1,6 +1,5 @@
 package dq.lelaohui.com.lelaohuipad.fragement.shop;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -9,21 +8,18 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.ViewGroup;
 
 import dq.lelaohui.com.lelaohuipad.R;
-import dq.lelaohui.com.lelaohuipad.adapter.BaseDataBaseAdapter;
-import dq.lelaohui.com.lelaohuipad.port.IControler;
 import dq.lelaohui.com.lelaohuipad.base.LaoHuiBaseControler;
 import dq.lelaohui.com.lelaohuipad.base.LeLaoHuiBaseActivity;
 import dq.lelaohui.com.lelaohuipad.controler.ServerControler;
+import dq.lelaohui.com.lelaohuipad.port.IControler;
 
 public class FooterActivity extends LeLaoHuiBaseActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private FragmentManager manager;
-    private MyRecyleViewAdapter adapter=null;
+//    private MyRecyleViewAdapter adapter=null;
     @Override
     public IControler getControler() {
         return ServerControler.getControler();
@@ -52,7 +48,7 @@ public class FooterActivity extends LeLaoHuiBaseActivity implements LoaderManage
         fragmentTransaction.commit();
         ServerControler footterControler= (ServerControler) getControler();
         footterControler.doQueryServerCategory();
-        adapter=new MyRecyleViewAdapter(this,((ServerControler) getControler()).getQueryCursor(null));
+//        adapter=new MyRecyleViewAdapter(this,((ServerControler) getControler()).getQueryCursor(null));
         getSupportLoaderManager().initLoader(0,null,this);
     }
 
@@ -80,42 +76,13 @@ public class FooterActivity extends LeLaoHuiBaseActivity implements LoaderManage
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        adapter.changeCursor(data);
-        adapter.notifyDataSetChanged();
+//        adapter.changeCursor(data);
+//        adapter.notifyDataSetChanged();
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
     }
-    public static class MyRecyleViewAdapter extends BaseDataBaseAdapter {
 
-        public MyRecyleViewAdapter(Context context, Cursor c) {
-            super(context, c);
-        }
-
-        @Override
-        public View getItemView() {
-            return null;
-        }
-
-        public MyRecyleViewAdapter(Context context, Cursor c, int flags) {
-            super(context, c, flags);
-        }
-
-        @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, Cursor cursor) {
-
-        }
-
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return null;
-        }
-
-        @Override
-        public RecyclerView.ViewHolder onCreatViewHolder(View view) {
-            return null;
-        }
-    }
 }

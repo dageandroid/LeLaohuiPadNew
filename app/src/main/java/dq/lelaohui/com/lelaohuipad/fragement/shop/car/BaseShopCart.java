@@ -10,11 +10,9 @@ import android.widget.ListPopupWindow;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 import dq.lelaohui.com.lelaohuipad.LeLaohuiApp;
 import dq.lelaohui.com.lelaohuipad.bean.ShoppingCarListBean;
@@ -23,10 +21,12 @@ import dq.lelaohui.com.lelaohuipad.view.MyListPopWindowAdapter;
 import dq.lelaohui.com.lelaohuipad.view.MyPoPuWindow;
 import dq.lelaohui.com.nettylibrary.socket.RequestParam;
 
+
 /**
  * Created by ThinkPad on 2016/11/3.
  */
 public class BaseShopCart {
+    private static final String TAG="MyServerContentRecyleViewAdapter";
     private ListPopupWindow popupWindow;
     private Context mContext;
     private Map<String,Integer> countCache=null;
@@ -39,13 +39,13 @@ public class BaseShopCart {
     }
 
     private CardDataChange cardDataChange;
-    private Vector< ShoppingCarListBean> data;
-
 
     private ShowTip showTip;
     private UiOperator uiOperator;
     private View orderView;
     private BadgeView badgeView=null;
+    private Vector<ShoppingCarListBean>data;
+    private ArrayList list=new ArrayList();
     /**
      * 购物车里含有商品数量
      */
@@ -53,6 +53,7 @@ public class BaseShopCart {
     public BaseShopCart(Context context){
         this.mContext=context;
         countCache=new ConcurrentHashMap<String, Integer>();
+        data = new Vector<>();
     }
     /**
      * 添加购物车
@@ -63,13 +64,13 @@ public class BaseShopCart {
      * @param bean
      */
     public synchronized  void addShop(ShoppingCarListBean bean) {//添加购物车。如果购物车里有相同商品，则给此商品的数量加一，没有就直接添加
-        if (data == null) {
-            data = new Vector<>();
-        }
+
         int i = 0;
         boolean flag=true;
-        for (; i < data.size(); i++) {
-            if (data.get(i).equals(bean)) {
+        for (; i < getCartSize(); i++) {
+            boolean isEqulas=data.get(i).equals(bean);
+
+            if (isEqulas) {
                 int proNum = data.get(i).getProNum();
                 data.get(i).setProNum(proNum + 1);
                 countCache.put(bean.getKey(), data.get(i).getProNum());
@@ -78,13 +79,14 @@ public class BaseShopCart {
             }
         }
         if(flag){
-            data.add(bean);
-            countCache.put(bean.getKey(), 1);
+            bean.setProNum(1);
+            data.addElement(bean);
+            countCache.put(bean.getKey(),  bean.getProNum());
+
         }
         if(uiOperator!=null){
             uiOperator.setPromot(String.valueOf(computerAllPrice()));
             setBadgeView();
-
         }
 
     }
@@ -105,11 +107,9 @@ public class BaseShopCart {
             badgeView.setHideOnNull(false);
         }
         badgeView.setBadgeCount(getCartSize());
+        init();
     }
     public int getCartSize(){
-        if(data==null||data.isEmpty()){
-            return 0;
-        }
         return data.size();
     }
     /**
@@ -117,23 +117,20 @@ public class BaseShopCart {
      * @return
      */
     private double computerAllPrice() {
-        if(data==null||data.size()==0){
+        Log.i(TAG, "computerAllPrice: data==null||data.size()==0 is "+(data==null||data.size()==0));
+        if(getCartSize()==0){
             return 0f;
         }
         float sum = 0;
-        for (ShoppingCarListBean bean : data
+       Vector<ShoppingCarListBean> temp=data;
+        for (ShoppingCarListBean bean : temp
                 ) {
             sum+=bean.getProNum()*bean.getProPrice();
         }
+        Log.i(TAG, "computerAllPrice: 111111 size "+(data.size()));
         return sum;
     }
 
-    private int getShopItemCount(ShoppingCarListBean bean){
-        if(countCache==null||countCache.size()==0){
-            return 0;
-        }
-        return countCache.get(bean.getKey());
-    }
     public int getShopItemCount(String key){
 
         if(countCache==null||countCache.size()==0||countCache.get(key)==null){
@@ -148,7 +145,7 @@ public class BaseShopCart {
      * @param bean
      */
     public synchronized void removeShop(ShoppingCarListBean bean) {
-        if (data == null || data.size() == 0) {
+        if (getCartSize() == 0) {
             if (showTip != null) {//如果自定义了购物车的提示信息展示内容，就设置showTip这个接口
                 showTip.isShopCartEmptyPtomot();
             } else {
@@ -173,6 +170,7 @@ public class BaseShopCart {
                 if(beanData.getProNum()<=0){
                     iter.remove();
                     countCache.remove(bean.getKey());
+                    cartCount--;
                 }
             }
         }
@@ -184,15 +182,17 @@ public class BaseShopCart {
             setBadgeView();
         }
     }
-    public void init(){
+    private void init(){
         if(uiOperator==null){
             throw new RuntimeException(getClass().getSimpleName()+":is erro 因为 uiOperator is null");
         }
         if(uiOperator!=null){
-            uiOperator.getCardView().setOnClickListener(new View.OnClickListener() {
+
+            uiOperator.getCardView().setOnClickListener(new View.OnClickListener(){
                 @Override
-                public void onClick(View v) {
-                    showPopWindow(v);
+                public void onClick(View view) {
+                    Log.i(TAG, " getCardView onClick: "+data.size());
+                    showPopWindow( view);
                 }
             });
             uiOperator.getOrderView().setOnClickListener(new View.OnClickListener() {
@@ -216,26 +216,35 @@ public class BaseShopCart {
     MyPoPuWindow mlistPPW=null;
     private void showPopWindow(View v){
 //        ListPopupWindow lpwindo=new ListPopupWindow(mContext);
-        if (this.getData()==null||this.getData().size()==0){
+        if (data==null||data.size()<=0){
             Snackbar.make(uiOperator.getPormotView(), "当前购物车没有数据，请您选择商品", Snackbar.LENGTH_SHORT).show();
             return;
         }
-         mlistPPW=new MyPoPuWindow(mContext);
-        myAdapter=new MyListPopWindowAdapter(mContext,this);
-        if( this.cardDataChange!=null){
-            myAdapter.setChanger(cardDataChange);
+        if( mlistPPW!=null&&mlistPPW.isShowing()){
+            dismissPopuWindow();
+        }else
+        {
+            mlistPPW=new MyPoPuWindow(mContext);
+            myAdapter=new MyListPopWindowAdapter(mContext,this);
+            if( this.cardDataChange!=null){
+                myAdapter.setChanger(cardDataChange);
+            }
+            mlistPPW.setAdapter(myAdapter);
+            myAdapter.notifyDataSetChanged();
+            mlistPPW.setAnchorView(v);
+            mlistPPW.show();
         }
-        mlistPPW.setAdapter(myAdapter);
-        myAdapter.notifyDataSetChanged();
-        mlistPPW.setAnchorView(v);
-        mlistPPW.show();
+
 
     }
     public  void dismissPopuWindow(){
         if (mlistPPW!=null&& mlistPPW.isShowing()){
             mlistPPW.dismiss();
+            mlistPPW=null;
         }
-//        myAdapter.notifyDataSetChanged();
+       if(cardDataChange!=null){
+           cardDataChange.notifyCardDataChanger(0);
+       }
     }
     public UiOperator getUiOperator() {
         return uiOperator;
@@ -254,13 +263,14 @@ public class BaseShopCart {
     }
     public interface CardDataChange{
 
-        public void notifyCardDataChanger(int posion);
+        void notifyCardDataChanger(int posion);
+        void notifyCardDataChanger();
     }
     /**
      *
      */
     public interface ShowTip {
-        public void isShopCartEmptyPtomot();
+        void isShopCartEmptyPtomot();
     }
 
     public interface UiOperator {
@@ -269,20 +279,20 @@ public class BaseShopCart {
          *
          * @param promot
          */
-        public void setPromot(String promot);
+        void setPromot(String promot);
 
         /**
          * 获取底部购物车的父布局
          *
          * @return
          */
-        public View getParnetView();
+        View getParnetView();
 
-        public View getCardView();
+        View getCardView();
 
-        public View getOrderView();
+        View getOrderView();
 
-        public View getPormotView();
-        public RequestParam getOrderParam(Vector<ShoppingCarListBean> data);
+        View getPormotView();
+        RequestParam getOrderParam(Vector<ShoppingCarListBean> data);
     }
 }

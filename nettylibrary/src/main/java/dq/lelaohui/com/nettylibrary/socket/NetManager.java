@@ -2,15 +2,11 @@ package dq.lelaohui.com.nettylibrary.socket;
 
 import android.content.Context;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Parcelable;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.sun.commontransfer.adroid.TransferClientNetworkImpl;
-
-import java.util.Vector;
-import java.util.concurrent.ConcurrentHashMap;
 
 import dq.lelaohui.com.nettylibrary.port.ReqParam;
 import dq.lelaohui.com.nettylibrary.service.NetIntentService;
@@ -74,7 +70,7 @@ public class NetManager {
             }
         }
         Intent intent=new Intent(context, NetIntentService.class);
-        intent.putExtra(NetIntentService.KEY, (Parcelable) parm);
+        intent.putExtra(NetIntentService.KEY, parm);
         context.startService(intent);
     }
     public void hideProgressBar(String sn){
@@ -100,16 +96,16 @@ public class NetManager {
      * 网络状态回调接口
      *
      * */
-    public static interface  NetStatueCallBack{
-        public void usable();
+    public interface  NetStatueCallBack{
+        void usable();
     }
 
     /**********
      * 进度条接口
      */
-    public static interface  ProgressBarListener{
-        public void showProgress();
-        public void hideProgress();
+    public interface  ProgressBarListener{
+        void showProgress();
+        void hideProgress();
     }
     class ProgressManager{
         private String SN;
@@ -119,6 +115,10 @@ public class NetManager {
         }
         public void addProgress(String sn,ProgressBarListener progressBarListener){
             this.SN=sn;
+            ProgressBarListener oldprogressBarListener=this.progressBarListener;
+            if (oldprogressBarListener != null) {
+                oldprogressBarListener.hideProgress();
+            }
             this.progressBarListener=progressBarListener;
         }
         public void removeProgress(String sn){

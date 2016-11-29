@@ -6,17 +6,12 @@ import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.FilterQueryProvider;
 import android.widget.Filterable;
 import android.widget.SimpleCursorAdapter;
-
-import dq.lelaohui.com.lelaohuipad.R;
-import dq.lelaohui.com.lelaohuipad.fragement.shop.ServerActivity;
-import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateService;
 
 /**
  * Created by ThinkPad on 2016/10/25.
@@ -31,6 +26,7 @@ public abstract  class BaseDataBaseAdapter <VH extends RecyclerView.ViewHolder> 
      *               moved to the correct position.
      */
     public abstract void onBindViewHolder(VH holder, Cursor cursor);
+    public abstract void onBindViewHolder(VH holder, Cursor cursor,int postion);
     private SimpleCursorAdapter sa;
     /**
      * This field should be made private, so it is hidden from the SDK.
@@ -104,7 +100,7 @@ public abstract  class BaseDataBaseAdapter <VH extends RecyclerView.ViewHolder> 
 
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
     //define interface
-    public static interface OnRecyclerViewItemClickListener {
+    public interface OnRecyclerViewItemClickListener {
         void onItemClick(View view ,  Cursor c);
     }
     public abstract View getItemView();
@@ -210,7 +206,6 @@ public abstract  class BaseDataBaseAdapter <VH extends RecyclerView.ViewHolder> 
         if (!mCursor.moveToPosition(position)) {
             throw new IllegalStateException("couldn't move cursor to position " + position);
         }
-        Log.i(TAG, "onBindViewHolder: super position="+position);
         if(mOnItemClickListener!=null){
             final int index=position;
             if(itemParenView!=null){
@@ -218,13 +213,17 @@ public abstract  class BaseDataBaseAdapter <VH extends RecyclerView.ViewHolder> 
                     @Override
                     public void onClick( View v) {
                         mOnItemClickListener.onItemClick(itemParenView,(Cursor) getItem(index));
+                        selectItemPosition=index;
                     }
                 });
             }
         }
-        onBindViewHolder(holder, mCursor);
+        onBindViewHolder(holder, mCursor,position);
     }
-
+    private int selectItemPosition=0;
+    public int selectItemPosition(){
+        return selectItemPosition;
+    }
     /**
      * Change the underlying cursor to a new cursor. If there is an existing cursor it will be
      * closed.

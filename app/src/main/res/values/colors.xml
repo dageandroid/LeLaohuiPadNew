@@ -12,4 +12,5 @@
     <color name="top_bottom_bg">#FF6600</color>
     <color name="txt_red">#FF0000</color>
     <color name="chile_txt_color">#50000000</color>
+    <color name="line_grey"> #303F9F</color>
 </resources>

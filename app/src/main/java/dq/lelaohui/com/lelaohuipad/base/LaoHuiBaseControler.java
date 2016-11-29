@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 
 import java.lang.reflect.Type;
@@ -17,7 +16,6 @@ import dq.lelaohui.com.lelaohuipad.util.JsonUtil;
 import dq.lelaohui.com.lelaohuipad.util.SysVar;
 import dq.lelaohui.com.nettylibrary.socket.LlhResponseHandler;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.BaseBean;
-import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager.BaseDaoOperator;
 
 /**
  * Created by ThinkPad on 2016/10/14.
@@ -29,6 +27,7 @@ public abstract class LaoHuiBaseControler implements IControler {
     private Context mContext;
     public static final String RESPONSE_CODE_KEY="CODE";
     public static final String RESPONSE_MESSAGE="MESSAGE";
+    public static final String CONTROLER_ACTION="action";
     private IControlerCallBack controlerCallBack;
     private SysVar sysVar=SysVar.getInstance();
     private JsonUtil jsonUtil;
@@ -39,34 +38,39 @@ public abstract class LaoHuiBaseControler implements IControler {
 
     public void setContext(Context context){
         this.mContext=context;
-    };
+    }
+
     public Context getContext(){
         if(this.mContext==null){
             return null;
         }
         return this.mContext.getApplicationContext();
 
-    };
+    }
+
     public void gotoPage(Class<?extends Activity> activity){
         if(mContext!=null){
             Intent intent=new Intent(mContext,activity);
             mContext.startActivity(intent);
         }
-    };
+    }
+
     public void gotoPage(String action){
         if(mContext!=null){
             Intent intent=new Intent(action);
             intent.setPackage(mContext.getPackageName());
             mContext.startActivity(intent);
         }
-    };
+    }
+
     protected  void log(String message){
         Log.i(tag,message);
     }
     public void setIControlerCallBack(IControlerCallBack controlerCallBack){
         this.controlerCallBack=controlerCallBack;
-    };
-  protected void  doErrorPromot(Bundle bundle){
+    }
+
+    protected void  doErrorPromot(Bundle bundle){
         if(this.controlerCallBack!=null){
             this.controlerCallBack.result(bundle);
         }

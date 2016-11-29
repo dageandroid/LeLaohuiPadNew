@@ -1,5 +1,7 @@
 package dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean;
 
+import android.text.TextUtils;
+
 import com.google.gson.annotations.Expose;
 
 import org.greenrobot.greendao.annotation.Entity;
@@ -73,4 +75,12 @@ public class FootCateBean extends  BaseBean{
     private String mealTime;
     @Expose
     private String mealType;
+
+    @Override
+    public String getUnineqKey() {
+        if(!TextUtils.isEmpty(super.getUnineqKey())){
+            return super.getUnineqKey();
+        }
+        return ""+this.cateId;
+    }
 }

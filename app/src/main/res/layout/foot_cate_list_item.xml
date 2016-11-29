@@ -1,0 +1,15 @@
+
+<dq.lelaohui.com.lelaohuipad.view.FootCateListItem
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:gravity="center"
+    android:background="#ccc"
+    >
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/cateName"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</dq.lelaohui.com.lelaohuipad.view.FootCateListItem>
+
