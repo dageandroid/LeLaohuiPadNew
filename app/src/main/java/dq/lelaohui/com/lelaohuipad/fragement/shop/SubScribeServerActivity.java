@@ -30,4 +30,14 @@ public class SubScribeServerActivity  extends LeLaoHuiBaseActivity {
     public void usable() {
 
     }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
 }
