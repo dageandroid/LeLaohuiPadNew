@@ -172,7 +172,7 @@ public class LocalPictureAndVideoActivity extends BaseActivity implements
 				if (file == null || !file.exists()) {
 					boolean delResult = mDbUtil.deleteVideoOrPicture(strDID,
 							filePath, DatabaseUtil.TYPE_VIDEO);
-					 Log.d(TAG, "delResult:" + String.valueOf(delResult));
+//					 Log.d(TAG, "delResult:" + String.valueOf(delResult));
 					continue;//
 				}
 			} catch (Exception e) {
@@ -223,7 +223,7 @@ public class LocalPictureAndVideoActivity extends BaseActivity implements
 				if (file == null || !file.exists()) {
 					boolean delResult = mDbUtil.deleteVideoOrPicture(strDID,
 							filePath, DatabaseUtil.TYPE_PICTURE);
-					Log.d(TAG, "delResult:" + delResult);
+//					Log.d(TAG, "delResult:" + delResult);
 					continue;
 				}
 			} catch (Exception e) {

@@ -67,7 +67,7 @@ public class ServerSubscribeRequestParam {
      * @param serStockDetailId
      * @return
      */
-    protected RequestParam   doQueryServerSetatlData(String customerId,String endTime,long serStockDetailId){
+    public RequestParam   doQueryServerSetatlData(String customerId, String endTime, long serStockDetailId){
         RequestParam requestParam=getRequestParam();
         requestParam.addHeader(Protocol_KEY.ACTION, NetContant.ServiceAction.GET_SERVER_DETAIL_BY_INFO);
         requestParam.addBody(Protocol_KEY.IS_SERVER_REQ,true);

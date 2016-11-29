@@ -41,7 +41,7 @@ public class FooterActivity extends LeLaoHuiBaseActivity implements LoaderManage
             }
         });
         shopListFragment=ShopListFragment.newInstance("1","2");
-        shopListFragment.setControler((LaoHuiBaseControler) getControler());
+//        shopListFragment.setControler((LaoHuiBaseControler) getControler());
         manager= getSupportFragmentManager();
         FragmentTransaction fragmentTransaction= manager.beginTransaction();
         fragmentTransaction.add(R.id.footmenum,shopListFragment);

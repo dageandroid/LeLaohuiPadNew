@@ -109,7 +109,10 @@ public class NetContant {
          * 查询预约服务接口
          */
         public static final String GET_SERVER_DETAIL_BY_INFO = "getDetailByUserAndDate";
-
+        /**
+         * 提交服务预约信息
+         */
+        public static final String CONFIRM_ORDER_SERVER_APP = "confirmOrderServerApp";
     }
 
 }
