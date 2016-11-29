@@ -30,6 +30,7 @@ import dq.lelaohui.com.lelaohuipad.controler.MainControler;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.FoodActivity;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.FooterActivity;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.ServerActivity;
+import dq.lelaohui.com.lelaohuipad.fragement.shop.ServerSubscribeActivity;
 import dq.lelaohui.com.lelaohuipad.port.IControler;
 
 public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
@@ -242,7 +243,9 @@ public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button:
-              Intent  intent=new Intent(getApplicationContext(),FoodActivity.class);
+                //ServerSubscribeActivity
+//              Intent  intent=new Intent(getApplicationContext(),FoodActivity.class);
+                Intent  intent=new Intent(getApplicationContext(),ServerSubscribeActivity.class);
                 startActivity(intent);
                 break;
 

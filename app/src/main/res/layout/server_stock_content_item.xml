@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/end_time"
+        android:textSize="@dimen/txt_size_20sp"
+        android:textColor="@android:color/black"
+        android:layout_width="wrap_content"
+        android:text="订单号：15874698753"
+        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/server_content_name"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/txt_size_20sp"
+            android:textColor="@android:color/black"
+            android:text="llh"
+            android:layout_height="wrap_content" />
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/server_content_num"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/txt_size_20sp"
+            android:layout_centerHorizontal="true"
+            android:textColor="@android:color/black"
+            android:text="总：50次"
+            android:layout_height="wrap_content" />
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/server_surplus_num"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/txt_size_20sp"
+            android:layout_alignParentRight="true"
+            android:textColor="@android:color/black"
+            android:text="剩余：50次"
+            android:layout_height="wrap_content" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/server_rule"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/txt_size_20sp"
+            android:layout_below="@+id/server_content_name"
+            android:textColor="@android:color/black"
+            android:text="服务规则:"
+            android:layout_height="wrap_content" />
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/server_rule_content"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/txt_size_20sp"
+            android:textColor="@android:color/black"
+            android:layout_toRightOf="@+id/server_rule"
+            android:text="一天两次"
+            android:layout_below="@+id/server_content_name"
+            android:layout_height="wrap_content" />
+
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/server_time"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/txt_size_20sp"
+            android:layout_below="@+id/server_rule"
+            android:textColor="@android:color/black"
+            android:text="服务时间:"
+            android:layout_height="wrap_content" />
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/server_time_content"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/txt_size_20sp"
+            android:textColor="@android:color/black"
+            android:layout_toRightOf="@+id/server_time"
+            android:text="2016-11-28   2016-12-11"
+            android:layout_below="@+id/server_rule"
+            android:layout_height="wrap_content" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/upload_server"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/txt_size_20sp"
+            android:layout_below="@+id/server_time_content"
+            android:textColor="@android:color/black"
+            android:layout_margin="@dimen/margin"
+            android:text="预约"
+            android:layout_alignParentRight="true"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+</LinearLayout>

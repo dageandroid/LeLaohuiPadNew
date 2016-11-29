@@ -99,10 +99,10 @@ public class SerOrderInfoActivity extends LeLaoHuiBaseActivity implements View.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        var = SysVar.getInstance();
         infoControler = (SerOrderInfoControler) getControler();
         initView();
         infoControler.doUserAddressInfo();
-        var = SysVar.getInstance();
         if (getIntent() != null) {
             infoData = getIntent().getParcelableExtra("infoData");
             String orderCode = infoData.getSerOrderInfo().getOrderCode();

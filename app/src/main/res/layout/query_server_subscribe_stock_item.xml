@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/margin"
+    android:orientation="horizontal"
+    card_view:cardCornerRadius="5dp" >
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/order_code"
+        android:textSize="@dimen/txt_size_20sp"
+        android:textColor="@android:color/black"
+        android:layout_width="wrap_content"
+        android:text="订单号：15874698753"
+        android:layout_height="wrap_content" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/order_time"
+        android:textSize="@dimen/txt_size_20sp"
+        android:textColor="@android:color/black"
+        android:layout_width="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="2016-11-28"
+        android:layout_height="wrap_content" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/stock_data_rv"
+        android:layout_below="@+id/order_code"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
+
+</RelativeLayout>
+</android.support.v7.widget.CardView>
