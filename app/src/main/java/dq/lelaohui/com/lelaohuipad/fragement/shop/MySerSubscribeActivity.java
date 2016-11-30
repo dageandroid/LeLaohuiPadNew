@@ -1,24 +1,25 @@
 package dq.lelaohui.com.lelaohuipad.fragement.shop;
 
-import android.os.Bundle;
+import android.view.View;
 
-import dq.lelaohui.com.lelaohuipad.base.LeLaoHuiBaseActivity;
+import dq.lelaohui.com.lelaohuipad.base.LeLaoHuiBaseFragment;
 import dq.lelaohui.com.lelaohuipad.port.IControler;
 
 /**
  * Created by ZTF on 2016/11/29.
- * 提交预约相关信息
+ * 我的服务预约信息
  */
 
-public class SubScribeServerActivity  extends LeLaoHuiBaseActivity {
+public class MySerSubscribeActivity extends LeLaoHuiBaseFragment {
+
     @Override
     public IControler getControler() {
         return null;
     }
 
     @Override
-    public void result(Bundle bundle) {
-
+    protected View initView(View view) {
+        return null;
     }
 
     @Override
@@ -27,17 +28,12 @@ public class SubScribeServerActivity  extends LeLaoHuiBaseActivity {
     }
 
     @Override
+    protected void doBusses() {
+
+    }
+
+    @Override
     public void usable() {
-
-    }
-
-    @Override
-    public void showProgress() {
-
-    }
-
-    @Override
-    public void hideProgress() {
 
     }
 }

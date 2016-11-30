@@ -5,14 +5,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import dq.lelaohui.com.lelaohuipad.LeLaohuiApp;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.BaseFragment;
 import dq.lelaohui.com.lelaohuipad.port.IControler;
+import dq.lelaohui.com.lelaohuipad.port.IControlerCallBack;
+import dq.lelaohui.com.nettylibrary.socket.NetManager;
 
 /**
  * Created by ZTF on 2016/11/28.
  */
 
-public abstract class LeLaoHuiBaseFragment extends BaseFragment {
+public abstract class LeLaoHuiBaseFragment extends BaseFragment implements NetManager.NetStatueCallBack,IControlerCallBack {
     public abstract IControler getControler();
     public static final String IC_CONTROLER_ACTION="key";
     public static final String IC_CONTROLER_DATA="DATA";
@@ -25,6 +28,7 @@ public abstract class LeLaoHuiBaseFragment extends BaseFragment {
         controler.setContext(this.getContext());
         setDataCallBack(controler);
         controler.setIControlerCallBack(this);
+//        ((LeLaohuiApp)getActivity().getApplication()).setProgressBarListener(this);
         initView(view);
         return view;
     }

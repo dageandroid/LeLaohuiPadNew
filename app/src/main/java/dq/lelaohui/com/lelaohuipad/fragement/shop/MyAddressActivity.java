@@ -128,6 +128,16 @@ public class MyAddressActivity extends LeLaoHuiBaseActivity {
         });
     }
 
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
 
     class MyExpandableListViewAdapter extends BaseExpandableListAdapter {
 

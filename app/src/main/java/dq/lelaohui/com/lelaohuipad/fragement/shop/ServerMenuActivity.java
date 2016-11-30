@@ -267,6 +267,16 @@ public static final int FINISH_ACTION=66;
         serverContentAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
     public static class MyServerCateRecyleViewAdapter extends BaseDataBaseAdapter<MyServerCateRecyleViewAdapter.ViewHolder> {
         private LayoutInflater layoutInflater = null;
         private String TAG = "MyServerCateRecyleViewAdapter";

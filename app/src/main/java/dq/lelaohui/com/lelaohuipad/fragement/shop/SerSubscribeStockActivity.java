@@ -20,14 +20,16 @@ import dq.lelaohui.com.lelaohuipad.base.LeLaoHuiBaseFragment;
 import dq.lelaohui.com.lelaohuipad.bean.SerSubescribeData;
 import dq.lelaohui.com.lelaohuipad.controler.ServerSubscribeControler;
 import dq.lelaohui.com.lelaohuipad.port.IControler;
+import dq.lelaohui.com.lelaohuipad.port.IControlerCallBack;
 import dq.lelaohui.com.lelaohuipad.util.SysVar;
+import dq.lelaohui.com.nettylibrary.socket.NetManager;
 import dq.lelaohui.com.nettylibrary.util.ServiceNetContant;
 
 /**
  * Created by ZTF on 2016/11/28.
  * 客户服务预约库存
  */
-public class SerSubscribeStockActivity extends LeLaoHuiBaseFragment {
+public class SerSubscribeStockActivity extends LeLaoHuiBaseFragment implements NetManager.NetStatueCallBack,IControlerCallBack {
     private RecyclerView my_ser_subscribe;
     private ServerSubscribeControler serverSubscribeControler = null;
     private SysVar var = null;
@@ -81,6 +83,11 @@ public class SerSubscribeStockActivity extends LeLaoHuiBaseFragment {
     @Override
     protected int getLayoutID() {
         return R.layout.activity_ser_subscribe_stock;
+    }
+
+    @Override
+    public void usable() {
+
     }
 
     /**

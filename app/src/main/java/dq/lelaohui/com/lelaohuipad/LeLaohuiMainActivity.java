@@ -25,6 +25,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import dq.lelaohui.com.lelaohuipad.adapter.BaseDataBaseAdapter;
 import dq.lelaohui.com.lelaohuipad.base.LeLaoHuiBaseActivity;
 import dq.lelaohui.com.lelaohuipad.controler.MainControler;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.FoodActivity;
@@ -76,12 +77,37 @@ public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
         final GridLayoutManager layoutManager = new GridLayoutManager(this, 5);
         main_view.setLayoutManager(layoutManager);
         main_view.setAdapter(myAdapter);
+        myAdapter.setmOnItemClickListener(new MyAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Toast.makeText(getApplicationContext(), "POSITION=="+position, Toast.LENGTH_SHORT).show();
+            Intent intent=null;
+               switch (position){
+                   case 0:
+                       intent=new Intent(LeLaohuiMainActivity.this,ServerActivity.class);
+                       break;
+                   case 1:
+                       intent=new Intent(LeLaohuiMainActivity.this,FoodActivity.class);
+                       break;
+                   case 3:
+                       intent=new Intent(LeLaohuiMainActivity.this,ServerSubscribeActivity.class);
+                       break;
+               }
+               if (intent!=null){
+                   startActivity(intent);
+               }else{
+                   Toast.makeText(LeLaohuiMainActivity.this, "抱歉你没有打开权限！", Toast.LENGTH_SHORT).show();
+               }
+            
+            }
+        });
     }
     public   List<String> getData(){
         List<String> listData=new ArrayList<String>();
         listData.add("服务");
         listData.add("餐品");
         listData.add("商品");
+        listData.add("服务预约");
         return listData;
     }
 
@@ -185,9 +211,16 @@ public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
 
     }
 
-    public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+    public static class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implements View.OnClickListener{
         List<String> data;
         Context context;
+
+        private OnRecyclerViewItemClickListener mOnItemClickListener = null;
+
+        public static interface OnRecyclerViewItemClickListener {
+            void onItemClick(View view , int data);
+        }
+
         public MyAdapter(Context context, List<String> data) {
             this.context = context;
             this.data = data;
@@ -196,28 +229,24 @@ public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
         public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
             View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.llh_server_menu_item, viewGroup, false);
             ViewHolder vh = new ViewHolder(view);
+           view.setOnClickListener(this);
             return vh;
+        }
+
+        public void setmOnItemClickListener(OnRecyclerViewItemClickListener mOnItemClickListener) {
+            this.mOnItemClickListener = mOnItemClickListener;
         }
 
         @Override
         public void onBindViewHolder(ViewHolder viewHolder, final int position) {
             viewHolder.type_menu_txt.setText("" +data.get(position).toString());
-            viewHolder.image_menu.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent=null;
-                    if (position==0){
-                        intent=new Intent(getApplicationContext(),ServerActivity.class);
-                    }else{
-                        intent=new Intent(getApplicationContext(),FooterActivity.class);
-                    }
-                    if (intent!=null){
-                        Toast.makeText(LeLaohuiMainActivity.this,"position==="+position,Toast.LENGTH_SHORT).show();
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                        startActivity(intent);
-                    }
-                }
-            });
+            viewHolder.itemView.setTag(position);
+        }
+        @Override
+        public void onClick(View v) {
+            if (mOnItemClickListener != null) {
+                mOnItemClickListener.onItemClick(v, (Integer) v.getTag());
+            }
         }
 
         @Override

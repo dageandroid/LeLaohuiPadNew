@@ -156,7 +156,8 @@ public class FilterSubscribeActivity extends LeLaoHuiBaseActivity {
             holder.end_time.setText("库存号："+serStockDetailListBeen.get(position).getSerStockDetailId());
             holder.server_content_name.setText(serStockDetailListBeen.get(position).getServiceName());
             holder.server_rule_content.setText(serStockDetailListBeen.get(position).getRuleStr());
-            holder.server_rule_content.setText("");
+            holder.server_time_content.setText("");
+            holder.server_time.setText("");
             final FilterSubscribeData filterSubscribeData=serStockDetailListBeen.get(position);
             holder.upload_server.setOnClickListener(new View.OnClickListener() {
                 @Override
