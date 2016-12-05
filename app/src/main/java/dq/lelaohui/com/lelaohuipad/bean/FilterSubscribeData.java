@@ -10,7 +10,6 @@ import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.BaseBean;
  */
 
 public class FilterSubscribeData  extends BaseBean implements Parcelable {
-
     /**
      * serStockDetailId : 7634
      * serviceName : 足疗
@@ -20,12 +19,20 @@ public class FilterSubscribeData  extends BaseBean implements Parcelable {
      * isEnable : 1
      */
 
+    private int id;
     private int serStockDetailId;
     private String serviceName;
     private String ruleStr;
     private int currentNum;
     private int execNumDay;
     private int isEnable;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getSerStockDetailId() {
         return serStockDetailId;
@@ -75,6 +82,7 @@ public class FilterSubscribeData  extends BaseBean implements Parcelable {
         this.isEnable = isEnable;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -82,6 +90,7 @@ public class FilterSubscribeData  extends BaseBean implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
         dest.writeInt(this.serStockDetailId);
         dest.writeString(this.serviceName);
         dest.writeString(this.ruleStr);
@@ -94,6 +103,7 @@ public class FilterSubscribeData  extends BaseBean implements Parcelable {
     }
 
     protected FilterSubscribeData(Parcel in) {
+        this.id = in.readInt();
         this.serStockDetailId = in.readInt();
         this.serviceName = in.readString();
         this.ruleStr = in.readString();
@@ -102,7 +112,7 @@ public class FilterSubscribeData  extends BaseBean implements Parcelable {
         this.isEnable = in.readInt();
     }
 
-    public static final Parcelable.Creator<FilterSubscribeData> CREATOR = new Parcelable.Creator<FilterSubscribeData>() {
+    public static final Creator<FilterSubscribeData> CREATOR = new Creator<FilterSubscribeData>() {
         @Override
         public FilterSubscribeData createFromParcel(Parcel source) {
             return new FilterSubscribeData(source);

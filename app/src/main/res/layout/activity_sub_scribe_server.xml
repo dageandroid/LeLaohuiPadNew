@@ -6,5 +6,11 @@
     <include
         layout="@layout/llh_head_view"
         ></include>
+    <ViewStub
+        android:id="@+id/subscribe_data"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout="@layout/activity_subscribe_content"
+        />
 
 </LinearLayout>

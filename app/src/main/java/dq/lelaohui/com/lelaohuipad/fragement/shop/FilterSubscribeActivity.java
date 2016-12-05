@@ -42,7 +42,7 @@ public class FilterSubscribeActivity extends LeLaoHuiBaseActivity {
     private RecyclerView query_ser_subscribe;
     private SysVar var=null;
     private ServerSubscribeControler serverSubscribeControler=null;
-    private String customerId;
+    private String customerId,customerName;
     private SerSubescribeData.StockListBean.SerStockDetailListBean serStockDetailListBean=null;
     private  SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
     private  Date curDate=new Date(System.currentTimeMillis());//获取当前时间
@@ -84,6 +84,7 @@ public class FilterSubscribeActivity extends LeLaoHuiBaseActivity {
         if (getIntent()!=null){
             serStockDetailListBean=getIntent().getParcelableExtra("serStockDetailListBean");
             customerId=getIntent().getStringExtra("customerId");
+            customerName=getIntent().getStringExtra("customerName");
         }
         initView();
     }
@@ -163,9 +164,10 @@ public class FilterSubscribeActivity extends LeLaoHuiBaseActivity {
                 public void onClick(View view) {
                     int currentNum=filterSubscribeData.getCurrentNum();
                     if (currentNum>0){
-                        Intent intent=new Intent(context,FilterSubscribeActivity.class);
+                        Intent intent=new Intent(context,SubScribeServerActivity.class);
                         intent.putExtra("filterSubscribeData",filterSubscribeData);
                         intent.putExtra("customerId",customerId);
+                        intent.putExtra("customerName",customerName);
                         context.startActivity(intent);
                     }else{
                         Toast.makeText(FilterSubscribeActivity.this,"抱歉，您当前的剩余次数为0，不能预约了",Toast.LENGTH_LONG).show();

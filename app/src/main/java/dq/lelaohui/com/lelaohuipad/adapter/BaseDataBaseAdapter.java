@@ -13,6 +13,11 @@ import android.widget.FilterQueryProvider;
 import android.widget.Filterable;
 import android.widget.SimpleCursorAdapter;
 
+import dq.lelaohui.com.lelaohuipad.fragement.shop.SerTaskFinishActivity;
+import dq.lelaohui.com.lelaohuipad.fragement.shop.ServerActivity;
+import dq.lelaohui.com.lelaohuipad.fragement.shop.ServerMenuActivity;
+import dq.lelaohui.com.lelaohuipad.fragement.shop.adapter.BaseShopInfoRecyleViewAdapter;
+
 /**
  * Created by ThinkPad on 2016/10/25.
  */
@@ -109,9 +114,9 @@ public abstract  class BaseDataBaseAdapter <VH extends RecyclerView.ViewHolder> 
     public VH onCreateViewHolder(ViewGroup parent, int viewType) {
         View view=getItemView();
         itemParenView=view;
-        return onCreatViewHolder(view);
+        return (VH) onCreatViewHolder(view);
     }
-    public abstract VH onCreatViewHolder(View view);
+    public abstract ServerActivity.MyShopRecyleViewAdapter.ViewHolder onCreatViewHolder(View view);
     /**
      * Recommended constructor.
      *

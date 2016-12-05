@@ -52,6 +52,7 @@ public class SerSubscribeStockActivity extends LeLaoHuiBaseFragment implements N
         } else {
         }
         customerId = var.getUserId();
+        customerName=var.getUserName();
         serverSubscribeControler.doQueryServerSetatlInfo(customerId);
     }
 
@@ -116,9 +117,7 @@ public class SerSubscribeStockActivity extends LeLaoHuiBaseFragment implements N
             linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             holder.stock_data_rv.setLayoutManager(linearLayoutManager);
             holder.stock_data_rv.setAdapter(myStockAdapter);
-
             holder.order_code.setText("订单号："+serSubescribeData.get(position).getOrderId() + "");
-
         }
 
         @Override
@@ -242,6 +241,7 @@ public class SerSubscribeStockActivity extends LeLaoHuiBaseFragment implements N
                     Intent intent=new Intent(context,FilterSubscribeActivity.class);
                     intent.putExtra("serStockDetailListBean",serStockDetailListBean);
                     intent.putExtra("customerId",customerId);
+                    intent.putExtra("customerName",customerName);
                     context.startActivity(intent);
                 }
                 }

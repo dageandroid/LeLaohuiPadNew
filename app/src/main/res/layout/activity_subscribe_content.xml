@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/serverPagerName"
+        android:text="服务名"
+        style="@style/subScribeTextStyle"/>
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/sub_name"
+            android:text="预约名"
+            android:layout_alignParentRight="true"
+            style="@style/subScribeTextStyle"/>
+        <RadioGroup
+            android:id="@+id/option_style"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/serverPagerName"
+            android:orientation="horizontal"
+            android:layout_height="@dimen/server_filter_hight">
+            <RadioButton
+                android:id="@+id/system_assign"
+                style="@style/subScribeAssignStyle"
+                android:text="系统指派"
+                android:checked="true"
+                />
+            <RadioButton
+                android:id="@+id/server_assign"
+                style="@style/subScribeAssignStyle"
+                android:text="自主选择"
+                />
+        </RadioGroup>
+<ListView
+    android:id="@+id/server_person"
+    android:layout_below="@+id/option_style"
+    android:layout_width="fill_parent"
+    android:choiceMode="singleChoice"
+    android:layout_height="50dp">
+</ListView>
+      <android.support.v7.widget.AppCompatTextView
+          android:id="@+id/server_time_name"
+          android:layout_below="@+id/server_person"
+          android:text="服务时间："
+          style="@style/subScribeTextStyle"/>
+        <LinearLayout
+            android:id="@+id/option_time"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/server_time_name"
+            android:layout_height="@dimen/margin_50dp">
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="fill_parent"
+            android:textSize="@dimen/txt_size_20sp"
+            android:gravity="center"
+            android:id="@+id/day_time"
+            android:text="2016-11-30"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/margin"
+            android:textColor="@android:color/black"
+            android:layout_height="wrap_content" />
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="fill_parent"
+                android:textSize="@dimen/txt_size_20sp"
+                android:gravity="center"
+                android:id="@+id/day_start_time"
+                android:text="12:00"
+                android:layout_marginLeft="@dimen/margin"
+                android:layout_weight="1"
+                android:textColor="@android:color/black"
+                android:layout_height="wrap_content" />
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="fill_parent"
+                android:textSize="@dimen/txt_size_20sp"
+                android:gravity="center"
+                android:id="@+id/day_stop_time"
+                android:text="11:00"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/margin"
+                android:textColor="@android:color/black"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/remark_name"
+            android:layout_below="@+id/option_time"
+            android:text="服务时间："
+            style="@style/subScribeTextStyle"/>
+        <android.support.v7.widget.AppCompatEditText
+            android:layout_below="@+id/remark_name"
+            android:id="@+id/remark_content"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/remark_height_content" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_margin="@dimen/margin"
+            android:orientation="horizontal"
+            android:layout_below="@+id/remark_content"
+            android:layout_height="wrap_content">
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/next_data"
+            android:layout_width="fill_parent"
+            android:layout_margin="@dimen/margin"
+            android:textColor="@android:color/black"
+            android:text="上一个"
+            android:layout_weight="1"
+            android:layout_height="@dimen/margin_45dp" />
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/upload_ser_scribe"
+                android:layout_width="fill_parent"
+                android:layout_margin="@dimen/margin"
+                android:textColor="@android:color/black"
+                android:text="提交预约"
+                android:layout_weight="1"
+                android:layout_height="@dimen/margin_45dp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</LinearLayout>

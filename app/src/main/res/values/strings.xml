@@ -23,6 +23,9 @@
     <string name="address_content">收件人详细地址：</string>
     <string name="p_address_name">收件人：</string>
     <string name="phone_num">手机号：</string>
+    <string name="server_rule">服务规则：</string>
+    <string name="server_person_time">服务时间：</string>
+    <string name="server_person">服务员：</string>
     <string name="address_content_txt">地址：</string>
     <string name="postnum">邮编：</string>
     <string name="operate_address">编辑</string>

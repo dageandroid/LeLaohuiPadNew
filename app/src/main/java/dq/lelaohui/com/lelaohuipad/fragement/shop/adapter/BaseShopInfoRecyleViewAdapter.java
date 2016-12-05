@@ -18,6 +18,7 @@ import java.lang.ref.SoftReference;
 import dq.lelaohui.com.lelaohuipad.R;
 import dq.lelaohui.com.lelaohuipad.adapter.BaseDataBaseAdapter;
 import dq.lelaohui.com.lelaohuipad.bean.ServerCartBean;
+import dq.lelaohui.com.lelaohuipad.fragement.shop.ServerActivity;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.car.BaseShopCart;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.BaseBean;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.SerInitProPack;
@@ -86,8 +87,8 @@ public  class BaseShopInfoRecyleViewAdapter extends BaseDataBaseAdapter<BaseShop
     }
 
     @Override
-    public BaseShopInfoRecyleViewAdapter.ViewHolder onCreatViewHolder(View view) {
-        return new BaseShopInfoRecyleViewAdapter.ViewHolder(view);
+    public ServerActivity.MyShopRecyleViewAdapter.ViewHolder onCreatViewHolder(View view) {
+        return new ViewHolder(view);
     }
     @NonNull
     public ServerCartBean getServerCartBean(BaseBean baseBean,int position) {

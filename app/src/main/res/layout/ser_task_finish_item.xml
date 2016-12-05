@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/gift_packs"
+            style="@style/txtStyle"
+            android:background="@color/help_button_view"
+            android:text="title"
+            android:gravity="center"
+            />
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/server_content"
+            android:layout_below="@+id/gift_packs"
+            android:text="name"
+            style="@style/txtStyleWrapContent" />
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/server_surplus_num"
+            android:layout_below="@+id/gift_packs"
+            android:layout_alignParentRight="true"
+            android:text="num"
+            style="@style/txtStyleWrapContent" />
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/server_rule"
+            android:layout_below="@+id/server_content"
+            android:text="@string/server_rule"
+            style="@style/txtStyleWCMargin" />
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/server_rule_content"
+            android:layout_below="@+id/server_rule"
+            android:text="2016-01-02 11:12"
+            style="@style/txtStyleWrapContent" />
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/server_time"
+            android:layout_below="@+id/server_rule_content"
+            android:text="@string/server_person_time"
+            style="@style/txtStyleWCMargin" />
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/server_tiem_content"
+            android:layout_below="@+id/server_time"
+            android:text="2016-01-02 11:12"
+            style="@style/txtStyleWrapContent" />
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/server_person"
+            android:layout_below="@+id/server_tiem_content"
+            android:text="@string/server_person"
+            style="@style/txtStyleWCMargin" />
+        <LinearLayout
+            android:id="@+id/server_person_info"
+            android:layout_width="fill_parent"
+            android:layout_below="@+id/server_person"
+            android:layout_height="wrap_content">
+            <include
+                layout="@layout/server_person_info_item"
+                ></include>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_below="@+id/server_person_info"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btn_server_exec"
+                android:text="test"
+                style="@style/buttonStyle" />
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btn_server_centel"
+                android:text="test"
+                style="@style/buttonStyle" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

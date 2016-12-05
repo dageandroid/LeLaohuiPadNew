@@ -27,7 +27,6 @@ import dq.lelaohui.com.nettylibrary.socket.RequestParam;
  */
 public class BaseShopCart {
     private static final String TAG="MyServerContentRecyleViewAdapter";
-    private ListPopupWindow popupWindow;
     private Context mContext;
     private Map<String,Integer> countCache=null;
     public Vector<ShoppingCarListBean> getData() {
@@ -42,10 +41,8 @@ public class BaseShopCart {
 
     private ShowTip showTip;
     private UiOperator uiOperator;
-    private View orderView;
     private BadgeView badgeView=null;
     private Vector<ShoppingCarListBean>data;
-    private ArrayList list=new ArrayList();
     /**
      * 购物车里含有商品数量
      */
@@ -165,7 +162,6 @@ public class BaseShopCart {
                 if(beanData.equals(bean)){
                     beanData.setProNum(beanData.getProNum()-1);
                     countCache.put(bean.getKey(), beanData.getProNum());
-
                 }
                 if(beanData.getProNum()<=0){
                     iter.remove();

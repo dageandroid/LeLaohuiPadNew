@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dq.lelaohui.com.lelaohuipad.view.CheckableLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="@dimen/hight_2dp" >
+
+    <TextView
+        android:id="@+id/server_Name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="ddd"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="@dimen/txt_size_20sp" />
+
+    <TextView
+        android:id="@+id/server_address"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="ddd"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="@dimen/txt_size_20sp" />
+
+    <TextView
+        android:id="@+id/server_num"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="ddd"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="@dimen/txt_size_20sp" />
+
+</dq.lelaohui.com.lelaohuipad.view.CheckableLinearLayout>

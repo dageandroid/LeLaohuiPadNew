@@ -107,4 +107,59 @@
         <item name="android:textColor">@android:color/black</item>
         <item name="android:textSize">@dimen/txt_size_18sp</item>
     </style>
+    <style name="subScribeTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/ser_order_hight</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">@dimen/txt_size_22sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">@dimen/margin</item>
+    </style>
+    <style name="subScribeAssignStyle">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">@dimen/margin_40dp</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">@dimen/txt_size_20sp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+    <style name="timeViewStyle">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">@dimen/margin_40dp</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">@dimen/txt_size_20sp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+    <style name="txtStyle">
+    <item name="android:layout_width">fill_parent</item>
+    <item name="android:layout_height">@dimen/margin_40dp</item>
+    <item name="android:textColor">@android:color/black</item>
+    <item name="android:textSize">@dimen/txt_size_24sp</item>
+    <item name="android:gravity">center</item>
+    <item name="android:layout_weight">1</item>
+</style>
+    <style name="buttonStyle">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">@dimen/ico_car_have_width</item>
+        <item name="android:textSize">@dimen/txt_size_22sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">@dimen/margin</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+    <style name="txtStyleWCMargin">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/margin_40dp</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">@dimen/txt_size_24sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginLeft">@dimen/margin</item>
+        <item name="android:layout_marginRight">@dimen/margin</item>
+    </style>
+    <style name="txtStyleWrapContent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/margin_40dp</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">@dimen/txt_size_24sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">@dimen/margin</item>
+    </style>
 </resources>

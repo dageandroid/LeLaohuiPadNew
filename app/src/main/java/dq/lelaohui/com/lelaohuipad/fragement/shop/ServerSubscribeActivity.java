@@ -89,10 +89,10 @@ public class ServerSubscribeActivity extends LeLaoHuiBaseActivity {
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(new SerSubscribeStockActivity());
         fragments.add(new SerSubscribeStockActivity());
-        fragments.add(new SerSubscribeStockActivity());
+        fragments.add(new SerTaskFinishActivity());
         setViewPager(list_title,fragments);
     }
-    private void setViewPager( List<String>   list_title,List<Fragment> fragments) {
+    private void setViewPager( List<String> list_title,List<Fragment> fragments) {
         ctrl_server_subscribe.setAdapter(new ServerSubscribeActivity.PagerAdapter(getSupportFragmentManager(), list_title, fragments));
     }
 
