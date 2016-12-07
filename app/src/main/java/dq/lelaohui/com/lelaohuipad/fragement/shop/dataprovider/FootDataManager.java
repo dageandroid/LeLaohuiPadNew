@@ -165,7 +165,7 @@ public class FootDataManager extends DataManager {
             }
 
         }
-        return true;
+        return false;
     }
     public void onDestory(){
         while(!queue.isEmpty()){

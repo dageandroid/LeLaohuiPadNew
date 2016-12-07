@@ -6,12 +6,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import dq.lelaohui.com.lelaohuipad.R;
 import dq.lelaohui.com.lelaohuipad.bean.ServerCartBean;
@@ -31,7 +30,7 @@ import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager.BaseDaoOperator;
 
 public class BreakFastActivity extends Fragment implements SwipeRefreshLayout.OnRefreshListener,NetManager.ProgressBarListener {
 
-    private RecyclerView foot_content;
+    private ListView foot_content;
     private SwipeRefreshLayout get_data_refresh;
     private FootInfoCursor footInfoCursor = null;
 
@@ -56,10 +55,10 @@ public class BreakFastActivity extends Fragment implements SwipeRefreshLayout.On
 
     private void initView(View v) {
         get_data_refresh = (SwipeRefreshLayout) v.findViewById(R.id.get_data_refresh);
-        foot_content = (RecyclerView) v.findViewById(R.id.foot_content);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity());
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        foot_content.setLayoutManager(linearLayoutManager);
+        foot_content = (ListView) v.findViewById(R.id.foot_content);
+//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity());
+//        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+//        foot_content.setLayoutManager(linearLayoutManager);
         myFoodInfoAdapter = new MyFoodInfoAdapter(getContext(), null);
         myFoodInfoAdapter.setDao(footInfoCursor.getDao().get(FoodInfoData.class));
 //        footInfoCursor.getShopCart().setCardDataChange(this);
@@ -76,7 +75,7 @@ public class BreakFastActivity extends Fragment implements SwipeRefreshLayout.On
 
     public void notifyDataChanger() {
         if (this.footInfoCursor != null) {
-            myFoodInfoAdapter.changeCursor(this.footInfoCursor.getCuror());
+            myFoodInfoAdapter.swapCursor(this.footInfoCursor.getCuror());
         }
     }
 
@@ -143,4 +142,5 @@ public class BreakFastActivity extends Fragment implements SwipeRefreshLayout.On
 
         BaseShopCart getShopCart();
     }
+
 }

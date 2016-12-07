@@ -216,7 +216,7 @@ public class FoodInfoData extends BaseBean implements Parcelable {
         dest.writeString(this.supplierType);
         dest.writeInt(this.buyNum);
         dest.writeString(this.isScope);
-        dest.writeString(this.getUnineqKey());
+        dest.writeString(this.unineqKey);
     }
     public FoodInfoData() {
     }
@@ -236,7 +236,7 @@ public class FoodInfoData extends BaseBean implements Parcelable {
         this.supplierType = in.readString();
         this.buyNum = in.readInt();
         this.isScope = in.readString();
-        this.unineqKey=cateId+"_"+proId+"_"+supplierId+"_"+mealTime+"_"+mealType+"_"+isScope;
+        this.unineqKey=cateId+"_"+proId+"_"+supplierId+"_"+isScope;
     }
 
     @Generated(hash = 1748595060)
@@ -260,7 +260,7 @@ public class FoodInfoData extends BaseBean implements Parcelable {
         this.supplierType = supplierType;
         this.buyNum = buyNum;
         this.isScope = isScope;
-        this.unineqKey=cateId+"_"+proId+"_"+supplierId+"_"+mealTime+"_"+mealType+"_"+isScope;
+        this.unineqKey=cateId+"_"+proId+"_"+supplierId+"_"+isScope;
     }
 
     public static final Creator<FoodInfoData> CREATOR = new Creator<FoodInfoData>() {
