@@ -165,18 +165,18 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
                 SerOrderInfoData infoData = bundle.getParcelable("serOrderInfo");
                 String getOrderCode = infoData.getSerOrderInfo().getOrderCode();
                 if(infoData.getSerOrderInfoDetailBeanList()!=null&&infoData.getSerOrderInfoDetailBeanList().size()>0){
-               String packageName=     infoData.getSerOrderInfoDetailBeanList().get(0).getSerOrderInfoDetail().getPackageName();
-                Log.i(TAG,"packageName=="+packageName);
+                    String packageName=     infoData.getSerOrderInfoDetailBeanList().get(0).getSerOrderInfoDetail().getPackageName();
+                    Log.i(TAG,"packageName=="+packageName);
                 }
                 Log.i(TAG,"getOrderCode=="+getOrderCode);
                 Intent intent = new Intent(ServerMenuActivity.this, SerOrderInfoActivity.class);
                 intent.putExtra("infoData", infoData);
-             startActivityForResult(intent, FINISH_ACTION);
+                startActivityForResult(intent, FINISH_ACTION);
 //                startActivity(intent);
             }
         }
     }
-public static final int FINISH_ACTION=66;
+    public static final int FINISH_ACTION=66;
     @Override
     protected int getLayoutID() {
         return R.layout.llh_server_two_menu;
@@ -347,5 +347,5 @@ public static final int FINISH_ACTION=66;
 
 
 
-        }
     }
+}

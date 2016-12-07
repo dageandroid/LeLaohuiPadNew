@@ -171,7 +171,7 @@ public class ServerActivity extends LeLaoHuiBaseActivity implements LoaderManage
 
         @Override
         public ViewHolder onCreatViewHolder(View view) {
-            return new ViewHolder(view);
+            return new  ViewHolder(view);
         }
 
 
