@@ -71,7 +71,7 @@ public class SerSubscribeStockActivity extends LeLaoHuiBaseFragment implements N
                 List<SerSubescribeData> serSubescribeData = bundle.getParcelableArrayList("serSubescribeDataList");
                 if (serSubescribeData != null && serSubescribeData.size() > 0) {
                     mySerSubStockAdapter = new MySerSubStockAdapter(this.getContext(), serSubescribeData);
-                    Log.i("", "serSubescribeData.get(0).getOrderId()===" + serSubescribeData.get(0).getOrderId());
+                    Log.i("SerSubscribeStockActivity", "serSubescribeData.get(0).getOrderId()===" + serSubescribeData.get(0).getOrderId());
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
                     linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                     my_ser_subscribe.setLayoutManager(linearLayoutManager);
@@ -218,7 +218,7 @@ public class SerSubscribeStockActivity extends LeLaoHuiBaseFragment implements N
             holder.end_time.setText("库存号："+serStockDetailListBeen.get(position).getSerStockDetailId());
             holder.server_content_name.setText(serStockDetailListBeen.get(position).getServiceName());
             holder.server_rule_content.setText(serStockDetailListBeen.get(position).getRuleStr());
-            holder.server_rule_content.setText(serStockDetailListBeen.get(position).getExecDates());
+//            holder.server_rule_content.setText(serStockDetailListBeen.get(position).getExecDates());
             int isEnable=   serStockDetailListBeen.get(position).getIsEnable();
             int currentNum= serStockDetailListBeen.get(position).getCurrentNum();
           final   SerSubescribeData.StockListBean.SerStockDetailListBean serStockDetailListBean=     serStockDetailListBeen.get(position);

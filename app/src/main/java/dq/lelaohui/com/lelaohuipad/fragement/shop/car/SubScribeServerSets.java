@@ -7,9 +7,12 @@ import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import dq.lelaohui.com.lelaohuipad.LeLaohuiApp;
 import dq.lelaohui.com.lelaohuipad.bean.FilterSubscribeData;
 import dq.lelaohui.com.lelaohuipad.bean.SerSubsctibeData;
 import dq.lelaohui.com.lelaohuipad.bean.SubScribeOrderBean;
+import dq.lelaohui.com.nettylibrary.socket.RequestParam;
 
 /**
  * Created by ZTF on 2016/12/1.
@@ -19,6 +22,7 @@ import dq.lelaohui.com.lelaohuipad.bean.SubScribeOrderBean;
 public class SubScribeServerSets {
     private static final String TAG="SubScribeServerSets";
     private SerSubsctibeData subScribeData=null;
+    private SubScribeOrderBean subScribeOrderBean=null;
     private UiOperators uiOperators;
     private int execNum=0;
     private int  execNumDay;
@@ -27,7 +31,6 @@ public class SubScribeServerSets {
     private Context context;
     private List<SubScribeOrderBean> subScribeOrderBeanList=new ArrayList<SubScribeOrderBean>();//预约相关信息
     private List<SerSubsctibeData> serSubsctibeDataList=new ArrayList<SerSubsctibeData>();//服务员相关信息
-
     public SubScribeServerSets(Context context){
         this.context=context;
     }
@@ -46,14 +49,12 @@ public class SubScribeServerSets {
     public boolean addData(FilterSubscribeData filterSubscribeData){
         if(filterSubscribeData!=null){
          execNumDay=filterSubscribeData.getExecNumDay();
-            Log.i(TAG,"execNumDay=="+execNumDay);
             filterSubscribeDataList=new ArrayList<FilterSubscribeData>();
             for (int i=0;i<execNumDay;i++){
                 filterSubscribeData.setId(execNumDay);
                 uiOperators.setSubScribeData(subScribeData,i);
                  flag=filterSubscribeDataList.add(filterSubscribeData);
                 if (flag){
-                    Log.i(TAG,"filterSubscribeDataList00==="+filterSubscribeDataList.size());
                     Log.i(TAG,"添加数据成功");
                 }else{
                     Log.i(TAG,"添加数据失败");
@@ -65,16 +66,13 @@ public class SubScribeServerSets {
                     execNum++;
                 }
                 if (execNum==filterSubscribeDataList.size()){
-                    Log.i(TAG,"execNum==="+execNum);
                     if (uiOperators!=null){
                         uiOperators.setButtonTxt("可以提交预约");
-                        //设置服务员相关信息
                         uiOperators.setExecNumShowNextView(execNum);
                     }
                 }else{
                     if (uiOperators!=null){
                         uiOperators.setButtonTxt("下一次");
-                        //设置服务员相关信息
                     }
                 }
             }
@@ -91,7 +89,7 @@ public class SubScribeServerSets {
      */
     public void updateData(SerSubsctibeData subScribeData){
         for (int i=0;i<serSubsctibeDataList.size();i++){
-            if (serSubsctibeDataList.get(i).getId()==subScribeData.getId()){
+            if (serSubsctibeDataList.get(i).getId()==(subScribeData.getId()-1)){
                 serSubsctibeDataList.set(i,subScribeData);
                 Log.i(TAG,"修改成功");
             }
@@ -123,23 +121,30 @@ public class SubScribeServerSets {
             uiOperators.nextButton().setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view) {
-                    Snackbar.make(uiOperators.nextButton(), "当前点击上一个", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(uiOperators.nextButton(),"当前点击上一个", Snackbar.LENGTH_SHORT).show();
                 if (execNum==execNumDay){
-                    Snackbar.make(uiOperators.nextButton(), "已经是最后一次，是否要提交预约数据？", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(uiOperators.nextButton(),"已经是最后一次，是否要提交预约数据？", Snackbar.LENGTH_SHORT).show();
                 }else{
+                    SerSubsctibeData updateSubScribeData=uiOperators.updateSubScribeData(execNum);
+                    updateData(updateSubScribeData);
                 }
                 }
             });
             uiOperators.uploadButton().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Snackbar.make(uiOperators.uploadButton(), "下一个或提交", Snackbar.LENGTH_SHORT).show();
                     if (execNum==execNumDay){
-                        uiOperators.setButtonTxt("确认提交");
+                        uiOperators.setButtonTxt("提交预约");
                         serSubsctibeDataList=uiOperators.setSubScribeDataList();
-                        if (serSubsctibeDataList!=null){
-                            Log.i(TAG,"serSubsctibeDataList.size() is =="+serSubsctibeDataList.size());
-                        }
+                        SerSubsctibeData updateSubScribeData= uiOperators.updateSubScribeData(execNum);
+                        updateData(updateSubScribeData);
+                        RequestParam rp= uiOperators.getOrderParam(subScribeOrderBean);
+                        LeLaohuiApp app= (LeLaohuiApp) context.getApplicationContext();
+                        app.reqData(rp);
+                    }else{
+                        uiOperators.setButtonTxt("下一次");
+                        SerSubsctibeData updateSubScribeData= uiOperators.updateSubScribeData(execNum);
+                        updateData(updateSubScribeData);
                     }
                 }
             });
@@ -147,13 +152,13 @@ public class SubScribeServerSets {
     }
     public interface UiOperators {
         /**
-         * 下一步
+         * 上一次
          * @return
          */
         View nextButton();
 
         /**
-         * 提交数据
+         * 提交数据 以及下一次的按钮操作
          * @return
          */
         View uploadButton();
@@ -178,7 +183,26 @@ public class SubScribeServerSets {
          */
         void setSubScribeData(SerSubsctibeData subScribeData,int execNum);
 
+        /**
+         * 获取相关服务设置数据
+         * @return
+         */
         List<SerSubsctibeData> setSubScribeDataList();
+
+        /**
+         * 修改并保存数据
+         * @param execNum
+         * @return
+         */
+        SerSubsctibeData updateSubScribeData(int execNum);
+
+        /**
+         * 提交服务预约相关数据
+         * @return
+         */
+      SubScribeOrderBean setSubScribeOrder(SubScribeOrderBean subScribeOrderBean);
+
+        RequestParam getOrderParam(SubScribeOrderBean subScribeOrderBeanList);
     }
 
 }

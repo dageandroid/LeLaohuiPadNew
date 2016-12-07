@@ -3,6 +3,8 @@ package dq.lelaohui.com.lelaohuipad.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Date;
+
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.BaseBean;
 
 /**
@@ -48,41 +50,47 @@ public class SerTaskFinishData  extends BaseBean implements Parcelable {
     private int supplierTypeId;
     private int supplierId;
     private int proWaitersNum;
-    private String serEndTime;
-    private String serStartTime;
+    private Date serEndTime;
+    private Date serStartTime;
     private String transStatus;
-    private String addTime;
+    private Date addTime;
     private String orderPerson;
     private long orderPersonId;
     private String waitersName;
     private int isEval;
 
-    @Override
-    public String toString() {
-        return "SerTaskFinishData{" +
-                "serTransId=" + serTransId +
-                ", stockDetailId=" + stockDetailId +
-                ", serviceId='" + serviceId + '\'' +
-                ", serviceName='" + serviceName + '\'' +
-                ", customerId=" + customerId +
-                ", customerName='" + customerName + '\'' +
-                ", customerPhone='" + customerPhone + '\'' +
-                ", orgName='" + orgName + '\'' +
-                ", orgTypeId=" + orgTypeId +
-                ", orgId=" + orgId +
-                ", supplierTypeId=" + supplierTypeId +
-                ", supplierId=" + supplierId +
-                ", proWaitersNum=" + proWaitersNum +
-                ", serEndTime='" + serEndTime + '\'' +
-                ", serStartTime='" + serStartTime + '\'' +
-                ", transStatus='" + transStatus + '\'' +
-                ", addTime='" + addTime + '\'' +
-                ", orderPerson='" + orderPerson + '\'' +
-                ", orderPersonId=" + orderPersonId +
-                ", waitersName='" + waitersName + '\'' +
-                ", isEval=" + isEval +
-                '}';
+    protected SerTaskFinishData(Parcel in) {
+        serTransId = in.readInt();
+        stockDetailId = in.readInt();
+        serviceId = in.readString();
+        serviceName = in.readString();
+        customerId = in.readLong();
+        customerName = in.readString();
+        customerPhone = in.readString();
+        orgName = in.readString();
+        orgTypeId = in.readInt();
+        orgId = in.readInt();
+        supplierTypeId = in.readInt();
+        supplierId = in.readInt();
+        proWaitersNum = in.readInt();
+        transStatus = in.readString();
+        orderPerson = in.readString();
+        orderPersonId = in.readLong();
+        waitersName = in.readString();
+        isEval = in.readInt();
     }
+
+    public static final Creator<SerTaskFinishData> CREATOR = new Creator<SerTaskFinishData>() {
+        @Override
+        public SerTaskFinishData createFromParcel(Parcel in) {
+            return new SerTaskFinishData(in);
+        }
+
+        @Override
+        public SerTaskFinishData[] newArray(int size) {
+            return new SerTaskFinishData[size];
+        }
+    };
 
     public int getSerTransId() {
         return serTransId;
@@ -148,14 +156,6 @@ public class SerTaskFinishData  extends BaseBean implements Parcelable {
         this.orgName = orgName;
     }
 
-    public int getOrgTypeId() {
-        return orgTypeId;
-    }
-
-    public void setOrgTypeId(int orgTypeId) {
-        this.orgTypeId = orgTypeId;
-    }
-
     public int getOrgId() {
         return orgId;
     }
@@ -164,12 +164,12 @@ public class SerTaskFinishData  extends BaseBean implements Parcelable {
         this.orgId = orgId;
     }
 
-    public int getSupplierTypeId() {
-        return supplierTypeId;
+    public int getOrgTypeId() {
+        return orgTypeId;
     }
 
-    public void setSupplierTypeId(int supplierTypeId) {
-        this.supplierTypeId = supplierTypeId;
+    public void setOrgTypeId(int orgTypeId) {
+        this.orgTypeId = orgTypeId;
     }
 
     public int getSupplierId() {
@@ -180,6 +180,14 @@ public class SerTaskFinishData  extends BaseBean implements Parcelable {
         this.supplierId = supplierId;
     }
 
+    public int getSupplierTypeId() {
+        return supplierTypeId;
+    }
+
+    public void setSupplierTypeId(int supplierTypeId) {
+        this.supplierTypeId = supplierTypeId;
+    }
+
     public int getProWaitersNum() {
         return proWaitersNum;
     }
@@ -188,19 +196,19 @@ public class SerTaskFinishData  extends BaseBean implements Parcelable {
         this.proWaitersNum = proWaitersNum;
     }
 
-    public String getSerEndTime() {
+    public Date getSerEndTime() {
         return serEndTime;
     }
 
-    public void setSerEndTime(String serEndTime) {
+    public void setSerEndTime(Date serEndTime) {
         this.serEndTime = serEndTime;
     }
 
-    public String getSerStartTime() {
+    public Date getSerStartTime() {
         return serStartTime;
     }
 
-    public void setSerStartTime(String serStartTime) {
+    public void setSerStartTime(Date serStartTime) {
         this.serStartTime = serStartTime;
     }
 
@@ -212,11 +220,11 @@ public class SerTaskFinishData  extends BaseBean implements Parcelable {
         this.transStatus = transStatus;
     }
 
-    public String getAddTime() {
+    public Date getAddTime() {
         return addTime;
     }
 
-    public void setAddTime(String addTime) {
+    public void setAddTime(Date addTime) {
         this.addTime = addTime;
     }
 
@@ -258,66 +266,24 @@ public class SerTaskFinishData  extends BaseBean implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.serTransId);
-        dest.writeInt(this.stockDetailId);
-        dest.writeString(this.serviceId);
-        dest.writeString(this.serviceName);
-        dest.writeLong(this.customerId);
-        dest.writeString(this.customerName);
-        dest.writeString(this.customerPhone);
-        dest.writeString(this.orgName);
-        dest.writeInt(this.orgTypeId);
-        dest.writeInt(this.orgId);
-        dest.writeInt(this.supplierTypeId);
-        dest.writeInt(this.supplierId);
-        dest.writeInt(this.proWaitersNum);
-        dest.writeString(this.serEndTime);
-        dest.writeString(this.serStartTime);
-        dest.writeString(this.transStatus);
-        dest.writeString(this.addTime);
-        dest.writeString(this.orderPerson);
-        dest.writeLong(this.orderPersonId);
-        dest.writeString(this.waitersName);
-        dest.writeInt(this.isEval);
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(serTransId);
+        parcel.writeInt(stockDetailId);
+        parcel.writeString(serviceId);
+        parcel.writeString(serviceName);
+        parcel.writeLong(customerId);
+        parcel.writeString(customerName);
+        parcel.writeString(customerPhone);
+        parcel.writeString(orgName);
+        parcel.writeInt(orgTypeId);
+        parcel.writeInt(orgId);
+        parcel.writeInt(supplierTypeId);
+        parcel.writeInt(supplierId);
+        parcel.writeInt(proWaitersNum);
+        parcel.writeString(transStatus);
+        parcel.writeString(orderPerson);
+        parcel.writeLong(orderPersonId);
+        parcel.writeString(waitersName);
+        parcel.writeInt(isEval);
     }
-
-    public SerTaskFinishData() {
-    }
-
-    protected SerTaskFinishData(Parcel in) {
-        this.serTransId = in.readInt();
-        this.stockDetailId = in.readInt();
-        this.serviceId = in.readString();
-        this.serviceName = in.readString();
-        this.customerId = in.readLong();
-        this.customerName = in.readString();
-        this.customerPhone = in.readString();
-        this.orgName = in.readString();
-        this.orgTypeId = in.readInt();
-        this.orgId = in.readInt();
-        this.supplierTypeId = in.readInt();
-        this.supplierId = in.readInt();
-        this.proWaitersNum = in.readInt();
-        this.serEndTime = in.readString();
-        this.serStartTime = in.readString();
-        this.transStatus = in.readString();
-        this.addTime = in.readString();
-        this.orderPerson = in.readString();
-        this.orderPersonId = in.readLong();
-        this.waitersName = in.readString();
-        this.isEval = in.readInt();
-    }
-
-    public static final Parcelable.Creator<SerTaskFinishData> CREATOR = new Parcelable.Creator<SerTaskFinishData>() {
-        @Override
-        public SerTaskFinishData createFromParcel(Parcel source) {
-            return new SerTaskFinishData(source);
-        }
-
-        @Override
-        public SerTaskFinishData[] newArray(int size) {
-            return new SerTaskFinishData[size];
-        }
-    };
 }

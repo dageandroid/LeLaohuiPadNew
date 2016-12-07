@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageButton;
@@ -31,7 +32,9 @@ import dq.lelaohui.com.lelaohuipad.bean.SubScribeOrderBean;
 import dq.lelaohui.com.lelaohuipad.controler.ServerSubscribeControler;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.car.SubScribeServerSets;
 import dq.lelaohui.com.lelaohuipad.port.IControler;
+import dq.lelaohui.com.lelaohuipad.util.ServerSubscribeRequestParam;
 import dq.lelaohui.com.lelaohuipad.util.SysVar;
+import dq.lelaohui.com.nettylibrary.socket.RequestParam;
 import dq.lelaohui.com.nettylibrary.util.ServiceNetContant;
 
 /**
@@ -61,12 +64,12 @@ public class SubScribeServerActivity extends LeLaoHuiBaseActivity implements Vie
     private AppCompatButton next_data,upload_ser_scribe;
     private SysVar var=null;
     private ServerSubscribeControler serverSubscribeControler=null;
-    private String customerId,customerName;
+    private String customerId,customerName,customerPhone;
     private FilterSubscribeData filterSubscribeData=null;
     private int execNumDay;
     private long serStockDetailId;
     private int optionAssign;
-    private String serverId,serverName;
+    private String serverId="",serverName="";
     private List<ServerPersonData> serverPersonDataList=new ArrayList<>();
     private SubScribeServerSets subScribeServerSets;
     public void initView() {
@@ -128,6 +131,9 @@ public class SubScribeServerActivity extends LeLaoHuiBaseActivity implements Vie
                 subScribeServerSets.addData(filterSubscribeData);
             }
         }
+        customerPhone="18510397270";
+        customerId=var.getUserId();
+        customerName=var.getUserName();
     }
     @Override
     public IControler getControler() {
@@ -135,6 +141,13 @@ public class SubScribeServerActivity extends LeLaoHuiBaseActivity implements Vie
     }
     @Override
     public void result(Bundle bundle) {
+        if(bundle!=null){
+            String action=bundle.getString("action");
+            if(action.equals(ServiceNetContant.ServiceResponseAction.CONFIRM_ORDER_SERVER_APP_RESONSE)){
+                String message=bundle.getString("message");
+                Toast.makeText(getApplicationContext(), ""+message, Toast.LENGTH_SHORT).show();
+            }
+        }
     }
     @Override
     protected int getLayoutID() {
@@ -169,9 +182,13 @@ public class SubScribeServerActivity extends LeLaoHuiBaseActivity implements Vie
      * @param execNum
      */
     private void setSerScribeContent(int execNum) {
+        SerSubsctibeData subScribeData = getSerSubsctibeData(execNum);
+        serSubsctibeDataList.add(subScribeData);
+    }
+    @NonNull
+    private SerSubsctibeData getSerSubsctibeData(int execNum) {
         SerSubsctibeData subScribeData=new SerSubsctibeData();
         subScribeData.setId(execNum);
-        String dayTime=  day_time.getText().toString();
         String dayStartTime=day_start_time.getText().toString();
         String dayStopTime=day_stop_time.getText().toString();
         subScribeData.setStartTime(dayStartTime);
@@ -184,9 +201,9 @@ public class SubScribeServerActivity extends LeLaoHuiBaseActivity implements Vie
         subScribeData.setIsChange(String.valueOf(optionAssign));
         subScribeData.setAssignType(optionAssign);
         subScribeData.setOrdreNum(String.valueOf(execNum));
-        serSubsctibeDataList.add(subScribeData);
-        Log.i(TAG,"serSubsctibeDataList.size=="+serSubsctibeDataList.size());
+        return subScribeData;
     }
+
     @Override
     public List<SerSubsctibeData> setSubScribeDataList() {
         if (serSubsctibeDataList!=null){
@@ -194,11 +211,57 @@ public class SubScribeServerActivity extends LeLaoHuiBaseActivity implements Vie
         }
         return null;
     }
+
+    /**
+     * 修改预约设置参数相关数据
+     * @param execNum
+     * @return
+     */
+    @Override
+    public SerSubsctibeData updateSubScribeData(int execNum) {
+        SerSubsctibeData updataSubScribeData = getSerSubsctibeData(execNum);
+        return updataSubScribeData;
+    }
+
+    /**
+     * 设置提交数据
+     * @return
+     */
+    @Override
+    public SubScribeOrderBean setSubScribeOrder(SubScribeOrderBean subScribeOrderBean) {
+        String dayTime=  day_time.getText().toString();
+        String remarkContent=remark_content.getText().toString();
+          subScribeOrderBean=new SubScribeOrderBean();
+        subScribeOrderBean.setMobile(customerPhone);
+        subScribeOrderBean.setOrderPerson(customerName);
+        subScribeOrderBean.setOrderPersonId(Long.parseLong(customerId));
+        subScribeOrderBean.setOrderDateStr(dayTime);
+        subScribeOrderBean.setRemark(remarkContent);
+        List<SerSubsctibeData> serSubsctibeDataList=setSubScribeDataList();
+        if (serSubsctibeDataList!=null){
+            subScribeOrderBean.setSerSubsctibeDataList(serSubsctibeDataList);
+        }
+        return subScribeOrderBean;
+    }
+
+    /**
+     * 提交预约设置数据
+     * @param subScribeOrderBeanList
+     * @return
+     */
+    @Override
+    public RequestParam getOrderParam(SubScribeOrderBean subScribeOrderBeanList) {
+        subScribeOrderBeanList=  setSubScribeOrder(subScribeOrderBeanList);
+        ServerSubscribeRequestParam serverRequestParam = new ServerSubscribeRequestParam();
+        RequestParam rp =serverRequestParam.doUploadServer(serStockDetailId,subScribeOrderBeanList);
+        return rp;
+    }
+
     @Override
     public void setExecNumShowNextView(int execNum) {
-        if (execNum==1){
-            next_data.setVisibility(View.GONE);
-        }
+//        if (execNum==1){
+//            next_data.setVisibility(View.GONE);
+//        }
     }
     @Override
     public View nextButton() {

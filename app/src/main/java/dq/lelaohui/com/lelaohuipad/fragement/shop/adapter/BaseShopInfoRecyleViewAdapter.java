@@ -18,7 +18,6 @@ import java.lang.ref.SoftReference;
 import dq.lelaohui.com.lelaohuipad.R;
 import dq.lelaohui.com.lelaohuipad.adapter.BaseDataBaseAdapter;
 import dq.lelaohui.com.lelaohuipad.bean.ServerCartBean;
-import dq.lelaohui.com.lelaohuipad.fragement.shop.ServerActivity;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.car.BaseShopCart;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.BaseBean;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.SerInitProPack;
@@ -87,8 +86,8 @@ public  class BaseShopInfoRecyleViewAdapter extends BaseDataBaseAdapter<BaseShop
     }
 
     @Override
-    public ServerActivity.MyShopRecyleViewAdapter.ViewHolder onCreatViewHolder(View view) {
-        return new ViewHolder(view);
+    public BaseShopInfoRecyleViewAdapter.ViewHolder onCreatViewHolder(View view) {
+        return new BaseShopInfoRecyleViewAdapter.ViewHolder(view);
     }
     @NonNull
     public ServerCartBean getServerCartBean(BaseBean baseBean,int position) {
@@ -143,7 +142,7 @@ public  class BaseShopInfoRecyleViewAdapter extends BaseDataBaseAdapter<BaseShop
         public void setData(final  BaseBean baseBean,final int position) {
 //            SerInitProPack serInitProPack= (SerInitProPack) baseBean;
 
-        final  ServerCartBean shoppingCarListBean=getServerCartBean(baseBean,position);
+            final  ServerCartBean shoppingCarListBean=getServerCartBean(baseBean,position);
 
             final String key=shoppingCarListBean.getKey();
             Log.i(TAG, "setData: "+key);

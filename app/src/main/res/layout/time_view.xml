@@ -6,13 +6,19 @@
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/start_time_tv"
         style="@style/timeViewStyle"
+        android:text="2016-12-07"
+        android:background="@drawable/llh_et_bg"
+
         />
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/stop_time_tv"
         style="@style/timeViewStyle"
+        android:text="2016-12-07"
+        android:background="@drawable/llh_et_bg"
         />
+
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/quert_data_bt"
-        style="@style/timeViewStyle"
+        style="@style/buttonStyle"
         />
 </LinearLayout>

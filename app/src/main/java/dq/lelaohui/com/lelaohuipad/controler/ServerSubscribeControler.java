@@ -39,6 +39,7 @@ public class ServerSubscribeControler  extends LaoHuiBaseControler {
     public static final String SUCCESS_CODE="200";
     private static ServerSubscribeControler serverSubscribeControler=null;
     private ServerSubscribeRequestParam requestParam;
+    public final static  String MY_SUBSCRIBE_CENTER="mySubscribeCenter";
     private ServerSubscribeControler(){
         requestParam=new ServerSubscribeRequestParam();
     }
@@ -121,17 +122,22 @@ public class ServerSubscribeControler  extends LaoHuiBaseControler {
                 }
             } else if (action.equals(ServiceNetContant.ServiceResponseAction.SEARCH_APPOINTMENT_FOR_APP_RESPONSE)) {
                 String body = getResponseBody(responseData);
-                SerTaskFinishCate serTaskFinishCate = (SerTaskFinishCate) getJsonToObject(body, SerTaskFinishCate.class);
+                log("doBusses: " + responseData);
+                MySerSubescribeCate serTaskFinishCate = (MySerSubescribeCate) getJsonToObject(body, MySerSubescribeCate.class);
                 if (serTaskFinishCate.getCode().equals(SUCCESS_CODE)) {
                     {
                         if (getIControlerCallBack() != null) {
-                            List<SerTaskFinishData> data = serTaskFinishCate.getData();
+                            List<MySerSubescribeData> data = serTaskFinishCate.getData();
                             if (data != null && data.size() > 0) {
                                 Bundle bundle = new Bundle();
                                 bundle.putString("action", ServiceNetContant.ServiceResponseAction.SEARCH_APPOINTMENT_FOR_APP_RESPONSE);
                                 bundle.putParcelableArrayList("serTaskFinish", (ArrayList<? extends Parcelable>) data);
                                 getIControlerCallBack().result(bundle);
                             }
+                        }else{
+                            Bundle bundle = new Bundle();
+                            bundle.putString("action",MY_SUBSCRIBE_CENTER);
+                            getIControlerCallBack().result(bundle);
                         }
                     }
                 }else{
@@ -155,7 +161,26 @@ public class ServerSubscribeControler  extends LaoHuiBaseControler {
                 }else{
                     log("data is null");
                 }
+            }else if (action.equals(ServiceNetContant.ServiceResponseAction.CONFIRM_ORDER_SERVER_APP_RESONSE)){
+                String body = getResponseBody(responseData);
+                log("doBusses: " + responseData);
+                FilterSubscribeCate filterSubscribeCate = (FilterSubscribeCate) getJsonToObject(body, FilterSubscribeCate.class);
+                if (filterSubscribeCate.getCode().equals(SUCCESS_CODE)) {
+                    setBundleData(filterSubscribeCate);
+                } else {
+                    setBundleData(filterSubscribeCate);
+                    log("data is null");
+                }
             }
+        }
+    }
+
+    private void setBundleData(FilterSubscribeCate filterSubscribeCate) {
+        if (getIControlerCallBack() != null) {//解析数据成功，通知UI界面
+            Bundle bundle = new Bundle();
+            bundle.putString("action", ServiceNetContant.ServiceResponseAction.CONFIRM_ORDER_SERVER_APP_RESONSE);
+            bundle.putString("message",filterSubscribeCate.getMsg());
+            getIControlerCallBack().result(bundle);
         }
     }
 
@@ -171,7 +196,18 @@ public class ServerSubscribeControler  extends LaoHuiBaseControler {
         RequestParam requestParam1=requestParam.doQueryServerSetatlInfo(customerId);
         app.reqData(requestParam1);
     }
-
+    /**
+     * 查询用户已经预约过的数据
+     * @param customerId
+     */
+    public void doQueryStockDetailByUser(String customerId){
+        LeLaohuiApp app= (LeLaohuiApp) getContext();
+        if(app==null){
+            throw  new RuntimeException(" app is null exception");
+        }
+        RequestParam requestParam1=requestParam.doQueryStockDetailByUser(customerId);
+        app.reqData(requestParam1);
+    }
     /**
      * 查询指定时间内的库存信息
      * @param customerId
@@ -200,6 +236,20 @@ public class ServerSubscribeControler  extends LaoHuiBaseControler {
             throw  new RuntimeException(" app is null exception");
         }
         RequestParam requestParam1=requestParam.doStockDetailByUser(customerId,startTime,stopTime,transStatus);
+        app.reqData(requestParam1);
+    }
+
+    /**
+     * 我的预约执行
+     * @param serTransId
+     * @param transStatus
+     */
+    public void   doUploadReSend(long serTransId,String transStatus){
+        LeLaohuiApp app= (LeLaohuiApp) getContext();
+        if(app==null){
+            throw  new RuntimeException(" app is null exception");
+        }
+        RequestParam requestParam1=requestParam.doUploadReSend(serTransId,transStatus);
         app.reqData(requestParam1);
     }
     /**

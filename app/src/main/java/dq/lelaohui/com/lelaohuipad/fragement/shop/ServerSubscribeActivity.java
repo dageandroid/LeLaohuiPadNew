@@ -88,7 +88,7 @@ public class ServerSubscribeActivity extends LeLaoHuiBaseActivity {
         list_title.add("完成任务");
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(new SerSubscribeStockActivity());
-        fragments.add(new SerSubscribeStockActivity());
+        fragments.add(new MySerSubscribeActivity());
         fragments.add(new SerTaskFinishActivity());
         setViewPager(list_title,fragments);
     }

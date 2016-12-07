@@ -3,6 +3,8 @@ package dq.lelaohui.com.lelaohuipad.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Date;
+
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.BaseBean;
 
 /**
@@ -10,30 +12,6 @@ import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.BaseBean;
  */
 
 public class MySerSubescribeData  extends BaseBean implements Parcelable {
-
-    @Override
-    public String toString() {
-        return "MySerSubescribeData{" +
-                "serTransId=" + serTransId +
-                ", stockDetailId=" + stockDetailId +
-                ", serviceId='" + serviceId + '\'' +
-                ", serviceName='" + serviceName + '\'' +
-                ", customerId=" + customerId +
-                ", customerName='" + customerName + '\'' +
-                ", customerPhone='" + customerPhone + '\'' +
-                ", orgName='" + orgName + '\'' +
-                ", orgTypeId=" + orgTypeId +
-                ", orgId=" + orgId +
-                ", proWaitersNum=" + proWaitersNum +
-                ", serEndTime='" + serEndTime + '\'' +
-                ", serStartTime='" + serStartTime + '\'' +
-                ", transStatus='" + transStatus + '\'' +
-                ", addTime='" + addTime + '\'' +
-                ", waitersName='" + waitersName + '\'' +
-                ", packDetailId=" + packDetailId +
-                ", isEval=" + isEval +
-                '}';
-    }
 
     /**
      * serTransId : 428
@@ -67,13 +45,43 @@ public class MySerSubescribeData  extends BaseBean implements Parcelable {
     private int orgTypeId;
     private int orgId;
     private int proWaitersNum;
-    private String serEndTime;
-    private String serStartTime;
+    private Date serEndTime;
+    private Date serStartTime;
     private String transStatus;
-    private String addTime;
+    private Date addTime;
     private String waitersName;
     private int packDetailId;
     private int isEval;
+
+    protected MySerSubescribeData(Parcel in) {
+        serTransId = in.readInt();
+        stockDetailId = in.readInt();
+        serviceId = in.readString();
+        serviceName = in.readString();
+        customerId = in.readLong();
+        customerName = in.readString();
+        customerPhone = in.readString();
+        orgName = in.readString();
+        orgTypeId = in.readInt();
+        orgId = in.readInt();
+        proWaitersNum = in.readInt();
+        transStatus = in.readString();
+        waitersName = in.readString();
+        packDetailId = in.readInt();
+        isEval = in.readInt();
+    }
+
+    public static final Creator<MySerSubescribeData> CREATOR = new Creator<MySerSubescribeData>() {
+        @Override
+        public MySerSubescribeData createFromParcel(Parcel in) {
+            return new MySerSubescribeData(in);
+        }
+
+        @Override
+        public MySerSubescribeData[] newArray(int size) {
+            return new MySerSubescribeData[size];
+        }
+    };
 
     public int getSerTransId() {
         return serTransId;
@@ -99,20 +107,20 @@ public class MySerSubescribeData  extends BaseBean implements Parcelable {
         this.serviceId = serviceId;
     }
 
-    public String getServiceName() {
-        return serviceName;
-    }
-
-    public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
-    }
-
     public long getCustomerId() {
         return customerId;
     }
 
     public void setCustomerId(long customerId) {
         this.customerId = customerId;
+    }
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
     }
 
     public String getCustomerName() {
@@ -163,19 +171,19 @@ public class MySerSubescribeData  extends BaseBean implements Parcelable {
         this.proWaitersNum = proWaitersNum;
     }
 
-    public String getSerEndTime() {
+    public Date getSerEndTime() {
         return serEndTime;
     }
 
-    public void setSerEndTime(String serEndTime) {
+    public void setSerEndTime(Date serEndTime) {
         this.serEndTime = serEndTime;
     }
 
-    public String getSerStartTime() {
+    public Date getSerStartTime() {
         return serStartTime;
     }
 
-    public void setSerStartTime(String serStartTime) {
+    public void setSerStartTime(Date serStartTime) {
         this.serStartTime = serStartTime;
     }
 
@@ -187,11 +195,11 @@ public class MySerSubescribeData  extends BaseBean implements Parcelable {
         this.transStatus = transStatus;
     }
 
-    public String getAddTime() {
+    public Date getAddTime() {
         return addTime;
     }
 
-    public void setAddTime(String addTime) {
+    public void setAddTime(Date addTime) {
         this.addTime = addTime;
     }
 
@@ -225,60 +233,21 @@ public class MySerSubescribeData  extends BaseBean implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.serTransId);
-        dest.writeInt(this.stockDetailId);
-        dest.writeString(this.serviceId);
-        dest.writeString(this.serviceName);
-        dest.writeLong(this.customerId);
-        dest.writeString(this.customerName);
-        dest.writeString(this.customerPhone);
-        dest.writeString(this.orgName);
-        dest.writeInt(this.orgTypeId);
-        dest.writeInt(this.orgId);
-        dest.writeInt(this.proWaitersNum);
-        dest.writeString(this.serEndTime);
-        dest.writeString(this.serStartTime);
-        dest.writeString(this.transStatus);
-        dest.writeString(this.addTime);
-        dest.writeString(this.waitersName);
-        dest.writeInt(this.packDetailId);
-        dest.writeInt(this.isEval);
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(serTransId);
+        parcel.writeInt(stockDetailId);
+        parcel.writeString(serviceId);
+        parcel.writeString(serviceName);
+        parcel.writeLong(customerId);
+        parcel.writeString(customerName);
+        parcel.writeString(customerPhone);
+        parcel.writeString(orgName);
+        parcel.writeInt(orgTypeId);
+        parcel.writeInt(orgId);
+        parcel.writeInt(proWaitersNum);
+        parcel.writeString(transStatus);
+        parcel.writeString(waitersName);
+        parcel.writeInt(packDetailId);
+        parcel.writeInt(isEval);
     }
-
-    public MySerSubescribeData() {
-    }
-
-    protected MySerSubescribeData(Parcel in) {
-        this.serTransId = in.readInt();
-        this.stockDetailId = in.readInt();
-        this.serviceId = in.readString();
-        this.serviceName = in.readString();
-        this.customerId = in.readLong();
-        this.customerName = in.readString();
-        this.customerPhone = in.readString();
-        this.orgName = in.readString();
-        this.orgTypeId = in.readInt();
-        this.orgId = in.readInt();
-        this.proWaitersNum = in.readInt();
-        this.serEndTime = in.readString();
-        this.serStartTime = in.readString();
-        this.transStatus = in.readString();
-        this.addTime = in.readString();
-        this.waitersName = in.readString();
-        this.packDetailId = in.readInt();
-        this.isEval = in.readInt();
-    }
-
-    public static final Parcelable.Creator<MySerSubescribeData> CREATOR = new Parcelable.Creator<MySerSubescribeData>() {
-        @Override
-        public MySerSubescribeData createFromParcel(Parcel source) {
-            return new MySerSubescribeData(source);
-        }
-
-        @Override
-        public MySerSubescribeData[] newArray(int size) {
-            return new MySerSubescribeData[size];
-        }
-    };
 }

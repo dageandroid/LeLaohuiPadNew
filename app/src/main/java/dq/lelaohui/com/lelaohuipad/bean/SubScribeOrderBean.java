@@ -19,15 +19,35 @@ public class SubScribeOrderBean extends BaseBean implements Parcelable {
     private String orderPerson;//预约人姓名
     private Long orderPersonId;//预约人Id
 
+    protected SubScribeOrderBean(Parcel in) {
+        orderDateStr = in.readString();
+        remark = in.readString();
+        mobile = in.readString();
+        orderPerson = in.readString();
+        orderList = in.createTypedArrayList(SerSubsctibeData.CREATOR);
+    }
+
+    public static final Creator<SubScribeOrderBean> CREATOR = new Creator<SubScribeOrderBean>() {
+        @Override
+        public SubScribeOrderBean createFromParcel(Parcel in) {
+            return new SubScribeOrderBean(in);
+        }
+
+        @Override
+        public SubScribeOrderBean[] newArray(int size) {
+            return new SubScribeOrderBean[size];
+        }
+    };
+
     public List<SerSubsctibeData> getSerSubsctibeDataList() {
-        return serSubsctibeDataList;
+        return orderList;
     }
 
-    public void setSerSubsctibeDataList(List<SerSubsctibeData> serSubsctibeDataList) {
-        this.serSubsctibeDataList = serSubsctibeDataList;
+    public void setSerSubsctibeDataList(List<SerSubsctibeData> orderList) {
+        this.orderList = orderList;
     }
 
-    List<SerSubsctibeData> serSubsctibeDataList;
+    List<SerSubsctibeData> orderList;
 
     public String getOrderDateStr() {
         return orderDateStr;
@@ -72,39 +92,18 @@ public class SubScribeOrderBean extends BaseBean implements Parcelable {
     public SubScribeOrderBean() {
     }
 
+
     @Override
     public int describeContents() {
         return 0;
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.orderDateStr);
-        dest.writeString(this.remark);
-        dest.writeString(this.mobile);
-        dest.writeString(this.orderPerson);
-        dest.writeValue(this.orderPersonId);
-        dest.writeTypedList(this.serSubsctibeDataList);
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(orderDateStr);
+        parcel.writeString(remark);
+        parcel.writeString(mobile);
+        parcel.writeString(orderPerson);
+        parcel.writeTypedList(orderList);
     }
-
-    protected SubScribeOrderBean(Parcel in) {
-        this.orderDateStr = in.readString();
-        this.remark = in.readString();
-        this.mobile = in.readString();
-        this.orderPerson = in.readString();
-        this.orderPersonId = (Long) in.readValue(Long.class.getClassLoader());
-        this.serSubsctibeDataList = in.createTypedArrayList(SerSubsctibeData.CREATOR);
-    }
-
-    public static final Parcelable.Creator<SubScribeOrderBean> CREATOR = new Parcelable.Creator<SubScribeOrderBean>() {
-        @Override
-        public SubScribeOrderBean createFromParcel(Parcel source) {
-            return new SubScribeOrderBean(source);
-        }
-
-        @Override
-        public SubScribeOrderBean[] newArray(int size) {
-            return new SubScribeOrderBean[size];
-        }
-    };
 }

@@ -3,6 +3,11 @@ package dq.lelaohui.com.lelaohuipad.util;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.google.gson.Gson;
+
+import java.util.List;
+
+import dq.lelaohui.com.lelaohuipad.bean.SubScribeOrderBean;
 import dq.lelaohui.com.nettylibrary.socket.RequestParam;
 import dq.lelaohui.com.nettylibrary.util.NetContant;
 import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
@@ -13,6 +18,7 @@ import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
  */
 
 public class ServerSubscribeRequestParam {
+    private static  final String TAG="ServerSubscribeRequestParam";
     private SysVar var=null;
     /**
      * 获取服务数据请求的cateGory
@@ -37,6 +43,23 @@ public class ServerSubscribeRequestParam {
      * 提交服务预约Item
      */
     private static final String SERVICE_ITEM_ID ="serviceItemId";
+    /**
+     * 开始时间
+     */
+    private static final String START_DATE_STR ="startDateStr";
+    /**
+     * 结束时间
+     */
+    private static final String END_DATE_STR ="endDateStr";
+
+    /**
+     * 任务状态
+     */
+    private static final String TRANS_STATUS ="transStatus";
+    /**
+     * 服务执行Id
+     */
+    private static final String TRANS_ID ="serTransId";
 
     /**
      * 提交预约操作
@@ -113,24 +136,14 @@ public class ServerSubscribeRequestParam {
 /**
  * 提交用户预约信息
  */
-
-//public RequestParam   doUploadServer(String yearData,String remarkStr,long serStockDetailId,List<OrderBean> orderBeanList){
-//    RequestParam requestParam=getRequestParam();
-//    requestParam.addHeader(Protocol_KEY.ACTION, NetContant.ServiceAction.CONFIRM_ORDER_SERVER_APP);
-//    requestParam.addBody(Protocol_KEY.IS_SERVER_REQ,true);
-//
-//    Bundle parmBundle=new Bundle();
-//    setOrgBundleParm(parmBundle);
-//    parmBundle.putString(Protocol_KEY.CUSTOMER_ID,customerId);
-//    parmBundle.putString(Protocol_KEY.END_TIME,endTime);
-//    parmBundle.putLong(SER_STOCK_DETAIL_ID,serStockDetailId);
-//    requestParam.addBody(GET_DETAIL_BY_USER_AND_DATE,parmBundle);
-//    return requestParam;
-//}
-/**查询用户已经预约的信息
- *
- */
-
+public RequestParam   doUploadServer(long  serStockDetailId,SubScribeOrderBean orderBeanList){
+    RequestParam requestParam=getRequestParam();
+    requestParam.addHeader(Protocol_KEY.ACTION, NetContant.ServiceAction.CONFIRM_ORDER_SERVER_APP);
+    requestParam.addBody(Protocol_KEY.IS_SERVER_REQ,true);
+    requestParam.addBody(Protocol_KEY.ORDER_DATA,new Gson().toJson(orderBeanList));
+    requestParam.addBody(SER_STOCK_DETAIL_ID,String.valueOf(serStockDetailId));
+    return requestParam;
+}
 
     /**
      * 获取数据的用户库存信息
@@ -157,7 +170,9 @@ public class ServerSubscribeRequestParam {
         RequestParam requestParam=getRequestParam();
         requestParam.addHeader(Protocol_KEY.ACTION, NetContant.ServiceAction.SEARCH_APPOINTMENT_FOR_APP);
         requestParam.addBody(Protocol_KEY.IS_SERVER_REQ,true);
-        requestParam.addBody(Protocol_KEY.CUSTOMER_ID,customerId);
+        Bundle bundler=new Bundle();
+        bundler.putString(Protocol_KEY.CUSTOMER_ID,customerId);
+        requestParam.addBody(SEARCH_APPOINTMENT_FOR_APP,bundler);
         return requestParam;
     }
     /**
@@ -171,8 +186,8 @@ public class ServerSubscribeRequestParam {
         requestParam.addHeader(Protocol_KEY.ACTION, NetContant.ServiceAction.SEARCH_APPOINTMENT_FOR_APP);
         requestParam.addBody(Protocol_KEY.IS_SERVER_REQ,true);
         Bundle parmBundle=new Bundle();
-        parmBundle.putLong("serTransId",serTransId);
-        parmBundle.putString("transStatus",transStatus);
+        parmBundle.putLong(TRANS_ID,serTransId);
+        parmBundle.putString(TRANS_STATUS,transStatus);
         requestParam.addBody(UPDATE_APPOINTMENT_STATUS_FOR_APP,parmBundle);
         return requestParam;
     }
@@ -184,10 +199,10 @@ public class ServerSubscribeRequestParam {
         requestParam.addHeader(Protocol_KEY.ACTION, NetContant.ServiceAction.SEARCH_APPOINTMENT_FOR_APP);
         requestParam.addBody(Protocol_KEY.IS_SERVER_REQ,true);
         Bundle parmBundle=new Bundle();
-        parmBundle.putString("customerId",customerId);
-        parmBundle.putString("startDateStr",startTime);
-        parmBundle.putString("endDateStr",stopTime);
-        parmBundle.putString("transStatus",transStatus);
+        parmBundle.putString(Protocol_KEY.CUSTOMER_ID,customerId);
+        parmBundle.putString(START_DATE_STR,startTime);
+        parmBundle.putString(END_DATE_STR,stopTime);
+        parmBundle.putString(TRANS_STATUS,transStatus);
         requestParam.addBody(SEARCH_APPOINTMENT_FOR_APP,parmBundle);
         return requestParam;
     }

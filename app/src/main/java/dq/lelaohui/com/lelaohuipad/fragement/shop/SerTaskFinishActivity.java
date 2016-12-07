@@ -7,6 +7,7 @@ import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +19,12 @@ import java.util.List;
 import dq.lelaohui.com.lelaohuipad.R;
 import dq.lelaohui.com.lelaohuipad.base.LeLaoHuiBaseFragment;
 import dq.lelaohui.com.lelaohuipad.bean.SerTaskFinishData;
-import dq.lelaohui.com.lelaohuipad.controler.ServerSubscribeControler;
+import dq.lelaohui.com.lelaohuipad.controler.MyServerTaskControler;
 import dq.lelaohui.com.lelaohuipad.port.IControler;
+import dq.lelaohui.com.lelaohuipad.util.Constants;
+import dq.lelaohui.com.lelaohuipad.util.StringSubUtils;
 import dq.lelaohui.com.lelaohuipad.util.SysVar;
+import dq.lelaohui.com.lelaohuipad.util.TimeUtils;
 import dq.lelaohui.com.nettylibrary.util.ServiceNetContant;
 
 /**
@@ -29,7 +33,7 @@ import dq.lelaohui.com.nettylibrary.util.ServiceNetContant;
  */
 
 public class SerTaskFinishActivity extends LeLaoHuiBaseFragment implements View.OnClickListener {
-    private ServerSubscribeControler serverSubscribeControler = null;
+    private MyServerTaskControler serverSubscribeControler = null;
     private ViewStub view_sub_time;
     private RecyclerView rv_task_finish;
     private AppCompatTextView start_time_tv;
@@ -43,7 +47,7 @@ public class SerTaskFinishActivity extends LeLaoHuiBaseFragment implements View.
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         var = SysVar.getInstance();
-        serverSubscribeControler = (ServerSubscribeControler) getControler();
+        serverSubscribeControler = (MyServerTaskControler) getControler();
         if (this.getActivity().getIntent() != null) {
             customerId = this.getActivity().getIntent().getStringExtra("customerId");
             customerName = this.getActivity().getIntent().getStringExtra("customerName");
@@ -53,7 +57,7 @@ public class SerTaskFinishActivity extends LeLaoHuiBaseFragment implements View.
     }
     @Override
     public IControler getControler() {
-        return ServerSubscribeControler.getControler();
+        return MyServerTaskControler.getControler();
     }
 
     @Override
@@ -83,6 +87,7 @@ public class SerTaskFinishActivity extends LeLaoHuiBaseFragment implements View.
         stop_time_tv = (AppCompatTextView) view. findViewById(R.id.stop_time_tv);
         stop_time_tv.setOnClickListener(this);
         quert_data_bt = (AppCompatButton) view.findViewById(R.id.quert_data_bt);
+        quert_data_bt.setText("查询");
         quert_data_bt.setOnClickListener(this);
         return view;
     }
@@ -114,6 +119,7 @@ public class SerTaskFinishActivity extends LeLaoHuiBaseFragment implements View.
     class SerTaskFinishAdapter extends RecyclerView.Adapter<SerTaskFinishAdapter.ViewHolder> {
         private LayoutInflater layoutInflater = null;
         private List<SerTaskFinishData> serTaskFinishDataList=null;
+        private static final String TAG="SerTaskFinishAdapter";
         public SerTaskFinishAdapter(Context context,List<SerTaskFinishData> serTaskFinishDataList) {
             layoutInflater = LayoutInflater.from(context);
             this.serTaskFinishDataList=serTaskFinishDataList;
@@ -126,8 +132,25 @@ public class SerTaskFinishActivity extends LeLaoHuiBaseFragment implements View.
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.gift_packs.setText(serTaskFinishDataList.get(position).getServiceName());
+        public void onBindViewHolder(ViewHolder holder,final int position) {
+            {
+                holder.gift_packs.setText("预约人："+serTaskFinishDataList.get(position).getCustomerName());
+                holder.server_content.setText(serTaskFinishDataList.get(position).getServiceName());
+                String timeAdd= TimeUtils.dateToString(serTaskFinishDataList.get(position).getAddTime());
+                holder.server_surplus_num.setText(StringSubUtils.subStr(timeAdd));
+                String startTime=TimeUtils.dateToString(serTaskFinishDataList.get(position).getSerStartTime());
+                String stopTime=TimeUtils.dateToString(serTaskFinishDataList.get(position).getSerEndTime());
+                holder.server_tiem_content.setText("开始时间："+StringSubUtils.subStr(startTime)+"  结束时间："+StringSubUtils.subStr(stopTime));
+                holder.server_Name.setText(serTaskFinishDataList.get(position).getWaitersName());
+                holder.server_Name.setVisibility(View.GONE);
+                holder.server_rule_content.setVisibility(View.GONE);
+                holder. server_rule.setVisibility(View.GONE);
+                holder.server_address.setText("等待处理");
+                holder.btn_server_centel.setText("撤单");
+                holder.btn_server_exec.setVisibility(View.GONE);
+                holder.btn_server_centel.setVisibility(View.GONE);
+
+            }
         }
 
         @Override
