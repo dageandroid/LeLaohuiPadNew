@@ -90,7 +90,7 @@ public class FootterControler extends LaoHuiBaseControler {
      * @param isScope   今天，明天，后天  选餐时间
      * @param userIdStr  用户Id
      */
-    public void doQueryFoodInfo(String isScope,String userIdStr){
+    public void doReqFoodInfo(String isScope, String userIdStr){
         LeLaohuiApp app= (LeLaohuiApp) getContext();
         if(app==null){
             throw  new RuntimeException(" app is null exception");
@@ -103,8 +103,8 @@ public class FootterControler extends LaoHuiBaseControler {
      * 获取餐品信息相关接口
      * @param isScope   今天，明天，后天  选餐时间
      */
-    public void doQueryFoodInfo(String isScope){
-        doQueryFoodInfo( isScope,getSysVar().getUserId());
+    public void doReqFoodInfo(String isScope){
+        doReqFoodInfo( isScope,getSysVar().getUserId());
     }
 
     /**

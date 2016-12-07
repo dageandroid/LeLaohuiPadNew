@@ -242,6 +242,11 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataManage
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 //                footCateAdapter.swapCursor(footterControler.getFoodTypeCursor(""+select_time.getSelectedItemPosition()));
                 footterControler.getFoodInfo(String.valueOf(i));
+                if(viewpager!=null){
+
+                    BreakFastActivity ba= getPageItem(viewpager.getCurrentItem());
+                    ba.notifyDataChanger();
+                }
             }
 
             @Override

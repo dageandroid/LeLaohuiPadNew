@@ -79,6 +79,9 @@ public class BreakFastActivity extends Fragment implements SwipeRefreshLayout.On
         }
     }
 
+    public void reset() {
+        myFoodInfoAdapter.swapCursor(null);
+    }
     @Override
     public void onRefresh() {
 

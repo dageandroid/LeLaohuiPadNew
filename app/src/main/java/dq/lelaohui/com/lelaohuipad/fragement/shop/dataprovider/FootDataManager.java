@@ -48,11 +48,7 @@ public class FootDataManager extends DataManager {
         public void run() {
 
            while(isStart){
-               if(queue.isEmpty()){
-                   if(progressBarListener!=null){
-                       progressBarListener.hideProgress();
-                   }
-               }
+
                Future<String> task= null;
                try {
                    task = queue.take();
@@ -61,6 +57,11 @@ public class FootDataManager extends DataManager {
                            if( dataListener!=null){
                                try {
                                    dataListener.dataChanager(task.get());
+                                   if(queue.isEmpty()){
+                                       if(progressBarListener!=null){
+                                           progressBarListener.hideProgress();
+                                       }
+                                   }
                                } catch (InterruptedException e) {
                                    e.printStackTrace();
                                } catch (ExecutionException e) {
@@ -116,7 +117,7 @@ public class FootDataManager extends DataManager {
                 reentrantLock.lock();
                 try{
                     String scrole=mealTime;
-                    fc.doQueryFoodInfo(scrole);
+                    fc.doReqFoodInfo(scrole);
                     wati.await(30*1000, TimeUnit.MILLISECONDS);
                     return  mealTime;
                 }catch (Exception e ){
