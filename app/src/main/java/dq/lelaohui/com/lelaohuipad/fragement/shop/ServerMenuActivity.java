@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 
@@ -49,7 +50,7 @@ import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.SerInitProPackDao;
 
 public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShopCart.CardDataChange, BaseShopCart.UiOperator, View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor> {
     private RecyclerView server_menu_content;
-    private RecyclerView server_content_rv;
+    private ListView server_content_rv;
     private SwipeRefreshLayout get_data_refresh;
     private AppCompatTextView shopping_num_txt;
     private FrameLayout shopping_num;
@@ -116,9 +117,9 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
                 serverContentAdapter = new MyServerContentRecyleViewAdapter(ServerMenuActivity.this, cursor);
                 final SerInitProPackDao contentDao = (SerInitProPackDao) serverControler.getBaseDaoOperator("getInitSerProPackList").get();
                 serverContentAdapter.setDao(contentDao);
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ServerMenuActivity.this);
-                linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                server_content_rv.setLayoutManager(linearLayoutManager);
+//                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ServerMenuActivity.this);
+//                linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+//                server_content_rv.setLayoutManager(linearLayoutManager);
                 server_content_rv.setAdapter(serverContentAdapter);
             }
         });
@@ -126,7 +127,7 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
 
     private void initView() {
         server_menu_content = (RecyclerView) findViewById(R.id.server_menu_content);
-        server_content_rv = (RecyclerView) findViewById(R.id.server_content_rv);
+        server_content_rv = (ListView) findViewById(R.id.server_content_rv);
         get_data_refresh = (SwipeRefreshLayout) findViewById(R.id.get_data_refresh);
         shopping_num_txt = (AppCompatTextView) findViewById(R.id.shopping_num_txt);
         shopping_num = (FrameLayout) findViewById(R.id.shopping_num);
@@ -259,7 +260,7 @@ public static final int FINISH_ACTION=66;
     }
     @Override
     public void notifyCardDataChanger(int posion) {
-        serverContentAdapter.notifyItemChanged(posion);
+        serverContentAdapter.notifyDataSetChanged();
     }
 
     @Override

@@ -1,12 +1,8 @@
 package dq.lelaohui.com.lelaohuipad.controler;
 
-import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.Log;
-
-import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 
@@ -16,17 +12,13 @@ import dq.lelaohui.com.lelaohuipad.bean.DefeatedCate;
 import dq.lelaohui.com.lelaohuipad.bean.SerOrderInfoData;
 import dq.lelaohui.com.lelaohuipad.bean.SerOrderInfoFinish;
 import dq.lelaohui.com.lelaohuipad.bean.SerOrderInfoFinishCate;
-import dq.lelaohui.com.lelaohuipad.bean.ServerCate;
 import dq.lelaohui.com.lelaohuipad.bean.ServerOrderPayment;
 import dq.lelaohui.com.lelaohuipad.bean.ServerOrderPaymentCate;
 import dq.lelaohui.com.lelaohuipad.bean.UserAddressBean;
 import dq.lelaohui.com.lelaohuipad.bean.UserAddressData;
-import dq.lelaohui.com.lelaohuipad.dao.ProCateServiceDaoOperator;
-import dq.lelaohui.com.lelaohuipad.dao.ProMenumServiceDaoOperator;
 import dq.lelaohui.com.lelaohuipad.util.ServerRequestParam;
 import dq.lelaohui.com.nettylibrary.socket.RequestParam;
 import dq.lelaohui.com.nettylibrary.util.ServiceNetContant;
-import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateService;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager.BaseDaoOperator;
 
 import static android.content.ContentValues.TAG;
@@ -187,13 +179,7 @@ public class SerOrderInfoControler extends LaoHuiBaseControler {
     }
 
     @Override
-    public BaseDaoOperator getBaseDaoOperator(String version) {
-        return null;
-    }
-
-    @Override
     public BaseDaoOperator getBaseDaoOperator() {
-
-        return getBaseDaoOperator(null);
+        return null;
     }
 }

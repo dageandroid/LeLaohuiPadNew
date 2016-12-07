@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
@@ -13,11 +14,15 @@ import android.widget.FilterQueryProvider;
 import android.widget.Filterable;
 import android.widget.SimpleCursorAdapter;
 
+import dq.lelaohui.com.lelaohuipad.R;
+
 /**
  * Created by ThinkPad on 2016/10/25.
  */
 
 public abstract  class BaseDataBaseAdapter <VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> implements Filterable,  CursorFilter.CursorFilterClient  {
+
+    public static int EMPTY_VIEW=-1001;
     /**
      * Call when bind view with the cursor
      *
@@ -106,7 +111,19 @@ public abstract  class BaseDataBaseAdapter <VH extends RecyclerView.ViewHolder> 
     public abstract View getItemView();
     private View itemParenView=null;
     @Override
+    public int getItemViewType(int position) {
+        if(getItemCount()==0){
+
+            return EMPTY_VIEW;
+        }
+        return super.getItemViewType(position);
+    }
+    @Override
     public VH onCreateViewHolder(ViewGroup parent, int viewType) {
+        if(viewType==EMPTY_VIEW){
+           View view= LayoutInflater.from(mContext).inflate(R.layout.shop_empty_view,null);
+            return (VH) new EmptyViewHolder(view);
+        }
         View view=getItemView();
         itemParenView=view;
         return onCreatViewHolder(view);
@@ -200,6 +217,9 @@ public abstract  class BaseDataBaseAdapter <VH extends RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(VH holder, int position) {
+        if (holder instanceof BaseDataBaseAdapter.EmptyViewHolder) {
+            return;
+        }
         if (!mDataValid) {
             throw new IllegalStateException("this should only be called when the cursor is valid");
         }
@@ -394,6 +414,12 @@ public abstract  class BaseDataBaseAdapter <VH extends RecyclerView.ViewHolder> 
             mDataValid = false;
             //There is no notifyDataSetInvalidated() method in RecyclerView.Adapter
             notifyDataSetChanged();
+        }
+    }
+    public class EmptyViewHolder extends RecyclerView.ViewHolder{
+
+        public EmptyViewHolder(View itemView) {
+            super(itemView);
         }
     }
 }

@@ -25,7 +25,7 @@ public class FoodInfoDataDao extends AbstractDao<FoodInfoData, Long> {
      */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
-        public final static Property CateId = new Property(1, int.class, "cateId", false, "CATE_ID");
+        public final static Property CateId = new Property(1, Long.class, "cateId", false, "CATE_ID");
         public final static Property CateName = new Property(2, String.class, "cateName", false, "CATE_NAME");
         public final static Property ProId = new Property(3, String.class, "proId", false, "PRO_ID");
         public final static Property ProName = new Property(4, String.class, "proName", false, "PRO_NAME");
@@ -56,7 +56,7 @@ public class FoodInfoDataDao extends AbstractDao<FoodInfoData, Long> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"FOOD_INFO_DATA\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
-                "\"CATE_ID\" INTEGER NOT NULL ," + // 1: cateId
+                "\"CATE_ID\" INTEGER," + // 1: cateId
                 "\"CATE_NAME\" TEXT," + // 2: cateName
                 "\"PRO_ID\" TEXT UNIQUE ," + // 3: proId
                 "\"PRO_NAME\" TEXT," + // 4: proName
@@ -87,7 +87,11 @@ public class FoodInfoDataDao extends AbstractDao<FoodInfoData, Long> {
         if (id != null) {
             stmt.bindLong(1, id);
         }
-        stmt.bindLong(2, entity.getCateId());
+ 
+        Long cateId = entity.getCateId();
+        if (cateId != null) {
+            stmt.bindLong(2, cateId);
+        }
  
         String cateName = entity.getCateName();
         if (cateName != null) {
@@ -160,7 +164,11 @@ public class FoodInfoDataDao extends AbstractDao<FoodInfoData, Long> {
         if (id != null) {
             stmt.bindLong(1, id);
         }
-        stmt.bindLong(2, entity.getCateId());
+ 
+        Long cateId = entity.getCateId();
+        if (cateId != null) {
+            stmt.bindLong(2, cateId);
+        }
  
         String cateName = entity.getCateName();
         if (cateName != null) {
@@ -234,7 +242,7 @@ public class FoodInfoDataDao extends AbstractDao<FoodInfoData, Long> {
     public FoodInfoData readEntity(Cursor cursor, int offset) {
         FoodInfoData entity = new FoodInfoData( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.getInt(offset + 1), // cateId
+            cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // cateId
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // cateName
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // proId
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // proName
@@ -256,7 +264,7 @@ public class FoodInfoDataDao extends AbstractDao<FoodInfoData, Long> {
     @Override
     public void readEntity(Cursor cursor, FoodInfoData entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setCateId(cursor.getInt(offset + 1));
+        entity.setCateId(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
         entity.setCateName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setProId(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setProName(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));

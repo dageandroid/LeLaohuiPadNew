@@ -24,11 +24,12 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="2.2" />
 
-            <android.support.v7.widget.RecyclerView
+            <ListView
                 android:id="@+id/server_content_rv"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:descendantFocusability="afterDescendants"
+                android:descendantFocusability="blocksDescendants"
+                android:focusable="false"
                 android:layout_weight="1" />
         </LinearLayout>
 

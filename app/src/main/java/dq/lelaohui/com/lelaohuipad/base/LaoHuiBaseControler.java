@@ -10,6 +10,7 @@ import android.util.Log;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import dq.lelaohui.com.lelaohuipad.fragement.shop.dataprovider.DataManager;
 import dq.lelaohui.com.lelaohuipad.port.IControler;
 import dq.lelaohui.com.lelaohuipad.port.IControlerCallBack;
 import dq.lelaohui.com.lelaohuipad.util.JsonUtil;
@@ -32,6 +33,15 @@ public abstract class LaoHuiBaseControler implements IControler {
     private SysVar sysVar=SysVar.getInstance();
     private JsonUtil jsonUtil;
 
+    public DataManager getDataManager() {
+        return dataManager;
+    }
+
+    public void setDataManager(DataManager dataManager) {
+        this.dataManager = dataManager;
+    }
+
+    private DataManager dataManager;
     public SysVar getSysVar() {
         return SysVar.getInstance();
     }
@@ -62,6 +72,7 @@ public abstract class LaoHuiBaseControler implements IControler {
             mContext.startActivity(intent);
         }
     }
+
 
     protected  void log(String message){
         Log.i(tag,message);
@@ -99,13 +110,13 @@ public abstract class LaoHuiBaseControler implements IControler {
         }
         return 3;
     }
-    protected String getResponseAction(Bundle bundle){
+    public String getResponseAction(Bundle bundle){
         return bundle.getString(LlhResponseHandler.Respon_Key.ACTION);
     }
-    protected String getResponseBody(Bundle bundle){
+    public String getResponseBody(Bundle bundle){
         return bundle.getString(LlhResponseHandler.Respon_Key.BODY);
     }
-    protected Object getJsonToObject(String body,Class<?>t){
+    public Object getJsonToObject(String body, Class<?> t){
         if(jsonUtil==null){
             jsonUtil=JsonUtil.getInstance();
         }
@@ -124,29 +135,23 @@ public abstract class LaoHuiBaseControler implements IControler {
        return queryData(null, obj);
     }
     public List<? extends BaseBean> queryData(String version,BaseBean obj){
-        if(getBaseDaoOperator(version)!=null){
-            return  getBaseDaoOperator(version).queryDataList(obj);
+        if(getBaseDaoOperator()!=null){
+            return  getBaseDaoOperator().queryDataList(obj);
         }else{
             throw new RuntimeException("获取数据库对象为null");
         }
     }
     public void updateData(List<?extends BaseBean> obj){
-        updateData(null,obj);
-    }
-    public void updateData(String version,List<?extends BaseBean> obj){
-        if(getBaseDaoOperator(version)!=null){
-            getBaseDaoOperator(version).updateData(obj);
+        if(getBaseDaoOperator()!=null){
+            getBaseDaoOperator().updateData(obj);
         }else{
             throw new RuntimeException("获取数据库对象为null");
         }
     }
     public void insertData(List<?extends  BaseBean> obj){
-        insertData(null,obj);
-    }
-    public void insertData(String version,List<?extends  BaseBean> obj){
-        if(getBaseDaoOperator(version)!=null){
+        if(getBaseDaoOperator()!=null){
             log("insert obj :"+obj.toString());
-            getBaseDaoOperator(version).intsert(obj);
+            getBaseDaoOperator().intsert(obj);
         }else{
             throw new RuntimeException("获取数据库对象为null");
         }
@@ -162,5 +167,9 @@ public abstract class LaoHuiBaseControler implements IControler {
             throw new RuntimeException("获取数据库对象为null");
         }
         return cursor;
+    }
+
+    public void destroy() {
+
     }
 }

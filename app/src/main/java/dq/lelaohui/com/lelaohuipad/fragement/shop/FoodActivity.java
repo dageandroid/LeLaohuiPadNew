@@ -4,8 +4,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v7.widget.AppCompatButton;
@@ -20,8 +18,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
 
 import dq.lelaohui.com.lelaohuipad.R;
 import dq.lelaohui.com.lelaohuipad.adapter.FoodTimeSpinnerAdapter;
@@ -31,6 +31,7 @@ import dq.lelaohui.com.lelaohuipad.controler.FootterControler;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.adapter.MyFoodTypeRecyleViewAdapter;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.adapter.PagerAdapter;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.car.BaseShopCart;
+import dq.lelaohui.com.lelaohuipad.fragement.shop.dataprovider.FootDataManager;
 import dq.lelaohui.com.lelaohuipad.port.IControler;
 import dq.lelaohui.com.lelaohuipad.util.SysVar;
 import dq.lelaohui.com.nettylibrary.socket.RequestParam;
@@ -44,7 +45,7 @@ import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager.BaseDaoOperator;
  * Created by ZTF on 2016/11/18.
  */
 
-public class FoodActivity extends LeLaoHuiBaseActivity implements   BaseShopCart.UiOperator, LoaderManager.LoaderCallbacks<Cursor>,BreakFastActivity.FootInfoCursor {
+public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataManager.FootDataListener,  BaseShopCart.UiOperator,BreakFastActivity.FootInfoCursor {
     private AppCompatTextView title_tv;
     private AppCompatImageButton left_btn;
     private AppCompatTextView reight_tv;
@@ -76,13 +77,17 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements   BaseShopCart
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         footterControler = (FootterControler) getControler();
+        FootDataManager footDataManager=new FootDataManager(footterControler,this);
+        footDataManager.setDataListener(this);
         footterControler.setContext(this);
+        footterControler.setFootDataManager(footDataManager);
+        setNetResponIntercept(footDataManager);
         var = SysVar.getInstance();
         initView();
         setSelectTime();
         initFootType();
         initInfoDetailView();
-
+        footterControler.init();
 
     }
 
@@ -99,18 +104,13 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements   BaseShopCart
         final Cursor cursor = footterControler.getFoodTypeCursor(""+select_time.getSelectedItemPosition());
         footCateAdapter = new MyFoodTypeRecyleViewAdapter(this, cursor,CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         Log.i(TAG, "initFootType: "+cursor.getCount());
-        if (cursor.getCount() == 0) {
-            footterControler.doQueryFoodInfo(String.valueOf(0), var.getUserId());
-        }else{
-            initPageData();
-        }
+        initPageData();
         footCateAdapter.setDao((FootCateBeanDao) footterControler.getBaseDaoOperator().get(FootCateBean.class));
         food_type.setAdapter(footCateAdapter);
-        food_type.getSelectedItemId();
-        getSupportLoaderManager().initLoader(0, null, this);
         food_type.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                cateSelectId=(int)l;
+                cateSelectId=(int) footCateAdapter.getItemId(i);
                 if(viewpager==null){
                     return ;
                 }
@@ -120,37 +120,38 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements   BaseShopCart
 
     }
     private String getMealTime(){
-        if( sliding_tabs==null){
+        if(select_time==null){
             return "1";
         }
-        return ""+(  select_time.getSelectedItemPosition()+1);
+        return  ""+(viewpager.getCurrentItem()+1);
+
 
     }
     private String getMealType(){
-        if(select_time==null){
+        if( sliding_tabs==null){
             return "0";
         }
-        return  ""+(viewpager.getCurrentItem());
+        return ""+(  select_time.getSelectedItemPosition());
     }
     private void initPageData() {
-        if( food_type!=null){
-            food_type.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    food_type.performItemClick(food_type.getChildAt(0),0,1);
-                }
-            },500);
-        }
-        if( sliding_tabs!=null){
-            int [] dy=new int[2];
-            sliding_tabs.getChildAt(0).getLocationOnScreen(dy);
-            sliding_tabs.getChildAt(0).postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    sliding_tabs.getChildAt(0).performClick();
-                }
-            },500);
-        }
+//        if( food_type!=null){
+//            food_type.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    food_type.performItemClick(food_type.getChildAt(0),0,1);
+//                }
+//            },500);
+//        }
+//        if( sliding_tabs!=null){
+//            int [] dy=new int[2];
+//            sliding_tabs.getChildAt(0).getLocationOnScreen(dy);
+//            sliding_tabs.getChildAt(0).postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    sliding_tabs.getChildAt(0).performClick();
+//                }
+//            },500);
+//        }
     }
 
 
@@ -212,6 +213,14 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements   BaseShopCart
             fragment.notifyDataChanger();
         }
     }
+    private  BreakFastActivity getPageItem(int position) {
+        PagerAdapter pagerAdapter = (PagerAdapter) viewpager.getAdapter();
+        if (pagerAdapter != null) {
+            BreakFastActivity fragment = (BreakFastActivity) pagerAdapter.getItem(position);
+           return fragment;
+        }
+        return null;
+    }
 
     private void setViewPager(List<String> list_title, List<Fragment> fragments) {
         viewpager.setAdapter(new PagerAdapter(getSupportFragmentManager(), list_title, fragments));
@@ -231,7 +240,13 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements   BaseShopCart
         select_time.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                footterControler.doQueryFoodInfo(String.valueOf(i), var.getUserId());
+//                footCateAdapter.swapCursor(footterControler.getFoodTypeCursor(""+select_time.getSelectedItemPosition()));
+                footterControler.getFoodInfo(String.valueOf(i));
+                if(viewpager!=null){
+
+                    BreakFastActivity ba= getPageItem(viewpager.getCurrentItem());
+                    ba.notifyDataChanger();
+                }
             }
 
             @Override
@@ -278,16 +293,45 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements   BaseShopCart
         }
         setViewPager(list_title, fragments);
     }
-
+    private ConcurrentHashMap<String ,Cursor> cacheMap=new ConcurrentHashMap<>();
 
     @Override
     public Cursor getCuror() {
         String mealTime=getMealTime();
         int selectCateId=getSelectCateId();
         String mealType=getMealType();
-        Log.i(TAG, "getCuror: mealTime="+mealTime+",selectCateId="+selectCateId+",mealType="+mealType);
-        Cursor cur=getFootControler().getFoodInfoCursor(mealTime,selectCateId,mealType);
-        return cur;
+
+        String key=mealTime+"_"+selectCateId+"_"+mealType;
+        if(cacheMap.containsKey(key)){
+            Log.i(TAG, "cache: mealTime="+mealTime+",selectCateId="+selectCateId+",mealType="+mealType);
+            return cacheMap.get(key);
+        }else{
+            Cursor cur=getFootControler().getFoodInfoCursor(mealTime,selectCateId,mealType);
+            if(cacheMap.size()>16){
+                Iterator<String> keyITer=cacheMap.keySet().iterator();
+                String keyStr;
+                Cursor cursorvalue;
+                while(keyITer.hasNext()){
+                    keyStr=keyITer.next();
+                    cursorvalue=cacheMap.get(keyStr);
+                    if(!cursorvalue.isClosed()){
+                        cursorvalue.close();
+                    }
+                    cacheMap.remove(keyStr);
+                    if(cacheMap.size()==5){
+                        break;
+                    }
+                }
+            }
+            if(cur.getCount()>0){
+                cacheMap.put(key,cur);
+            }
+            Log.i(TAG, "cache size="+cacheMap.size());
+            Log.i(TAG, "add: mealTime="+mealTime+",selectCateId="+selectCateId+",mealType="+mealType);
+            return cur;
+        }
+
+
     }
 
     @Override
@@ -321,7 +365,7 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements   BaseShopCart
         }
         String action = bundle.getString("action");
         if (ServiceNetContant.ServiceResponseAction.QUERY_FOOD_INFO_RESPONSE.equals(action)) {
-            footCateAdapter.swapCursor(footterControler.getFoodTypeCursor(""+select_time.getSelectedItemPosition()));
+            footCateAdapter.changeCursor(footterControler.getFoodTypeCursor(""+select_time.getSelectedItemPosition()));
             initPageData();
         }
     }
@@ -330,29 +374,7 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements   BaseShopCart
 
     private int changeId = -1;
 
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        changeId = id;
-        FootLoader cursor = null;
-        cursor = new FootLoader(this, new FootLoader.CursorCallBack() {
-            @Override
-            public Cursor getFoodTypeCursor() {
-                return footterControler.getFoodTypeCursor(""+select_time.getSelectedItemPosition());
-            }
-        });
 
-        return cursor;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        footCateAdapter.swapCursor(footterControler.getFoodTypeCursor(""+select_time.getSelectedItemPosition()));
-   }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        footCateAdapter.swapCursor(null);
-    }
 
     @Override
     public void setPromot(String promot) {
@@ -406,12 +428,69 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements   BaseShopCart
 
     @Override
     public void showProgress() {
+        if(viewpager!=null){
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    BreakFastActivity fr= getPageItem(viewpager.getCurrentItem());
+                    if (fr != null) {
+                        fr.showProgress();
+                    }
+                }
+            });
+        }
 
     }
 
     @Override
     public void hideProgress() {
+        if(viewpager!=null){
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    BreakFastActivity fr= getPageItem(viewpager.getCurrentItem());
+                    if (fr != null) {
+                        fr.hideProgress();
+                    }
+                }
+            });
+        }
+    }
 
+    @Override
+    public void dataChanager(String id) {
+       runOnUiThread(new Runnable() {
+           @Override
+           public void run() {
+                Cursor cursor = footterControler.getFoodTypeCursor(""+select_time.getSelectedItemPosition());
+               footCateAdapter.changeCursor(cursor);
+           }
+       });
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        footterControler.destroy();
+        if(cacheMap.size()>0){
+          Iterator<Cursor> valueIter=cacheMap.values().iterator();
+            Cursor cursor=null;
+            while(valueIter.hasNext()){
+                cursor=valueIter.next();
+                if(!cursor.isClosed()){
+                    cursor.close();
+                }
+            }
+            cacheMap.clear();
+            System.gc();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }
 

@@ -1,7 +1,6 @@
 package dq.lelaohui.com.lelaohuipad.dao;
 
 import android.database.Cursor;
-import android.util.Log;
 
 import org.greenrobot.greendao.AbstractDao;
 import org.greenrobot.greendao.query.WhereCondition;
@@ -66,6 +65,7 @@ public class ProFoodInfoDaoOperator extends BaseDaoOperator {
                 insert(FoodInfoData.class,data);
                 insert(FootCateBean.class, new FootCateBean(data));
             }
+//
         }
 
 
@@ -97,35 +97,23 @@ public class ProFoodInfoDaoOperator extends BaseDaoOperator {
     /**
      * 查询获取相对应的餐品信息
      * @param mealTime   早中晚
-     * @param mealType   今明后
+     * @param isscope)   今明后
      * @return
      */
-    public Cursor queryFoodInfo(String mealTime,int cateId,String mealType){
+    public Cursor queryFoodInfo(String mealTime,int cateId,String isscope){
         WhereCondition mealTimeConin= FoodInfoDataDao.Properties.MealTime.eq(mealTime);
         WhereCondition cateNameContin=FoodInfoDataDao.Properties.CateId.eq(cateId);
-        WhereCondition mealTypeContin= FoodInfoDataDao.Properties.MealType.eq(mealType);
-        return super.query(FoodInfoData.class,mealTimeConin,cateNameContin,mealTypeContin);
+        WhereCondition isscoreCondition=FoodInfoDataDao.Properties.IsScope.eq(isscope);
+        return super.query(FoodInfoData.class,mealTimeConin,cateNameContin,isscoreCondition);
     }
 
     /**
      * 查询餐品类型
-     * @param mealTime
-     * @param mealType
+     * @param isscope  0:今日，1：明日 ，2:后天
      * @return
      */
-    public Cursor queryFoodType(String mealTime, String mealType){
-        WhereCondition mealTimeConin= FootCateBeanDao.Properties.MealTime.eq(mealTime);
-//        WhereCondition mealTypeContin= FootCateBeanDao.Properties.MealType.eq(mealType);
-        return super.query(FootCateBean.class,mealTimeConin);
-    }
-    /**
-     * 查询餐品类型
-     * @param mealType
-     * @return
-     */
-    public Cursor queryFoodType(String mealType){
-        WhereCondition mealTypeContin= FootCateBeanDao.Properties.MealType.eq(mealType);
-        Log.i("ProFoodInfoDaoOperator","mealTypeContin=="+mealTypeContin.toString());
+    public Cursor queryFoodType(String isscope){
+        WhereCondition mealTypeContin= FootCateBeanDao.Properties.MealTime.eq(isscope);
         return super.query(FootCateBean.class,mealTypeContin);
     }
 

@@ -25,10 +25,6 @@ public class MainControler extends LaoHuiBaseControler {
         return  mainControler;
     }
 
-    @Override
-    public BaseDaoOperator getBaseDaoOperator(String version) {
-        return null;
-    }
 
     @Override
     public BaseDaoOperator getBaseDaoOperator() {

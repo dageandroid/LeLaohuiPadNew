@@ -2,7 +2,6 @@ package dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.text.TextUtils;
 
 import com.google.gson.annotations.Expose;
 
@@ -17,6 +16,12 @@ import org.greenrobot.greendao.annotation.Unique;
  */
 @Entity
 public class FoodInfoData extends BaseBean implements Parcelable {
+    public void setUnineqKey(String unineqKey) {
+        this.unineqKey = unineqKey;
+    }
+    @Unique
+    @Expose(serialize = false,deserialize = false)
+    protected String unineqKey;
     public Long getId() {
         return id;
     }
@@ -42,7 +47,7 @@ public class FoodInfoData extends BaseBean implements Parcelable {
         @Id(autoincrement = true)
         private Long id;
     @Expose
-    private int cateId;
+    private Long cateId;
     @Expose
     private String cateName;
     @Expose
@@ -73,10 +78,7 @@ public class FoodInfoData extends BaseBean implements Parcelable {
     private String isScope;
     @Keep
     public String getUnineqKey() {
-        if(TextUtils.isEmpty(super.getUnineqKey())){
-            return cateId+"_"+proId+"_"+supplierId+"_"+mealTime+"_"+mealType;
-        }
-        return super.getUnineqKey();
+        return this.unineqKey;
     }
 
 
@@ -97,11 +99,11 @@ public class FoodInfoData extends BaseBean implements Parcelable {
         this.isScope = isScope;
     }
 
-    public int getCateId() {
+    public Long getCateId() {
             return cateId;
         }
 
-        public void setCateId(int cateId) {
+        public void setCateId(Long cateId) {
             this.cateId = cateId;
         }
 
@@ -200,7 +202,7 @@ public class FoodInfoData extends BaseBean implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.cateId);
+        dest.writeLong(this.cateId);
         dest.writeString(this.cateName);
         dest.writeString(this.proId);
         dest.writeString(this.proName);
@@ -214,13 +216,13 @@ public class FoodInfoData extends BaseBean implements Parcelable {
         dest.writeString(this.supplierType);
         dest.writeInt(this.buyNum);
         dest.writeString(this.isScope);
+        dest.writeString(this.unineqKey);
     }
-
     public FoodInfoData() {
     }
 
     protected FoodInfoData(Parcel in) {
-        this.cateId = in.readInt();
+        this.cateId = in.readLong();
         this.cateName = in.readString();
         this.proId = in.readString();
         this.proName = in.readString();
@@ -234,11 +236,12 @@ public class FoodInfoData extends BaseBean implements Parcelable {
         this.supplierType = in.readString();
         this.buyNum = in.readInt();
         this.isScope = in.readString();
+        this.unineqKey=cateId+"_"+proId+"_"+supplierId+"_"+isScope;
     }
 
     @Generated(hash = 1748595060)
     @Keep
-    public FoodInfoData(Long id, int cateId, String cateName, String proId, String proName,
+    public FoodInfoData(Long id, Long cateId, String cateName, String proId, String proName,
             String supplierId, int proPrice, String proPic, String mealTime, String mealType,
             String remark, String supplierName, String supplierType, int buyNum,
             String isScope, String unineqKey) {
@@ -257,7 +260,7 @@ public class FoodInfoData extends BaseBean implements Parcelable {
         this.supplierType = supplierType;
         this.buyNum = buyNum;
         this.isScope = isScope;
-        setUnineqKey(unineqKey);
+        this.unineqKey=cateId+"_"+proId+"_"+supplierId+"_"+isScope;
     }
 
     public static final Creator<FoodInfoData> CREATOR = new Creator<FoodInfoData>() {
@@ -271,4 +274,5 @@ public class FoodInfoData extends BaseBean implements Parcelable {
             return new FoodInfoData[size];
         }
     };
+
 }

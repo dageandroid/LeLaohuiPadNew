@@ -3,7 +3,6 @@ package dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import org.greenrobot.greendao.AbstractDao;
 import org.greenrobot.greendao.AbstractDaoSession;
@@ -51,8 +50,7 @@ public abstract class BaseDaoOperator implements DBOperatorImp {
            AbstractDao dao=  daoSession.getDao(entityClass);
            if(value instanceof ArrayList){
               ArrayList<?>  obj= (ArrayList<?>) value;
-
-               dao.insertOrReplace(obj.toArray());
+               dao.insertInTx(value);
            }else{
                dao.insertOrReplace(value);
            }
@@ -68,9 +66,8 @@ public abstract class BaseDaoOperator implements DBOperatorImp {
     protected Cursor query(Class<? extends Object> entityClass,WhereCondition condition,WhereCondition ...conditions){
         DaoSession daoSession = (DaoSession) getReadDao();
         AbstractDao dao=  daoSession.getDao(entityClass);
-        CursorQuery cursorQuery= dao.queryBuilder().distinct().where(condition,conditions).buildCursor();
+        CursorQuery cursorQuery= dao.queryBuilder().distinct().where(condition,conditions).buildCursor().forCurrentThread();
         Cursor cursor=cursorQuery.query();
-        Log.i(Tag, "query: "+cursor.getCount());
         return cursor;
     }
     protected Cursor query(Class<? extends Object> entityClass){

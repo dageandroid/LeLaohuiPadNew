@@ -4,19 +4,20 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.CursorAdapter;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import org.greenrobot.greendao.AbstractDao;
 
 import java.lang.ref.SoftReference;
 
 import dq.lelaohui.com.lelaohuipad.R;
-import dq.lelaohui.com.lelaohuipad.adapter.BaseDataBaseAdapter;
 import dq.lelaohui.com.lelaohuipad.bean.ServerCartBean;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.car.BaseShopCart;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.BaseBean;
@@ -27,7 +28,7 @@ import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.SerInitProPackDao;
  * Created by ThinkPad on 2016/11/26.
  */
 
-public  class BaseShopInfoRecyleViewAdapter extends BaseDataBaseAdapter<BaseShopInfoRecyleViewAdapter.ViewHolder> implements  BaseShopCart.CardDataChange{
+public  class BaseShopInfoRecyleViewAdapter extends CursorAdapter implements  BaseShopCart.CardDataChange{
     private LayoutInflater layoutInflater = null;
     private String TAG = "MyServerContentRecyleViewAdapter";
     private SoftReference< AbstractDao> softReference = null;
@@ -41,26 +42,43 @@ public  class BaseShopInfoRecyleViewAdapter extends BaseDataBaseAdapter<BaseShop
     private BaseShopCart shopCartBase;
 
     public BaseShopInfoRecyleViewAdapter(Context context, Cursor c) {
-        super(context, c);
+        super(context, c,CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         this.context = context;
         layoutInflater = LayoutInflater.from(context);
+    }
+
+    @Override
+    public View newView(Context context, Cursor cursor, ViewGroup parent) {
+        View view=getItemView();
+        ViewHolder holder=new ViewHolder(view);
+        view.setTag(holder);
+        return  view;
+    }
+
+    @Override
+    public void bindView(View view, Context context, Cursor cursor) {
+        Object tag=view.getTag();
+        if (tag != null) {
+            ViewHolder holder = (ViewHolder) tag;
+            daoToEntity( holder, cursor,-1);
+        }
     }
 
     public void setDao( AbstractDao dao) {
         softReference = new SoftReference< >(dao);
     }
 
-    @Override
-    public void onBindViewHolder(ViewHolder holder, Cursor cursor) {
-        {
-            onBindViewHolder(holder,cursor,0);
-        }
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder holder, Cursor cursor, int postion) {
-        daoToEntity(holder, cursor, postion);
-    }
+//    @Override
+//    public void onBindViewHolder(ViewHolder holder, Cursor cursor) {
+//        {
+//            onBindViewHolder(holder,cursor,0);
+//        }
+//    }
+//
+//    @Override
+//    public void onBindViewHolder(ViewHolder holder, Cursor cursor, int postion) {
+//        daoToEntity(holder, cursor, postion);
+//    }
 
     protected void daoToEntity(ViewHolder holder, Cursor cursor,int postion) {
         if (softReference != null) {
@@ -80,12 +98,12 @@ public  class BaseShopInfoRecyleViewAdapter extends BaseDataBaseAdapter<BaseShop
         return null;
     }
 
-    @Override
+
+
     public View getItemView() {
         return layoutInflater.inflate(R.layout.llh_food_cv_item, null);
     }
 
-    @Override
     public BaseShopInfoRecyleViewAdapter.ViewHolder onCreatViewHolder(View view) {
         return new BaseShopInfoRecyleViewAdapter.ViewHolder(view);
     }
@@ -104,7 +122,8 @@ public  class BaseShopInfoRecyleViewAdapter extends BaseDataBaseAdapter<BaseShop
 
     @Override
     public void notifyCardDataChanger(int posion) {
-        notifyItemChanged(posion);
+        notifyDataSetChanged();
+//        notifyItemChanged(posion);
     }
 
     @Override
