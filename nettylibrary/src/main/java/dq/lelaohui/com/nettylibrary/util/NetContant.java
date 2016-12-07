@@ -112,7 +112,17 @@ public class NetContant {
         /**
          * 提交服务预约信息
          */
-        public static final String CONFIRM_ORDER_SERVER_APP = "confirmOrderServerApp";
+        public static final String CONFIRM_ORDER_SERVER_APP = "confirmOrderServiceApp";
+
+        /**
+         * 获取服务员相关信息
+         */
+        public static final String GET_SERVER_INFOS = "query.waiter.list";
+
+        /**
+         * 查询用户预约记录
+         */
+        public static final String SEARCH_APPOINTMENT_FOR_APP = "searchAppointmentForApp";
     }
 
 }

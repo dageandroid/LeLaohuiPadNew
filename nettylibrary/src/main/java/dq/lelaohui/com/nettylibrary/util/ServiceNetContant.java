@@ -65,5 +65,17 @@ public class ServiceNetContant {
          * 根据选择时间查询用户库存预约信息
          */
         public static final String GET_SERVER_DETAIL_BY_INFO_RESPONSE = "getDetailByUserAndDate.response";
+        /**
+         * 获取所有服务员
+         */
+        public static final String GET_SERVER_INFOS_RESPONSE = "query.waiter.list.response";
+        /**
+         * 获取服务任务
+         */
+        public static final String SEARCH_APPOINTMENT_FOR_APP_RESPONSE = "searchAppointmentForApp.response";
+        /**
+         *提交预约条件接口
+         */
+        public static final String CONFIRM_ORDER_SERVER_APP_RESONSE="confirmOrderServerApp.response";
     }
 }
