@@ -11,8 +11,12 @@ import dq.lelaohui.com.lelaohuipad.LeLaohuiApp;
 import dq.lelaohui.com.lelaohuipad.base.LaoHuiBaseControler;
 import dq.lelaohui.com.lelaohuipad.bean.FilterSubscribeCate;
 import dq.lelaohui.com.lelaohuipad.bean.FilterSubscribeData;
+import dq.lelaohui.com.lelaohuipad.bean.MySerSubescribeCate;
+import dq.lelaohui.com.lelaohuipad.bean.MySerSubescribeData;
 import dq.lelaohui.com.lelaohuipad.bean.SerSubescribeCate;
 import dq.lelaohui.com.lelaohuipad.bean.SerSubescribeData;
+import dq.lelaohui.com.lelaohuipad.bean.ServerPersonCate;
+import dq.lelaohui.com.lelaohuipad.bean.ServerPersonData;
 import dq.lelaohui.com.lelaohuipad.util.ServerSubscribeRequestParam;
 import dq.lelaohui.com.nettylibrary.socket.RequestParam;
 import dq.lelaohui.com.nettylibrary.util.ServiceNetContant;
@@ -254,7 +258,6 @@ public class ServerSubscribeControler  extends LaoHuiBaseControler {
         RequestParam requestParam1=requestParam.doQueryServerPersonInfo(orgId,orgType,serviceItemId);
         app.reqData(requestParam1);
     }
-    @Override
     public BaseDaoOperator getBaseDaoOperator(String version) {
         return null;
     }

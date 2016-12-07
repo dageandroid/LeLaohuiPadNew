@@ -135,7 +135,6 @@ public class MyServerTaskControler extends LaoHuiBaseControler {
         RequestParam requestParam1=requestParam.doQueryServerPersonInfo(orgId,orgType,serviceItemId);
         app.reqData(requestParam1);
     }
-    @Override
     public BaseDaoOperator getBaseDaoOperator(String version) {
         return null;
     }
