@@ -318,7 +318,9 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataManage
                     }
                 }
             }
-            cacheMap.put(key,cur);
+            if(cur.getCount()>0){
+                cacheMap.put(key,cur);
+            }
             Log.i(TAG, "cache size="+cacheMap.size());
             Log.i(TAG, "add: mealTime="+mealTime+",selectCateId="+selectCateId+",mealType="+mealType);
             return cur;
