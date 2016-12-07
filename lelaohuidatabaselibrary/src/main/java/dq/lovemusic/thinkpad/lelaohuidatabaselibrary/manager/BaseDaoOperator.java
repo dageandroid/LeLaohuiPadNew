@@ -69,7 +69,7 @@ public abstract class BaseDaoOperator implements DBOperatorImp {
         AbstractDao dao=  daoSession.getDao(entityClass);
         CursorQuery cursorQuery= dao.queryBuilder().distinct().where(condition,conditions).buildCursor();
         Cursor cursor=cursorQuery.query();
-        Log.i(Tag, "query: "+cursor.getCount());
+        Log.i(Tag, entityClass.getName()+"query: "+cursor.getCount());
         return cursor;
     }
     protected Cursor query(Class<? extends Object> entityClass){

@@ -23,10 +23,13 @@ public class MyFoodTypeRecyleViewAdapter extends CursorAdapter{
     private SoftReference<FootCateBeanDao> softReference = null;
     private LayoutInflater layoutInflater = null;
     private String TAG = "MyFoodTypeRecyleViewAdapter";
-
+    private int index;
+    private Cursor tempCursor;
     public MyFoodTypeRecyleViewAdapter(Context context, Cursor c) {
         super(context, c, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        index=c==null?-1:c.getColumnIndex("CATE_ID");
+        tempCursor=c;
     }
 
     public void setDao(FootCateBeanDao dao) {
@@ -40,7 +43,11 @@ public class MyFoodTypeRecyleViewAdapter extends CursorAdapter{
 
     @Override
     public long getItemId(int position) {
-        return super.getItemId(position);
+        if ( mCursor.moveToPosition(position)) {
+            return mCursor.getLong(index);
+        } else {
+            return 0;
+        }
     }
 
     @Override

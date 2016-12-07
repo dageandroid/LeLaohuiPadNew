@@ -2,7 +2,6 @@ package dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.text.TextUtils;
 
 import com.google.gson.annotations.Expose;
 
@@ -17,6 +16,12 @@ import org.greenrobot.greendao.annotation.Unique;
  */
 @Entity
 public class FoodInfoData extends BaseBean implements Parcelable {
+    public void setUnineqKey(String unineqKey) {
+        this.unineqKey = unineqKey;
+    }
+    @Unique
+    @Expose(serialize = false,deserialize = false)
+    protected String unineqKey;
     public Long getId() {
         return id;
     }
@@ -73,10 +78,7 @@ public class FoodInfoData extends BaseBean implements Parcelable {
     private String isScope;
     @Keep
     public String getUnineqKey() {
-        if(TextUtils.isEmpty(super.getUnineqKey())){
-            return cateId+"_"+proId+"_"+supplierId+"_"+mealTime+"_"+mealType;
-        }
-        return super.getUnineqKey();
+        return this.unineqKey;
     }
 
 
@@ -216,7 +218,6 @@ public class FoodInfoData extends BaseBean implements Parcelable {
         dest.writeString(this.isScope);
         dest.writeString(this.getUnineqKey());
     }
-
     public FoodInfoData() {
     }
 
@@ -235,7 +236,7 @@ public class FoodInfoData extends BaseBean implements Parcelable {
         this.supplierType = in.readString();
         this.buyNum = in.readInt();
         this.isScope = in.readString();
-        setUnineqKey(in.readString());
+        this.unineqKey=cateId+"_"+proId+"_"+supplierId+"_"+mealTime+"_"+mealType+"_"+isScope;
     }
 
     @Generated(hash = 1748595060)
@@ -259,7 +260,7 @@ public class FoodInfoData extends BaseBean implements Parcelable {
         this.supplierType = supplierType;
         this.buyNum = buyNum;
         this.isScope = isScope;
-        setUnineqKey(unineqKey);
+        this.unineqKey=cateId+"_"+proId+"_"+supplierId+"_"+mealTime+"_"+mealType+"_"+isScope;
     }
 
     public static final Creator<FoodInfoData> CREATOR = new Creator<FoodInfoData>() {
@@ -273,4 +274,5 @@ public class FoodInfoData extends BaseBean implements Parcelable {
             return new FoodInfoData[size];
         }
     };
+
 }

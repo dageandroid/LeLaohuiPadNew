@@ -1,15 +1,15 @@
 package dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean;
 
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Keep;
 import org.greenrobot.greendao.annotation.Property;
-import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Unique;
 
 import static android.content.ContentValues.TAG;
 
@@ -33,10 +33,26 @@ public class FootCateBean extends  BaseBean{
     public void setCateName(String cateName) {
         this.cateName = cateName;
     }
-    @Id(autoincrement = false)
-    @Property( nameInDb="_id")
+
     private Long cateId;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Id(autoincrement = true)
+    @Property( nameInDb="_id")
+    private Long id;
+    public void setUnineqKey(String unineqKey) {
+        this.unineqKey = unineqKey;
+    }
+    @Unique
+    @Expose(serialize = false,deserialize = false)
+    protected String unineqKey;
 
     @Keep
     public  FootCateBean(FoodInfoData data){
@@ -44,13 +60,16 @@ public class FootCateBean extends  BaseBean{
         setCateName(data.getCateName());
         setMealTime(data.getIsScope());
         setMealType(data.getMealType());
+        setUnineqKey(this.mealTime+"_"+this.cateId);
         Log.i(TAG, "FootCateBean: " +data.toString());
     }
 
-    @Generated(hash = 636292879)
-    public FootCateBean(Long cateId, String cateName, String mealTime,
-            String mealType) {
+    @Generated(hash = 4747128)
+    public FootCateBean(Long cateId, Long id, String unineqKey, String cateName,
+            String mealTime, String mealType) {
         this.cateId = cateId;
+        this.id = id;
+        this.unineqKey = unineqKey;
         this.cateName = cateName;
         this.mealTime = mealTime;
         this.mealType = mealType;
@@ -82,11 +101,7 @@ public class FootCateBean extends  BaseBean{
     @Expose
     private String mealType;
 
-    @Override
     public String getUnineqKey() {
-        if(!TextUtils.isEmpty(super.getUnineqKey())){
-            return super.getUnineqKey();
-        }
-        return ""+this.cateId;
+        return unineqKey;
     }
 }

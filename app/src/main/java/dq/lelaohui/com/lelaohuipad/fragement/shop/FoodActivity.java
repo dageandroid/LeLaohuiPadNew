@@ -108,8 +108,9 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataManage
         footCateAdapter.setDao((FootCateBeanDao) footterControler.getBaseDaoOperator().get(FootCateBean.class));
         food_type.setAdapter(footCateAdapter);
         food_type.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                cateSelectId=(int)l;
+                cateSelectId=(int) footCateAdapter.getItemId(i);
                 if(viewpager==null){
                     return ;
                 }

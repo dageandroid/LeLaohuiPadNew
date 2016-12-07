@@ -264,11 +264,11 @@ private void confirmFoodOrder(int payType,int totalMoney,String addressStr,Strin
      * 查询获取餐品信息
      * @param mealTime
      * @param cateId
-     * @param mealType
+     * @param isscorle
      * @return
      */
-    public Cursor getFoodInfoCursor(String mealTime,int cateId,String mealType){
-        return queryFoodInfoCursor(mealTime,cateId,mealType);
+    public Cursor getFoodInfoCursor(String mealTime,int cateId,String isscorle){
+        return queryFoodInfoCursor(mealTime,cateId,isscorle);
     }
 
     public void setFootDataManager(FootDataManager footDataManager) {

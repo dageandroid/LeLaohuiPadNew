@@ -80,6 +80,8 @@ public  class BaseShopInfoRecyleViewAdapter extends BaseDataBaseAdapter<BaseShop
         return null;
     }
 
+
+
     @Override
     public View getItemView() {
         return layoutInflater.inflate(R.layout.llh_food_cv_item, null);
