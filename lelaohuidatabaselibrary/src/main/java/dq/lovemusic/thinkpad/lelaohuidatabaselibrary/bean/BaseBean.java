@@ -15,7 +15,7 @@ public class BaseBean {
     }
     @Unique
     @Expose(serialize = false,deserialize = false)
-    private String unineqKey;
+    protected String unineqKey;
     public  String getUnineqKey(){
         return "";
     }

@@ -51,8 +51,7 @@ public abstract class BaseDaoOperator implements DBOperatorImp {
            AbstractDao dao=  daoSession.getDao(entityClass);
            if(value instanceof ArrayList){
               ArrayList<?>  obj= (ArrayList<?>) value;
-
-               dao.insertOrReplace(obj.toArray());
+               dao.insertInTx(value);
            }else{
                dao.insertOrReplace(value);
            }

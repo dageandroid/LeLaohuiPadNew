@@ -2,7 +2,6 @@ package dq.lelaohui.com.lelaohuipad.controler;
 
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.text.TextUtils;
 
 import com.google.gson.reflect.TypeToken;
@@ -196,7 +195,6 @@ public class ServerMenuControler extends LaoHuiBaseControler {
     private ProMenumServiceDaoOperator proCateMenuServiceDao;
     private ProServerContentDaoOperator proServerContentDao;
     private final String GET_SER_INIT_PROPACK_DATA="getInitSerProPackList";
-    @Override
     public BaseDaoOperator getBaseDaoOperator(String version) {
         if(TextUtils.isEmpty(version)){
             proCateMenuServiceDao= ProMenumServiceDaoOperator.getInstance();

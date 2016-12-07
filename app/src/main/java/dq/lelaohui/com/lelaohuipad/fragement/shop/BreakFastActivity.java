@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import dq.lelaohui.com.lelaohuipad.bean.ServerCartBean;
 import dq.lelaohui.com.lelaohuipad.controler.FootterControler;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.adapter.BaseShopInfoRecyleViewAdapter;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.car.BaseShopCart;
+import dq.lelaohui.com.nettylibrary.socket.NetManager;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.BaseBean;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.FoodInfoData;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.FoodInfoDataDao;
@@ -27,7 +29,7 @@ import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager.BaseDaoOperator;
  * 早餐
  */
 
-public class BreakFastActivity extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class BreakFastActivity extends Fragment implements SwipeRefreshLayout.OnRefreshListener,NetManager.ProgressBarListener {
 
     private RecyclerView foot_content;
     private SwipeRefreshLayout get_data_refresh;
@@ -83,6 +85,20 @@ public class BreakFastActivity extends Fragment implements SwipeRefreshLayout.On
 
     }
 
+    @Override
+    public void showProgress() {
+            if(get_data_refresh!=null){
+                get_data_refresh.setRefreshing(true);
+            }
+    }
+
+    @Override
+    public void hideProgress() {
+        if(get_data_refresh!=null){
+            get_data_refresh.setRefreshing(false);
+        }
+    }
+
 
     /**
      * 显示服务信息
@@ -101,7 +117,7 @@ public class BreakFastActivity extends Fragment implements SwipeRefreshLayout.On
         @NonNull
         public ServerCartBean getServerCartBean(BaseBean baseBean, int position) {
             FoodInfoData serInitProPack= ( FoodInfoData) baseBean;
-            int proId = Integer.parseInt(serInitProPack.getProId());
+            int proId = Integer.parseInt(TextUtils.isEmpty(serInitProPack.getProId())?"0":serInitProPack.getProId());
             String proName = serInitProPack.getProName();
             double proPrice = serInitProPack.getProPrice();
             int proNum = serInitProPack.getBuyNum();

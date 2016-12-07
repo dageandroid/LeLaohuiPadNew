@@ -25,7 +25,7 @@ public class FoodInfoDataDao extends AbstractDao<FoodInfoData, Long> {
      */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
-        public final static Property CateId = new Property(1, int.class, "cateId", false, "CATE_ID");
+        public final static Property CateId = new Property(1, Long.class, "cateId", false, "CATE_ID");
         public final static Property CateName = new Property(2, String.class, "cateName", false, "CATE_NAME");
         public final static Property ProId = new Property(3, String.class, "proId", false, "PRO_ID");
         public final static Property ProName = new Property(4, String.class, "proName", false, "PRO_NAME");
@@ -234,7 +234,7 @@ public class FoodInfoDataDao extends AbstractDao<FoodInfoData, Long> {
     public FoodInfoData readEntity(Cursor cursor, int offset) {
         FoodInfoData entity = new FoodInfoData( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.getInt(offset + 1), // cateId
+            cursor.getLong(offset + 1), // cateId
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // cateName
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // proId
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // proName
@@ -256,7 +256,7 @@ public class FoodInfoDataDao extends AbstractDao<FoodInfoData, Long> {
     @Override
     public void readEntity(Cursor cursor, FoodInfoData entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setCateId(cursor.getInt(offset + 1));
+        entity.setCateId(cursor.getLong(offset + 1));
         entity.setCateName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setProId(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setProName(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));

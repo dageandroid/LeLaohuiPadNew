@@ -1,6 +1,7 @@
 package dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 
@@ -9,6 +10,8 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Keep;
 import org.greenrobot.greendao.annotation.Property;
 import org.greenrobot.greendao.annotation.Generated;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by ThinkPad on 2016/11/23.
@@ -33,12 +36,15 @@ public class FootCateBean extends  BaseBean{
     @Id(autoincrement = false)
     @Property( nameInDb="_id")
     private Long cateId;
+
+
     @Keep
     public  FootCateBean(FoodInfoData data){
         setCateId(Long.valueOf(data.getCateId()+""));
         setCateName(data.getCateName());
-        setMealTime(data.getMealTime());
+        setMealTime(data.getIsScope());
         setMealType(data.getMealType());
+        Log.i(TAG, "FootCateBean: " +data.toString());
     }
 
     @Generated(hash = 636292879)

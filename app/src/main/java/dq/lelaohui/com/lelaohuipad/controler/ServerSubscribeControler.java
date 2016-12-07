@@ -3,24 +3,18 @@ package dq.lelaohui.com.lelaohuipad.controler;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import dq.lelaohui.com.lelaohuipad.LeLaohuiApp;
-import dq.lelaohui.com.lelaohuipad.LeLaohuiMainActivity;
 import dq.lelaohui.com.lelaohuipad.base.LaoHuiBaseControler;
 import dq.lelaohui.com.lelaohuipad.bean.FilterSubscribeCate;
 import dq.lelaohui.com.lelaohuipad.bean.FilterSubscribeData;
-import dq.lelaohui.com.lelaohuipad.bean.LogonBena;
 import dq.lelaohui.com.lelaohuipad.bean.SerSubescribeCate;
 import dq.lelaohui.com.lelaohuipad.bean.SerSubescribeData;
-import dq.lelaohui.com.lelaohuipad.util.ServerRequestParam;
 import dq.lelaohui.com.lelaohuipad.util.ServerSubscribeRequestParam;
-import dq.lelaohui.com.nettylibrary.socket.LlhResponseHandler;
 import dq.lelaohui.com.nettylibrary.socket.RequestParam;
-import dq.lelaohui.com.nettylibrary.util.NetContant;
 import dq.lelaohui.com.nettylibrary.util.ServiceNetContant;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager.BaseDaoOperator;
 
@@ -120,10 +114,6 @@ public class ServerSubscribeControler  extends LaoHuiBaseControler {
         }
         RequestParam requestParam1=requestParam.doQueryServerSetatlData(customerId,endTime,serStockDetailId);
         app.reqData(requestParam1);
-    }
-    @Override
-    public BaseDaoOperator getBaseDaoOperator(String version) {
-        return null;
     }
 
     @Override

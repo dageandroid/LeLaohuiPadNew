@@ -135,7 +135,6 @@ public class ServerControler extends LaoHuiBaseControler {
     private static String  GET_SERVER_CATE_TWO_VERSION="getSerProCateJsonList";
     private ProMenumServiceDaoOperator proCateMenuServiceDao;
 
-    @Override
     public BaseDaoOperator getBaseDaoOperator(String version) {
         if(TextUtils.isEmpty(version)){
             dao=ProCateServiceDaoOperator.getInstance();

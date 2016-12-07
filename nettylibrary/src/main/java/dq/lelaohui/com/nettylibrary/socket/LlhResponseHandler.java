@@ -1,22 +1,15 @@
 package dq.lelaohui.com.nettylibrary.socket;
 
-import java.util.HashMap;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.sun.commontransfer.adroid.ResponseHandler;
-import com.sun.commontransfer.adroid.TransferMessageContentItem;
-import com.sun.commontransfer.adroid.TransferMessageObject;
 import com.sun.commontransfer.adroid.TransferObject;
 
 import dq.lelaohui.com.nettylibrary.util.NetContant;
-import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
 
 public class LlhResponseHandler implements ResponseHandler {
 	private String TAG="LlhResponseHandler";
@@ -77,7 +70,7 @@ public class LlhResponseHandler implements ResponseHandler {
 	@SuppressWarnings("unused")
 	private boolean sendReturnMsg(final TransferObject obj) {
 //		Log.i(TAG,"sendReturnMsg="+obj.toString());
-		Log.i(TAG,"this.context==null="+(this.context==null));
+
 		if(this.context==null){
 			return false;
 		}
@@ -87,7 +80,9 @@ public class LlhResponseHandler implements ResponseHandler {
 		data.putString(Respon_Key.UID, obj.getHeadUID());
 		data.putString(Respon_Key.HEAD, obj.getResponseHead().toString());
 		data.putString(Respon_Key.BODY, obj.body.toString());
+		data.putString(Respon_Key.USERDATA,obj.getHeadUserData());
 		setResponse(data,NetContant.NET_ACTION.RESP_ACTION);
+		Log.i(TAG,"Respon_Key.USERDATA="+(obj.getHeadUserData()));
 		return true;
 	}
 
@@ -109,5 +104,7 @@ public class LlhResponseHandler implements ResponseHandler {
 		public static final String UID="uid";
 		public static final String HEAD ="head";
 		public static final String BODY ="body";
+		public static final String USERDATA ="userdata";
+
 	}
 }

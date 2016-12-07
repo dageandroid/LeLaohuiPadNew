@@ -42,7 +42,7 @@ public class FoodInfoData extends BaseBean implements Parcelable {
         @Id(autoincrement = true)
         private Long id;
     @Expose
-    private int cateId;
+    private Long cateId;
     @Expose
     private String cateName;
     @Expose
@@ -97,11 +97,11 @@ public class FoodInfoData extends BaseBean implements Parcelable {
         this.isScope = isScope;
     }
 
-    public int getCateId() {
+    public Long getCateId() {
             return cateId;
         }
 
-        public void setCateId(int cateId) {
+        public void setCateId(Long cateId) {
             this.cateId = cateId;
         }
 
@@ -200,7 +200,7 @@ public class FoodInfoData extends BaseBean implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.cateId);
+        dest.writeLong(this.cateId);
         dest.writeString(this.cateName);
         dest.writeString(this.proId);
         dest.writeString(this.proName);
@@ -214,13 +214,14 @@ public class FoodInfoData extends BaseBean implements Parcelable {
         dest.writeString(this.supplierType);
         dest.writeInt(this.buyNum);
         dest.writeString(this.isScope);
+        dest.writeString(this.getUnineqKey());
     }
 
     public FoodInfoData() {
     }
 
     protected FoodInfoData(Parcel in) {
-        this.cateId = in.readInt();
+        this.cateId = in.readLong();
         this.cateName = in.readString();
         this.proId = in.readString();
         this.proName = in.readString();
@@ -234,11 +235,12 @@ public class FoodInfoData extends BaseBean implements Parcelable {
         this.supplierType = in.readString();
         this.buyNum = in.readInt();
         this.isScope = in.readString();
+        setUnineqKey(in.readString());
     }
 
     @Generated(hash = 1748595060)
     @Keep
-    public FoodInfoData(Long id, int cateId, String cateName, String proId, String proName,
+    public FoodInfoData(Long id, Long cateId, String cateName, String proId, String proName,
             String supplierId, int proPrice, String proPic, String mealTime, String mealType,
             String remark, String supplierName, String supplierType, int buyNum,
             String isScope, String unineqKey) {

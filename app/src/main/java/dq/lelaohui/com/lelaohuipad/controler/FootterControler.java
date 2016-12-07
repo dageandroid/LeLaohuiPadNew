@@ -13,6 +13,7 @@ import dq.lelaohui.com.lelaohuipad.LeLaohuiApp;
 import dq.lelaohui.com.lelaohuipad.base.LaoHuiBaseControler;
 import dq.lelaohui.com.lelaohuipad.bean.FoodInfoCate;
 import dq.lelaohui.com.lelaohuipad.dao.ProFoodInfoDaoOperator;
+import dq.lelaohui.com.lelaohuipad.fragement.shop.dataprovider.FootDataManager;
 import dq.lelaohui.com.nettylibrary.socket.RequestParam;
 import dq.lelaohui.com.nettylibrary.util.NetContant;
 import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
@@ -25,44 +26,14 @@ import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager.BaseDaoOperator;
  */
 
 public class FootterControler extends LaoHuiBaseControler {
+    public FootDataManager getFootDataManager() {
+        return footDataManager;
+    }
+
+    private FootDataManager footDataManager;
     private String TAG = getClass().getSimpleName();
-    /**
-     * 获取订餐数据请求的cateGory
-     */
-    private static final String CATEGORY_FOOD = "lelaohui";
-    /**
-     *
-     */
-    public static final String USEDATA_FOOD ="query.food.menu";
 
     private  static FootterControler controler=null;
-    /**
-     *今天
-     */
-    public static final int ISSCOPE_TODAY=0;
-    /**
-     * 明天
-     */
-    public static final int ISSCOPE_TOMORROW=1;
-    /**
-     * 后天
-     */
-    public static final int ISSCOPE_AFTER_TOMORROW=2;
-
-    /**
-     * 早餐
-     */
-    public static final int MEALTIME_MORNING=2;
-    /**
-     * 午餐
-     */
-    public static final int MEALTIME_AFTERNOON=2;
-    /**
-     *
-     */
-    public static final int MEALTIME_NIGHT=2;
-    public static final int MEALTIME_MID_NIGHT=2;
-
 
     private FootterControler(){
 
@@ -78,7 +49,9 @@ public class FootterControler extends LaoHuiBaseControler {
         return  controler;
     }
 
-
+    public void init(){
+        getFoodInfo("0");
+    }
     @Override
     public void doBusses(Bundle responseData) {
         if(responseData==null){
@@ -91,13 +64,13 @@ public class FootterControler extends LaoHuiBaseControler {
         }
         if(ServiceNetContant.ServiceResponseAction.QUERY_FOOD_INFO_RESPONSE.equals(action)){
             String body=getResponseBody(responseData);
-            Log.i(TAG,"food.info==="+responseData);
+//            Log.i(TAG,"food.info==="+responseData);
             FoodInfoCate foodInfoCate=(FoodInfoCate)getJsonToObject(body, FoodInfoCate.class);
             if (foodInfoCate.getCode() == 0) {
                 if (getIControlerCallBack() != null) {//解析数据成功，通知UI界面
                     List<FoodInfoData> data = foodInfoCate.getData();
                     if (data != null && data.size() > 0) {
-                        instertData(data);
+//                        instertData(data);
                         Bundle bundle = new Bundle();
                         bundle.putString(CONTROLER_ACTION, ServiceNetContant.ServiceResponseAction.QUERY_FOOD_INFO_RESPONSE);
                         bundle.putParcelableArrayList("foodInfo", (ArrayList<? extends Parcelable>) data);
@@ -110,18 +83,7 @@ public class FootterControler extends LaoHuiBaseControler {
         }
     }
 
-    /**
-     * 插入数据库
-     * @param foodInfoDataList
-     */
-    public void instertData(List<FoodInfoData> foodInfoDataList){
-        if(foodInfoDataList!=null&&foodInfoDataList.size()>0){
-            insertData(foodInfoDataList);
-            Log.i(TAG,"insert food info data succ...");
-        }else{
-            Log.i(TAG,"insert food info data erro...");
-        }
-}
+
 
     /**
      * 获取餐品信息相关接口
@@ -137,6 +99,13 @@ public class FootterControler extends LaoHuiBaseControler {
 
         app.reqData(requestParam);
     }
+    /**
+     * 获取餐品信息相关接口
+     * @param isScope   今天，明天，后天  选餐时间
+     */
+    public void doQueryFoodInfo(String isScope){
+        doQueryFoodInfo( isScope,getSysVar().getUserId());
+    }
 
     /**
      * 获取餐品信息发送数据
@@ -145,8 +114,9 @@ public class FootterControler extends LaoHuiBaseControler {
      * @param interfaceName  发送请求的接口名
      * @return
      */
-    private RequestParam getRequestParam(String isScope, String userIdStr,String interfaceName) {
+    public RequestParam getRequestParam(String isScope, String userIdStr,String interfaceName) {
         RequestParam requestParam=new RequestParam();
+        requestParam.addHeader(Protocol_KEY.USERDATA,isScope);
         requestParam.addHeader(Protocol_KEY.ACTION,interfaceName );
         requestParam.addBody(Protocol_KEY.ISSCOPE,Integer.valueOf(isScope));
         requestParam.addBody(Protocol_KEY.USERID,userIdStr);
@@ -203,7 +173,6 @@ private void confirmFoodOrder(int payType,int totalMoney,String addressStr,Strin
         requestParam.addBody(Protocol_KEY.PAY_AMT,totalFee);
         app.reqData(requestParam);
     }
-
     /**
      * 提交购物车相关信息接口
      */
@@ -220,32 +189,41 @@ private void confirmFoodOrder(int payType,int totalMoney,String addressStr,Strin
         requestParam.addBody(Protocol_KEY.CONFIRM_DATA,cofirmOrderData);
         app.reqData(requestParam);
     }
-    ProFoodInfoDaoOperator dao;
-    @Override
-    public BaseDaoOperator getBaseDaoOperator(String version) {
-        if(TextUtils.isEmpty(version)){
-            dao= ProFoodInfoDaoOperator.getInstance();
-            dao.setmContext(getContext());
-            return dao;
+
+    public void getFoodInfo(String isScroe){
+        if (footDataManager != null) {
+            try{
+                footDataManager.requestFoodInfo(isScroe);
+                Log.i(TAG, "getFoodInfo: "+isScroe);
+//                footDataManager.requestFoodInfo("1");
+//                footDataManager.requestFoodInfo("2");
+            }catch (Exception e){
+
+            }
+
         }
-        return null;
     }
-    private Cursor queryFoodInfoCursor(String mealTime,int cateId,String mealType){
-        Cursor cursor=null;
-        if(getBaseDaoOperator()!=null){
-            ProFoodInfoDaoOperator  sdao= (ProFoodInfoDaoOperator) getBaseDaoOperator();
-            cursor= sdao.queryFoodInfo(mealTime,cateId,mealType);
-        }else{
-            throw new RuntimeException("获取数据库对象为null");
+    @Override
+    public void destroy() {
+        super.destroy();
+        if (footDataManager != null) {
+            footDataManager.onDestory();
         }
-        return cursor;
     }
 
-    private Cursor queryFoodTypeCursor(String mealTime,String mealType){
+
+    ProFoodInfoDaoOperator dao;
+    @Override
+    public BaseDaoOperator getBaseDaoOperator() {
+        dao= ProFoodInfoDaoOperator.getInstance();
+        dao.setmContext(getContext());
+        return dao;
+    }
+    private Cursor queryFoodInfoCursor(String mealTime,int cateId,String isscrole){
         Cursor cursor=null;
         if(getBaseDaoOperator()!=null){
             ProFoodInfoDaoOperator  sdao= (ProFoodInfoDaoOperator) getBaseDaoOperator();
-            cursor= sdao.queryFoodType(mealTime,mealType);
+            cursor= sdao.queryFoodInfo(mealTime,cateId,isscrole);
         }else{
             throw new RuntimeException("获取数据库对象为null");
         }
@@ -271,13 +249,16 @@ private void confirmFoodOrder(int payType,int totalMoney,String addressStr,Strin
         return cursor;
     }
     /**
-     * 获取餐品类型
-     * @param mealTime
-     * @param mealType
-     * @return
+     * 插入数据库
+     * @param foodInfoDataList
      */
-    public Cursor  getFoodTypeCursor(String mealTime,String mealType){
-        return queryFoodTypeCursor(mealTime,mealType);
+    public void instertData(List<FoodInfoData> foodInfoDataList){
+        if(foodInfoDataList!=null&&foodInfoDataList.size()>0){
+            insertData(foodInfoDataList);
+            Log.i(TAG,"insert food info data succ...");
+        }else{
+            Log.i(TAG,"insert food info data erro...");
+        }
     }
     /**
      * 查询获取餐品信息
@@ -289,8 +270,8 @@ private void confirmFoodOrder(int payType,int totalMoney,String addressStr,Strin
     public Cursor getFoodInfoCursor(String mealTime,int cateId,String mealType){
         return queryFoodInfoCursor(mealTime,cateId,mealType);
     }
-    @Override
-    public BaseDaoOperator getBaseDaoOperator() {
-        return getBaseDaoOperator(null);
+
+    public void setFootDataManager(FootDataManager footDataManager) {
+        this.footDataManager = footDataManager;
     }
 }
