@@ -64,7 +64,6 @@ public class FootterControler extends LaoHuiBaseControler {
         }
         if(ServiceNetContant.ServiceResponseAction.QUERY_FOOD_INFO_RESPONSE.equals(action)){
             String body=getResponseBody(responseData);
-//            Log.i(TAG,"food.info==="+responseData);
             FoodInfoCate foodInfoCate=(FoodInfoCate)getJsonToObject(body, FoodInfoCate.class);
             if (foodInfoCate.getCode() == 0) {
                 if (getIControlerCallBack() != null) {//解析数据成功，通知UI界面
@@ -176,7 +175,7 @@ private void confirmFoodOrder(int payType,int totalMoney,String addressStr,Strin
     /**
      * 提交购物车相关信息接口
      */
-    public void cofirmFoodOrder(String  isScope, int mealtime, String userIdStr,String buyUserId, ArrayList<Bundle> cofirmOrderData){
+    public RequestParam cofirmFoodOrder(String  isScope, int mealtime, String userIdStr, String buyUserId, ArrayList<Bundle> cofirmOrderData){
         LeLaohuiApp app= (LeLaohuiApp) getContext();
         if(app==null){
             throw  new RuntimeException(" app is null exception");
@@ -185,9 +184,9 @@ private void confirmFoodOrder(int payType,int totalMoney,String addressStr,Strin
         requestParam.addBody(Protocol_KEY.CHANNEL,"1");
         requestParam.addBody(Protocol_KEY.IS_DISTR,"1");
         requestParam.addBody(Protocol_KEY.MEALTIME,mealtime);
-        requestParam.addBody(Protocol_KEY.BUY_USER_ID,buyUserId);
         requestParam.addBody(Protocol_KEY.CONFIRM_DATA,cofirmOrderData);
         app.reqData(requestParam);
+        return requestParam;
     }
 
     public void getFoodInfo(String isScroe){

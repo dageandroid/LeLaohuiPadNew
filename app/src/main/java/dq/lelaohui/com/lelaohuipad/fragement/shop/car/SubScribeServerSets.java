@@ -67,7 +67,7 @@ public class SubScribeServerSets {
                 }
                 if (execNum==filterSubscribeDataList.size()){
                     if (uiOperators!=null){
-                        uiOperators.setButtonTxt("可以提交预约");
+                        uiOperators.setButtonTxt("提交预约");
                         uiOperators.setExecNumShowNextView(execNum);
                     }
                 }else{

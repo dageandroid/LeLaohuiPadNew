@@ -275,4 +275,25 @@ public class FoodInfoData extends BaseBean implements Parcelable {
         }
     };
 
+    @Override
+    public String toString() {
+        return "FoodInfoData{" +
+                "unineqKey='" + unineqKey + '\'' +
+                ", id=" + id +
+                ", cateId=" + cateId +
+                ", cateName='" + cateName + '\'' +
+                ", proId='" + proId + '\'' +
+                ", proName='" + proName + '\'' +
+                ", supplierId='" + supplierId + '\'' +
+                ", proPrice=" + proPrice +
+                ", proPic='" + proPic + '\'' +
+                ", mealTime='" + mealTime + '\'' +
+                ", mealType='" + mealType + '\'' +
+                ", remark='" + remark + '\'' +
+                ", supplierName='" + supplierName + '\'' +
+                ", supplierType='" + supplierType + '\'' +
+                ", buyNum=" + buyNum +
+                ", isScope='" + isScope + '\'' +
+                '}';
+    }
 }

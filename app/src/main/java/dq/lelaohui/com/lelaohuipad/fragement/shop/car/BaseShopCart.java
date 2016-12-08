@@ -120,8 +120,7 @@ public class BaseShopCart {
         }
         float sum = 0;
        Vector<ShoppingCarListBean> temp=data;
-        for (ShoppingCarListBean bean : temp
-                ) {
+        for (ShoppingCarListBean bean : temp) {
             sum+=bean.getProNum()*bean.getProPrice();
         }
         Log.i(TAG, "computerAllPrice: 111111 size "+(data.size()));
@@ -196,7 +195,7 @@ public class BaseShopCart {
                 public void onClick(View v) {
                     if (data!=null){
                         RequestParam rp= uiOperator.getOrderParam(data);
-                        Log.i("TF  data.size==",data.size()+"");
+                        Log.i(TAG,"TF  data.size=="+data.size());
                         LeLaohuiApp app= (LeLaohuiApp) mContext.getApplicationContext();
                         app.reqData(rp);
                     }

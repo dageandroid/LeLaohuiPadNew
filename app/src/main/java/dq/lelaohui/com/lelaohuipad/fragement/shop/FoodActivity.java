@@ -36,6 +36,7 @@ import dq.lelaohui.com.lelaohuipad.port.IControler;
 import dq.lelaohui.com.lelaohuipad.util.SysVar;
 import dq.lelaohui.com.nettylibrary.socket.RequestParam;
 import dq.lelaohui.com.nettylibrary.util.ServiceNetContant;
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.FoodInfoData;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.FootCateBean;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.FootCateBeanDao;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager.BaseDaoOperator;
@@ -72,6 +73,7 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataManage
     private int mealTime = 1;//早中晚时间标示
     private String curFoodType;//当前食物类型
     private View llh_shopping_bottom;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +90,7 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataManage
         initFootType();
         initInfoDetailView();
         footterControler.init();
-
+        userId=var.getUserId();
     }
 
     MyFoodTypeRecyleViewAdapter footCateAdapter = null;
@@ -403,10 +405,45 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataManage
 
     @Override
     public RequestParam getOrderParam(Vector<ShoppingCarListBean> data) {
-        return null;
+        List<FoodInfoData> foodInfoDataList=null;
+        if (data!=null&&data.size()>0){
+            foodInfoDataList=new ArrayList<>();
+            for (ShoppingCarListBean tempBean : data) {
+                FoodInfoData foodInfoData=(FoodInfoData)tempBean.getBean();
+                foodInfoData.setBuyNum(tempBean.proNum);
+                foodInfoDataList.add(foodInfoData);
+            }
+        }
+        if (foodInfoDataList!=null&&foodInfoDataList.size()>0){
+            for (int i=0;i<foodInfoDataList.size();i++){
+                Log.i(TAG,"foodInfoDataList==="+foodInfoDataList.get(i).toString());
+            }
+        }
+        ArrayList<Bundle> bundleArrayList=new ArrayList<>();
+
+        if (foodInfoDataList!=null&&foodInfoDataList.size()>0){
+            for (int i=0;i<foodInfoDataList.size();i++){
+                FoodInfoData foodInfoData=foodInfoDataList.get(i);
+                Bundle bundle=new Bundle();
+                bundle.putString(PRO_ID,foodInfoData.getProId());
+                bundle.putString(SUPPLIER_ID,foodInfoData.getSupplierId());
+                bundle.putInt(MEAL_TYPE,foodInfoData.getBuyNum());
+                bundle.putString(PRO_NUM,foodInfoData.getMealType());
+                bundleArrayList.add(bundle);
+            }
+        }
+        if (bundleArrayList!=null){
+            for (int i=0;i<bundleArrayList.size();i++){
+                Log.i(TAG,"cofirmOrderData=="+bundleArrayList.get(i).toString());
+            }
+        }
+        RequestParam rp=footterControler.cofirmFoodOrder(isScope,mealTime,userId,userId,bundleArrayList);
+        return rp;
     }
-
-
+    private static  final String PRO_ID="proId";
+    private static  final String SUPPLIER_ID="supplierId";
+    private static  final String MEAL_TYPE="mealType";
+    private static  final String PRO_NUM="proNum";
     /**
      * 设置餐品时间 今天，明天，后天
      */
