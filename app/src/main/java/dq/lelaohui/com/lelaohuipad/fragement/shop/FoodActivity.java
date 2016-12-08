@@ -1,7 +1,6 @@
 package dq.lelaohui.com.lelaohuipad.fragement.shop;
 
 import android.database.Cursor;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -12,9 +11,7 @@ import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -94,13 +91,14 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataManage
 
         userId=var.getUserId();
         //activity渲染结束会调用ViewTreeObserver.OnGlobalLayoutListener监听
-        getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                footterControler.init();
-                getWindow().getDecorView().getViewTreeObserver().removeGlobalOnLayoutListener(this);
-            }
-        });
+//        getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//            @Override
+//            public void onGlobalLayout() {
+////                footterControler.init();
+//                initPageData();
+//                getWindow().getDecorView().getViewTreeObserver().removeGlobalOnLayoutListener(this);
+//            }
+//        });
     }
 
     MyFoodTypeRecyleViewAdapter footCateAdapter = null;
@@ -123,6 +121,9 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataManage
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 FootCateBean cateBean= (FootCateBean) footCateAdapter.getItem(i);
+                if (cateBean == null) {
+                    return ;
+                }
                 cateSelectId=cateBean.getCateName();
                 if(viewpager==null){
                     return ;
