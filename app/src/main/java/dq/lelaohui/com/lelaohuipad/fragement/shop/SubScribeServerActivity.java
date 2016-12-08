@@ -124,7 +124,6 @@ public class SubScribeServerActivity extends LeLaoHuiBaseActivity implements Vie
             customerName=getIntent().getStringExtra("customerName");
             if (!TextUtils.isEmpty(customerName)&&filterSubscribeData!=null){
                 serStockDetailId=filterSubscribeData.getSerStockDetailId();
-                Log.i(TAG," filterSubscribeData.getExecNumDay()=="+ filterSubscribeData.getExecNumDay());
                 execNumDay=filterSubscribeData.getExecNumDay();
                 serverPagerName.setText("客户姓名："+customerName+"");
                 sub_name.setText("2016-11-30");

@@ -38,6 +38,7 @@ import dq.lelaohui.com.lelaohuipad.port.IControler;
 import dq.lelaohui.com.lelaohuipad.util.SysVar;
 import dq.lelaohui.com.nettylibrary.socket.RequestParam;
 import dq.lelaohui.com.nettylibrary.util.ServiceNetContant;
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.FoodInfoData;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.FootCateBean;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.FootCateBeanDao;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager.BaseDaoOperator;
@@ -89,31 +90,12 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataManage
         setSelectTime();
         initFootType();
         initInfoDetailView();
-
-        getWindow().getDecorView().setOnHoverListener(new View.OnHoverListener() {
-            @Override
-            public boolean onHover(View view, MotionEvent motionEvent) {
-                return false;
-            }
-        });
-        getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                footterControler.init();
-//                initPageData();
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    getWindow().getDecorView().getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                }else{
-                    getWindow().getDecorView().getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                }
-            }
-        });
-
+        footterControler.init();
+        userId=var.getUserId();
     }
 
     MyFoodTypeRecyleViewAdapter footCateAdapter = null;
-    private   FootCateBean selectCateBean;
-    private String cateSelectId=null;
+    private int cateSelectId=-1;
     /**
      * 初始化左侧菜单
      */

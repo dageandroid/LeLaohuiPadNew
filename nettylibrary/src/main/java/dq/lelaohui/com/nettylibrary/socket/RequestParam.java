@@ -10,9 +10,13 @@ import com.sun.commontransfer.adroid.TransferClientNetworkImpl;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.security.Key;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Set;
 
 import javax.json.Json;
@@ -78,14 +82,21 @@ public class RequestParam implements ReqParam {
 
 
     private void setBundlerData(@NonNull Bundle budle,@NonNull String key, @NonNull Object t) {
+        if (t.getClass()==ArrayList.class){
+            budle.putSerializable(key,(Serializable) t);
+        }
         if(t.getClass()==String.class){
             budle.putString(key,String.valueOf(t));
         }
+
         if(t.getClass()==int.class||t.getClass()==Integer.class){
             budle.putInt(key,(Integer)t);
         }
         if(t.getClass()==double.class||t.getClass()==Double.class){
             budle.putDouble(key,(Double)t);
+        }
+        if(t.getClass()==long.class||t.getClass()==Long.class){
+            budle.putLong(key,(Long)t);
         }
         if(t.getClass()==float.class||t.getClass()==Float.class){
             budle.putFloat(key,(Float)t);
@@ -133,14 +144,6 @@ public class RequestParam implements ReqParam {
         if(value.getClass()==int.class||value.getClass()==Integer.class){
             jsonObjectBuilder.add(keyStr,(Integer)value);
         }else if(value.getClass()==String.class){
-//             if(Protocol_KEY.PACK_SER_ORDER_INFO_DETAIL_LIST.equals(keyStr)){
-//                JsonReader jsonReader = Json.createReader(new StringReader(String.valueOf(value)));
-//                JsonArray array = jsonReader.readArray();
-//                jsonReader.close();
-//                jsonObjectBuilder.add(keyStr,array);
-//            }else{
-//
-//             }
             jsonObjectBuilder.add(keyStr, String.valueOf(value) );
         }else if(value.getClass()==Long.class||value.getClass()==long.class){
             jsonObjectBuilder.add(keyStr,(Long)value);
@@ -156,9 +159,27 @@ public class RequestParam implements ReqParam {
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
+        }else  if (value.getClass()==ArrayList.class){
+            ArrayList<?> data=(ArrayList<?>) value;
+            JsonArrayBuilder arrayBuilder=setJsonArray(data);
+            jsonObjectBuilder.add(keyStr,arrayBuilder);
         }
 
     }
+    private JsonArrayBuilder setJsonArray(ArrayList<?> data) {
+        JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+        for(int i=0;i<data.size();i++){
+
+            if(data.get(i).getClass()==Bundle.class){
+                Bundle bundle= (Bundle) data.get(i);
+                JsonObjectBuilder jsonObjectBuilder=  ObjectToJson(bundle);
+//                arrayBuilder.add(arrayObjectBuidler);
+                arrayBuilder.add(jsonObjectBuilder);
+            }
+        }
+        return arrayBuilder;
+    }
+
     private JsonObjectBuilder ObjectToJson(Bundle bundle){
         Bundle tempBundle=bundle;
         JsonObjectBuilder jsonObjectBuilder=Json.createObjectBuilder();
