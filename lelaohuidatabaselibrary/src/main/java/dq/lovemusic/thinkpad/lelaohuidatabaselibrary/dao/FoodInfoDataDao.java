@@ -24,7 +24,7 @@ public class FoodInfoDataDao extends AbstractDao<FoodInfoData, Long> {
      * Can be used for QueryBuilder and for referencing column names.
      */
     public static class Properties {
-        public final static Property Id = new Property(0, Long.class, "id", true, "_id");
+        public final static Property ID = new Property(0, Long.class, "ID", true, "_id");
         public final static Property CateId = new Property(1, Long.class, "cateId", false, "CATE_ID");
         public final static Property CateName = new Property(2, String.class, "cateName", false, "CATE_NAME");
         public final static Property ProId = new Property(3, String.class, "proId", false, "PRO_ID");
@@ -36,10 +36,8 @@ public class FoodInfoDataDao extends AbstractDao<FoodInfoData, Long> {
         public final static Property MealType = new Property(9, String.class, "mealType", false, "MEAL_TYPE");
         public final static Property Remark = new Property(10, String.class, "remark", false, "REMARK");
         public final static Property SupplierName = new Property(11, String.class, "supplierName", false, "SUPPLIER_NAME");
-        public final static Property SupplierType = new Property(12, String.class, "supplierType", false, "SUPPLIER_TYPE");
-        public final static Property BuyNum = new Property(13, int.class, "buyNum", false, "BUY_NUM");
-        public final static Property IsScope = new Property(14, String.class, "isScope", false, "IS_SCOPE");
-        public final static Property UnineqKey = new Property(15, String.class, "unineqKey", false, "UNINEQ_KEY");
+        public final static Property IsScore = new Property(12, String.class, "isScore", false, "IS_SCORE");
+        public final static Property SupplierType = new Property(13, String.class, "supplierType", false, "SUPPLIER_TYPE");
     }
 
 
@@ -55,10 +53,10 @@ public class FoodInfoDataDao extends AbstractDao<FoodInfoData, Long> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"FOOD_INFO_DATA\" (" + //
-                "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
+                "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: ID
                 "\"CATE_ID\" INTEGER," + // 1: cateId
                 "\"CATE_NAME\" TEXT," + // 2: cateName
-                "\"PRO_ID\" TEXT UNIQUE ," + // 3: proId
+                "\"PRO_ID\" TEXT," + // 3: proId
                 "\"PRO_NAME\" TEXT," + // 4: proName
                 "\"SUPPLIER_ID\" TEXT," + // 5: supplierId
                 "\"PRO_PRICE\" INTEGER NOT NULL ," + // 6: proPrice
@@ -67,10 +65,8 @@ public class FoodInfoDataDao extends AbstractDao<FoodInfoData, Long> {
                 "\"MEAL_TYPE\" TEXT," + // 9: mealType
                 "\"REMARK\" TEXT," + // 10: remark
                 "\"SUPPLIER_NAME\" TEXT," + // 11: supplierName
-                "\"SUPPLIER_TYPE\" TEXT," + // 12: supplierType
-                "\"BUY_NUM\" INTEGER NOT NULL ," + // 13: buyNum
-                "\"IS_SCOPE\" TEXT," + // 14: isScope
-                "\"UNINEQ_KEY\" TEXT UNIQUE );"); // 15: unineqKey
+                "\"IS_SCORE\" TEXT," + // 12: isScore
+                "\"SUPPLIER_TYPE\" TEXT);"); // 13: supplierType
     }
 
     /** Drops the underlying database table. */
@@ -83,9 +79,9 @@ public class FoodInfoDataDao extends AbstractDao<FoodInfoData, Long> {
     protected final void bindValues(DatabaseStatement stmt, FoodInfoData entity) {
         stmt.clearBindings();
  
-        Long id = entity.getId();
-        if (id != null) {
-            stmt.bindLong(1, id);
+        Long ID = entity.getID();
+        if (ID != null) {
+            stmt.bindLong(1, ID);
         }
  
         Long cateId = entity.getCateId();
@@ -139,20 +135,14 @@ public class FoodInfoDataDao extends AbstractDao<FoodInfoData, Long> {
             stmt.bindString(12, supplierName);
         }
  
+        String isScore = entity.getIsScore();
+        if (isScore != null) {
+            stmt.bindString(13, isScore);
+        }
+ 
         String supplierType = entity.getSupplierType();
         if (supplierType != null) {
-            stmt.bindString(13, supplierType);
-        }
-        stmt.bindLong(14, entity.getBuyNum());
- 
-        String isScope = entity.getIsScope();
-        if (isScope != null) {
-            stmt.bindString(15, isScope);
-        }
- 
-        String unineqKey = entity.getUnineqKey();
-        if (unineqKey != null) {
-            stmt.bindString(16, unineqKey);
+            stmt.bindString(14, supplierType);
         }
     }
 
@@ -160,9 +150,9 @@ public class FoodInfoDataDao extends AbstractDao<FoodInfoData, Long> {
     protected final void bindValues(SQLiteStatement stmt, FoodInfoData entity) {
         stmt.clearBindings();
  
-        Long id = entity.getId();
-        if (id != null) {
-            stmt.bindLong(1, id);
+        Long ID = entity.getID();
+        if (ID != null) {
+            stmt.bindLong(1, ID);
         }
  
         Long cateId = entity.getCateId();
@@ -216,20 +206,14 @@ public class FoodInfoDataDao extends AbstractDao<FoodInfoData, Long> {
             stmt.bindString(12, supplierName);
         }
  
+        String isScore = entity.getIsScore();
+        if (isScore != null) {
+            stmt.bindString(13, isScore);
+        }
+ 
         String supplierType = entity.getSupplierType();
         if (supplierType != null) {
-            stmt.bindString(13, supplierType);
-        }
-        stmt.bindLong(14, entity.getBuyNum());
- 
-        String isScope = entity.getIsScope();
-        if (isScope != null) {
-            stmt.bindString(15, isScope);
-        }
- 
-        String unineqKey = entity.getUnineqKey();
-        if (unineqKey != null) {
-            stmt.bindString(16, unineqKey);
+            stmt.bindString(14, supplierType);
         }
     }
 
@@ -241,7 +225,7 @@ public class FoodInfoDataDao extends AbstractDao<FoodInfoData, Long> {
     @Override
     public FoodInfoData readEntity(Cursor cursor, int offset) {
         FoodInfoData entity = new FoodInfoData( //
-            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
+            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // ID
             cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // cateId
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // cateName
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // proId
@@ -253,17 +237,15 @@ public class FoodInfoDataDao extends AbstractDao<FoodInfoData, Long> {
             cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // mealType
             cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // remark
             cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // supplierName
-            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // supplierType
-            cursor.getInt(offset + 13), // buyNum
-            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // isScope
-            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15) // unineqKey
+            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // isScore
+            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13) // supplierType
         );
         return entity;
     }
      
     @Override
     public void readEntity(Cursor cursor, FoodInfoData entity, int offset) {
-        entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
+        entity.setID(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setCateId(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
         entity.setCateName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setProId(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
@@ -275,22 +257,20 @@ public class FoodInfoDataDao extends AbstractDao<FoodInfoData, Long> {
         entity.setMealType(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
         entity.setRemark(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
         entity.setSupplierName(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
-        entity.setSupplierType(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
-        entity.setBuyNum(cursor.getInt(offset + 13));
-        entity.setIsScope(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
-        entity.setUnineqKey(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
+        entity.setIsScore(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
+        entity.setSupplierType(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
      }
     
     @Override
     protected final Long updateKeyAfterInsert(FoodInfoData entity, long rowId) {
-        entity.setId(rowId);
+        entity.setID(rowId);
         return rowId;
     }
     
     @Override
     public Long getKey(FoodInfoData entity) {
         if(entity != null) {
-            return entity.getId();
+            return entity.getID();
         } else {
             return null;
         }
@@ -298,7 +278,7 @@ public class FoodInfoDataDao extends AbstractDao<FoodInfoData, Long> {
 
     @Override
     public boolean hasKey(FoodInfoData entity) {
-        return entity.getId() != null;
+        return entity.getID() != null;
     }
 
     @Override

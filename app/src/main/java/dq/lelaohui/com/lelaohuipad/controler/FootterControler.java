@@ -2,7 +2,6 @@ package dq.lelaohui.com.lelaohuipad.controler;
 
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -73,7 +72,7 @@ public class FootterControler extends LaoHuiBaseControler {
 //                        instertData(data);
                         Bundle bundle = new Bundle();
                         bundle.putString(CONTROLER_ACTION, ServiceNetContant.ServiceResponseAction.QUERY_FOOD_INFO_RESPONSE);
-                        bundle.putParcelableArrayList("foodInfo", (ArrayList<? extends Parcelable>) data);
+                        bundle.putSerializable("foodInfo", (ArrayList) data);
                         getIControlerCallBack().result(bundle);
                     }
                 }
@@ -219,7 +218,7 @@ private void confirmFoodOrder(int payType,int totalMoney,String addressStr,Strin
         dao.setmContext(getContext());
         return dao;
     }
-    private Cursor queryFoodInfoCursor(String mealTime,int cateId,String isscrole){
+    private Cursor queryFoodInfoCursor(String mealTime,String cateId,String isscrole){
         Cursor cursor=null;
         if(getBaseDaoOperator()!=null){
             ProFoodInfoDaoOperator  sdao= (ProFoodInfoDaoOperator) getBaseDaoOperator();
@@ -237,7 +236,14 @@ private void confirmFoodOrder(int payType,int totalMoney,String addressStr,Strin
   public Cursor  getFoodTypeCursor(String mealType){
         return queryFoodTypeCursor(mealType);
     }
-
+    /**
+     * 获取餐品类型
+     * @param mealType
+     * @return
+     */
+    public Cursor  getFoodCursor(String mealTime,String mealType){
+        return queryFoodTypeCursor(mealType);
+    }
     private Cursor queryFoodTypeCursor(String mealType){
         Cursor cursor=null;
         if(getBaseDaoOperator()!=null){
@@ -267,7 +273,7 @@ private void confirmFoodOrder(int payType,int totalMoney,String addressStr,Strin
      * @param isscorle
      * @return
      */
-    public Cursor getFoodInfoCursor(String mealTime,int cateId,String isscorle){
+    public Cursor getFoodInfoCursor(String mealTime,String cateId,String isscorle){
         return queryFoodInfoCursor(mealTime,cateId,isscorle);
     }
 

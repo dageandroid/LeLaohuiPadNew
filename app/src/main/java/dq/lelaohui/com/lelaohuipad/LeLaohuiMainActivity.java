@@ -25,11 +25,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import dq.lelaohui.com.lelaohuipad.adapter.BaseDataBaseAdapter;
 import dq.lelaohui.com.lelaohuipad.base.LeLaoHuiBaseActivity;
 import dq.lelaohui.com.lelaohuipad.controler.MainControler;
+import dq.lelaohui.com.lelaohuipad.dao.ProFoodInfoDaoOperator;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.FoodActivity;
-import dq.lelaohui.com.lelaohuipad.fragement.shop.FooterActivity;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.ServerActivity;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.ServerSubscribeActivity;
 import dq.lelaohui.com.lelaohuipad.port.IControler;
@@ -92,6 +91,10 @@ public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
                    case 3:
                        intent=new Intent(LeLaohuiMainActivity.this,ServerSubscribeActivity.class);
                        break;
+                   case 4:
+                       ProFoodInfoDaoOperator.getInstance().setmContext(getApplicationContext());
+                       ProFoodInfoDaoOperator.getInstance().delete(null);
+                       break;
                }
                if (intent!=null){
                    startActivity(intent);
@@ -108,6 +111,7 @@ public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
         listData.add("餐品");
         listData.add("商品");
         listData.add("服务预约");
+        listData.add("清空订餐");
         return listData;
     }
 
@@ -217,7 +221,7 @@ public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
 
         private OnRecyclerViewItemClickListener mOnItemClickListener = null;
 
-        public static interface OnRecyclerViewItemClickListener {
+        public interface OnRecyclerViewItemClickListener {
             void onItemClick(View view , int data);
         }
 

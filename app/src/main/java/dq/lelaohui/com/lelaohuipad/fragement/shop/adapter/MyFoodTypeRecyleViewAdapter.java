@@ -57,6 +57,20 @@ public class MyFoodTypeRecyleViewAdapter extends CursorAdapter{
     }
 
     @Override
+    public Object getItem(int position) {
+       try {
+           Cursor cursor= (Cursor) super.getItem(position);
+           FootCateBeanDao beanDao = softReference.get();
+           FootCateBean fc = beanDao.readEntity(cursor, 0);
+
+           return fc;
+       }catch (Exception e){
+           e.printStackTrace();
+           return null;
+       }
+    }
+
+    @Override
     public void bindView(View view, Context context, Cursor cursor) {
         FootCateBeanDao beanDao = softReference.get();
         if (beanDao != null) {

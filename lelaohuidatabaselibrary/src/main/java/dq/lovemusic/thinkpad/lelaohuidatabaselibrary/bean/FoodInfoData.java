@@ -1,251 +1,79 @@
 package dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import com.google.gson.annotations.Expose;
-
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Keep;
-import org.greenrobot.greendao.annotation.Unique;
+
+import java.io.Serializable;
 
 /**
  * Created by ZTF on 2016/11/20.
  */
 @Entity
-public class FoodInfoData extends BaseBean implements Parcelable {
-    public void setUnineqKey(String unineqKey) {
-        this.unineqKey = unineqKey;
-    }
-    @Unique
-    @Expose(serialize = false,deserialize = false)
-    protected String unineqKey;
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+public class FoodInfoData extends BaseBean implements Serializable {
 
     /**
-         * cateId : 320
-         * cateName : 菜
-         * proId : 10147
-         * proName : 京酱肉丝
-         * supplierId : 10000
-         * proPrice : 12
-         * proPic : /images/diet/pretermitFoodImg.jpg
-         * mealTime : 3
-         * mealType : 0
-         * remark :
-         * supplierName : 罗庄餐厅A
-         * supplierType : 4
-         */
-        @Id(autoincrement = true)
-        private Long id;
-    @Expose
+     * cateId : 241
+     * cateName : 汤/粥
+     * proId : 10149
+     * proName : 粥
+     * supplierId : 10000
+     * proPrice : 2
+     * proPic : /images/diet/pretermitFoodImg.jpg
+     * mealTime : 3
+     * mealType : 0
+     * remark :
+     * supplierName : 罗庄餐厅A
+     * supplierType : 4
+     */
+    @Id(autoincrement=true)
+    private Long ID;
     private Long cateId;
-    @Expose
+
+    public Long getID() {
+        return ID;
+    }
+
+    public void setID(Long ID) {
+        this.ID = ID;
+    }
+
     private String cateName;
-    @Expose
-    @Unique
     private String proId;
-    @Expose
-
     private String proName;
-    @Expose
     private String supplierId;
-    @Expose
     private int proPrice;
-    @Expose
     private String proPic;
-    @Expose
     private String mealTime;
-    @Expose
     private String mealType;
-    @Expose
     private String remark;
-    @Expose
     private String supplierName;
-    @Expose
-    private String supplierType;
-    @Expose
-    private int buyNum;
-    @Expose
-    private String isScope;
-    @Keep
-    public String getUnineqKey() {
-        return this.unineqKey;
+    private String isScore;
+
+    public String getIsScore() {
+        return isScore;
     }
 
-
-
-    public int getBuyNum() {
-        return buyNum;
-    }
-
-    public void setBuyNum(int buyNum) {
-        this.buyNum = buyNum;
-    }
-
-    public String getIsScope() {
-        return isScope;
-    }
-
-    public void setIsScope(String isScope) {
-        this.isScope = isScope;
+    public void setIsScore(String isScore) {
+        this.isScore = isScore;
     }
 
     public Long getCateId() {
-            return cateId;
-        }
-
-        public void setCateId(Long cateId) {
-            this.cateId = cateId;
-        }
-
-        public String getCateName() {
-            return cateName;
-        }
-
-        public void setCateName(String cateName) {
-            this.cateName = cateName;
-        }
-
-        public String getProId() {
-            return proId;
-        }
-
-        public void setProId(String proId) {
-            this.proId = proId;
-        }
-
-        public String getProName() {
-            return proName;
-        }
-
-        public void setProName(String proName) {
-            this.proName = proName;
-        }
-
-        public String getSupplierId() {
-            return supplierId;
-        }
-
-        public void setSupplierId(String supplierId) {
-            this.supplierId = supplierId;
-        }
-
-        public int getProPrice() {
-            return proPrice;
-        }
-
-        public void setProPrice(int proPrice) {
-            this.proPrice = proPrice;
-        }
-
-        public String getProPic() {
-            return proPic;
-        }
-
-        public void setProPic(String proPic) {
-            this.proPic = proPic;
-        }
-
-        public String getMealTime() {
-            return mealTime;
-        }
-
-        public void setMealTime(String mealTime) {
-            this.mealTime = mealTime;
-        }
-
-        public String getMealType() {
-            return mealType;
-        }
-
-        public void setMealType(String mealType) {
-            this.mealType = mealType;
-        }
-
-        public String getRemark() {
-            return remark;
-        }
-
-        public void setRemark(String remark) {
-            this.remark = remark;
-        }
-
-        public String getSupplierName() {
-            return supplierName;
-        }
-
-        public void setSupplierName(String supplierName) {
-            this.supplierName = supplierName;
-        }
-
-        public String getSupplierType() {
-            return supplierType;
-        }
-
-        public void setSupplierType(String supplierType) {
-            this.supplierType = supplierType;
-        }
-
-    @Override
-    public int describeContents() {
-        return 0;
+        return cateId;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(this.cateId);
-        dest.writeString(this.cateName);
-        dest.writeString(this.proId);
-        dest.writeString(this.proName);
-        dest.writeString(this.supplierId);
-        dest.writeInt(this.proPrice);
-        dest.writeString(this.proPic);
-        dest.writeString(this.mealTime);
-        dest.writeString(this.mealType);
-        dest.writeString(this.remark);
-        dest.writeString(this.supplierName);
-        dest.writeString(this.supplierType);
-        dest.writeInt(this.buyNum);
-        dest.writeString(this.isScope);
-        dest.writeString(this.unineqKey);
-    }
-    public FoodInfoData() {
+    public void setCateId(Long cateId) {
+        this.cateId = cateId;
     }
 
-    protected FoodInfoData(Parcel in) {
-        this.cateId = in.readLong();
-        this.cateName = in.readString();
-        this.proId = in.readString();
-        this.proName = in.readString();
-        this.supplierId = in.readString();
-        this.proPrice = in.readInt();
-        this.proPic = in.readString();
-        this.mealTime = in.readString();
-        this.mealType = in.readString();
-        this.remark = in.readString();
-        this.supplierName = in.readString();
-        this.supplierType = in.readString();
-        this.buyNum = in.readInt();
-        this.isScope = in.readString();
-        this.unineqKey=cateId+"_"+proId+"_"+supplierId+"_"+isScope;
-    }
+    private String supplierType;
 
-    @Generated(hash = 1748595060)
-    @Keep
-    public FoodInfoData(Long id, Long cateId, String cateName, String proId, String proName,
-            String supplierId, int proPrice, String proPic, String mealTime, String mealType,
-            String remark, String supplierName, String supplierType, int buyNum,
-            String isScope, String unineqKey) {
-        this.id = id;
+    @Generated(hash = 807037713)
+    public FoodInfoData(Long ID, Long cateId, String cateName, String proId,
+            String proName, String supplierId, int proPrice, String proPic,
+            String mealTime, String mealType, String remark, String supplierName,
+            String isScore, String supplierType) {
+        this.ID = ID;
         this.cateId = cateId;
         this.cateName = cateName;
         this.proId = proId;
@@ -257,22 +85,100 @@ public class FoodInfoData extends BaseBean implements Parcelable {
         this.mealType = mealType;
         this.remark = remark;
         this.supplierName = supplierName;
+        this.isScore = isScore;
         this.supplierType = supplierType;
-        this.buyNum = buyNum;
-        this.isScope = isScope;
-        this.unineqKey=cateId+"_"+proId+"_"+supplierId+"_"+isScope;
     }
 
-    public static final Creator<FoodInfoData> CREATOR = new Creator<FoodInfoData>() {
-        @Override
-        public FoodInfoData createFromParcel(Parcel source) {
-            return new FoodInfoData(source);
-        }
+    @Generated(hash = 1607671278)
+    public FoodInfoData() {
+    }
 
-        @Override
-        public FoodInfoData[] newArray(int size) {
-            return new FoodInfoData[size];
-        }
-    };
 
+    public String getCateName() {
+        return cateName;
+    }
+
+    public void setCateName(String cateName) {
+        this.cateName = cateName;
+    }
+
+    public String getProId() {
+        return proId;
+    }
+
+    public void setProId(String proId) {
+        this.proId = proId;
+    }
+
+    public String getProName() {
+        return proName;
+    }
+
+    public void setProName(String proName) {
+        this.proName = proName;
+    }
+
+    public String getSupplierId() {
+        return supplierId;
+    }
+
+    public void setSupplierId(String supplierId) {
+        this.supplierId = supplierId;
+    }
+
+    public int getProPrice() {
+        return proPrice;
+    }
+
+    public void setProPrice(int proPrice) {
+        this.proPrice = proPrice;
+    }
+
+    public String getProPic() {
+        return proPic;
+    }
+
+    public void setProPic(String proPic) {
+        this.proPic = proPic;
+    }
+
+    public String getMealTime() {
+        return mealTime;
+    }
+
+    public void setMealTime(String mealTime) {
+        this.mealTime = mealTime;
+    }
+
+    public String getMealType() {
+        return mealType;
+    }
+
+    public void setMealType(String mealType) {
+        this.mealType = mealType;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getSupplierName() {
+        return supplierName;
+    }
+
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
+    }
+
+    public String getSupplierType() {
+        return supplierType;
+    }
+
+    public void setSupplierType(String supplierType) {
+        this.supplierType = supplierType;
+    }
 }

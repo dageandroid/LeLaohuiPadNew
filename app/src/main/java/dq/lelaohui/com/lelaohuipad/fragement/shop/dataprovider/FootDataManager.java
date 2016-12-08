@@ -154,7 +154,7 @@ public class FootDataManager extends DataManager {
                 for (FoodInfoData infoCate:data
                      ) {
 
-                    infoCate.setIsScope(userData);
+                    infoCate.setIsScore(userData);
                 }
                 fc.instertData(data);
             }

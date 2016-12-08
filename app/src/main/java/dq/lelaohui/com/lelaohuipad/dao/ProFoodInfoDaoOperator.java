@@ -1,11 +1,15 @@
 package dq.lelaohui.com.lelaohuipad.dao;
 
 import android.database.Cursor;
+import android.text.TextUtils;
 
 import org.greenrobot.greendao.AbstractDao;
+import org.greenrobot.greendao.query.CursorQuery;
+import org.greenrobot.greendao.query.QueryBuilder;
 import org.greenrobot.greendao.query.WhereCondition;
 
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.BaseBean;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.FoodInfoData;
@@ -62,10 +66,9 @@ public class ProFoodInfoDaoOperator extends BaseDaoOperator {
         if(t!=null&&!t.isEmpty()){
             for(int i=0;i<t.size();i++){
                 FoodInfoData data= (FoodInfoData) t.get(i);
-                insert(FoodInfoData.class,data);
-                insert(FootCateBean.class, new FootCateBean(data));
+               super. insert(FootCateBean.class, new FootCateBean(data));
             }
-//
+            super.insert(FoodInfoData.class,t);
         }
 
 
@@ -73,7 +76,8 @@ public class ProFoodInfoDaoOperator extends BaseDaoOperator {
 
     @Override
     public void delete(BaseBean t) {
-
+       super.deleteAll(FoodInfoData.class);
+        super.deleteAll(FootCateBean.class);
     }
     public long count(){
         return 0;
@@ -94,27 +98,45 @@ public class ProFoodInfoDaoOperator extends BaseDaoOperator {
         return  get(FoodInfoData.class);
     }
 
+    private ConcurrentHashMap<String,CursorQuery> conditonQueryCache=new ConcurrentHashMap<>();
+    private  CursorQuery footInfoQuery=null;
     /**
      * 查询获取相对应的餐品信息
      * @param mealTime   早中晚
      * @param isscope)   今明后
      * @return
      */
-    public Cursor queryFoodInfo(String mealTime,int cateId,String isscope){
-        WhereCondition mealTimeConin= FoodInfoDataDao.Properties.MealTime.eq(mealTime);
-        WhereCondition cateNameContin=FoodInfoDataDao.Properties.CateId.eq(cateId);
-        WhereCondition isscoreCondition=FoodInfoDataDao.Properties.IsScope.eq(isscope);
-        return super.query(FoodInfoData.class,mealTimeConin,cateNameContin,isscoreCondition);
+    public Cursor queryFoodInfo(String mealTime,String cateId,String isscope){
+        QueryBuilder.   LOG_SQL       =       true   ;
+        QueryBuilder.   LOG_VALUES       =       true   ;
+        if (footInfoQuery == null) {
+            WhereCondition mealTimeConin= FoodInfoDataDao.Properties.MealTime.eq(TextUtils.isEmpty(mealTime)?"0":mealTime);
+            WhereCondition cateNameContin=FoodInfoDataDao.Properties.CateName.eq(TextUtils.isEmpty(cateId)?"":cateId);
+            WhereCondition isscoreCondition=FoodInfoDataDao.Properties.IsScore.eq(isscope);
+            footInfoQuery= getCursorQuery(FoodInfoData.class,mealTimeConin,cateNameContin,isscoreCondition);
+            return footInfoQuery.query();
+        }
+        footInfoQuery.setParameter(0,TextUtils.isEmpty(mealTime)?"0":mealTime);
+        footInfoQuery.setParameter(1,TextUtils.isEmpty(cateId)?"":cateId);
+        footInfoQuery.setParameter(2, TextUtils.isEmpty(isscope)?"0":isscope);
+        return footInfoQuery==null?null:footInfoQuery.query();
     }
-
+    private CursorQuery cateCursorQuery=null;
     /**
      * 查询餐品类型
      * @param isscope  0:今日，1：明日 ，2:后天
      * @return
      */
     public Cursor queryFoodType(String isscope){
-        WhereCondition mealTypeContin= FootCateBeanDao.Properties.MealTime.eq(isscope);
-        return super.query(FootCateBean.class,mealTypeContin);
+        QueryBuilder.   LOG_SQL       =       true   ;
+        QueryBuilder.   LOG_VALUES       =       true   ;
+        if (cateCursorQuery == null) {
+            WhereCondition mealTypeContin= FootCateBeanDao.Properties.MealTime.eq(isscope);
+            cateCursorQuery=getCursorQuery(FootCateBean.class,mealTypeContin);
+        }else{
+            cateCursorQuery.setParameter(0,isscope);
+        }
+        return  cateCursorQuery.query();
     }
 
 }

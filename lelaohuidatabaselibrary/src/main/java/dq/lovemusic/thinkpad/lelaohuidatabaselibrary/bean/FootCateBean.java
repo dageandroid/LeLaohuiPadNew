@@ -58,7 +58,7 @@ public class FootCateBean extends  BaseBean{
     public  FootCateBean(FoodInfoData data){
         setCateId(Long.valueOf(data.getCateId()+""));
         setCateName(data.getCateName());
-        setMealTime(data.getIsScope());
+        setMealTime(data.getIsScore());
         setMealType(data.getMealType());
         setUnineqKey(this.mealTime+"_"+this.cateId);
         Log.i(TAG, "FootCateBean: " +data.toString());

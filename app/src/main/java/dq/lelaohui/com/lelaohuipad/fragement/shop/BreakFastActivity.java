@@ -75,12 +75,17 @@ public class BreakFastActivity extends Fragment implements SwipeRefreshLayout.On
 
     public void notifyDataChanger() {
         if (this.footInfoCursor != null) {
-            myFoodInfoAdapter.swapCursor(this.footInfoCursor.getCuror());
+            myFoodInfoAdapter.changeCursor(this.footInfoCursor.getCuror());
+        }
+    }
+    public void notifyDataChanger(Cursor cursor) {
+        if (cursor != null) {
+            myFoodInfoAdapter.changeCursor(cursor);
         }
     }
 
     public void reset() {
-        myFoodInfoAdapter.swapCursor(null);
+        myFoodInfoAdapter.changeCursor(null);
     }
     @Override
     public void onRefresh() {
@@ -122,7 +127,7 @@ public class BreakFastActivity extends Fragment implements SwipeRefreshLayout.On
             int proId = Integer.parseInt(TextUtils.isEmpty(serInitProPack.getProId())?"0":serInitProPack.getProId());
             String proName = serInitProPack.getProName();
             double proPrice = serInitProPack.getProPrice();
-            int proNum = serInitProPack.getBuyNum();
+            int proNum = -1;
             ServerCartBean shoppingCarListBean = new ServerCartBean(proName, proPrice, proNum, proId,serInitProPack.getRemark() );
             shoppingCarListBean.setBean(serInitProPack);
             shoppingCarListBean.uniqueKey=serInitProPack.getUnineqKey();

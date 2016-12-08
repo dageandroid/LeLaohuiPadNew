@@ -38,5 +38,11 @@ public abstract  class LeLaoHuiBaseActivity extends BaseActivity implements NetM
         return bundle.get(IC_CONTROLER_DATA);
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+//        if(getControler().getBaseDaoOperator()!=null){
+//            getControler().getBaseDaoOperator().close();
+//        }
+    }
 }

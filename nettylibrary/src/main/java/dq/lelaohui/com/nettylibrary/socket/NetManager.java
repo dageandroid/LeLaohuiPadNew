@@ -2,7 +2,7 @@ package dq.lelaohui.com.nettylibrary.socket;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -114,11 +114,10 @@ public class NetManager {
         private ProgressManager() {
         }
         public void addProgress(String sn,ProgressBarListener progressBarListener){
-            this.SN=sn;
-            ProgressBarListener oldprogressBarListener=this.progressBarListener;
-            if (oldprogressBarListener != null) {
-                oldprogressBarListener.hideProgress();
+            if(!TextUtils.isEmpty(this.SN)){
+                removeProgress(this.SN);
             }
+            this.SN=sn;
             this.progressBarListener=progressBarListener;
         }
         public void removeProgress(String sn){
