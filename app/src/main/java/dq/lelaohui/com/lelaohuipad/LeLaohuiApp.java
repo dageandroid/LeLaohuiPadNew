@@ -60,6 +60,9 @@ public class LeLaohuiApp extends Application {
     }
 
     public void reqData(ReqParam reqParam) {
+        if (reqParam == null) {
+            return;
+        }
         if (reqParam.getHeader(Protocol_KEY.CATEGORY) == null) {
             reqParam.addHeader(Protocol_KEY.CATEGORY, CATEGORY);
         }else{
