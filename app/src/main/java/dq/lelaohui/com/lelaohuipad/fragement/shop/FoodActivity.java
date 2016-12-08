@@ -114,7 +114,7 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataManage
         final Cursor cursor = footterControler.getFoodTypeCursor(""+select_time.getSelectedItemPosition());
         footCateAdapter = new MyFoodTypeRecyleViewAdapter(this, cursor,CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         Log.i(TAG, "initFootType: "+cursor.getCount());
-        initPageData();
+//        initPageData();
         footCateAdapter.setDao((FootCateBeanDao) footterControler.getBaseDaoOperator().get(FootCateBean.class));
         food_type.setAdapter(footCateAdapter);
         food_type.setOnItemClickListener(new AdapterView.OnItemClickListener() {
