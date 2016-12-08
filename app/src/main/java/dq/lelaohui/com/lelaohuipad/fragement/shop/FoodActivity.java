@@ -75,6 +75,7 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataManage
     private int mealTime = 1;//早中晚时间标示
     private String curFoodType;//当前食物类型
     private View llh_shopping_bottom;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,12 +91,20 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataManage
         setSelectTime();
         initFootType();
         initInfoDetailView();
-        footterControler.init();
+
         userId=var.getUserId();
+        //activity渲染结束会调用ViewTreeObserver.OnGlobalLayoutListener监听
+        getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                footterControler.init();
+                getWindow().getDecorView().getViewTreeObserver().removeGlobalOnLayoutListener(this);
+            }
+        });
     }
 
     MyFoodTypeRecyleViewAdapter footCateAdapter = null;
-    private int cateSelectId=-1;
+    private String cateSelectId="";
     /**
      * 初始化左侧菜单
      */
@@ -115,7 +124,6 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataManage
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 FootCateBean cateBean= (FootCateBean) footCateAdapter.getItem(i);
                 cateSelectId=cateBean.getCateName();
-                selectCateBean=cateBean;
                 if(viewpager==null){
                     return ;
                 }
@@ -382,10 +390,40 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataManage
 
     @Override
     public RequestParam getOrderParam(Vector<ShoppingCarListBean> data) {
-        return null;
+        List<FoodInfoData> foodInfoDataList=null;
+        if (data!=null&&data.size()>0){
+            foodInfoDataList=new ArrayList<>();
+            for (ShoppingCarListBean tempBean : data) {
+                FoodInfoData foodInfoData=(FoodInfoData)tempBean.getBean();
+                foodInfoData.setBuyNum(tempBean.proNum);
+                foodInfoDataList.add(foodInfoData);
+            }
+        }
+        if (foodInfoDataList!=null&&foodInfoDataList.size()>0){
+            for (int i=0;i<foodInfoDataList.size();i++){
+                Log.i(TAG,"foodInfoDataList==="+foodInfoDataList.get(i).toString());
+            }
+        }
+        ArrayList<Bundle> bundleArrayList=new ArrayList<>();
+
+        if (foodInfoDataList!=null&&foodInfoDataList.size()>0){
+            for (int i=0;i<foodInfoDataList.size();i++){
+                FoodInfoData foodInfoData=foodInfoDataList.get(i);
+                Bundle bundle=new Bundle();
+                bundle.putString(PRO_ID,foodInfoData.getProId());
+                bundle.putString(SUPPLIER_ID,foodInfoData.getSupplierId());
+                bundle.putString(MEAL_TYPE,foodInfoData.getMealType());
+                bundle.putInt(PRO_NUM,foodInfoData.getBuyNum());
+                bundleArrayList.add(bundle);
+            }
+        }
+        RequestParam rp=footterControler.cofirmFoodOrder(isScope,mealTime,userId,userId,bundleArrayList);
+        return rp;
     }
-
-
+    private static  final String PRO_ID="proId";
+    private static  final String SUPPLIER_ID="supplierId";
+    private static  final String MEAL_TYPE="mealType";
+    private static  final String PRO_NUM="proNum";
     /**
      * 设置餐品时间 今天，明天，后天
      */

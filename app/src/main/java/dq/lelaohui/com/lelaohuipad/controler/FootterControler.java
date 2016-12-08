@@ -75,9 +75,14 @@ public class FootterControler extends LaoHuiBaseControler {
                         getIControlerCallBack().result(bundle);
                     }
                 }
-            }
             }else{
-            Log.i(TAG,"");
+                Log.i(TAG,"data is null");
+            }
+            }else if (ServiceNetContant.ServiceResponseAction.CONFIRM_FOOD_ORDER_RESPONSE.equals(action)){
+            String body=getResponseBody(responseData);
+            Log.i(TAG, "doBusses food cofirm data : "+body);
+        }else {
+            Log.i(TAG,"data is null");
         }
     }
 

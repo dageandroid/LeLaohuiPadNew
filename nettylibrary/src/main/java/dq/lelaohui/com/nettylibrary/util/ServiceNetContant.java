@@ -57,6 +57,9 @@ public class ServiceNetContant {
          * 提交食物订单接口
          */
         public static final String     FOOD_ORDER_CONFIRM_RESPONSE="food.order.confirm.response";
+        public static final String     CONFIRM_FOOD_ORDER_RESPONSE="confirm.food.order.response";
+
+
         /**
          * 查询用户服务库存信息
          */
