@@ -38,7 +38,7 @@ public class Protocol_KEY {
     /**
      * 1早、2午、3晚、4夜加餐
      */
-    public static final String MEALTIME = "mealtime";
+    public static final String MEALTIME = "mealTime";
     /**
      * 购买者Id
      */

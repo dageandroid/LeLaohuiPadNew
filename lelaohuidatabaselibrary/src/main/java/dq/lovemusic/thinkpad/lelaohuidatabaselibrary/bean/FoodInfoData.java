@@ -3,6 +3,7 @@ package dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Transient;
 
 import java.io.Serializable;
 
@@ -50,6 +51,19 @@ public class FoodInfoData extends BaseBean implements Serializable {
     private String supplierName;
     private String isScore;
 
+    public int getBuyNum() {
+        return buyNum;
+    }
+
+    public void setBuyNum(int buyNum) {
+        this.buyNum = buyNum;
+    }
+
+    /**
+     * 不生成数据库表字段
+     */
+    @Transient
+    private int buyNum;
     public String getIsScore() {
         return isScore;
     }
