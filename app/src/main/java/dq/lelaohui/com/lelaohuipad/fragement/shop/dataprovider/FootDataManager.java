@@ -37,7 +37,7 @@ public class FootDataManager extends DataManager {
     private FootDataListener dataListener;
     private SysVar var=null;
     private String KEY_CACEH="LFOOD";
-    private long cacheData=10*60*60*1000;
+    private long cacheData=10*60*1000;
     public FootDataListener getDataListener() {
         return dataListener;
     }
@@ -108,17 +108,21 @@ public class FootDataManager extends DataManager {
         Cursor cursor= fc.getFoodTypeCursor(mealTime);
         Log.i(TAG, "requestFoodInfo: "+mealTime+"="+cursor.getCount());
         if(cursor!=null&&cursor.getCount()!=0){
-          long endTime=  var.getLongTime(KEY_CACEH+mealTime);
-            if(beginTime-endTime>=cacheData){
-                FoodInfoData foodInfoData=new FoodInfoData();
-                foodInfoData.setIsScore(mealTime);
-                fc.getBaseDaoOperator().delete(foodInfoData);
-                Future<String> cursorFuture = getStringFuture(mealTime);
-                queue.put(cursorFuture);
-                var.setLongTime(KEY_CACEH+mealTime,System.currentTimeMillis());
-            }else{
-
-                dataListener.dataChanager(mealTime);
+                synchronized (this){
+                    long endTime=  var.getLongTime(KEY_CACEH+mealTime);
+                    if(beginTime-endTime>=cacheData){
+                        if(progressBarListener!=null){
+                            progressBarListener.showProgress();
+                        }
+                        FoodInfoData foodInfoData=new FoodInfoData();
+                        foodInfoData.setIsScore(mealTime);
+                        fc.getBaseDaoOperator().delete(foodInfoData);
+                        Future<String> cursorFuture = getStringFuture(mealTime);
+                        queue.put(cursorFuture);
+                        var.setLongTime(KEY_CACEH+mealTime,System.currentTimeMillis());
+                } else{
+                        dataListener.dataChanager(mealTime);
+                    }
             }
             cursor.close();
             return;
