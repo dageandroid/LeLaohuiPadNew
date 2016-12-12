@@ -18,6 +18,11 @@ import dq.lelaohui.com.nettylibrary.util.NetUtil;
 public class NetManager {
     private String tag="LlhResponseHandler";
     private static NetManager ourInstance = new NetManager();
+
+    public Context getContext() {
+        return context;
+    }
+
     private Context context;
     private ProgressManager progressManager=null;
     private ProgressBarListener progressBarListener=null;
@@ -89,6 +94,7 @@ public class NetManager {
         this.context=context;
         LlhResponseHandler.getInstance().setContext(this.context);
     }
+
     public void stopNet(){
         TransferClientNetworkImpl.getInstance().stop();
     }

@@ -100,23 +100,7 @@ public class FootterControler extends LaoHuiBaseControler {
                     }
                 }
             }else{
-                Log.i(TAG,"data is null");
-            }
-        }else if (ServiceNetContant.ServiceResponseAction.FOOD_ORDER_CONFIRM_RESPONSE.equals(action)){
-            String body=getResponseBody(responseData);
-            Log.i(TAG,"body=="+body);
-            FoodTradeNoCate foodInfoCate=(FoodTradeNoCate)getJsonToObject(body, FoodTradeNoCate.class);
-            if (foodInfoCate.getCode() == 0) {
-                if (getIControlerCallBack() != null) {//解析数据成功，通知UI界面
-                    List<FoodTradeNoData> data = foodInfoCate.getData();
-                    if (data != null && data.size() > 0) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString(CONTROLER_ACTION, ServiceNetContant.ServiceResponseAction.FOOD_ORDER_CONFIRM_RESPONSE);
-                        bundle.putSerializable("foodTradeNo", (ArrayList) data);
-                        getIControlerCallBack().result(bundle);
-                    }
-                }
-            }else{
+                doBassesResultMag(foodInfoCate.getMsg());
                 Log.i(TAG,"data is null");
             }
         }else if (ServiceNetContant.ServiceResponseAction.FOOD_ORDER_PAYMENT_RESPONSE.equals(action)){
@@ -139,7 +123,14 @@ public class FootterControler extends LaoHuiBaseControler {
             Log.i(TAG,"data is null");
         }
     }
-
+    public static  final  String REQ_MSG="reqMsg";
+    public static  final  String REQ_MSG_ERROR="error_promot_toast";
+     public void   doBassesResultMag(String reqMsg){
+            Bundle bundle = new Bundle();
+            bundle.putString(CONTROLER_ACTION,REQ_MSG_ERROR);
+            bundle.putString(REQ_MSG,reqMsg);
+            getIControlerCallBack().result(bundle);
+        }
 
 
     /**
@@ -192,22 +183,7 @@ public void confirmFoodOrder(int isDistr,int payType,int totalMoney,String addre
     requestParam.addBody(Protocol_KEY.ISSCOPE,Integer.parseInt(isScope));
     app.reqData(requestParam);
 }
-/**
- * 支付接口
- */
-    public void foodPaymentOrder(String  outTradeNo,String userName,double totalFee,String  oldManId){
-        LeLaohuiApp app= (LeLaohuiApp) getContext();
-        if(app==null){
-            throw  new RuntimeException(" app is null exception");
-        }
-        FootRequestUtil requestUtil=new FootRequestUtil(String.valueOf(getCenterId()),String.valueOf(getOrgId()),String.valueOf(getOrgType()));
-        RequestParam requestParam =requestUtil.getRequestParam(NetContant.ServiceAction.FOOD_ORDER_PAYMEN);
-        requestParam.addBody(Protocol_KEY.USERID,oldManId);
-        requestParam.addBody(Protocol_KEY.REAL_NAME,userName);
-        requestParam.addBody(Protocol_KEY.ORDER_NO,outTradeNo);
-        requestParam.addBody(Protocol_KEY.PAY_AMT,totalFee);
-        app.reqData(requestParam);
-    }
+
     /**
      * 提交购物车相关信息接口
      */

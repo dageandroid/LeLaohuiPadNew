@@ -46,6 +46,7 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -61,6 +62,7 @@
         <activity
             android:name=".LeLaohuiMainActivity"
             android:label="@string/title_activity_le_laohui_main"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -99,6 +101,7 @@
             android:name=".fragement.shop.ServerPersonInfoActivity"
             android:label="@string/title_activity_footer"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".fragement.shop.ServerSubscribeActivity"

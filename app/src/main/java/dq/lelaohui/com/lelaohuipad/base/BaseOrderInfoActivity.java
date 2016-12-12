@@ -27,6 +27,7 @@ import dq.lelaohui.com.lelaohuipad.bean.BaseOrderCate;
 import dq.lelaohui.com.lelaohuipad.bean.SerOrderInfoData;
 import dq.lelaohui.com.lelaohuipad.bean.ServerOrderPayment;
 import dq.lelaohui.com.lelaohuipad.bean.UserAddressData;
+import dq.lelaohui.com.lelaohuipad.controler.FootterControler;
 import dq.lelaohui.com.lelaohuipad.controler.SerOrderInfoControler;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.MyAddressActivity;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.SerOrderInfoActivity;
@@ -174,6 +175,11 @@ public abstract class BaseOrderInfoActivity extends LeLaoHuiBaseActivity impleme
     public void result(Bundle bundle) {
         if (bundle != null) {
             String action = bundle.getString("action");
+            if(FootterControler.REQ_MSG_ERROR.equals(action)){
+                String reqMag=bundle.getString(FootterControler.REQ_MSG);
+                Snackbar.make(upload_shopping_car,""+reqMag,Snackbar.LENGTH_LONG).show();
+                hideProgress();
+            }else
             if (ServiceNetContant.ServiceResponseAction.QUERY_USER_ADDRESS_RESPONSE.equals(action)) {
                 UserAddressData data = bundle.getParcelable("userAddress");
                 String userAddress = data.getAddress();
@@ -182,24 +188,37 @@ public abstract class BaseOrderInfoActivity extends LeLaoHuiBaseActivity impleme
                 user_address_view.setText(userAddress);
                 user_name_view.setText(userName);
                 user_phone_view.setText(userPhone);
-            }else if(action.equals(ServiceNetContant.ServiceResponseAction.SAVE_MOBILE_ORDER_INFO)){
-                ServerOrderPayment orderPayment=bundle.getParcelable("orderPayment");
-                if (orderPayment!=null){
-                    outTradeNo=orderPayment.getOrderCode();
-                    int payType=orderPayment.getPayStyle();
-                    double payAmt=orderPayment.getAmountPayable();
-                    if (payType==1) {
-                        infoControler.doServerOrderPayment(outTradeNo,String.valueOf(payAmt),String.valueOf(payType));
-                    }
-                }
+            }else if(saveMobileOrderInfo(action)){
+                serOrderPayment(bundle);
             }else if(upLoadFinshOrder(action)){
-                if (!TextUtils.isEmpty(outTradeNo)&&!"".equals(outTradeNo)){
-                    Intent intent=new Intent(this,SubSerOrderFinishActivity.class);
-                    intent.putExtra("outTradeNo",outTradeNo);
-                    startActivityForResult(intent, ServerMenuActivity.FINISH_ACTION);
-                }
+                    gotoSuccessPage(outTradeNo);
             }
         }
+    }
+
+    protected void serOrderPayment(Bundle bundle) {
+        ServerOrderPayment orderPayment=bundle.getParcelable("orderPayment");
+        if (orderPayment!=null){
+            outTradeNo=orderPayment.getOrderCode();
+            int payType=orderPayment.getPayStyle();
+            double payAmt=orderPayment.getAmountPayable();
+            if (payType==1) {
+                infoControler.doServerOrderPayment(outTradeNo,String.valueOf(payAmt),String.valueOf(payType));
+            }
+        }
+    }
+
+    protected boolean saveMobileOrderInfo(String action) {
+        return ServiceNetContant.ServiceResponseAction.SAVE_MOBILE_ORDER_INFO.equals(action);
+    }
+
+    protected void gotoSuccessPage(String outTradeNo) {
+        if (!TextUtils.isEmpty(outTradeNo)&&!"".equals(outTradeNo)){
+            Intent intent=new Intent(this,SubSerOrderFinishActivity.class);
+            intent.putExtra("outTradeNo",outTradeNo);
+            startActivityForResult(intent, ServerMenuActivity.FINISH_ACTION);
+        }
+
     }
 
     protected abstract  boolean upLoadFinshOrder(String action);

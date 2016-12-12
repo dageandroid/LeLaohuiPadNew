@@ -62,6 +62,7 @@ public abstract class LaoHuiBaseControler implements IControler {
         if(mContext!=null){
             Intent intent=new Intent(mContext,activity);
             mContext.startActivity(intent);
+            ((Activity)mContext).finish();
         }
     }
 
