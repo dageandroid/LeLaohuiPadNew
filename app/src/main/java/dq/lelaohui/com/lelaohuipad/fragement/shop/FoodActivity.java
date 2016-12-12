@@ -151,7 +151,7 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataManage
     private String getMealType(){
         return ""+(  select_time.getSelectedItemPosition());
     }
-    private void initPageData() {
+    private synchronized  void initPageData() {
         if( food_type!=null){
             food_type.performItemClick(food_type.getChildAt(0),0,1);
         }
@@ -354,7 +354,7 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataManage
         if (ServiceNetContant.ServiceResponseAction.QUERY_FOOD_INFO_RESPONSE.equals(action)) {
             footCateAdapter.changeCursor(footterControler.getFoodTypeCursor(""+select_time.getSelectedItemPosition()));
             getPageItem(viewpager.getCurrentItem()).notifyDataChanger();
-            initPageData();
+//            initPageData();
         }
     }
 
