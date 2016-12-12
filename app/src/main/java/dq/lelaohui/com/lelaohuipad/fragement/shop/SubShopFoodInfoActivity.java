@@ -16,11 +16,11 @@ import dq.lelaohui.com.lelaohuipad.base.BaseOrderInfoActivity;
 import dq.lelaohui.com.lelaohuipad.bean.BaseOrderCate;
 import dq.lelaohui.com.lelaohuipad.bean.FoodOrederData;
 import dq.lelaohui.com.lelaohuipad.bean.FoodTradeNoData;
+import dq.lelaohui.com.lelaohuipad.bean.SubShopFoodBean;
 import dq.lelaohui.com.lelaohuipad.controler.FootOrderInfoControler;
 import dq.lelaohui.com.lelaohuipad.controler.FootterControler;
 import dq.lelaohui.com.lelaohuipad.port.IControler;
 import dq.lelaohui.com.lelaohuipad.util.SysVar;
-import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
 import dq.lelaohui.com.nettylibrary.util.ServiceNetContant;
 
 /**
@@ -36,9 +36,13 @@ public class SubShopFoodInfoActivity  extends BaseOrderInfoActivity{
     private int addressType=1;
     private int totalMoney;
     private int payType=1;
+    private SysVar sysVar=null;
+    private String customerId;
     List<FoodOrederData.SupplierInfoBean.ProductBean> productList;
     @Override
     protected void initPageData() {
+        var = SysVar.getInstance();
+        customerId=var.getUserId();
         if (getIntent()!=null) {
             foodOrederDataList = getIntent().getParcelableArrayListExtra("orderFoodInfo");
             if (foodOrederDataList != null) {
@@ -76,14 +80,35 @@ public class SubShopFoodInfoActivity  extends BaseOrderInfoActivity{
         return FootOrderInfoControler.getControler();
     }
 
+    /**
+     * 乐老卡支付相关接口
+     * @param action
+     * @return
+     */
     @Override
     protected boolean upLoadFinshOrder(String action) {
-        return false;
+        return ServiceNetContant.ServiceResponseAction.UPLOAD_SERVER_ORDER_PAYMENY.equals(action);
     }
-
+    /**
+     *提交订餐相关数据
+     * (addressType,payType,totalMoney,userAddressStr,userPhoneStr,isScope,Integer.parseInt(mealTime),userId,buyUserId,data);
+     */
     @Override
     protected BaseOrderCate getBaseOrderCate() {
-        return null;
+        SubShopFoodBean subShopFoodBean=new  SubShopFoodBean();
+        if(foodOrederDataList!=null&&foodOrederDataList.size()>0){
+            ArrayList<Bundle> data =  UploadFoodOrderInfo.foodOrderInfo(foodOrederDataList);
+            subShopFoodBean.setBuyUserId(customerId);
+            subShopFoodBean.setIsDistr(addressType);
+            subShopFoodBean.setIsScope(isScope);
+            subShopFoodBean.setMealtime(Integer.parseInt(mealTime));
+            subShopFoodBean.setPhone("123456789");
+            subShopFoodBean.setPayType(payType);
+            subShopFoodBean.setTotalMoney(totalMoney);
+            subShopFoodBean.setCofirmOrderData(data);
+            subShopFoodBean.setAddressStr( getAddressType());
+        }
+        return subShopFoodBean;
     }
 
 }

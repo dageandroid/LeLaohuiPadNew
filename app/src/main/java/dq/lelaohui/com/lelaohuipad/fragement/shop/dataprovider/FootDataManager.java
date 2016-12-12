@@ -108,9 +108,8 @@ public class FootDataManager extends DataManager {
         Cursor cursor= fc.getFoodTypeCursor(mealTime);
         Log.i(TAG, "requestFoodInfo: "+mealTime+"="+cursor.getCount());
         if(cursor!=null&&cursor.getCount()!=0){
-                synchronized (this){
                     long endTime=  var.getLongTime(KEY_CACEH+mealTime);
-                    if(beginTime-endTime>=cacheData){
+                    if(false){
                         if(progressBarListener!=null){
                             progressBarListener.showProgress();
                         }
@@ -123,7 +122,6 @@ public class FootDataManager extends DataManager {
                 } else{
                         dataListener.dataChanager(mealTime);
                     }
-            }
             cursor.close();
             return;
         }
