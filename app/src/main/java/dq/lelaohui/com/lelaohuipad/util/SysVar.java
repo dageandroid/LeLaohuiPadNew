@@ -98,7 +98,15 @@ public class SysVar {
         }
         return sharedPreferences.getInt(Protocol_KEY.ORG_TYPE, -1);
     }
-
+    public void setLongTime(String key,long time){
+        setSysVar( key, time);
+    }
+    public long getLongTime(String key){
+        if (sharedPreferences == null) {
+            return -1;
+        }
+        return sharedPreferences.getLong(key,-1);
+    }
     public int getCenterType() {
         return 3;
     }

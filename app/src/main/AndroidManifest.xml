@@ -81,8 +81,14 @@
             android:label="@string/title_activity_test_main"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".fragement.shop.SubShopFoodInfoActivity"
+            android:label="@string/title_activity_footer"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".fragement.shop.FooterActivity"
             android:label="@string/title_activity_footer"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".fragement.shop.ServerActivity"

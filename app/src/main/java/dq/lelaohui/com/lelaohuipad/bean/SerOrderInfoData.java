@@ -10,7 +10,7 @@ import java.util.List;
  * Created by ZTF on 2016/11/13.
  */
 
-public class SerOrderInfoData implements Parcelable {
+public class SerOrderInfoData extends BaseOrderCate implements Parcelable {
     @Override
     public String toString() {
         return "SerOrderInfoData{" +
@@ -48,7 +48,7 @@ public class SerOrderInfoData implements Parcelable {
         this.serOrderInfoDetailBeanList = serOrderInfoDetailBeanList;
     }
 
-    public static class SerOrderInfoBean implements Parcelable {
+    public static class SerOrderInfoBean extends BaseOrderCate implements Parcelable {
         private String orderCode;
         private int amountPayable;
         private int payStatus;
@@ -282,7 +282,7 @@ public class SerOrderInfoData implements Parcelable {
         };
     }
 
-    public static class SerOrderInfoDetailBeanListBean  implements Parcelable {
+    public static class SerOrderInfoDetailBeanListBean  extends BaseOrderCate implements Parcelable {
         @Override
         public String toString() {
             return "SerOrderInfoDetailBeanListBean{" +

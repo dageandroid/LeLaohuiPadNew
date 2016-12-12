@@ -78,8 +78,6 @@ public class ServerSubscribeActivity extends LeLaoHuiBaseActivity {
     }
     /**
      * 初始化TabLayout
-     *
-     * 测试
      */
     public void initTitleData() {
         List<String> list_title = new ArrayList<>();

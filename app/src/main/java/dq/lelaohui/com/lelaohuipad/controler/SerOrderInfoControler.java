@@ -7,7 +7,9 @@ import android.util.Log;
 import java.util.List;
 
 import dq.lelaohui.com.lelaohuipad.LeLaohuiApp;
+import dq.lelaohui.com.lelaohuipad.base.BaseOrderInfoControler;
 import dq.lelaohui.com.lelaohuipad.base.LaoHuiBaseControler;
+import dq.lelaohui.com.lelaohuipad.bean.BaseOrderCate;
 import dq.lelaohui.com.lelaohuipad.bean.DefeatedCate;
 import dq.lelaohui.com.lelaohuipad.bean.SerOrderInfoData;
 import dq.lelaohui.com.lelaohuipad.bean.SerOrderInfoFinish;
@@ -27,7 +29,7 @@ import static android.content.ContentValues.TAG;
  * Created by ZTF on 2016/11/13.
  */
 
-public class SerOrderInfoControler extends LaoHuiBaseControler {
+public class SerOrderInfoControler extends BaseOrderInfoControler {
     public static final String SUCCESS_CODE = "200";
     public static final String DEFEATED_CODE="202";
     private ServerRequestParam requestParam;
@@ -48,73 +50,35 @@ public class SerOrderInfoControler extends LaoHuiBaseControler {
         return serverControler;
     }
 
-    @Override
-    public void doBusses(Bundle responseData) {
-        if (responseData == null) {
-            log(getClass().getName() + " doBusses 数据异常");
-            return;
-        }
-        String action = getResponseAction(responseData);
-        if (TextUtils.isEmpty(action)) {
-            log("解析数据异常，异常原因：action is null");
-        }
-        if (ServiceNetContant.ServiceResponseAction.QUERY_USER_ADDRESS_RESPONSE.equals(action)) {
-            String body = getResponseBody(responseData);
-            UserAddressBean addressCate = (UserAddressBean) getJsonToObject(body, UserAddressBean.class);
-            log("doBusses: " + responseData);
-            if (addressCate.getCode() == 0) {
-                if (getIControlerCallBack() != null) {//解析数据成功，通知UI界面
-                    List<UserAddressData> data = addressCate.getData();
-                    if (data != null && data.size() > 0) {
-                        UserAddressData data1 = data.get(0);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("action", ServiceNetContant.ServiceResponseAction.QUERY_USER_ADDRESS_RESPONSE);
-                        bundle.putParcelable("userAddress", data1);
-                        getIControlerCallBack().result(bundle);
-                    }
 
-                }
-            }
-        } else if (ServiceNetContant.ServiceResponseAction.SAVE_MOBILE_ORDER_INFO.equals(action)) {
-            String body = getResponseBody(responseData);
-            ServerOrderPaymentCate orderPaymentCate = (ServerOrderPaymentCate) getJsonToObject(body, ServerOrderPaymentCate.class);
-            if (orderPaymentCate.getCode().equals(SUCCESS_CODE)) {
-                ServerOrderPayment orderPayment = orderPaymentCate.getData();
-                Log.i(TAG, "doBusses: orderPayment==" + orderPayment.getAmountPayable());
-                Bundle bundle = new Bundle();
-                bundle.putString("action", ServiceNetContant.ServiceResponseAction.SAVE_MOBILE_ORDER_INFO);
-                bundle.putParcelable("orderPayment", orderPayment);
-                getIControlerCallBack().result(bundle);
-            }
-        }else if (ServiceNetContant.ServiceResponseAction.UPLOAD_SERVER_ORDER_PAYMENY.equals(action)){
-            String body = getResponseBody(responseData);
-            Log.i(TAG,"serverOrderPayment =="+body.toString());
-            DefeatedCate defeatedCate= (DefeatedCate)getJsonToObject(body, DefeatedCate.class);
-            if(defeatedCate.getCode().equals(SUCCESS_CODE)){
-                defeatedCate.getObj();
-                orderInfoBack();
-            }else if(defeatedCate.getCode().equals(DEFEATED_CODE)){
-                orderInfoBack();
-            }
-
-        }else if(ServiceNetContant.ServiceResponseAction.GET_SERVER_ORDER_SUCC_INFO_RESPONSE.equals(action)){
-            String body = getResponseBody(responseData);
-            Log.i(TAG,"GET_SERVER_ORDER_SUCC_INFO_RESPONSE =="+body.toString());
-            SerOrderInfoFinishCate orderInfoFinishCate=(SerOrderInfoFinishCate)getJsonToObject(body,SerOrderInfoFinishCate.class);
-            if(orderInfoFinishCate.getCode().equals(SUCCESS_CODE)){
-                List<SerOrderInfoFinish>  orderInfoFinish=orderInfoFinishCate.getData();
-                if(orderInfoFinish!=null&&orderInfoFinish.size()>0){
-                    SerOrderInfoFinish data=orderInfoFinish.get(0);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("action", ServiceNetContant.ServiceResponseAction.GET_SERVER_ORDER_SUCC_INFO_RESPONSE);
-                    bundle.putParcelable("orderInfoFinish", data);
-                    getIControlerCallBack().result(bundle);
-                }
-
-            }else if(orderInfoFinishCate.getCode().equals(DEFEATED_CODE)){
-            }
-        }
+    protected boolean isOrderSuccInfoResponse(String action) {
+        return ServiceNetContant.ServiceResponseAction.GET_SERVER_ORDER_SUCC_INFO_RESPONSE.equals(action);
     }
+
+    protected boolean isUploadOrderPaymentResponse(String action) {
+        return ServiceNetContant.ServiceResponseAction.UPLOAD_SERVER_ORDER_PAYMENY.equals(action);
+    }
+
+    protected boolean isSaveOrderInfo(String action) {
+        return ServiceNetContant.ServiceResponseAction.SAVE_MOBILE_ORDER_INFO.equals(action);
+    }
+
+    protected boolean isAddressResponse(String action) {
+        return ServiceNetContant.ServiceResponseAction.QUERY_USER_ADDRESS_RESPONSE.equals(action);
+    }
+
+    protected void UploadOrderPayMent(Bundle responseData) {
+        String body = getResponseBody(responseData);
+        Log.i(TAG,"serverOrderPayment =="+body.toString());
+        DefeatedCate defeatedCate= (DefeatedCate)getJsonToObject(body, DefeatedCate.class);
+        if(defeatedCate.getCode().equals(SUCCESS_CODE)){
+            defeatedCate.getObj();
+            orderInfoBack();
+        }else if(defeatedCate.getCode().equals(DEFEATED_CODE)){
+            orderInfoBack();
+        }
+}
+
     /**
      * 订单支付完成返回信息
      */
@@ -134,6 +98,12 @@ public class SerOrderInfoControler extends LaoHuiBaseControler {
         RequestParam requestParam1 = requestParam.doUserAddressInfo();
 
         app.reqData(requestParam1);
+    }
+
+    @Override
+    public void uploadShoppingData(BaseOrderCate serverOrderList) {
+        SerOrderInfoData serverOrderListData= (SerOrderInfoData) serverOrderList;
+        uploadShoppingData(serverOrderListData);
     }
 
     /**
@@ -163,6 +133,44 @@ public class SerOrderInfoControler extends LaoHuiBaseControler {
         }
         RequestParam requestParam1 = requestParam.doServerOrderPayment(outTradeNo,payAmt,payType);
         app.reqData(requestParam1);
+    }
+
+    @Override
+    public void doParserSubmit(Bundle responseData) {
+        String body = getResponseBody(responseData);
+        Log.i(TAG,"GET_SERVER_ORDER_SUCC_INFO_RESPONSE =="+body.toString());
+        SerOrderInfoFinishCate orderInfoFinishCate=(SerOrderInfoFinishCate)getJsonToObject(body,SerOrderInfoFinishCate.class);
+        if(orderInfoFinishCate.getCode().equals(SUCCESS_CODE)){
+            List<SerOrderInfoFinish>  orderInfoFinish=orderInfoFinishCate.getData();
+            if(orderInfoFinish!=null&&orderInfoFinish.size()>0){
+                SerOrderInfoFinish data=orderInfoFinish.get(0);
+                Bundle bundle = new Bundle();
+                bundle.putString("action", ServiceNetContant.ServiceResponseAction.GET_SERVER_ORDER_SUCC_INFO_RESPONSE);
+                bundle.putParcelable("orderInfoFinish", data);
+                getIControlerCallBack().result(bundle);
+            }
+
+        }
+    }
+
+    @Override
+    public void doPayInfoResult(Bundle responseData) {
+        String body = getResponseBody(responseData);
+        ServerOrderPaymentCate orderPaymentCate = (ServerOrderPaymentCate) getJsonToObject(body, ServerOrderPaymentCate.class);
+        if (orderPaymentCate.getCode().equals(SUCCESS_CODE)) {
+            ServerOrderPayment orderPayment = orderPaymentCate.getData();
+            Log.i(TAG, "doBusses: orderPayment==" + orderPayment.getAmountPayable());
+            Bundle bundle = new Bundle();
+            bundle.putString("action", ServiceNetContant.ServiceResponseAction.SAVE_MOBILE_ORDER_INFO);
+            bundle.putParcelable("orderPayment", orderPayment);
+            getIControlerCallBack().result(bundle);
+        }
+    }
+
+
+    @Override
+    public void getMyServerOrderInfo(Bundle orderInfo) {
+        getMyServerOrderInfo(orderInfo.getString("orderInfo"));
     }
 
     /**
