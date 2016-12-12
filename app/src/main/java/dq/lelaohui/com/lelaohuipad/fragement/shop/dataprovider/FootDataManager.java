@@ -16,6 +16,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import dq.lelaohui.com.lelaohuipad.bean.FoodInfoCate;
 import dq.lelaohui.com.lelaohuipad.controler.FootterControler;
+import dq.lelaohui.com.lelaohuipad.dao.ProFoodInfoDaoOperator;
+import dq.lelaohui.com.lelaohuipad.util.SysVar;
 import dq.lelaohui.com.nettylibrary.socket.LlhResponseHandler;
 import dq.lelaohui.com.nettylibrary.socket.NetManager;
 import dq.lelaohui.com.nettylibrary.util.ServiceNetContant;
@@ -33,7 +35,9 @@ public class FootDataManager extends DataManager {
     private volatile  boolean isStart=true;
     private ReentrantLock reentrantLock=null;
     private FootDataListener dataListener;
-
+    private SysVar var=null;
+    private String KEY_CACEH="LFOOD";
+    private long cacheData=10*60*1000;
     public FootDataListener getDataListener() {
         return dataListener;
     }
@@ -93,16 +97,33 @@ public class FootDataManager extends DataManager {
         reentrantLock=new ReentrantLock();
         wati=reentrantLock.newCondition();
         mThread.start();
+        var=SysVar.getInstance();
     }
 
     public void requestFoodInfo(final String mealTime) throws InterruptedException {
         if (dataListener == null) {
             throw new RuntimeException("没有设置回调监听。。。。");
         }
+        long beginTime=System.currentTimeMillis();
         Cursor cursor= fc.getFoodTypeCursor(mealTime);
         Log.i(TAG, "requestFoodInfo: "+mealTime+"="+cursor.getCount());
         if(cursor!=null&&cursor.getCount()!=0){
-            dataListener.dataChanager(mealTime);
+                synchronized (this){
+                    long endTime=  var.getLongTime(KEY_CACEH+mealTime);
+                    if(beginTime-endTime>=cacheData){
+                        if(progressBarListener!=null){
+                            progressBarListener.showProgress();
+                        }
+                        FoodInfoData foodInfoData=new FoodInfoData();
+                        foodInfoData.setIsScore(mealTime);
+                        fc.getBaseDaoOperator().delete(foodInfoData);
+                        Future<String> cursorFuture = getStringFuture(mealTime);
+                        queue.put(cursorFuture);
+                        var.setLongTime(KEY_CACEH+mealTime,System.currentTimeMillis());
+                } else{
+                        dataListener.dataChanager(mealTime);
+                    }
+            }
             cursor.close();
             return;
         }
@@ -111,24 +132,29 @@ public class FootDataManager extends DataManager {
         }
 
 
-        Future<String> cursorFuture= (Future<String>)  addTask(new Callable() {
-            @Override
-            public String call() throws Exception {
-                reentrantLock.lock();
-                try{
-                    String scrole=mealTime;
-                    fc.doReqFoodInfo(scrole);
-                    wati.await(30*1000, TimeUnit.MILLISECONDS);
-                    return  mealTime;
-                }catch (Exception e ){
-                    e.printStackTrace();
-                }finally {
-                    reentrantLock.unlock();
-                }
-                return null;
-            }
-        });
+        Future<String> cursorFuture = getStringFuture(mealTime);
         queue.put(cursorFuture);
+        var.setLongTime(KEY_CACEH+mealTime,System.currentTimeMillis());
+    }
+
+    protected Future<String> getStringFuture(final String mealTime) {
+        return (Future<String>)  addTask(new Callable() {
+                @Override
+                public String call() throws Exception {
+                    reentrantLock.lock();
+                    try{
+                        String scrole=mealTime;
+                        fc.doReqFoodInfo(scrole);
+                        wati.await(30*1000, TimeUnit.MILLISECONDS);
+                        return  mealTime;
+                    }catch (Exception e ){
+                        e.printStackTrace();
+                    }finally {
+                        reentrantLock.unlock();
+                    }
+                    return null;
+                }
+            });
     }
 
     @Override

@@ -1,7 +1,9 @@
 package dq.lelaohui.com.lelaohuipad.fragement.shop;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -25,6 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import dq.lelaohui.com.lelaohuipad.R;
 import dq.lelaohui.com.lelaohuipad.adapter.FoodTimeSpinnerAdapter;
 import dq.lelaohui.com.lelaohuipad.base.LeLaoHuiBaseActivity;
+import dq.lelaohui.com.lelaohuipad.bean.FoodOrederData;
 import dq.lelaohui.com.lelaohuipad.bean.ShoppingCarListBean;
 import dq.lelaohui.com.lelaohuipad.controler.FootterControler;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.adapter.MyFoodTypeRecyleViewAdapter;
@@ -69,7 +72,7 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataManage
     private String curMealTime = BREAK_FOOD;//当前吃饭时间
     private static final String TAG = "FoodActivity";
     private SysVar var = null;
-    private int mealTime = 1;//早中晚时间标示
+    private String mealTime ="1";//早中晚时间标示
     private String curFoodType;//当前食物类型
     private View llh_shopping_bottom;
     private String userId;
@@ -128,9 +131,8 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataManage
                 if(viewpager==null){
                     return ;
                 }
-                String mealTime=getMealTime();
+                 mealTime=getMealTime();
                 String iscrole=getMealType();
-
                 Cursor cur=getFootControler().getFoodInfoCursor(mealTime,cateBean.getCateName(),iscrole);
                 Log.i(TAG, "onItemClick: cur count="+cur.getCount());
                 Log.i(TAG, "onItemClick: cur mealTime="+mealTime);
@@ -203,7 +205,6 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataManage
 
             @Override
             public void onPageSelected(int position) {
-//                int id = getSelectCateId();
                 initPageItem(position);
                 Log.i(TAG, "onPageSelected: ");
             }
@@ -316,9 +317,6 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataManage
         String mealType=getMealType();
         Cursor cur=getFootControler().getFoodInfoCursor(mealTime,selectCateId,mealType);
         return  cur;
-
-
-
     }
 
     @Override
@@ -357,13 +355,7 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataManage
 //            initPageData();
         }
     }
-
-
-
     private int changeId = -1;
-
-
-
     @Override
     public void setPromot(String promot) {
         shopping_product_price.setText("总价：" + promot);
@@ -400,11 +392,6 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataManage
                 foodInfoDataList.add(foodInfoData);
             }
         }
-        if (foodInfoDataList!=null&&foodInfoDataList.size()>0){
-            for (int i=0;i<foodInfoDataList.size();i++){
-                Log.i(TAG,"foodInfoDataList==="+foodInfoDataList.get(i).toString());
-            }
-        }
         ArrayList<Bundle> bundleArrayList=new ArrayList<>();
 
         if (foodInfoDataList!=null&&foodInfoDataList.size()>0){
@@ -418,7 +405,7 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataManage
                 bundleArrayList.add(bundle);
             }
         }
-        RequestParam rp=footterControler.cofirmFoodOrder(isScope,mealTime,userId,userId,bundleArrayList);
+        RequestParam rp=footterControler.cofirmFoodOrder(isScope,Integer.parseInt(mealTime),userId,userId,bundleArrayList);
         return rp;
     }
     private static  final String PRO_ID="proId";

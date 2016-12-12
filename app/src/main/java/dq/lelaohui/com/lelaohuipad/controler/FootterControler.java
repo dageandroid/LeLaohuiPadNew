@@ -11,8 +11,14 @@ import java.util.List;
 import dq.lelaohui.com.lelaohuipad.LeLaohuiApp;
 import dq.lelaohui.com.lelaohuipad.base.LaoHuiBaseControler;
 import dq.lelaohui.com.lelaohuipad.bean.FoodInfoCate;
+import dq.lelaohui.com.lelaohuipad.bean.FoodOrderCate;
+import dq.lelaohui.com.lelaohuipad.bean.FoodOrederData;
+import dq.lelaohui.com.lelaohuipad.bean.FoodTradeNoCate;
+import dq.lelaohui.com.lelaohuipad.bean.FoodTradeNoData;
+import dq.lelaohui.com.lelaohuipad.bean.PayMentInfoCate;
 import dq.lelaohui.com.lelaohuipad.dao.ProFoodInfoDaoOperator;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.dataprovider.FootDataManager;
+import dq.lelaohui.com.lelaohuipad.util.FootRequestUtil;
 import dq.lelaohui.com.nettylibrary.socket.RequestParam;
 import dq.lelaohui.com.nettylibrary.util.NetContant;
 import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
@@ -63,6 +69,7 @@ public class FootterControler extends LaoHuiBaseControler {
         }
         if(ServiceNetContant.ServiceResponseAction.QUERY_FOOD_INFO_RESPONSE.equals(action)){
             String body=getResponseBody(responseData);
+            Log.i(TAG,"body=="+body);
             FoodInfoCate foodInfoCate=(FoodInfoCate)getJsonToObject(body, FoodInfoCate.class);
             if (foodInfoCate.getCode() == 0) {
                 if (getIControlerCallBack() != null) {//解析数据成功，通知UI界面
@@ -80,8 +87,55 @@ public class FootterControler extends LaoHuiBaseControler {
             }
             }else if (ServiceNetContant.ServiceResponseAction.CONFIRM_FOOD_ORDER_RESPONSE.equals(action)){
             String body=getResponseBody(responseData);
-            Log.i(TAG, "doBusses food cofirm data : "+body);
-        }else {
+            Log.i(TAG,"body=="+body);
+            FoodOrderCate foodInfoCate=(FoodOrderCate)getJsonToObject(body, FoodOrderCate.class);
+            if (foodInfoCate.getCode() == 0) {
+                if (getIControlerCallBack() != null) {//解析数据成功，通知UI界面
+                    List<FoodOrederData> data = foodInfoCate.getData();
+                    if (data != null && data.size() > 0) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString(CONTROLER_ACTION, ServiceNetContant.ServiceResponseAction.CONFIRM_FOOD_ORDER_RESPONSE);
+                        bundle.putSerializable("foodOrderInfo", (ArrayList) data);
+                        getIControlerCallBack().result(bundle);
+                    }
+                }
+            }else{
+                Log.i(TAG,"data is null");
+            }
+        }else if (ServiceNetContant.ServiceResponseAction.FOOD_ORDER_CONFIRM_RESPONSE.equals(action)){
+            String body=getResponseBody(responseData);
+            Log.i(TAG,"body=="+body);
+            FoodTradeNoCate foodInfoCate=(FoodTradeNoCate)getJsonToObject(body, FoodTradeNoCate.class);
+            if (foodInfoCate.getCode() == 0) {
+                if (getIControlerCallBack() != null) {//解析数据成功，通知UI界面
+                    List<FoodTradeNoData> data = foodInfoCate.getData();
+                    if (data != null && data.size() > 0) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString(CONTROLER_ACTION, ServiceNetContant.ServiceResponseAction.FOOD_ORDER_CONFIRM_RESPONSE);
+                        bundle.putSerializable("foodTradeNo", (ArrayList) data);
+                        getIControlerCallBack().result(bundle);
+                    }
+                }
+            }else{
+                Log.i(TAG,"data is null");
+            }
+        }else if (ServiceNetContant.ServiceResponseAction.FOOD_ORDER_PAYMENT_RESPONSE.equals(action)){
+            String body=getResponseBody(responseData);
+            Log.i(TAG,"body=="+body);
+            PayMentInfoCate foodInfoCate=(PayMentInfoCate)getJsonToObject(body, PayMentInfoCate.class);
+            if (foodInfoCate.getCode() == 0) {
+                if (getIControlerCallBack() != null) {//解析数据成功，通知UI界面
+                        Bundle bundle = new Bundle();
+                        bundle.putString(CONTROLER_ACTION, ServiceNetContant.ServiceResponseAction.FOOD_ORDER_CONFIRM_RESPONSE);
+                        bundle.putString("payMentMsg", foodInfoCate.getMsg());
+                        getIControlerCallBack().result(bundle);
+                }
+            }else{
+                Log.i(TAG,"data is null");
+            }
+        }
+
+        else {
             Log.i(TAG,"data is null");
         }
     }
@@ -98,7 +152,8 @@ public class FootterControler extends LaoHuiBaseControler {
         if(app==null){
             throw  new RuntimeException(" app is null exception");
         }
-        RequestParam requestParam = getRequestParam(isScope, userIdStr,NetContant.ServiceAction.QUERY_FOOD_INFO);
+        FootRequestUtil requestUtil=new FootRequestUtil(String.valueOf(getCenterId()),String.valueOf(getOrgId()),String.valueOf(getOrgType()));
+        RequestParam requestParam = requestUtil.getRequestParam(isScope, userIdStr,NetContant.ServiceAction.QUERY_FOOD_INFO);
 
         app.reqData(requestParam);
     }
@@ -110,44 +165,20 @@ public class FootterControler extends LaoHuiBaseControler {
         doReqFoodInfo( isScope,getSysVar().getUserId());
     }
 
-    /**
-     * 获取餐品信息发送数据
-     * @param isScope  今天，明天，后天
-     * @param userIdStr  用户Id
-     * @param interfaceName  发送请求的接口名
-     * @return
-     */
-    public RequestParam getRequestParam(String isScope, String userIdStr,String interfaceName) {
-        RequestParam requestParam=new RequestParam();
-        requestParam.addHeader(Protocol_KEY.USERDATA,isScope);
-        requestParam.addHeader(Protocol_KEY.ACTION,interfaceName );
-        requestParam.addBody(Protocol_KEY.ISSCOPE,Integer.valueOf(isScope));
-        requestParam.addBody(Protocol_KEY.USERID,userIdStr);
-        requestParam.addBody(Protocol_KEY.CENTERID,getCenterId());
-        requestParam.addBody(Protocol_KEY.ORG_ID,String.valueOf(getOrgId()));
-        requestParam.addBody(Protocol_KEY.ORG_TYPE,String.valueOf(getOrgType()));
-        return requestParam;
-    }
-    private RequestParam getRequestParam(String interfaceName) {
-        RequestParam requestParam=new RequestParam();
-        requestParam.addHeader(Protocol_KEY.ACTION,interfaceName );
-        requestParam.addBody(Protocol_KEY.CENTERID,getCenterId());
-        requestParam.addBody(Protocol_KEY.ORG_ID,String.valueOf(getOrgId()));
-        requestParam.addBody(Protocol_KEY.ORG_TYPE,String.valueOf(getOrgType()));
-        return requestParam;
-    }
+
     /**
      * 提交餐品信息
      */
-private void confirmFoodOrder(int payType,int totalMoney,String addressStr,String phone,
+public void confirmFoodOrder(int isDistr,int payType,int totalMoney,String addressStr,String phone,
                               String  isScope, int mealtime, String userIdStr,String buyUserId, ArrayList<Bundle> cofirmOrderData){
     LeLaohuiApp app= (LeLaohuiApp) getContext();
     if(app==null){
         throw  new RuntimeException(" app is null exception");
     }
-    RequestParam requestParam = getRequestParam(isScope, userIdStr,NetContant.ServiceAction.FOOD_ORDER_CONFIRM);
+    FootRequestUtil requestUtil=new FootRequestUtil(String.valueOf(getCenterId()),String.valueOf(getOrgId()),String.valueOf(getOrgType()));
+    RequestParam requestParam =  requestUtil.getRequestParam(isScope, userIdStr,NetContant.ServiceAction.FOOD_ORDER_CONFIRM);
     requestParam.addBody(Protocol_KEY.CHANNEL,"1");
-    requestParam.addBody(Protocol_KEY.IS_DISTR,"1");
+    requestParam.addBody(Protocol_KEY.IS_DISTR,isDistr);
     requestParam.addBody(Protocol_KEY.MEALTIME,mealtime);
     requestParam.addBody(Protocol_KEY.BUY_USER_ID,buyUserId);
     requestParam.addBody(Protocol_KEY.PAY_TYPE,payType);
@@ -169,7 +200,8 @@ private void confirmFoodOrder(int payType,int totalMoney,String addressStr,Strin
         if(app==null){
             throw  new RuntimeException(" app is null exception");
         }
-        RequestParam requestParam = getRequestParam(NetContant.ServiceAction.FOOD_ORDER_PAYMEN);
+        FootRequestUtil requestUtil=new FootRequestUtil(String.valueOf(getCenterId()),String.valueOf(getOrgId()),String.valueOf(getOrgType()));
+        RequestParam requestParam =requestUtil.getRequestParam(NetContant.ServiceAction.FOOD_ORDER_PAYMEN);
         requestParam.addBody(Protocol_KEY.USERID,oldManId);
         requestParam.addBody(Protocol_KEY.REAL_NAME,userName);
         requestParam.addBody(Protocol_KEY.ORDER_NO,outTradeNo);
@@ -184,10 +216,11 @@ private void confirmFoodOrder(int payType,int totalMoney,String addressStr,Strin
         if(app==null){
             throw  new RuntimeException(" app is null exception");
         }
-        RequestParam requestParam = getRequestParam(isScope, userIdStr,NetContant.ServiceAction.CONFIRM_FOOD_ORDER);
-        requestParam.addBody(Protocol_KEY.CHANNEL,"1");
-        requestParam.addBody(Protocol_KEY.IS_DISTR,"1");
+        FootRequestUtil requestUtil=new FootRequestUtil(String.valueOf(getCenterId()),String.valueOf(getOrgId()),String.valueOf(getOrgType()));
+        RequestParam requestParam =requestUtil.getRequestParam(isScope, userIdStr,NetContant.ServiceAction.CONFIRM_FOOD_ORDER);
+        requestParam.addBody(Protocol_KEY.CHANNEL,1);
         requestParam.addBody(Protocol_KEY.MEALTIME,mealtime);
+        requestParam.addBody(Protocol_KEY.BUY_USER_ID,buyUserId);
         requestParam.addBody(Protocol_KEY.CONFIRM_DATA,cofirmOrderData);
         app.reqData(requestParam);
         return requestParam;
