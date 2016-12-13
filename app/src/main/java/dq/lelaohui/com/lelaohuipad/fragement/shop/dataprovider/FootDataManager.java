@@ -109,13 +109,13 @@ public class FootDataManager extends DataManager {
         Log.i(TAG, "requestFoodInfo: "+mealTime+"="+cursor.getCount());
         if(cursor!=null&&cursor.getCount()!=0){
                     long endTime=  var.getLongTime(KEY_CACEH+mealTime);
-                    if(false){
+                    if((beginTime-endTime)>=cacheData){
                         if(progressBarListener!=null){
                             progressBarListener.showProgress();
                         }
-                        FoodInfoData foodInfoData=new FoodInfoData();
-                        foodInfoData.setIsScore(mealTime);
-                        fc.getBaseDaoOperator().delete(foodInfoData);
+//                        FoodInfoData foodInfoData=new FoodInfoData();
+//                        foodInfoData.setIsScore(mealTime);
+                        fc.getBaseDaoOperator().delete(null);
                         Future<String> cursorFuture = getStringFuture(mealTime);
                         queue.put(cursorFuture);
                         var.setLongTime(KEY_CACEH+mealTime,System.currentTimeMillis());

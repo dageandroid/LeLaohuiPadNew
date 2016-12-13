@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -18,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +69,7 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataManage
     private final static String TODAY_FOOD = "0";//餐品选择时间
     private final static String TOMORROW_FOOD = "1";
     private final static String POSTNATAL_FOOD = "2";
-    private String isScope = TODAY_FOOD;//是否选择
+//    private String isScope = TODAY_FOOD;//是否选择
     private final static String BREAK_FOOD = "1";
     private String curMealTime = BREAK_FOOD;//当前吃饭时间
     private static final String TAG = "FoodActivity";
@@ -143,9 +145,6 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataManage
 
     }
     private String getMealTime(){
-        if(select_time==null){
-            return "1";
-        }
         return  ""+(viewpager.getCurrentItem()+1);
 
 
@@ -349,10 +348,27 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataManage
             return;
         }
         String action = bundle.getString("action");
+        if(FootterControler.REQ_MSG_ERROR.equals(action)){
+            String reqMag=bundle.getString(FootterControler.REQ_MSG);
+            Snackbar.make(getOrderView(),""+reqMag,Snackbar.LENGTH_LONG).show();
+            hideProgress();
+        }else
         if (ServiceNetContant.ServiceResponseAction.QUERY_FOOD_INFO_RESPONSE.equals(action)) {
+
             footCateAdapter.changeCursor(footterControler.getFoodTypeCursor(""+select_time.getSelectedItemPosition()));
             getPageItem(viewpager.getCurrentItem()).notifyDataChanger();
-//            initPageData();
+            initPageData();
+        }else if (ServiceNetContant.ServiceResponseAction.CONFIRM_FOOD_ORDER_RESPONSE.equals(action)){
+            List<FoodOrederData> foodOrederDataList=bundle.getParcelableArrayList("foodOrderInfo");
+            Log.i(TAG,"foodOrederDataList.get(0).getTotal()=="+foodOrederDataList.get(0).getTotal());
+            if (foodOrederDataList!=null&&foodOrederDataList.size()>0){
+                Intent intent =new Intent(FoodActivity.this,SubShopFoodInfoActivity.class);
+                intent.putExtra("mealTime",mealTime);
+                intent.putExtra("isScope",""+select_time.getSelectedItemPosition());
+                intent.putParcelableArrayListExtra("orderFoodInfo", (ArrayList<? extends Parcelable>) foodOrederDataList);
+                startActivity(intent);
+//                finish();
+            }
         }
     }
     private int changeId = -1;
@@ -384,19 +400,15 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataManage
     @Override
     public RequestParam getOrderParam(Vector<ShoppingCarListBean> data) {
         List<FoodInfoData> foodInfoDataList=null;
+        RequestParam rp=null;
+        Log.i(TAG, "getOrderParam: ="+(data==null?0:data.size()));
         if (data!=null&&data.size()>0){
             foodInfoDataList=new ArrayList<>();
+            ArrayList<Bundle> bundleArrayList=new ArrayList<>();
             for (ShoppingCarListBean tempBean : data) {
                 FoodInfoData foodInfoData=(FoodInfoData)tempBean.getBean();
                 foodInfoData.setBuyNum(tempBean.proNum);
                 foodInfoDataList.add(foodInfoData);
-            }
-        }
-        ArrayList<Bundle> bundleArrayList=new ArrayList<>();
-
-        if (foodInfoDataList!=null&&foodInfoDataList.size()>0){
-            for (int i=0;i<foodInfoDataList.size();i++){
-                FoodInfoData foodInfoData=foodInfoDataList.get(i);
                 Bundle bundle=new Bundle();
                 bundle.putString(PRO_ID,foodInfoData.getProId());
                 bundle.putString(SUPPLIER_ID,foodInfoData.getSupplierId());
@@ -404,8 +416,9 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataManage
                 bundle.putInt(PRO_NUM,foodInfoData.getBuyNum());
                 bundleArrayList.add(bundle);
             }
+            rp=footterControler.cofirmFoodOrder(select_time.getSelectedItemPosition()+"",Integer.parseInt(mealTime),userId,userId,bundleArrayList);
         }
-        RequestParam rp=footterControler.cofirmFoodOrder(isScope,Integer.parseInt(mealTime),userId,userId,bundleArrayList);
+
         return rp;
     }
     private static  final String PRO_ID="proId";
@@ -477,7 +490,6 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataManage
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         footterControler.destroy();
             cacheMap.clear();
             System.gc();

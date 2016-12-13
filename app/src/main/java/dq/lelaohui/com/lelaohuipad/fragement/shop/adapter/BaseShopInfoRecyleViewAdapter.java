@@ -81,14 +81,8 @@ public  class BaseShopInfoRecyleViewAdapter extends CursorAdapter implements  Ba
 //    }
 
     protected void daoToEntity(ViewHolder holder, Cursor cursor,int postion) {
-        if (softReference != null) {
-            SerInitProPackDao dao = (SerInitProPackDao) getDao();
-            if (dao != null) {
-                Log.i("cursor tf:", "" + cursor.getColumnCount());
-                SerInitProPack serInitProPack = dao.readEntity(cursor, 0);
-                holder.setData(serInitProPack,postion);
-            }
-        }
+        SerInitProPack serInitProPack =  readEntity( cursor,postion);
+        holder.setData(serInitProPack,postion);
 
     }
     protected AbstractDao getDao(){
@@ -119,7 +113,24 @@ public  class BaseShopInfoRecyleViewAdapter extends CursorAdapter implements  Ba
         shoppingCarListBean.posion = position;
         return shoppingCarListBean;
     }
-
+    public SerInitProPack readEntity(Cursor cursor, int offset) {
+        SerInitProPack entity = new SerInitProPack( //
+                cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
+                cursor.getInt(offset + 1), // packageId
+                cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // packageName
+                cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // orgName
+                cursor.getInt(offset + 4), // orgTypeId
+                cursor.getInt(offset + 5), // orgId
+                cursor.getInt(offset + 6), // serviceCateId
+                cursor.getInt(offset + 7), // isPro
+                cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // pictureUrl
+                cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // reamark
+                cursor.getInt(offset + 10), // saleNums
+                cursor.getInt(offset + 11), // price
+                cursor.getInt(offset + 12) // serNum
+        );
+        return entity;
+    }
     @Override
     public void notifyCardDataChanger(int posion) {
         notifyDataSetChanged();

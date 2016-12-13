@@ -1,6 +1,7 @@
 package dq.lelaohui.com.lelaohuipad;
 
 import android.app.Application;
+import android.util.Log;
 
 import dq.lelaohui.com.lelaohuipad.util.SysVar;
 import dq.lelaohui.com.nettylibrary.port.ReqParam;
@@ -23,6 +24,7 @@ public class LeLaohuiApp extends Application {
     public static final String IP = "111.204.236.14";
     public static final String PORT = "60090";
     private static final String CATEGORY = "lelaohui";
+    private String TAG=getClass().getSimpleName();
 
     public NetManager getNetManager() {
         return netManager;
@@ -61,6 +63,7 @@ public class LeLaohuiApp extends Application {
 
     public void reqData(ReqParam reqParam) {
         if (reqParam == null) {
+            Log.i(TAG, "reqData: ");
             return;
         }
         if (reqParam.getHeader(Protocol_KEY.CATEGORY) == null) {
@@ -85,6 +88,9 @@ public class LeLaohuiApp extends Application {
             if (SysVar.getInstance().getUserId()!=null){
                 reqParam.addBody(Protocol_KEY.USERID, SysVar.getInstance().getUserId());
             }
+        }
+        if(netManager.getContext()==null){
+            netManager.setContext(this);
         }
         netManager.reqData(reqParam);
     }

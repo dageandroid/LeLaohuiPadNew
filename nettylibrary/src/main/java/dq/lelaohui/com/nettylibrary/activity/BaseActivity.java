@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import dq.lelaohui.com.nettylibrary.port.NetDataCallBack;
 import dq.lelaohui.com.nettylibrary.port.NetResponIntercept;
@@ -13,6 +14,7 @@ import dq.lelaohui.com.nettylibrary.socket.NetManager;
 import dq.lelaohui.com.nettylibrary.util.NetContant;
 
 public abstract class BaseActivity extends AppCompatActivity implements NetManager.ProgressBarListener{
+  private  String TAG=getClass().getSimpleName();
     public NetResponseReceiver getResponseReciver() {
         return responseReciver;
     }
@@ -66,8 +68,18 @@ public abstract class BaseActivity extends AppCompatActivity implements NetManag
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        if (this.netResponIntercept != null) {//数据拦截器
+            responseReciver.setNetResponIntercept(null);
+        }
+        unRegedistBrocadCast();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
-        unRegedistBrocadCast();
+
+        Log.i(TAG, "onDestroy:__________________ ");
     }
 }

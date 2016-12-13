@@ -1,5 +1,7 @@
 package dq.lelaohui.com.lelaohuipad.util;
 
+import android.text.TextUtils;
+
 import dq.lelaohui.com.nettylibrary.socket.RequestParam;
 import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
 
@@ -8,10 +10,10 @@ import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
  */
 
 public class FootRequestUtil {
-    private String centerId;
+    private int centerId;
 
     public FootRequestUtil(String centerId, String orgId, String orgType) {
-        this.centerId = centerId;
+        this.centerId = Integer.parseInt(centerId);
         this.orgId = orgId;
         this.orgType = orgType;
     }
@@ -30,10 +32,23 @@ public class FootRequestUtil {
         requestParam.addHeader(Protocol_KEY.USERDATA,isScope);
         requestParam.addHeader(Protocol_KEY.ACTION,interfaceName );
         requestParam.addBody(Protocol_KEY.ISSCOPE,Integer.valueOf(isScope));
-        requestParam.addBody(Protocol_KEY.USERID,userIdStr);
+        if(!TextUtils.isEmpty(userIdStr))
+            requestParam.addBody(Protocol_KEY.USERID,userIdStr);
         requestParam.addBody(Protocol_KEY.CENTERID,centerId);
         requestParam.addBody(Protocol_KEY.ORG_ID,String.valueOf(orgId));
         requestParam.addBody(Protocol_KEY.ORG_TYPE,String.valueOf(orgType));
+        return requestParam;
+    }
+    public RequestParam getRequestParamNoOrgId(String isScope, String userIdStr, String interfaceName) {
+        RequestParam requestParam=new RequestParam();
+        requestParam.addHeader(Protocol_KEY.USERDATA,isScope);
+        requestParam.addHeader(Protocol_KEY.ACTION,interfaceName );
+        requestParam.addBody(Protocol_KEY.ISSCOPE,Integer.valueOf(isScope));
+        if(!TextUtils.isEmpty(userIdStr))
+            requestParam.addBody(Protocol_KEY.USERID,userIdStr);
+        requestParam.addBody(Protocol_KEY.CENTERID,centerId);
+//        requestParam.addBody(Protocol_KEY.ORG_ID,String.valueOf(orgId));
+//        requestParam.addBody(Protocol_KEY.ORG_TYPE,String.valueOf(orgType));
         return requestParam;
     }
     public RequestParam getRequestParam(String interfaceName) {

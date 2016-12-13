@@ -13,6 +13,7 @@ import java.lang.ref.SoftReference;
 
 import dq.lelaohui.com.lelaohuipad.R;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.FootCateBean;
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.SerInitProPack;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.FootCateBeanDao;
 
 /**
@@ -61,9 +62,15 @@ public class MyFoodTypeRecyleViewAdapter extends CursorAdapter{
        try {
            Cursor cursor= (Cursor) super.getItem(position);
            FootCateBeanDao beanDao = softReference.get();
-           FootCateBean fc = beanDao.readEntity(cursor, 0);
+           if (beanDao != null) {
+               if (cursor != null) {
+                   FootCateBean fc = beanDao.readEntity(cursor, 0);
+                   return fc;
+               }
 
-           return fc;
+           }
+            return null;
+
        }catch (Exception e){
            e.printStackTrace();
            return null;
@@ -84,4 +91,6 @@ public class MyFoodTypeRecyleViewAdapter extends CursorAdapter{
             }
         }
     }
+
+
 }

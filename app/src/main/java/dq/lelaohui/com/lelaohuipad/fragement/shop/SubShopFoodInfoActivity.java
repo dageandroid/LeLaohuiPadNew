@@ -16,6 +16,7 @@ import dq.lelaohui.com.lelaohuipad.base.BaseOrderInfoActivity;
 import dq.lelaohui.com.lelaohuipad.bean.BaseOrderCate;
 import dq.lelaohui.com.lelaohuipad.bean.FoodOrederData;
 import dq.lelaohui.com.lelaohuipad.bean.FoodTradeNoData;
+import dq.lelaohui.com.lelaohuipad.bean.ServerOrderPayment;
 import dq.lelaohui.com.lelaohuipad.bean.SubShopFoodBean;
 import dq.lelaohui.com.lelaohuipad.controler.FootOrderInfoControler;
 import dq.lelaohui.com.lelaohuipad.controler.FootterControler;
@@ -42,7 +43,7 @@ public class SubShopFoodInfoActivity  extends BaseOrderInfoActivity{
     @Override
     protected void initPageData() {
         var = SysVar.getInstance();
-        customerId=var.getUserId();
+
         if (getIntent()!=null) {
             foodOrederDataList = getIntent().getParcelableArrayListExtra("orderFoodInfo");
             if (foodOrederDataList != null) {
@@ -54,6 +55,23 @@ public class SubShopFoodInfoActivity  extends BaseOrderInfoActivity{
                 getOrder_price_count().setText("总价：￥" + foodOrederDataList.get(0).getSupplierInfo().get(0).getSupplierAmt() + "元");
                 getPay_status().setText("未支付");
                 productList = foodOrederDataList.get(0).getSupplierInfo().get(0).getProduct();
+            }
+        }
+    }
+    protected boolean saveMobileOrderInfo(String action) {
+        return ServiceNetContant.ServiceResponseAction.FOOD_ORDER_CONFIRM_RESPONSE.equals(action);
+    }
+    protected void serOrderPayment(Bundle bundle) {
+
+
+//        bundle.putSerializable("foodTradeNo", (ArrayList) data);
+        ArrayList<FoodTradeNoData> orderPayment=bundle.getParcelableArrayList("orderPayment");
+        if (orderPayment!=null&&orderPayment.size()>0){
+           String  outTradeNo=orderPayment.get(0).getOut_trade_no();
+            int payType=orderPayment.get(0).getPayType();
+            double payAmt=Double.parseDouble(orderPayment.get(0).getTotalMoney());
+            if (payType==1) {
+                ((FootOrderInfoControler) getControler()).doServerOrderPayment(outTradeNo,String.valueOf(payAmt),String.valueOf(payType));
             }
         }
     }
@@ -79,7 +97,11 @@ public class SubShopFoodInfoActivity  extends BaseOrderInfoActivity{
     public IControler getControler() {
         return FootOrderInfoControler.getControler();
     }
-
+    protected void gotoSuccessPage(String outTradeNo ) {
+        Intent intent=new Intent(this,FoodActivity.class);
+//        intent.putExtra("outTradeNo",outTradeNo);
+        startActivityForResult(intent, ServerMenuActivity.FINISH_ACTION);
+    }
     /**
      * 乐老卡支付相关接口
      * @param action
@@ -87,7 +109,7 @@ public class SubShopFoodInfoActivity  extends BaseOrderInfoActivity{
      */
     @Override
     protected boolean upLoadFinshOrder(String action) {
-        return ServiceNetContant.ServiceResponseAction.UPLOAD_SERVER_ORDER_PAYMENY.equals(action);
+        return ServiceNetContant.ServiceResponseAction.FOOD_ORDER_PAYMENT_RESPONSE.equals(action);
     }
     /**
      *提交订餐相关数据
@@ -98,7 +120,8 @@ public class SubShopFoodInfoActivity  extends BaseOrderInfoActivity{
         SubShopFoodBean subShopFoodBean=new  SubShopFoodBean();
         if(foodOrederDataList!=null&&foodOrederDataList.size()>0){
             ArrayList<Bundle> data =  UploadFoodOrderInfo.foodOrderInfo(foodOrederDataList);
-            subShopFoodBean.setBuyUserId(customerId);
+            subShopFoodBean.setBuyUserId(  var.getUserId());
+            subShopFoodBean.setUserIdStr(  var.getUserId());
             subShopFoodBean.setIsDistr(addressType);
             subShopFoodBean.setIsScope(isScope);
             subShopFoodBean.setMealtime(Integer.parseInt(mealTime));

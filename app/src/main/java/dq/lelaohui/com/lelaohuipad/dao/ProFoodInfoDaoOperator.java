@@ -73,7 +73,10 @@ public class ProFoodInfoDaoOperator extends BaseDaoOperator {
 
 
     }
-
+    public void delete(String t) {
+        super.deleteAll(FoodInfoData.class);
+        super.deleteAll(FootCateBean.class);
+    }
     @Override
     public void delete(BaseBean t) {
        super.deleteAll(FoodInfoData.class);
