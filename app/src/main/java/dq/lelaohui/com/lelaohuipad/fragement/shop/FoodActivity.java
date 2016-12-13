@@ -152,7 +152,7 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataManage
     private String getMealType(){
         return ""+(  select_time.getSelectedItemPosition());
     }
-    private void initPageData() {
+    private synchronized  void initPageData() {
         if( food_type!=null){
             food_type.performItemClick(food_type.getChildAt(0),0,1);
         }
