@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -16,10 +17,8 @@ import dq.lelaohui.com.lelaohuipad.base.BaseOrderInfoActivity;
 import dq.lelaohui.com.lelaohuipad.bean.BaseOrderCate;
 import dq.lelaohui.com.lelaohuipad.bean.FoodOrederData;
 import dq.lelaohui.com.lelaohuipad.bean.FoodTradeNoData;
-import dq.lelaohui.com.lelaohuipad.bean.ServerOrderPayment;
 import dq.lelaohui.com.lelaohuipad.bean.SubShopFoodBean;
 import dq.lelaohui.com.lelaohuipad.controler.FootOrderInfoControler;
-import dq.lelaohui.com.lelaohuipad.controler.FootterControler;
 import dq.lelaohui.com.lelaohuipad.port.IControler;
 import dq.lelaohui.com.lelaohuipad.util.SysVar;
 import dq.lelaohui.com.nettylibrary.util.ServiceNetContant;
@@ -62,9 +61,6 @@ public class SubShopFoodInfoActivity  extends BaseOrderInfoActivity{
         return ServiceNetContant.ServiceResponseAction.FOOD_ORDER_CONFIRM_RESPONSE.equals(action);
     }
     protected void serOrderPayment(Bundle bundle) {
-
-
-//        bundle.putSerializable("foodTradeNo", (ArrayList) data);
         ArrayList<FoodTradeNoData> orderPayment=bundle.getParcelableArrayList("orderPayment");
         if (orderPayment!=null&&orderPayment.size()>0){
            String  outTradeNo=orderPayment.get(0).getOut_trade_no();
@@ -98,6 +94,7 @@ public class SubShopFoodInfoActivity  extends BaseOrderInfoActivity{
         return FootOrderInfoControler.getControler();
     }
     protected void gotoSuccessPage(String outTradeNo ) {
+        Log.i(TAG,"gotoSuccessPage=="+outTradeNo);
         Intent intent=new Intent(this,FoodActivity.class);
 //        intent.putExtra("outTradeNo",outTradeNo);
         startActivityForResult(intent, ServerMenuActivity.FINISH_ACTION);

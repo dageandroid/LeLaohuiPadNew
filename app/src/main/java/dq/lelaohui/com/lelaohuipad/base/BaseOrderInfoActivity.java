@@ -12,6 +12,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -175,6 +176,7 @@ public abstract class BaseOrderInfoActivity extends LeLaoHuiBaseActivity impleme
     public void result(Bundle bundle) {
         if (bundle != null) {
             String action = bundle.getString("action");
+
             if(FootterControler.REQ_MSG_ERROR.equals(action)){
                 String reqMag=bundle.getString(FootterControler.REQ_MSG);
                 Snackbar.make(upload_shopping_car,""+reqMag,Snackbar.LENGTH_LONG).show();

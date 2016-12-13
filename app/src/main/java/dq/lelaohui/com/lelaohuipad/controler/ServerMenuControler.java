@@ -103,7 +103,6 @@ public class ServerMenuControler extends LaoHuiBaseControler {
                     Bundle bundle=new Bundle();
                     bundle.putString("action",ServiceNetContant.ServiceResponseAction.CAL_ORDER_MONEY);
                     bundle.putParcelable("serOrderInfo",infoData);
-//                    bundle.putParcelableArray("aaa",listBeen.toArray(new Parcelable[listBeen.size()]));
                     getIControlerCallBack().result(bundle);
                 }
             }

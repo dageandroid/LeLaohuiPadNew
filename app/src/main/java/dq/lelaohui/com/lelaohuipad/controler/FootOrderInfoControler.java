@@ -134,7 +134,6 @@ public class FootOrderInfoControler extends BaseOrderInfoControler {
 
     @Override
     protected void UploadOrderPayMent(Bundle responseData) {
-
     }
 
     public void foodPaymentOrder(String  outTradeNo,String userName,double totalFee,String  oldManId){

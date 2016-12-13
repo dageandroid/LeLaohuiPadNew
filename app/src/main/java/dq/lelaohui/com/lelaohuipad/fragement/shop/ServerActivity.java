@@ -75,7 +75,7 @@ public class ServerActivity extends LeLaoHuiBaseActivity implements LoaderManage
 
     @Override
     public void result(Bundle bundle) {
-
+      String action=  bundle.getString("action");
     }
 
     @Override

@@ -172,7 +172,6 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
                 Intent intent = new Intent(ServerMenuActivity.this, SerOrderInfoActivity.class);
                 intent.putExtra("infoData", infoData);
                 startActivityForResult(intent, FINISH_ACTION);
-//                startActivity(intent);
             }
         }
     }
@@ -253,9 +252,7 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
                 cartBeanList.add(serInitProPack);
             }
         }
-        Log.i(TAG, "getOrderParam: " + cartBeanList.size() + "");
         RequestParam rp = serverRequestParam.doConfirmOrderInfo(cartBeanList);//此方法需要根据具体服务器定义的接口文档来实现
-
         return rp;
     }
     @Override
@@ -344,8 +341,5 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
             this.context = context;
             layoutInflater = LayoutInflater.from(context);
         }
-
-
-
     }
 }
