@@ -49,7 +49,7 @@ public class JsonUtil {
 
     private void getGsonNoSkip() {
         if(gsonNoSkip==null){
-            gsonNoSkip=new GsonBuilder().create();
+            gsonNoSkip=new Gson();
         }
     }
     @Deprecated

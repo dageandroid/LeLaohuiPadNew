@@ -72,6 +72,7 @@ public class SerOrderInfoActivity extends BaseOrderInfoActivity {
             orderInfoBean.setNum(serOrderInfoDetailBeanListBean.getSerOrderInfoDetail().getSerNum());
             orderInfoBean.setOrderCode(serOrderInfoDetailBeanListBean.getSerOrderInfoDetail().getOrderCode());
             orderInfoBean.setCateName(serOrderInfoDetailBeanListBean.getSerOrderInfoDetail().getPackageName());
+            orderInfoBean.setPrice(serOrderInfoDetailBeanListBean.getSerOrderInfoDetail().getPrice()+"");
             orderInfoBean.setOrderCate(serOrderInfoDetailBeanListBean);
             orderInfoBeanList.add(orderInfoBean);
         }

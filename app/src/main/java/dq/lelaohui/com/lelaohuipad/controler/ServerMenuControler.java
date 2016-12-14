@@ -60,7 +60,7 @@ public class ServerMenuControler extends LaoHuiBaseControler {
             ServerMenuCate serverCate = getBodyResponse(responseData);
             if(serverCate.getCode().equals(SUCCESS_CODE)){
                 if(getIControlerCallBack()!=null){//解析数据成功，通知UI界面
-                    List<ProCateMenuService> data= (List< ProCateMenuService>) getJsonToObject(serverCate.getObj(),new TypeToken< List<ProCateMenuService> >(){}.getType());
+                    List<ProCateMenuService> data= (List< ProCateMenuService>) getJsonToObject(serverCate.getObj(),new TypeToken< List<ProCateMenuService> >(){}.getType(),true);
                       if (data!=null){
                           setDataList(data);
                       }
@@ -78,14 +78,14 @@ public class ServerMenuControler extends LaoHuiBaseControler {
             }
         }else if (ServiceNetContant.ServiceResponseAction.QUERY_SERVICE_CATEGORYSJSONLIST_RESPONSE.equals(action))
         {
-            log("doBusses serverInitPropack : "+responseData);
             SerInitProPackBean serverCate = getBodySerInitProPackResponse(responseData);
             if(serverCate.getCode().equals(SUCCESS_CODE)){
                 if(getIControlerCallBack()!=null){//解析数据成功，通知UI界面
-                    List<SerInitProPack> serInitProPacksData= (List<SerInitProPack> )getJsonToObject(serverCate.getObj(),new TypeToken< List<SerInitProPack> >(){}.getType());
+                    List<SerInitProPack> serInitProPacksData= (List<SerInitProPack> )getJsonToObject(serverCate.getObj(),new TypeToken< List<SerInitProPack> >(){}.getType(),true);
                     if (serInitProPacksData!=null){
                         setSerInitProPackData(serInitProPacksData);
                     }
+                    log("doBusses ist<SerInitProPack> : "+serInitProPacksData.toString());
                     Bundle bundle=new Bundle();
                     bundle.putString("action",ServiceNetContant.ServiceResponseAction.QUERY_SERVICE_CATEGORYSJSONLIST_RESPONSE);
                     getIControlerCallBack().result(bundle);
@@ -99,8 +99,6 @@ public class ServerMenuControler extends LaoHuiBaseControler {
             if(serOrderInfoCate.getCode().equals(SUCCESS_CODE)){
                 if(getIControlerCallBack()!=null){//解析数据成功，通知UI界面
                     SerOrderInfoData infoData= serOrderInfoCate.getData();
-                   SerOrderInfoData.SerOrderInfoBean serOrderInfoBean= infoData.getSerOrderInfo();
-                    List<SerOrderInfoData.SerOrderInfoDetailBeanListBean> listBeen=    infoData.getSerOrderInfoDetailBeanList();
                 log("doBusses infoData="+infoData.toString());
                     Bundle bundle=new Bundle();
                     bundle.putString("action",ServiceNetContant.ServiceResponseAction.CAL_ORDER_MONEY);
@@ -108,7 +106,6 @@ public class ServerMenuControler extends LaoHuiBaseControler {
                     getIControlerCallBack().result(bundle);
                 }
             }
-
         }
         //服务器返回的数据会回调这里。在这里写解析。要判断一下服务器返回的ResponseAction,如果需要更新Activity则
        // Bundle bundle=new Bundle();//将要传递的数据封装到bundle里
@@ -117,15 +114,15 @@ public class ServerMenuControler extends LaoHuiBaseControler {
     }
     private SerInitProPackBean getBodySerInitProPackResponse(Bundle responseData) {
         String body=getResponseBody(responseData);
-        return (SerInitProPackBean) getJsonToObject(body,SerInitProPackBean.class);
+        return (SerInitProPackBean) getJsonToObject(body,SerInitProPackBean.class,false);
     }
     private SerOrderInfoCate getBodySerOrderInfoResponse(Bundle responseData ){
         String body=getResponseBody(responseData);
-        return (SerOrderInfoCate) getJsonToObject(body,SerOrderInfoCate.class);
+        return (SerOrderInfoCate) getJsonToObject(body,SerOrderInfoCate.class,false);
     }
     private ServerMenuCate getBodyResponse(Bundle responseData) {
         String body=getResponseBody(responseData);
-        return (ServerMenuCate) getJsonToObject(body,ServerMenuCate.class);
+        return (ServerMenuCate) getJsonToObject(body,ServerMenuCate.class,false);
     }
 
     /**
@@ -149,10 +146,13 @@ public class ServerMenuControler extends LaoHuiBaseControler {
     public  void setSerInitProPackData(List<SerInitProPack> data){
         if (data!=null){
             for (int i=0;i<data.size();i++){
-                for (int j=0;j<data.get(i).getSerInitProPackDetailList().size();j++){
-                    data.get(i).getSerInitProPackDetailList().get(j).setOrgId(getOrgId());
-                    data.get(i).getSerInitProPackDetailList().get(j).setOrgTypeId(getOrgType());
+                if(data.get(i).serInitProPackDetailList!=null){
+                    for (int j=0;j<data.get(i).serInitProPackDetailList.size();j++){
+                        data.get(i).serInitProPackDetailList.get(j).setOrgId(getOrgId());
+                        data.get(i).serInitProPackDetailList.get(j).setOrgTypeId(getOrgType());
+                    }
                 }
+
             }
 //            insertData(GET_SER_INIT_PROPACK_DATA,data);
             proServerContentDao.intsert(data);

@@ -18,7 +18,7 @@ public class SerSubescribeData extends BaseBean implements Parcelable {
 
     /**
      * orderId : 316
-     * stockList : [{"packageName":"足疗套餐","serStockDetailList":[{"serStockDetailId":7634,"serviceName":"足疗","ruleStr":"每天1次","totalNum":15,"currentNum":15,"packageStatus":0,"execDates":"","execNumDay":1,"packDetailId":229,"isEnable":1}]}]
+     * stockList : [{"packName":"足疗套餐","serStockDetailList":[{"serStockDetailId":7634,"serviceName":"足疗","ruleStr":"每天1次","totalNum":15,"currentNum":15,"packageStatus":0,"execDates":"","execNumDay":1,"packDetailId":229,"isEnable":1}]}]
      */
     @Expose
     private int orderId;
@@ -53,13 +53,13 @@ public class SerSubescribeData extends BaseBean implements Parcelable {
         @Override
         public String toString() {
             return "StockListBean{" +
-                    "packageName='" + packageName + '\'' +
+                    "packName='" + packageName + '\'' +
                     ", serStockDetailList=" + serStockDetailList +
                     '}';
         }
 
         /**
-         * packageName : 足疗套餐
+         * packName : 足疗套餐
          * serStockDetailList : [{"serStockDetailId":7634,"serviceName":"足疗","ruleStr":"每天1次","totalNum":15,"currentNum":15,"packageStatus":0,"execDates":"","execNumDay":1,"packDetailId":229,"isEnable":1}]
          */
         @Expose
