@@ -57,7 +57,7 @@ public class ProServerContentDaoOperator  extends BaseDaoOperator {
 
     @Override
     public void delete(BaseBean t) {
-
+            deleteAll(SerInitProPack.class);
     }
 
     @Override

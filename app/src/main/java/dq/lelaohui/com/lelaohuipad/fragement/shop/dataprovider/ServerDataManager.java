@@ -35,8 +35,17 @@ public class ServerDataManager extends DataManager {
     private LaoHuiBaseControler fc;
    private NetManager.ProgressBarListener progressBarListener;
     private volatile  boolean isStart=true;
+
+    public FootDataListener getDataListener() {
+        return dataListener;
+    }
+
+    public void setDataListener(FootDataListener dataListener) {
+        this.dataListener = dataListener;
+    }
+
     private FootDataListener dataListener;
-    private ArrayBlockingQueue<Future<String>> queue=new ArrayBlockingQueue<Future<String>>(3);
+    private ArrayBlockingQueue<Future<String>> queue=new ArrayBlockingQueue<Future<String>>(30);
     private Condition wati=null;
     private Condition mainServerWati=null;
     /**
@@ -94,19 +103,25 @@ public class ServerDataManager extends DataManager {
 
         }
     };
-    public void reqData(int flag,Bundle req){
+    public void reqData(int flag,Bundle req,boolean isRfesh){
         switch (flag){
             case  ONEPAGE:
-                doMainServer();
+                doMainServer(isRfesh);
                 break;
         }
     }
 
-    private void doMainServer() {
+    private void doMainServer(boolean isRfesh) {
         ServerControler serverControler = (ServerControler) fc;
+        if(isRfesh){
+            serverControler.getBaseDaoOperator().delete(null);
+            addMainTaskToQuee(serverControler);
+            return;
+        }
         Cursor cursor = serverControler.getQueryFirstCursor();
         synchronized (this){
             if(cursor==null||cursor.getCount()==0){
+
                 addMainTaskToQuee(serverControler);
             }else if(cursor!=null&&cursor.getCount()!=0){
                 long visittime=System.currentTimeMillis();

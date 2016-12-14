@@ -62,7 +62,7 @@ public class ProCateServiceDaoOperator extends  BaseDaoOperator{
 
     @Override
     public void delete(BaseBean t) {
-
+        deleteAll(ProCateService.class);
     }
 
     /**查询所有

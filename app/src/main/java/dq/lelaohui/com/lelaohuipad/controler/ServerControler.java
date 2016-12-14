@@ -10,6 +10,7 @@ import dq.lelaohui.com.lelaohuipad.LeLaohuiApp;
 import dq.lelaohui.com.lelaohuipad.base.LaoHuiBaseControler;
 import dq.lelaohui.com.lelaohuipad.dao.ProCateServiceDaoOperator;
 import dq.lelaohui.com.lelaohuipad.dao.ProMenumServiceDaoOperator;
+import dq.lelaohui.com.lelaohuipad.fragement.shop.dataprovider.ServerDataManager;
 import dq.lelaohui.com.lelaohuipad.util.ServerRequestParam;
 import dq.lelaohui.com.nettylibrary.socket.RequestParam;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateService;
@@ -49,7 +50,12 @@ public class ServerControler extends LaoHuiBaseControler {
             insertData(data);
         }
     }
-
+    public void getQueryServerCateqory(boolean isrfesh){
+        if(getDataManager()!=null){
+            ServerDataManager dataManager= (ServerDataManager) getDataManager();
+            dataManager.reqData(ServerDataManager.ONEPAGE,null,isrfesh);
+        }
+    }
     /**
      * 获取服务一级类别
      */

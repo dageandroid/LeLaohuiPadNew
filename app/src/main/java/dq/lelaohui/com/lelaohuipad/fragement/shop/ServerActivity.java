@@ -23,6 +23,8 @@ import dq.lelaohui.com.lelaohuipad.R;
 import dq.lelaohui.com.lelaohuipad.adapter.BaseDataBaseAdapter;
 import dq.lelaohui.com.lelaohuipad.base.LeLaoHuiBaseActivity;
 import dq.lelaohui.com.lelaohuipad.controler.ServerControler;
+import dq.lelaohui.com.lelaohuipad.fragement.shop.dataprovider.FootDataListener;
+import dq.lelaohui.com.lelaohuipad.fragement.shop.dataprovider.ServerDataManager;
 import dq.lelaohui.com.lelaohuipad.port.IControler;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateService;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.ProCateServiceDao;
@@ -31,7 +33,7 @@ import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.ProCateServiceDao;
  * Created by ThinkPad on 2016/10/25.
  */
 
-public class ServerActivity extends LeLaoHuiBaseActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class ServerActivity extends LeLaoHuiBaseActivity implements FootDataListener {
     private MyShopRecyleViewAdapter adapter = null;
     private ServerControler serverControler;
     private String TAG = getClass().getSimpleName();
@@ -44,12 +46,13 @@ public class ServerActivity extends LeLaoHuiBaseActivity implements LoaderManage
         super.onCreate(savedInstanceState);
         serverControler = (ServerControler) getControler();
         initView();
-        serverControler.doQueryServerCategory();
-        getSupportLoaderManager().initLoader(0, null, this);
+        ServerDataManager dataManager=new ServerDataManager(serverControler,this);
+        serverControler.setDataManager(dataManager);
+        dataManager.setDataListener(this);
+        setNetResponIntercept(dataManager);
 //        Cursor cursor = serverControler.getQueryAll(new ProCateService());
-        Cursor cursor = serverControler.getQueryFirstCursor();
-        Log.i(TAG, "onCreate: cursor count=" + cursor.getCount()+","+cursor.getExtras());
-        adapter = new MyShopRecyleViewAdapter(this, cursor);
+
+        adapter = new MyShopRecyleViewAdapter(this, null);
         final ProCateServiceDao dao=  (ProCateServiceDao) serverControler.getBaseDaoOperator().get();
         adapter.setDao(dao);
         final GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
@@ -64,6 +67,13 @@ public class ServerActivity extends LeLaoHuiBaseActivity implements LoaderManage
                    intent.putExtra("proCateServer", (Parcelable) proCateService);
                    startActivity(intent);
                }
+            }
+        });
+        serverControler.getQueryServerCateqory(false);
+        get_data_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                serverControler.getQueryServerCateqory(true);
             }
         });
     }
@@ -88,21 +98,13 @@ public class ServerActivity extends LeLaoHuiBaseActivity implements LoaderManage
 
     }
 
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return null;
-    }
 
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        adapter.changeCursor(data);
-        adapter.notifyDataSetChanged();
-    }
+//    @Override
+//    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+//        adapter.changeCursor(data);
+//        adapter.notifyDataSetChanged();
+//    }
 
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
-    }
 
     private void initView() {
         left_btn= (AppCompatImageButton) findViewById(R.id.left_btn);
@@ -120,12 +122,39 @@ public class ServerActivity extends LeLaoHuiBaseActivity implements LoaderManage
 
     @Override
     public void showProgress() {
-
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(get_data_refresh!=null){
+                    get_data_refresh.setRefreshing(true);
+                }
+            }
+        });
     }
 
     @Override
     public void hideProgress() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(get_data_refresh!=null){
+                    get_data_refresh.setRefreshing(false);
+                }
+            }
+        });
 
+    }
+
+    @Override
+    public void dataChanager(String id) {
+       runOnUiThread(new Runnable() {
+           @Override
+           public void run() {
+               Cursor cursor = serverControler.getQueryFirstCursor();
+               adapter.changeCursor(cursor);
+               hideProgress();
+           }
+       });
     }
 
     public static class MyShopRecyleViewAdapter extends BaseDataBaseAdapter<MyShopRecyleViewAdapter.ViewHolder> {
