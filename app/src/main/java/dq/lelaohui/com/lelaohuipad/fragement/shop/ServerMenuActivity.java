@@ -248,10 +248,10 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
                 cartBeanList.add(serInitProPack);
             }
         }
-        for (int i=0;i<cartBeanList.size();i++){
-            Log.i(TAG,"cartBeanList=="+cartBeanList.get(i).getPackageName()
-            +"price =="+cartBeanList.get(i).getPrice());
-        }
+//        for (int i=0;i<cartBeanList.size();i++){
+//            Log.i(TAG,"cartBeanList=="+cartBeanList.get(i).getPackageName()
+//            +"price =="+cartBeanList.get(i).getPrice()+"packId==="+cartBeanList.get(i).getPackId());
+//        }
         RequestParam rp = serverRequestParam.doConfirmOrderInfo(cartBeanList);//此方法需要根据具体服务器定义的接口文档来实现
         return rp;
     }

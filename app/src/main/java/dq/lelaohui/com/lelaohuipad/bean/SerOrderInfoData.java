@@ -27,7 +27,7 @@ public class SerOrderInfoData extends BaseOrderCate implements Parcelable {
 
     private SerOrderInfoBean serOrderInfo;
     /**
-     * serOrderInfoDetail : {"orderCode":"110020161113092212786","packageId":25,"packName":"中心修脚单次包","levelId":1,"price":38,"serNum":1,"pictureUrl":"/LelaoHuiWebApp/folder/xiujiao.jpg","orgTypeId":3,"orgName":"乐老汇罗庄养老中心"}
+     * serOrderInfoDetail : {"orderCode":"110020161113092212786","packId":25,"packName":"中心修脚单次包","levelId":1,"price":38,"serNum":1,"pictureUrl":"/LelaoHuiWebApp/folder/xiujiao.jpg","orgTypeId":3,"orgName":"乐老汇罗庄养老中心"}
      */
 
     private List<SerOrderInfoDetailBeanListBean> serOrderInfoDetailBeanList;
@@ -292,7 +292,7 @@ public class SerOrderInfoData extends BaseOrderCate implements Parcelable {
 
         /**
          * orderCode : 110020161113092212786
-         * packageId : 25
+         * packId : 25
          * packName : 中心修脚单次包
          * levelId : 1
          * price : 38
@@ -399,7 +399,7 @@ public class SerOrderInfoData extends BaseOrderCate implements Parcelable {
             public String toString() {
                 return "SerOrderInfoDetailBean{" +
                         "orderCode='" + orderCode + '\'' +
-                        ", packageId=" + packageId +
+                        ", packId=" + packageId +
                         ", packName='" + packageName + '\'' +
                         ", levelId=" + levelId +
                         ", price=" + price +

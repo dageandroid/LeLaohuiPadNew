@@ -25,7 +25,7 @@ public class SerInitProPackDao extends AbstractDao<SerInitProPack, Long> {
      */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
-        public final static Property PackageId = new Property(1, int.class, "packageId", false, "PACKAGE_ID");
+        public final static Property PackageId = new Property(1, int.class, "packId", false, "PACKAGE_ID");
         public final static Property PackageName = new Property(2, String.class, "packName", false, "PACKAGE_NAME");
         public final static Property OrgName = new Property(3, String.class, "orgName", false, "ORG_NAME");
         public final static Property OrgTypeId = new Property(4, int.class, "orgTypeId", false, "ORG_TYPE_ID");
@@ -56,7 +56,7 @@ public class SerInitProPackDao extends AbstractDao<SerInitProPack, Long> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"SER_INIT_PRO_PACK\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
-                "\"PACKAGE_ID\" INTEGER NOT NULL ," + // 1: packageId
+                "\"PACKAGE_ID\" INTEGER NOT NULL ," + // 1: packId
                 "\"PACKAGE_NAME\" TEXT," + // 2: packName
                 "\"ORG_NAME\" TEXT," + // 3: orgName
                 "\"ORG_TYPE_ID\" INTEGER NOT NULL ," + // 4: orgTypeId
@@ -84,7 +84,7 @@ public class SerInitProPackDao extends AbstractDao<SerInitProPack, Long> {
         if (id != null) {
             stmt.bindLong(1, id);
         }
-        stmt.bindLong(2, entity.getPackageId());
+        stmt.bindLong(2, entity.getPackId());
  
         String packageName = entity.getPackName();
         if (packageName != null) {
@@ -122,7 +122,7 @@ public class SerInitProPackDao extends AbstractDao<SerInitProPack, Long> {
         if (id != null) {
             stmt.bindLong(1, id);
         }
-        stmt.bindLong(2, entity.getPackageId());
+        stmt.bindLong(2, entity.getPackId());
  
         String packageName = entity.getPackName();
         if (packageName != null) {
@@ -167,7 +167,7 @@ public class SerInitProPackDao extends AbstractDao<SerInitProPack, Long> {
     public SerInitProPack readEntity(Cursor cursor, int offset) {
         SerInitProPack entity = new SerInitProPack( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.getInt(offset + 1), // packageId
+            cursor.getInt(offset + 1), // packId
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // packName
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // orgName
             cursor.getInt(offset + 4), // orgTypeId
@@ -186,7 +186,7 @@ public class SerInitProPackDao extends AbstractDao<SerInitProPack, Long> {
     @Override
     public void readEntity(Cursor cursor, SerInitProPack entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setPackageId(cursor.getInt(offset + 1));
+        entity.setPackId(cursor.getInt(offset + 1));
         entity.setPackName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setOrgName(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setOrgTypeId(cursor.getInt(offset + 4));

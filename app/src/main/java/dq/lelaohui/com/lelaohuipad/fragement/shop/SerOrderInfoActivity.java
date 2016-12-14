@@ -44,11 +44,12 @@ import dq.lelaohui.com.nettylibrary.util.ServiceNetContant;
  */
 
 public class SerOrderInfoActivity extends BaseOrderInfoActivity {
-
+    private String TAG=getClass().getSimpleName();
     @Override
     protected void initPageData() {
         if (getIntent() != null) {
             SerOrderInfoData infoData = getIntent().getParcelableExtra("infoData");
+            Log.i(TAG, "initPageData: "+infoData.toString());
             setInfoData(infoData);
             if (infoData!=null){
                 String orderCode = infoData.getSerOrderInfo().getOrderCode();

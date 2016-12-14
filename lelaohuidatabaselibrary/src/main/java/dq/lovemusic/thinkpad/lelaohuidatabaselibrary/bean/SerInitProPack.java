@@ -9,7 +9,6 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.JoinProperty;
-import org.greenrobot.greendao.annotation.Property;
 import org.greenrobot.greendao.annotation.ToMany;
 
 import java.util.ArrayList;
@@ -48,6 +47,17 @@ public class SerInitProPack extends BaseBean implements Parcelable{
      * serInitProPackDetailList : [{"packDetailId":50,"packId":27,"serviceId":"乐老汇罗庄养老中心|103","serviceName":"上门修脚","pictureUrl":"LelaoHuiWebApp/folder/xiujiao.jpg"}]
      * price : 48
      */
+    @Expose
+    public int packId;
+
+    public int getPackageId() {
+        return packId;
+    }
+
+    public void setPackageId(int packageId) {
+        this.packageId = packageId;
+    }
+
     @Expose
     public int packageId;
     public String getPackName() {
@@ -104,7 +114,7 @@ public class SerInitProPack extends BaseBean implements Parcelable{
      * pictureUrl : LelaoHuiWebApp/folder/xiujiao.jpg
      */
     @Expose
-    @ToMany(joinProperties={@JoinProperty(name="packageId",referencedName="packageId"),@JoinProperty(name="orgId",referencedName="orgId"),@JoinProperty(name="orgTypeId",referencedName="orgTypeId")})
+    @ToMany(joinProperties={@JoinProperty(name="packId",referencedName="packId"),@JoinProperty(name="orgId",referencedName="orgId"),@JoinProperty(name="orgTypeId",referencedName="orgTypeId")})
     public List<SerInitProPackDetailListBean> serInitProPackDetailList;
     public int getSerNum() {
         return serNum;
@@ -112,12 +122,13 @@ public class SerInitProPack extends BaseBean implements Parcelable{
     public void setSerNum(int serNum) {
         this.serNum = serNum;
     }
-    public int getPackageId() {
-        return packageId;
+    public int getPackId() {
+        return packId;
     }
 
-    public void setPackageId(int packageId) {
-        this.packageId = packageId;
+    public void setPackId(int packId) {
+        this.packId = packId;
+        this.packageId=packId;
     }
 
     public String getOrgName() {
@@ -226,7 +237,7 @@ public class SerInitProPack extends BaseBean implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(this.id);
-        dest.writeInt(this.packageId);
+        dest.writeInt(this.packId);
         dest.writeString(this.packName);
         dest.writeString(this.orgName);
         dest.writeInt(this.orgTypeId);
@@ -252,7 +263,7 @@ public class SerInitProPack extends BaseBean implements Parcelable{
                 throw new DaoException("Entity is detached from DAO context");
             }
             SerInitProPackDetailListBeanDao targetDao = daoSession.getSerInitProPackDetailListBeanDao();
-            List<SerInitProPackDetailListBean> serInitProPackDetailListNew = targetDao._querySerInitProPack_SerInitProPackDetailList(packageId, orgId, orgTypeId);
+            List<SerInitProPackDetailListBean> serInitProPackDetailListNew = targetDao._querySerInitProPack_SerInitProPackDetailList(packId, orgId, orgTypeId);
             synchronized (this) {
                 if (serInitProPackDetailList == null) {
                     serInitProPackDetailList = serInitProPackDetailListNew;
@@ -286,7 +297,8 @@ public class SerInitProPack extends BaseBean implements Parcelable{
 
     protected SerInitProPack(Parcel in) {
         this.id = (Long) in.readValue(Long.class.getClassLoader());
-        this.packageId = in.readInt();
+        this.packId = in.readInt();
+        this.packageId=packId;
         this.packName = in.readString();
         this.orgName = in.readString();
         this.orgTypeId = in.readInt();
@@ -302,10 +314,11 @@ public class SerInitProPack extends BaseBean implements Parcelable{
         in.readList(this.serInitProPackDetailList, SerInitProPackDetailListBean.class.getClassLoader());
     }
     @Generated(hash = 1514792050)
-    public SerInitProPack(Long id, int packageId, String packName, String orgName, int orgTypeId, int orgId, int serviceCateId, int isPro, String pictureUrl, String reamark, int saleNums, int price,
+    public SerInitProPack(Long id, int packId, String packName, String orgName, int orgTypeId, int orgId, int serviceCateId, int isPro, String pictureUrl, String reamark, int saleNums, int price,
                           int serNum) {
         this.id = id;
-        this.packageId = packageId;
+        this.packId = packId;
+        this.packageId=packId;
         this.packName = packName;
         this.orgName = orgName;
         this.orgTypeId = orgTypeId;
@@ -343,7 +356,7 @@ public class SerInitProPack extends BaseBean implements Parcelable{
     public String toString() {
         return "SerInitProPack{" +
                 "id=" + id +
-                ", packageId=" + packageId +
+                ", packId=" + packId +
                 ", packName='" + packName + '\'' +
                 ", orgName='" + orgName + '\'' +
                 ", orgTypeId=" + orgTypeId +

@@ -92,7 +92,7 @@ public  class BaseShopInfoRecyleViewAdapter extends CursorAdapter implements  Ba
     @NonNull
     public ServerCartBean getServerCartBean(BaseBean baseBean,int position) {
         SerInitProPack serInitProPack= (SerInitProPack) baseBean;
-        int proId = serInitProPack.getPackageId();
+        int proId = serInitProPack.getPackId();
         String proName = serInitProPack.getPackName();
         double proPrice = serInitProPack.getPrice();
         int proNum = serInitProPack.getSaleNums();
@@ -108,7 +108,7 @@ public  class BaseShopInfoRecyleViewAdapter extends CursorAdapter implements  Ba
         int offset=0;
         SerInitProPack entity = new SerInitProPack( //
                 cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-                cursor.getInt(offset + 1), // packageId
+                cursor.getInt(offset + 1), // packId
                 cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // packName
                 cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // orgName
                 cursor.getInt(offset + 4), // orgTypeId

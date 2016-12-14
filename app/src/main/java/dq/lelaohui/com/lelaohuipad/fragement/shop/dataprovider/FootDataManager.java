@@ -37,6 +37,9 @@ public class FootDataManager extends DataManager {
     private FootDataListener dataListener;
     private SysVar var=null;
     private String KEY_CACEH="LFOOD";
+    /**
+     * 最大緩存時間
+     */
     private long cacheData=10*60*1000;
     public FootDataListener getDataListener() {
         return dataListener;
