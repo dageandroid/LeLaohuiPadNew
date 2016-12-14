@@ -12,6 +12,15 @@ import dq.lelaohui.com.nettylibrary.port.NetResponIntercept;
 
 public abstract class DataManager implements NetResponIntercept {
     private ThreadManager manager=ThreadManager.getInstance();
+
+    public LaoHuiBaseControler getControler() {
+        return controler;
+    }
+
+    public void setControler(LaoHuiBaseControler controler) {
+        this.controler = controler;
+    }
+
     private LaoHuiBaseControler controler;
     public void register(LaoHuiBaseControler controler) {
         this.controler = controler;

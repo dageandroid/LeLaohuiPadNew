@@ -13,8 +13,6 @@ import dq.lelaohui.com.lelaohuipad.base.LaoHuiBaseControler;
 import dq.lelaohui.com.lelaohuipad.bean.FoodInfoCate;
 import dq.lelaohui.com.lelaohuipad.bean.FoodOrderCate;
 import dq.lelaohui.com.lelaohuipad.bean.FoodOrederData;
-import dq.lelaohui.com.lelaohuipad.bean.FoodTradeNoCate;
-import dq.lelaohui.com.lelaohuipad.bean.FoodTradeNoData;
 import dq.lelaohui.com.lelaohuipad.bean.PayMentInfoCate;
 import dq.lelaohui.com.lelaohuipad.dao.ProFoodInfoDaoOperator;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.dataprovider.FootDataManager;

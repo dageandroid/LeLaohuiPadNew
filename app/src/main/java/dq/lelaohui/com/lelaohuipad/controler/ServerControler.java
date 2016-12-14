@@ -4,18 +4,14 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.google.gson.reflect.TypeToken;
-
 import java.util.List;
 
 import dq.lelaohui.com.lelaohuipad.LeLaohuiApp;
 import dq.lelaohui.com.lelaohuipad.base.LaoHuiBaseControler;
-import dq.lelaohui.com.lelaohuipad.bean.ServerCate;
 import dq.lelaohui.com.lelaohuipad.dao.ProCateServiceDaoOperator;
 import dq.lelaohui.com.lelaohuipad.dao.ProMenumServiceDaoOperator;
 import dq.lelaohui.com.lelaohuipad.util.ServerRequestParam;
 import dq.lelaohui.com.nettylibrary.socket.RequestParam;
-import dq.lelaohui.com.nettylibrary.util.ServiceNetContant;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateService;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager.BaseDaoOperator;
 
@@ -42,35 +38,7 @@ public class ServerControler extends LaoHuiBaseControler {
     }
     @Override
     public void doBusses(Bundle responseData) {
-        if(responseData==null){
-            log(getClass().getName()+" doBusses 数据异常");
-            return ;
-        }
-        String action=getResponseAction(responseData);
-        if(TextUtils.isEmpty(action)){
-            log("解析数据异常，异常原因：action is null");
-        }
-        if(ServiceNetContant.ServiceResponseAction.GETSERPROCATEJSONLIST_RESPONSE.equals(action)){
-            String body=getResponseBody(responseData);
-            ServerCate serverCate= (ServerCate) getJsonToObject(body,ServerCate.class);
-            if(serverCate.getCode().equals(SUCCESS_CODE)){
-                    if(getIControlerCallBack()!=null){//解析数据成功，通知UI界面
-                        List<ProCateService> data= (List<ProCateService>) getJsonToObject(serverCate.getObj(),new TypeToken< List<ProCateService> >(){}.getType());
-                        setDataList(data);
-                        Bundle bundle=new Bundle();
-                        getIControlerCallBack().result(bundle);
-                        List<ProCateService> queryList= (List<ProCateService>) queryData(new ProCateService());
-                        if(queryList!=null){
-                            log("doBusses query1:"+queryList.toString());
-                        }else{
-                            log("doBusses query1: queryList is null");
-                        }
-                    }
-            }else{
 
-            }
-        }
-        log("doBusses: "+responseData);
     }
     public  void setDataList(  List<ProCateService> data){
         if(data!=null){

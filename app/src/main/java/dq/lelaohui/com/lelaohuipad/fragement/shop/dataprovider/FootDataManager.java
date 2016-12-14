@@ -16,7 +16,6 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import dq.lelaohui.com.lelaohuipad.bean.FoodInfoCate;
 import dq.lelaohui.com.lelaohuipad.controler.FootterControler;
-import dq.lelaohui.com.lelaohuipad.dao.ProFoodInfoDaoOperator;
 import dq.lelaohui.com.lelaohuipad.util.SysVar;
 import dq.lelaohui.com.nettylibrary.socket.LlhResponseHandler;
 import dq.lelaohui.com.nettylibrary.socket.NetManager;
@@ -205,8 +204,5 @@ public class FootDataManager extends DataManager {
             }
         }
         isStart=false;
-    }
-    public interface  FootDataListener{
-        void dataChanager(String id);
     }
 }

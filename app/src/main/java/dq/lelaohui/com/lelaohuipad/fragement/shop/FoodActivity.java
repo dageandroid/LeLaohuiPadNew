@@ -19,7 +19,6 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +34,7 @@ import dq.lelaohui.com.lelaohuipad.controler.FootterControler;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.adapter.MyFoodTypeRecyleViewAdapter;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.adapter.PagerAdapter;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.car.BaseShopCart;
+import dq.lelaohui.com.lelaohuipad.fragement.shop.dataprovider.FootDataListener;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.dataprovider.FootDataManager;
 import dq.lelaohui.com.lelaohuipad.port.IControler;
 import dq.lelaohui.com.lelaohuipad.util.SysVar;
@@ -50,7 +50,7 @@ import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager.BaseDaoOperator;
  * Created by ZTF on 2016/11/18.
  */
 
-public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataManager.FootDataListener,  BaseShopCart.UiOperator,BreakFastActivity.FootInfoCursor {
+public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataListener,  BaseShopCart.UiOperator,BreakFastActivity.FootInfoCursor {
     private AppCompatTextView title_tv;
     private AppCompatImageButton left_btn;
     private AppCompatTextView reight_tv;
