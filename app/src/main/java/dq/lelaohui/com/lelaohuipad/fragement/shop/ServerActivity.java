@@ -75,7 +75,7 @@ public class ServerActivity extends LeLaoHuiBaseActivity implements LoaderManage
 
     @Override
     public void result(Bundle bundle) {
-
+      String action=  bundle.getString("action");
     }
 
     @Override
@@ -162,13 +162,6 @@ public class ServerActivity extends LeLaoHuiBaseActivity implements LoaderManage
         public void setDao(ProCateServiceDao dao) {
             softReference = new SoftReference<ProCateServiceDao>(dao);
         }
-
-        public MyShopRecyleViewAdapter(Context context, Cursor c, int flags) {
-            super(context, c, flags);
-            layoutInflater= LayoutInflater.from(context);
-        }
-
-
         @Override
         public ViewHolder onCreatViewHolder(View view) {
             return new  ViewHolder(view);

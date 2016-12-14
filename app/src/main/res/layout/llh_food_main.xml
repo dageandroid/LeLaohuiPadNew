@@ -64,7 +64,7 @@
     <include
         android:id="@+id/llh_shopping_bottom"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/food_type_name_height"
         layout="@layout/shopping_car"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"

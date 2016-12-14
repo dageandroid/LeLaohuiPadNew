@@ -3,6 +3,7 @@ package dq.lelaohui.com.lelaohuipad.controler;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.gson.reflect.TypeToken;
 
@@ -30,6 +31,7 @@ import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager.BaseDaoOperator;
 public class ServerMenuControler extends LaoHuiBaseControler {
     public static final String SUCCESS_CODE="200";
     private static ServerMenuControler serverMenuControler=null;
+    private static final String TAG="ServerMenuControler";
     private ServerRequestParam requestParam;
     private ServerMenuControler(){
         requestParam=new ServerRequestParam();
@@ -103,7 +105,6 @@ public class ServerMenuControler extends LaoHuiBaseControler {
                     Bundle bundle=new Bundle();
                     bundle.putString("action",ServiceNetContant.ServiceResponseAction.CAL_ORDER_MONEY);
                     bundle.putParcelable("serOrderInfo",infoData);
-//                    bundle.putParcelableArray("aaa",listBeen.toArray(new Parcelable[listBeen.size()]));
                     getIControlerCallBack().result(bundle);
                 }
             }
@@ -137,7 +138,7 @@ public class ServerMenuControler extends LaoHuiBaseControler {
                 data.get(i).setOrgId(getOrgId());
                 data.get(i).setOrgTypeId(getOrgType());
             }
-//            insertData(data);
+            insertData(data);
         }
     }
 
@@ -154,6 +155,7 @@ public class ServerMenuControler extends LaoHuiBaseControler {
                 }
             }
 //            insertData(GET_SER_INIT_PROPACK_DATA,data);
+            proServerContentDao.intsert(data);
             log("服务项插入数据库成功。。。。。");
         }
     }
@@ -202,6 +204,7 @@ public class ServerMenuControler extends LaoHuiBaseControler {
             return proCateMenuServiceDao;
         }
         if(GET_SER_INIT_PROPACK_DATA.equals(version)){
+            Log.i(TAG,"version"+version);
             proServerContentDao= ProServerContentDaoOperator.getInstance();
             proServerContentDao.setmContext(getContext());
             return proServerContentDao;

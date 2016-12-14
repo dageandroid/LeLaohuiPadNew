@@ -115,11 +115,27 @@ public class BreakFastActivity extends Fragment implements SwipeRefreshLayout.On
             super(context, c);
         }
         protected void daoToEntity(ViewHolder holder, Cursor cursor,int postion) {
-            FoodInfoDataDao dataDao= (FoodInfoDataDao) getDao();
-            if(dataDao!=null){
-                FoodInfoData foodInfoData=dataDao.readEntity(cursor,0);
-                holder.setData(foodInfoData,postion);
-            }
+            FoodInfoData foodInfoData=readEntity( cursor,  0);
+            holder.setData(foodInfoData,postion);
+        }
+        public FoodInfoData readEntity(Cursor cursor, int offset) {
+            FoodInfoData entity = new FoodInfoData( //
+                    cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // ID
+                    cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // cateId
+                    cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // cateName
+                    cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // proId
+                    cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // proName
+                    cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // supplierId
+                    cursor.getInt(offset + 6), // proPrice
+                    cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // proPic
+                    cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // mealTime
+                    cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // mealType
+                    cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // remark
+                    cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // supplierName
+                    cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // isScore
+                    cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13) // supplierType
+            );
+            return entity;
         }
         @NonNull
         public ServerCartBean getServerCartBean(BaseBean baseBean, int position) {

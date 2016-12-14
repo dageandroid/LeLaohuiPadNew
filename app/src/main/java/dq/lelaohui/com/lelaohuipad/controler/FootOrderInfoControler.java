@@ -134,7 +134,6 @@ public class FootOrderInfoControler extends BaseOrderInfoControler {
 
     @Override
     protected void UploadOrderPayMent(Bundle responseData) {
-
     }
 
     public void foodPaymentOrder(String  outTradeNo,String userName,double totalFee,String  oldManId){
@@ -187,7 +186,7 @@ public class FootOrderInfoControler extends BaseOrderInfoControler {
                     }
                 }
             }else{
-//                doBassesResultMag(foodInfoCate.getMsg());
+               doBassesResultMag(foodInfoCate.getMsg());
 //                Log.i(TAG,"data is null");
             }
         }else{
@@ -196,7 +195,14 @@ public class FootOrderInfoControler extends BaseOrderInfoControler {
             FootterControler.getControler().doBusses(responseData);
         }
     }
-
+    public static  final  String REQ_MSG="reqMsg";
+    public static  final  String REQ_MSG_ERROR="error_promot_toast";
+    public   void   doBassesResultMag(String reqMsg){
+        Bundle bundle = new Bundle();
+        bundle.putString(CONTROLER_ACTION,REQ_MSG_ERROR);
+        bundle.putString(REQ_MSG,reqMsg);
+        getIControlerCallBack().result(bundle);
+    }
     @Override
     public BaseDaoOperator getBaseDaoOperator() {
         return null;

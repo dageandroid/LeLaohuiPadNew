@@ -8,6 +8,7 @@ import android.support.v4.widget.CursorAdapter;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,20 +69,9 @@ public  class BaseShopInfoRecyleViewAdapter extends CursorAdapter implements  Ba
         softReference = new SoftReference< >(dao);
     }
 
-//    @Override
-//    public void onBindViewHolder(ViewHolder holder, Cursor cursor) {
-//        {
-//            onBindViewHolder(holder,cursor,0);
-//        }
-//    }
-//
-//    @Override
-//    public void onBindViewHolder(ViewHolder holder, Cursor cursor, int postion) {
-//        daoToEntity(holder, cursor, postion);
-//    }
 
     protected void daoToEntity(ViewHolder holder, Cursor cursor,int postion) {
-        SerInitProPack serInitProPack =  readEntity( cursor,postion);
+        SerInitProPack serInitProPack = (SerInitProPack) readEntity( cursor,postion);
         holder.setData(serInitProPack,postion);
 
     }
@@ -113,7 +103,7 @@ public  class BaseShopInfoRecyleViewAdapter extends CursorAdapter implements  Ba
         shoppingCarListBean.posion = position;
         return shoppingCarListBean;
     }
-    public SerInitProPack readEntity(Cursor cursor, int offset) {
+    public BaseBean readEntity(Cursor cursor, int offset) {
         SerInitProPack entity = new SerInitProPack( //
                 cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
                 cursor.getInt(offset + 1), // packageId
@@ -178,7 +168,12 @@ public  class BaseShopInfoRecyleViewAdapter extends CursorAdapter implements  Ba
             Log.i(TAG, "setData: "+key);
             food_name.setText(shoppingCarListBean.getProName());
             food_price.setText("价格： ￥" + shoppingCarListBean.getProPrice() + "元");
+            Log.i(TAG,"详情：" + shoppingCarListBean.getProDetail());
             food_remark.setText("详情：" + shoppingCarListBean.getProDetail());
+            Log.i(TAG," shopCartBase is null：" + (shopCartBase==null));
+            if (shopCartBase == null) {
+                return;
+            }
             int count = shopCartBase.getShopItemCount(shoppingCarListBean.getKey());
             product_num.setText("" + count);
             add_product.setOnClickListener(new View.OnClickListener() {
