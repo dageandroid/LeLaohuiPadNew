@@ -93,7 +93,7 @@ public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
                        break;
                    case 4:
                        ProFoodInfoDaoOperator.getInstance().setmContext(getApplicationContext());
-                       ProFoodInfoDaoOperator.getInstance().delete(null);
+                       ProFoodInfoDaoOperator.getInstance().delete("");
                        break;
                }
                if (intent!=null){
