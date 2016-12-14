@@ -12,7 +12,14 @@
         android:orientation="vertical">
 
         <include layout="@layout/llh_head_view" />
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
         <ScrollView
+    android:id="@+id/scroll_order_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
     <LinearLayout
@@ -36,6 +43,7 @@
             android:layout_height="fill_parent" />
         </LinearLayout>
         </ScrollView>
+        </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
 
     <include

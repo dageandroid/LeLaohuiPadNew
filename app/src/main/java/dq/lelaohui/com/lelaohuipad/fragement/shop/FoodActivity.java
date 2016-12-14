@@ -362,12 +362,12 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataManage
             List<FoodOrederData> foodOrederDataList=bundle.getParcelableArrayList("foodOrderInfo");
             Log.i(TAG,"foodOrederDataList.get(0).getTotal()=="+foodOrederDataList.get(0).getTotal());
             if (foodOrederDataList!=null&&foodOrederDataList.size()>0){
+                hideProgress();
                 Intent intent =new Intent(FoodActivity.this,SubShopFoodInfoActivity.class);
                 intent.putExtra("mealTime",mealTime);
                 intent.putExtra("isScope",""+select_time.getSelectedItemPosition());
                 intent.putParcelableArrayListExtra("orderFoodInfo", (ArrayList<? extends Parcelable>) foodOrederDataList);
                 startActivity(intent);
-//                finish();
             }
         }
     }
@@ -416,7 +416,7 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataManage
                 bundle.putInt(PRO_NUM,foodInfoData.getBuyNum());
                 bundleArrayList.add(bundle);
             }
-            rp=footterControler.cofirmFoodOrder(select_time.getSelectedItemPosition()+"",Integer.parseInt(mealTime),userId,userId,bundleArrayList);
+            rp=footterControler.cofirmFoodOrder(select_time.getSelectedItemPosition()+"", viewpager.getCurrentItem()+1,userId,userId,bundleArrayList);
         }
 
         return rp;

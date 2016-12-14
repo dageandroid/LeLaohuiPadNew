@@ -158,8 +158,6 @@ public abstract class LaoHuiBaseControler implements IControler {
         }
     }
 
-
-
     public Cursor getQueryCursor(BaseBean bean){
         Cursor cursor=null;
         if(getBaseDaoOperator()!=null){

@@ -117,6 +117,7 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
                 serverContentAdapter = new MyServerContentRecyleViewAdapter(ServerMenuActivity.this, cursor);
                 final SerInitProPackDao contentDao = (SerInitProPackDao) serverControler.getBaseDaoOperator("getInitSerProPackList").get();
                 serverContentAdapter.setDao(contentDao);
+                serverContentAdapter.setShopCartBase(shopCartBase);
 //                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ServerMenuActivity.this);
 //                linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 //                server_content_rv.setLayoutManager(linearLayoutManager);

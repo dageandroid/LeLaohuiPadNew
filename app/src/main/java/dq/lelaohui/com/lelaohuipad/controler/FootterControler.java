@@ -109,13 +109,15 @@ public class FootterControler extends LaoHuiBaseControler {
             PayMentInfoCate foodInfoCate=(PayMentInfoCate)getJsonToObject(body, PayMentInfoCate.class);
             if (foodInfoCate.getCode() == 0) {
                 if (getIControlerCallBack() != null) {//解析数据成功，通知UI界面
-                        Bundle bundle = new Bundle();
-                        bundle.putString(CONTROLER_ACTION, ServiceNetContant.ServiceResponseAction.FOOD_ORDER_CONFIRM_RESPONSE);
-                        bundle.putString("payMentMsg", foodInfoCate.getMsg());
-                        getIControlerCallBack().result(bundle);
+//                        Bundle bundle = new Bundle();
+//                        bundle.putString(CONTROLER_ACTION, ServiceNetContant.ServiceResponseAction.FOOD_ORDER_CONFIRM_RESPONSE);
+//                        bundle.putString("payMentMsg", foodInfoCate.getMsg());
+//                        getIControlerCallBack().result(bundle);
+                    doBassesResultMag(foodInfoCate.getMsg());
                 }
             }else{
                 Log.i(TAG,"data is null");
+                doBassesResultMag(foodInfoCate.getMsg());
             }
         }
 
@@ -125,7 +127,7 @@ public class FootterControler extends LaoHuiBaseControler {
     }
     public static  final  String REQ_MSG="reqMsg";
     public static  final  String REQ_MSG_ERROR="error_promot_toast";
-     public void   doBassesResultMag(String reqMsg){
+     public   void   doBassesResultMag(String reqMsg){
             Bundle bundle = new Bundle();
             bundle.putString(CONTROLER_ACTION,REQ_MSG_ERROR);
             bundle.putString(REQ_MSG,reqMsg);

@@ -61,27 +61,27 @@ public class MyFoodTypeRecyleViewAdapter extends CursorAdapter{
     public Object getItem(int position) {
        try {
            Cursor cursor= (Cursor) super.getItem(position);
-           FootCateBeanDao beanDao = softReference.get();
-           if (beanDao != null) {
-               if (cursor != null) {
-                   FootCateBean fc = beanDao.readEntity(cursor, 0);
-                   return fc;
-               }
-
-           }
-            return null;
+            return readEntity( cursor, 0);
 
        }catch (Exception e){
            e.printStackTrace();
            return null;
        }
     }
-
+    public FootCateBean readEntity(Cursor cursor, int offset) {
+        FootCateBean entity = new FootCateBean( //
+                cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // cateId
+                cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // id
+                cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // unineqKey
+                cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // cateName
+                cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // mealTime
+                cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5) // mealType
+        );
+        return entity;
+    }
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        FootCateBeanDao beanDao = softReference.get();
-        if (beanDao != null) {
-            FootCateBean fc = beanDao.readEntity(cursor, 0);
+            FootCateBean fc = readEntity( cursor, 0);;
             if (view == null) {
                 return;
             }
@@ -89,7 +89,6 @@ public class MyFoodTypeRecyleViewAdapter extends CursorAdapter{
             if (!TextUtils.isEmpty(fc.getCateName())) {
                 textView.setText(fc.getCateName());
             }
-        }
     }
 
 
