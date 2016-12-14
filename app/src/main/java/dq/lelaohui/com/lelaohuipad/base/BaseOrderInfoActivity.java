@@ -81,14 +81,6 @@ public abstract class BaseOrderInfoActivity extends LeLaoHuiBaseActivity impleme
     private AppCompatButton upload_shopping_car;
     private SysVar var = null;
 
-    public TextView getOption_address() {
-        return option_address;
-    }
-
-    public AppCompatButton getUpload_shopping_car() {
-        return upload_shopping_car;
-    }
-
     public void initView() {
         radioButton = (RadioButton) findViewById(R.id.radioButton);
         left_btn = (AppCompatImageButton) findViewById(R.id.left_btn);
@@ -118,14 +110,6 @@ public abstract class BaseOrderInfoActivity extends LeLaoHuiBaseActivity impleme
         upload_shopping_car = (AppCompatButton) findViewById(R.id.upload_shopping_car);
         upload_shopping_car.setOnClickListener(this);
     }
-
-    private double amountPayable;
-
-    public RecyclerView getServer_type_menu() {
-        return server_type_menu;
-    }
-
-
     public AppCompatTextView getOrder_number() {
         return order_number;
     }
@@ -232,18 +216,6 @@ public abstract class BaseOrderInfoActivity extends LeLaoHuiBaseActivity impleme
     @Override
     public void usable() {
 
-    }
-
-    public AppCompatTextView getUser_name_view() {
-        return user_name_view;
-    }
-
-    public AppCompatTextView getUser_phone_view() {
-        return user_phone_view;
-    }
-
-    public AppCompatTextView getUser_address_view() {
-        return user_address_view;
     }
     protected String getUserName(){
         if (user_name_view == null) {
@@ -410,7 +382,7 @@ public abstract class BaseOrderInfoActivity extends LeLaoHuiBaseActivity impleme
         public void onBindViewHolder(MyAdapter.ViewHolder viewHolder, int position) {
             viewHolder.product_name.setText("商品名：" + serOrderInfoDetailBeanList.get(position).getCateName());
             viewHolder.order_num_txt.setText("订单号：" + serOrderInfoDetailBeanList.get(position).getOrderCode());
-            viewHolder.product_price.setText("价格：￥" + serOrderInfoDetailBeanList.get(position).getPrice() + "元");
+            viewHolder.product_price.setText(" 价格：￥" + serOrderInfoDetailBeanList.get(position).getPrice() + "元");
             viewHolder.order_amount_txt.setText("共" + serOrderInfoDetailBeanList.get(position).getNum() + "件");
         }
 

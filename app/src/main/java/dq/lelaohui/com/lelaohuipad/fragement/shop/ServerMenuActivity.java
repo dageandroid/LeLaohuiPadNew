@@ -161,15 +161,9 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
     public void result(Bundle bundle) {
         if (bundle != null) {
             String action = bundle.getString("action");
-            Log.i(TAG, "action: ==" + action);
             if (action.equals(ServiceNetContant.ServiceResponseAction.CAL_ORDER_MONEY)) {
                 SerOrderInfoData infoData = bundle.getParcelable("serOrderInfo");
-                String getOrderCode = infoData.getSerOrderInfo().getOrderCode();
-                if(infoData.getSerOrderInfoDetailBeanList()!=null&&infoData.getSerOrderInfoDetailBeanList().size()>0){
-                    String packageName=     infoData.getSerOrderInfoDetailBeanList().get(0).getSerOrderInfoDetail().getPackageName();
-                    Log.i(TAG,"packageName=="+packageName);
-                }
-                Log.i(TAG,"getOrderCode=="+getOrderCode);
+                Log.i(TAG,"infoData=="+infoData.toString());
                 Intent intent = new Intent(ServerMenuActivity.this, SerOrderInfoActivity.class);
                 intent.putExtra("infoData", infoData);
                 startActivityForResult(intent, FINISH_ACTION);
@@ -250,8 +244,13 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
             for (ShoppingCarListBean tempBean : data) {
                 SerInitProPack serInitProPack = (SerInitProPack) tempBean.getBean();
                 serInitProPack.setSerNum(tempBean.proNum);
+                serInitProPack.setPackageName(tempBean.proName);
                 cartBeanList.add(serInitProPack);
             }
+        }
+        for (int i=0;i<cartBeanList.size();i++){
+            Log.i(TAG,"cartBeanList=="+cartBeanList.get(i).getPackageName()
+            +"price =="+cartBeanList.get(i).getPrice());
         }
         RequestParam rp = serverRequestParam.doConfirmOrderInfo(cartBeanList);//此方法需要根据具体服务器定义的接口文档来实现
         return rp;

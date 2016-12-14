@@ -9,6 +9,7 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.JoinProperty;
+import org.greenrobot.greendao.annotation.Property;
 import org.greenrobot.greendao.annotation.ToMany;
 
 import java.util.ArrayList;
@@ -49,17 +50,16 @@ public class SerInitProPack extends BaseBean implements Parcelable{
      */
     @Expose
     public int packageId;
-
-    public String getPackageName() {
-        return packageName;
+    public String getPackName() {
+        return packName;
     }
 
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
+    public void setPackName(String packName) {
+        this.packName = packName;
     }
 
     @Expose
-    public String packageName;
+    public String packName;
     @Expose
     public String orgName;
     @Expose
@@ -81,6 +81,20 @@ public class SerInitProPack extends BaseBean implements Parcelable{
     @Expose
     public int serNum;
 
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+    @Expose
+    public String packageName;
+
+
+    public void setSerInitProPackDetailList(List<SerInitProPackDetailListBean> serInitProPackDetailList) {
+        this.serInitProPackDetailList = serInitProPackDetailList;
+    }
 
     /**
      * packDetailId : 50
@@ -89,6 +103,7 @@ public class SerInitProPack extends BaseBean implements Parcelable{
      * serviceName : 上门修脚
      * pictureUrl : LelaoHuiWebApp/folder/xiujiao.jpg
      */
+    @Expose
     @ToMany(joinProperties={@JoinProperty(name="packageId",referencedName="packageId"),@JoinProperty(name="orgId",referencedName="orgId"),@JoinProperty(name="orgTypeId",referencedName="orgTypeId")})
     public List<SerInitProPackDetailListBean> serInitProPackDetailList;
     public int getSerNum() {
@@ -212,7 +227,7 @@ public class SerInitProPack extends BaseBean implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(this.id);
         dest.writeInt(this.packageId);
-        dest.writeString(this.packageName);
+        dest.writeString(this.packName);
         dest.writeString(this.orgName);
         dest.writeInt(this.orgTypeId);
         dest.writeInt(this.orgId);
@@ -272,7 +287,7 @@ public class SerInitProPack extends BaseBean implements Parcelable{
     protected SerInitProPack(Parcel in) {
         this.id = (Long) in.readValue(Long.class.getClassLoader());
         this.packageId = in.readInt();
-        this.packageName = in.readString();
+        this.packName = in.readString();
         this.orgName = in.readString();
         this.orgTypeId = in.readInt();
         this.orgId = in.readInt();
@@ -287,11 +302,11 @@ public class SerInitProPack extends BaseBean implements Parcelable{
         in.readList(this.serInitProPackDetailList, SerInitProPackDetailListBean.class.getClassLoader());
     }
     @Generated(hash = 1514792050)
-    public SerInitProPack(Long id, int packageId, String packageName, String orgName, int orgTypeId, int orgId, int serviceCateId, int isPro, String pictureUrl, String reamark, int saleNums, int price,
-            int serNum) {
+    public SerInitProPack(Long id, int packageId, String packName, String orgName, int orgTypeId, int orgId, int serviceCateId, int isPro, String pictureUrl, String reamark, int saleNums, int price,
+                          int serNum) {
         this.id = id;
         this.packageId = packageId;
-        this.packageName = packageName;
+        this.packName = packName;
         this.orgName = orgName;
         this.orgTypeId = orgTypeId;
         this.orgId = orgId;
@@ -324,4 +339,25 @@ public class SerInitProPack extends BaseBean implements Parcelable{
     /** Used for active entity operations. */
     @Generated(hash = 823979279)
     private transient SerInitProPackDao myDao;
+    @Override
+    public String toString() {
+        return "SerInitProPack{" +
+                "id=" + id +
+                ", packageId=" + packageId +
+                ", packName='" + packName + '\'' +
+                ", orgName='" + orgName + '\'' +
+                ", orgTypeId=" + orgTypeId +
+                ", orgId=" + orgId +
+                ", serviceCateId=" + serviceCateId +
+                ", isPro=" + isPro +
+                ", pictureUrl='" + pictureUrl + '\'' +
+                ", reamark='" + reamark + '\'' +
+                ", saleNums=" + saleNums +
+                ", price=" + price +
+                ", serNum=" + serNum +
+                ", serInitProPackDetailList=" + serInitProPackDetailList +
+                ", daoSession=" + daoSession +
+                ", myDao=" + myDao +
+                '}';
+    }
 }

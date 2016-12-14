@@ -8,7 +8,6 @@ import android.support.v4.widget.CursorAdapter;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +22,6 @@ import dq.lelaohui.com.lelaohuipad.bean.ServerCartBean;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.car.BaseShopCart;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.BaseBean;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.SerInitProPack;
-import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.SerInitProPackDao;
 
 /**
  * Created by ThinkPad on 2016/11/26.
@@ -73,7 +71,7 @@ public  class BaseShopInfoRecyleViewAdapter extends CursorAdapter implements  Ba
     protected void daoToEntity(ViewHolder holder, Cursor cursor,int postion) {
         SerInitProPack serInitProPack = (SerInitProPack) readEntity( cursor,postion);
         holder.setData(serInitProPack,postion);
-
+        Log.i(TAG, "daoToEntity:serInitProPack toString= "+serInitProPack .toString());
     }
     protected AbstractDao getDao(){
         if(softReference != null){
@@ -95,19 +93,23 @@ public  class BaseShopInfoRecyleViewAdapter extends CursorAdapter implements  Ba
     public ServerCartBean getServerCartBean(BaseBean baseBean,int position) {
         SerInitProPack serInitProPack= (SerInitProPack) baseBean;
         int proId = serInitProPack.getPackageId();
-        String proName = serInitProPack.getPackageName();
+        String proName = serInitProPack.getPackName();
         double proPrice = serInitProPack.getPrice();
         int proNum = serInitProPack.getSaleNums();
-        ServerCartBean shoppingCarListBean = new ServerCartBean(proName, proPrice, proNum, proId, serInitProPack.getReamark() );
+       String remark= serInitProPack.getReamark();
+        Log.i(TAG,"serInitProPack=="+serInitProPack.toString());
+        Log.i(TAG,"proName=="+proName+" proPrice=="+proPrice+" proNum=="+proNum+" remark:=="+serInitProPack.getReamark() );
+        ServerCartBean shoppingCarListBean = new ServerCartBean(proName, proPrice, proNum, proId, remark );
         shoppingCarListBean.setBean(serInitProPack);
         shoppingCarListBean.posion = position;
         return shoppingCarListBean;
     }
-    public BaseBean readEntity(Cursor cursor, int offset) {
+    public BaseBean readEntity(Cursor cursor, int offset1) {
+        int offset=0;
         SerInitProPack entity = new SerInitProPack( //
                 cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
                 cursor.getInt(offset + 1), // packageId
-                cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // packageName
+                cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // packName
                 cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // orgName
                 cursor.getInt(offset + 4), // orgTypeId
                 cursor.getInt(offset + 5), // orgId
@@ -160,15 +162,16 @@ public  class BaseShopInfoRecyleViewAdapter extends CursorAdapter implements  Ba
         }
 
         public void setData(final  BaseBean baseBean,final int position) {
-//            SerInitProPack serInitProPack= (SerInitProPack) baseBean;
-
             final  ServerCartBean shoppingCarListBean=getServerCartBean(baseBean,position);
-
             final String key=shoppingCarListBean.getKey();
             Log.i(TAG, "setData: "+key);
             food_name.setText(shoppingCarListBean.getProName());
+
+            Log.i(TAG,"shoppingCarListBean.getProName =="+shoppingCarListBean.getProName());
+            Log.i(TAG,"shoppingCarListBean.getProPrice =="+shoppingCarListBean.getProPrice());
+            Log.i(TAG,"shoppingCarListBean.getProDetail：" + shoppingCarListBean.getProDetail());
+
             food_price.setText("价格： ￥" + shoppingCarListBean.getProPrice() + "元");
-            Log.i(TAG,"详情：" + shoppingCarListBean.getProDetail());
             food_remark.setText("详情：" + shoppingCarListBean.getProDetail());
             Log.i(TAG," shopCartBase is null：" + (shopCartBase==null));
             if (shopCartBase == null) {

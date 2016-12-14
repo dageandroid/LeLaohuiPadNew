@@ -117,17 +117,31 @@ public abstract class LaoHuiBaseControler implements IControler {
     public String getResponseBody(Bundle bundle){
         return bundle.getString(LlhResponseHandler.Respon_Key.BODY);
     }
+    @Deprecated
     public Object getJsonToObject(String body, Class<?> t){
         if(jsonUtil==null){
             jsonUtil=JsonUtil.getInstance();
         }
         return jsonUtil.jsonToObject(body, t,false);
     }
+    public Object getJsonToObject(String body, Class<?> t,boolean flag){
+        if(jsonUtil==null){
+            jsonUtil=JsonUtil.getInstance();
+        }
+        return jsonUtil.jsonToObject(body, t,flag);
+    }
+    @Deprecated
     protected Object getJsonToObject(String body,Type t){
         if(jsonUtil==null){
             jsonUtil=JsonUtil.getInstance();
         }
         return jsonUtil.jsonToObject(body, t,false);
+    }
+    protected Object getJsonToObject(String body,Type t,boolean flag){
+        if(jsonUtil==null){
+            jsonUtil=JsonUtil.getInstance();
+        }
+        return jsonUtil.jsonToObject(body, t,flag);
     }
     public IControlerCallBack getIControlerCallBack(){
         return controlerCallBack;
