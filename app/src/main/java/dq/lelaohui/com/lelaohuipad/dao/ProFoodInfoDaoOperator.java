@@ -101,6 +101,11 @@ public class ProFoodInfoDaoOperator extends BaseDaoOperator {
         return  get(FoodInfoData.class);
     }
 
+    @Override
+    public void delete(String... condition) {
+
+    }
+
     private ConcurrentHashMap<String,CursorQuery> conditonQueryCache=new ConcurrentHashMap<>();
     private  CursorQuery footInfoQuery=null;
     /**

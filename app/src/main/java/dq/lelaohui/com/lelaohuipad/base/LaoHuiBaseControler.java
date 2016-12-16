@@ -131,13 +131,13 @@ public abstract class LaoHuiBaseControler implements IControler {
         return jsonUtil.jsonToObject(body, t,flag);
     }
     @Deprecated
-    protected Object getJsonToObject(String body,Type t){
+    public Object getJsonToObject(String body,Type t){
         if(jsonUtil==null){
             jsonUtil=JsonUtil.getInstance();
         }
         return jsonUtil.jsonToObject(body, t,false);
     }
-    protected Object getJsonToObject(String body,Type t,boolean flag){
+    public Object getJsonToObject(String body,Type t,boolean flag){
         if(jsonUtil==null){
             jsonUtil=JsonUtil.getInstance();
         }

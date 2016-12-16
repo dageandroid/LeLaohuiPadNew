@@ -70,6 +70,11 @@ public abstract class BaseDaoOperator implements DBOperatorImp {
         AbstractDao dao=  daoSession.getDao(entityClass);
         dao.deleteAll();
     }
+    protected void deleteContion(Class entityClass,Object  ...obj){
+        DaoSession daoSession = (DaoSession) getWritableDao();
+        AbstractDao dao=  daoSession.getDao(entityClass);
+        dao.deleteInTx(obj);
+    }
     @Deprecated
     protected Cursor query(Class<? extends Object> entityClass,WhereCondition condition,WhereCondition ...conditions){
         DaoSession daoSession = (DaoSession) getReadDao();

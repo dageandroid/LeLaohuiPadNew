@@ -117,7 +117,7 @@ public class FootDataManager extends DataManager {
                         }
 //                        FoodInfoData foodInfoData=new FoodInfoData();
 //                        foodInfoData.setIsScore(mealTime);
-                        fc.getBaseDaoOperator().delete(null);
+                        fc.getBaseDaoOperator().delete("");
                         Future<String> cursorFuture = getStringFuture(mealTime);
                         queue.put(cursorFuture);
                         var.setLongTime(KEY_CACEH+mealTime,System.currentTimeMillis());

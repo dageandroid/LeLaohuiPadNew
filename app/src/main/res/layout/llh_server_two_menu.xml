@@ -18,7 +18,7 @@
             android:layout_height="fill_parent"
             android:orientation="horizontal">
 
-            <android.support.v7.widget.RecyclerView
+            <ListView
                 android:id="@+id/server_menu_content"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"

@@ -17,6 +17,7 @@ import dq.lelaohui.com.lelaohuipad.bean.SerOrderInfoData;
 import dq.lelaohui.com.lelaohuipad.bean.ServerMenuCate;
 import dq.lelaohui.com.lelaohuipad.dao.ProMenumServiceDaoOperator;
 import dq.lelaohui.com.lelaohuipad.dao.ProServerContentDaoOperator;
+import dq.lelaohui.com.lelaohuipad.fragement.shop.dataprovider.ServerMenuDataManager;
 import dq.lelaohui.com.lelaohuipad.util.ServerRequestParam;
 import dq.lelaohui.com.nettylibrary.socket.RequestParam;
 import dq.lelaohui.com.nettylibrary.util.ServiceNetContant;
@@ -112,7 +113,7 @@ public class ServerMenuControler extends LaoHuiBaseControler {
 //        getIControlerCallBack().result(bundle);//并调用此方法回调通知Actitity
         log("doBusses: "+responseData);
     }
-    private SerInitProPackBean getBodySerInitProPackResponse(Bundle responseData) {
+    public SerInitProPackBean getBodySerInitProPackResponse(Bundle responseData) {
         String body=getResponseBody(responseData);
         return (SerInitProPackBean) getJsonToObject(body,SerInitProPackBean.class,false);
     }
@@ -138,7 +139,30 @@ public class ServerMenuControler extends LaoHuiBaseControler {
             insertData(data);
         }
     }
+    public static final int DETAIL_CATEID=-2;
+    /**请求数据 统一接口
+     * @param isrfesh 是否立即刷新。true 立即刷新，false判断缓存
+     * @param cateIdL
+     * @param isPackInt
+     * @param cateLevelInt 当cateLevelInt 为-1时，为右侧详细页面
+     */
+    public void getQueryServerCateqory(boolean isrfesh,long  cateIdL,int isPackInt,int cateLevelInt) throws InterruptedException {
 
+        if(getDataManager()!=null){
+            ServerMenuDataManager dataManager= (ServerMenuDataManager) getDataManager();
+            Bundle bundle=new Bundle();
+            bundle.putLong(ServerMenuDataManager.CATE_ID_KEY,cateIdL);
+            if(cateLevelInt!=DETAIL_CATEID){
+                bundle.putInt(ServerMenuDataManager.CATE_LEVEL_KEY,cateLevelInt);
+            }
+            bundle.putInt(ServerMenuDataManager.PACK_IS_KEY,isPackInt);
+            if(cateLevelInt!=DETAIL_CATEID){
+                dataManager.reqData(ServerMenuDataManager.LEFT_MENUM,bundle,isrfesh);
+            }else{
+                dataManager.reqData(ServerMenuDataManager.SERVER_DETAILE_PAGE,bundle,isrfesh);
+            }
+        }
+    }
     /**
      * 获取类别下的服务项内容
      * @param data
@@ -160,7 +184,7 @@ public class ServerMenuControler extends LaoHuiBaseControler {
         }
     }
     /**
-     * 获取二级服务分类
+     * 获取二级服务项右分类
      */
     public void doQueryServerCategory(long  cateIdL,int isPackInt){
         LeLaohuiApp app= (LeLaohuiApp) getContext();
@@ -170,6 +194,9 @@ public class ServerMenuControler extends LaoHuiBaseControler {
         RequestParam requestParam1=requestParam.doQueryServerCategory(cateIdL,isPackInt);
         app.reqData(requestParam1);
     }
+   /**
+    * 获取二级服务左分类
+    */
     public void doQueryServerCategory(long  cateIdL,int isPackInt,int cateLevelInt){
         LeLaohuiApp app= (LeLaohuiApp) getContext();
         if(app==null){
@@ -196,7 +223,7 @@ public class ServerMenuControler extends LaoHuiBaseControler {
 
     private ProMenumServiceDaoOperator proCateMenuServiceDao;
     private ProServerContentDaoOperator proServerContentDao;
-    private final String GET_SER_INIT_PROPACK_DATA="getInitSerProPackList";
+    public static final String GET_SER_INIT_PROPACK_DATA="getInitSerProPackList";
     public BaseDaoOperator getBaseDaoOperator(String version) {
         if(TextUtils.isEmpty(version)){
             proCateMenuServiceDao= ProMenumServiceDaoOperator.getInstance();

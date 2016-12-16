@@ -230,33 +230,33 @@ public class ProCateMenuServiceDao extends AbstractDao<ProCateMenuService, Long>
         return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
     }    
 
+
     @Override
     public ProCateMenuService readEntity(Cursor cursor, int offset) {
         ProCateMenuService entity = new ProCateMenuService( //
-            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.getLong(offset + 1), // cateId
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // cateName
-            cursor.getInt(offset + 3), // cateLevel
-            cursor.getLong(offset + 4), // parentId
-            cursor.getInt(offset + 5), // isLeaf
-            cursor.getInt(offset + 6), // isDelete
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // managerId
-            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // managerName
-            cursor.getLong(offset + 9), // orgId
-            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // orgName
-            cursor.getInt(offset + 11), // orgTypeId
-            cursor.isNull(offset + 12) ? null : new java.util.Date(cursor.getLong(offset + 12)), // addTime
-            cursor.isNull(offset + 13) ? null : new java.util.Date(cursor.getLong(offset + 13)), // updTime
-            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // remark
-            cursor.getInt(offset + 15), // status
-            cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16), // pinYin
-            cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17), // pY
-            cursor.getInt(offset + 18), // isPack
-            cursor.isNull(offset + 19) ? null : cursor.getLong(offset + 19) // packorgId
+                cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
+                cursor.getLong(offset + 1), // cateId
+                cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // cateName
+                cursor.getInt(offset + 3), // cateLevel
+                cursor.getLong(offset + 4), // parentId
+                cursor.getInt(offset + 5), // isLeaf
+                cursor.getInt(offset + 6), // isDelete
+                cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // managerId
+                cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // managerName
+                cursor.getLong(offset + 9), // orgId
+                cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // orgName
+                cursor.getInt(offset + 11), // orgTypeId
+                cursor.isNull(offset + 12) ? null : new java.util.Date(cursor.getLong(offset + 12)), // addTime
+                cursor.isNull(offset + 13) ? null : new java.util.Date(cursor.getLong(offset + 13)), // updTime
+                cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // remark
+                cursor.getInt(offset + 15), // status
+                cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16), // pinYin
+                cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17), // pY
+                cursor.getInt(offset + 18), // isPack
+                cursor.isNull(offset + 19) ? null : cursor.getLong(offset + 19) // packorgId
         );
         return entity;
     }
-     
     @Override
     public void readEntity(Cursor cursor, ProCateMenuService entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));

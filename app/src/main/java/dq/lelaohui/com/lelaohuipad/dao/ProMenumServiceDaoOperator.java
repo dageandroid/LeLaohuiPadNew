@@ -9,6 +9,7 @@ import java.util.List;
 
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.BaseBean;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateMenuService;
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateService;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.ProCateMenuServiceDao;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager.BaseDaoOperator;
 
@@ -53,7 +54,7 @@ public class ProMenumServiceDaoOperator extends BaseDaoOperator {
     }
     @Override
     public void delete(BaseBean t) {
-
+        deleteAll(ProCateMenuService.class);
     }
 
     /**查询所有
@@ -74,6 +75,11 @@ public class ProMenumServiceDaoOperator extends BaseDaoOperator {
 
     public AbstractDao get() {
         return getDao(ProCateMenuService.class);
+    }
+
+    @Override
+    public void delete(String... condition) {
+
     }
 
     /**查询二级数据库

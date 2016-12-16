@@ -40,7 +40,7 @@ public class ServerActivity extends LeLaoHuiBaseActivity implements FootDataList
     private RecyclerView server_type_menu;
     private SwipeRefreshLayout get_data_refresh;
     private AppCompatImageButton left_btn;
-    private  AppCompatTextView title_tv;
+    private AppCompatTextView title_tv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +55,8 @@ public class ServerActivity extends LeLaoHuiBaseActivity implements FootDataList
         adapter = new MyShopRecyleViewAdapter(this, null);
         final ProCateServiceDao dao=  (ProCateServiceDao) serverControler.getBaseDaoOperator().get();
         adapter.setDao(dao);
+
+
         final GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         server_type_menu.setLayoutManager(layoutManager);
         server_type_menu.setAdapter(adapter);
@@ -69,6 +71,8 @@ public class ServerActivity extends LeLaoHuiBaseActivity implements FootDataList
                }
             }
         });
+
+
         serverControler.getQueryServerCateqory(false);
         get_data_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -97,14 +101,6 @@ public class ServerActivity extends LeLaoHuiBaseActivity implements FootDataList
     public void usable() {
 
     }
-
-
-//    @Override
-//    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-//        adapter.changeCursor(data);
-//        adapter.notifyDataSetChanged();
-//    }
-
 
     private void initView() {
         left_btn= (AppCompatImageButton) findViewById(R.id.left_btn);

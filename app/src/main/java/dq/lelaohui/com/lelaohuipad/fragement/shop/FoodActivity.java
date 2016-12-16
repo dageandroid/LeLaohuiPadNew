@@ -66,16 +66,9 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataListen
     private FootterControler footterControler = null;
     private FoodTimeSpinnerAdapter spinnerAdapter = null;
     private String[] dataStringArray = new String[3];//时间数组
-    private final static String TODAY_FOOD = "0";//餐品选择时间
-    private final static String TOMORROW_FOOD = "1";
-    private final static String POSTNATAL_FOOD = "2";
-//    private String isScope = TODAY_FOOD;//是否选择
-    private final static String BREAK_FOOD = "1";
-    private String curMealTime = BREAK_FOOD;//当前吃饭时间
     private static final String TAG = "FoodActivity";
     private SysVar var = null;
     private String mealTime ="1";//早中晚时间标示
-    private String curFoodType;//当前食物类型
     private View llh_shopping_bottom;
     private String userId;
 
@@ -118,7 +111,6 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataListen
 
         final Cursor cursor = footterControler.getFoodTypeCursor(""+select_time.getSelectedItemPosition());
         footCateAdapter = new MyFoodTypeRecyleViewAdapter(this, cursor,CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-        Log.i(TAG, "initFootType: "+cursor.getCount());
 //        initPageData();
         footCateAdapter.setDao((FootCateBeanDao) footterControler.getBaseDaoOperator().get(FootCateBean.class));
         food_type.setAdapter(footCateAdapter);
@@ -205,7 +197,6 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataListen
             @Override
             public void onPageSelected(int position) {
                 initPageItem(position);
-                Log.i(TAG, "onPageSelected: ");
             }
 
             @Override
@@ -253,8 +244,6 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataListen
         select_time.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                footCateAdapter.swapCursor(footterControler.getFoodTypeCursor(""+select_time.getSelectedItemPosition()));
-                Log.i(TAG, "onItemSelected: "+i);
                 if(viewpager!=null){
                     footterControler.getFoodInfo(String.valueOf(i));
                     BreakFastActivity ba= getPageItem(viewpager.getCurrentItem());
@@ -354,13 +343,11 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataListen
             hideProgress();
         }else
         if (ServiceNetContant.ServiceResponseAction.QUERY_FOOD_INFO_RESPONSE.equals(action)) {
-
             footCateAdapter.changeCursor(footterControler.getFoodTypeCursor(""+select_time.getSelectedItemPosition()));
             getPageItem(viewpager.getCurrentItem()).notifyDataChanger();
             initPageData();
         }else if (ServiceNetContant.ServiceResponseAction.CONFIRM_FOOD_ORDER_RESPONSE.equals(action)){
             List<FoodOrederData> foodOrederDataList=bundle.getParcelableArrayList("foodOrderInfo");
-            Log.i(TAG,"foodOrederDataList.get(0).getTotal()=="+foodOrederDataList.get(0).getTotal());
             if (foodOrederDataList!=null&&foodOrederDataList.size()>0){
                 hideProgress();
                 Intent intent =new Intent(FoodActivity.this,SubShopFoodInfoActivity.class);
@@ -401,7 +388,6 @@ public class FoodActivity extends LeLaoHuiBaseActivity implements FootDataListen
     public RequestParam getOrderParam(Vector<ShoppingCarListBean> data) {
         List<FoodInfoData> foodInfoDataList=null;
         RequestParam rp=null;
-        Log.i(TAG, "getOrderParam: ="+(data==null?0:data.size()));
         if (data!=null&&data.size()>0){
             foodInfoDataList=new ArrayList<>();
             ArrayList<Bundle> bundleArrayList=new ArrayList<>();

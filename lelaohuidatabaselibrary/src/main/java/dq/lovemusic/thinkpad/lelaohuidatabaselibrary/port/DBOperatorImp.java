@@ -23,4 +23,5 @@ public interface DBOperatorImp {
      Cursor query(BaseBean t);
     void updateData(List<? extends BaseBean>  t);
     AbstractDao get();
+    void delete(String ...condition);
 }

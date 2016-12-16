@@ -85,6 +85,13 @@ public class SysVar {
         return sharedPreferences.getString(Protocol_KEY.REAL_NAME, "test");
 
     }
+    public String getString(String key) {
+        if (sharedPreferences == null) {
+            return null;
+        }
+        return sharedPreferences.getString(key, null);
+
+    }
     public String getCenterName() {
         if (sharedPreferences == null) {
             return null;

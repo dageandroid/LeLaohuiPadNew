@@ -8,7 +8,9 @@ import org.greenrobot.greendao.query.WhereCondition;
 import java.util.List;
 
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.BaseBean;
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateMenuService;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.SerInitProPack;
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.ProCateMenuServiceDao;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.SerInitProPackDao;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager.BaseDaoOperator;
 
@@ -74,6 +76,16 @@ public class ProServerContentDaoOperator  extends BaseDaoOperator {
     public AbstractDao get() {
         return getDao(SerInitProPack.class);
     }
+
+    @Override
+    public void delete(String... condition) {
+        if(condition==null||condition.length<0)
+            return;
+        WhereCondition cond= SerInitProPackDao.Properties.PackageId.eq(Integer.parseInt(condition[0]));
+        List<ProCateMenuService> list= (List<ProCateMenuService>) queryDataList(SerInitProPack.class,cond);
+        super.deleteContion(SerInitProPack.class,list.toArray());
+    }
+
     /**查询二级分类下的服务项
      * @param orgId
      * @param orgTypeId

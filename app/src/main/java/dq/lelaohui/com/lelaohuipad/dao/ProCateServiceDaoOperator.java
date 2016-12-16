@@ -85,6 +85,11 @@ public class ProCateServiceDaoOperator extends  BaseDaoOperator{
         return getDao(ProCateService.class);
     }
 
+    @Override
+    public void delete(String... condition) {
+
+    }
+
     /**查询一级数据库
      * @param orgId
      * @param orgTypeId

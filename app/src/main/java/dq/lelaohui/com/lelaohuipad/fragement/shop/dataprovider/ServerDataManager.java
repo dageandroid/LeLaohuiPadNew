@@ -22,6 +22,7 @@ import dq.lelaohui.com.lelaohuipad.util.JsonUtil;
 import dq.lelaohui.com.lelaohuipad.util.SysVar;
 import dq.lelaohui.com.nettylibrary.socket.NetManager;
 import dq.lelaohui.com.nettylibrary.util.ServiceNetContant;
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.BaseBean;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateService;
 
 /**
@@ -66,10 +67,7 @@ public class ServerDataManager extends DataManager {
     private  Thread mThread=new Thread(){
         @Override
         public void run() {
-
-
             while(isStart){
-
                 Future<String> task= null;
                 try {
                     task = queue.take();
@@ -97,10 +95,7 @@ public class ServerDataManager extends DataManager {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-
-
             }
-
         }
     };
     public void reqData(int flag,Bundle req,boolean isRfesh){
@@ -113,8 +108,9 @@ public class ServerDataManager extends DataManager {
 
     private void doMainServer(boolean isRfesh) {
         ServerControler serverControler = (ServerControler) fc;
+        String temp = null;
         if(isRfesh){
-            serverControler.getBaseDaoOperator().delete(null);
+            deleteCache(serverControler);
             addMainTaskToQuee(serverControler);
             return;
         }
@@ -125,9 +121,10 @@ public class ServerDataManager extends DataManager {
                 addMainTaskToQuee(serverControler);
             }else if(cursor!=null&&cursor.getCount()!=0){
                 long visittime=System.currentTimeMillis();
+
                 long lastVistiTime=var.getLongTime(MAIN_SERVER_CACHE_KEY);
                 if((visittime-lastVistiTime)>cache_time){
-                    serverControler.getBaseDaoOperator().delete(null);
+                    deleteCache(serverControler);
                     addMainTaskToQuee(serverControler);
                 }else{
                     if (dataListener != null) {
@@ -139,11 +136,20 @@ public class ServerDataManager extends DataManager {
         }
     }
 
+    private void deleteCache(ServerControler serverControler) {
+        serverControler.getBaseDaoOperator().delete(new BaseBean() {
+            @Override
+            public String getUnineqKey() {
+                return super.getUnineqKey();
+            }
+        });
+    }
+
     private void addMainTaskToQuee(ServerControler serverControler) {
         if(progressBarListener!=null){
             progressBarListener.showProgress();
         }
-        Future<String> task=getMainServerFuture(  serverControler);
+        Future<String> task=getMainServerFuture(serverControler);
         queue.add(task);
         var.setLongTime(MAIN_SERVER_CACHE_KEY,System.currentTimeMillis());
     }
