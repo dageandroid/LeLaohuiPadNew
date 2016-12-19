@@ -10,6 +10,7 @@ import java.util.List;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.BaseBean;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateMenuService;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.SerInitProPack;
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.DaoSession;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.ProCateMenuServiceDao;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.SerInitProPackDao;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager.BaseDaoOperator;

@@ -7,8 +7,11 @@ import org.greenrobot.greendao.query.WhereCondition;
 
 import java.util.List;
 
+import dq.lelaohui.com.lelaohuipad.bean.ServerMenuCate;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.BaseBean;
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateMenuService;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateService;
+import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.SerInitProPack;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.ProCateServiceDao;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.manager.BaseDaoOperator;
 
@@ -63,6 +66,8 @@ public class ProCateServiceDaoOperator extends  BaseDaoOperator{
     @Override
     public void delete(BaseBean t) {
         deleteAll(ProCateService.class);
+        deleteAll(ProCateMenuService.class);
+        deleteAll(SerInitProPack.class);
     }
 
     /**查询所有

@@ -57,7 +57,13 @@ public class ServerRequestParam {
      */
     private static final String CATEGORY = "lelaohui_server";
     private static final String CATEGORY_USER = "lelaohui";
-    public static final String USEDATA ="query.service";
+
+    public String getUSEDATA() {
+        USEDATA=""+System.currentTimeMillis();
+        return USEDATA;
+    }
+
+    private   String USEDATA ="query.service";
     private SysVar var=null;
     public ServerRequestParam(){
         var=SysVar.getInstance();
@@ -176,13 +182,13 @@ public class ServerRequestParam {
     public RequestParam getRequestParam(){
         RequestParam requestParam=new RequestParam();
         requestParam.addHeader(Protocol_KEY.CATEGORY,CATEGORY);
-        requestParam.addHeader(Protocol_KEY.USERDATA, USEDATA);
+        requestParam.addHeader(Protocol_KEY.USERDATA, getUSEDATA());
         return requestParam;
     }
     public RequestParam getRequestParamLLH(){
         RequestParam requestParam=new RequestParam();
         requestParam.addHeader(Protocol_KEY.CATEGORY,CATEGORY_USER);
-        requestParam.addHeader(Protocol_KEY.USERDATA, USEDATA);
+        requestParam.addHeader(Protocol_KEY.USERDATA, getUSEDATA());
         return requestParam;
     }
     /**

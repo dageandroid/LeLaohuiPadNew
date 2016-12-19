@@ -10,8 +10,10 @@ import com.google.gson.reflect.TypeToken;
 import org.w3c.dom.Text;
 
 import java.util.List;
+import java.util.Vector;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -25,6 +27,7 @@ import dq.lelaohui.com.lelaohuipad.controler.ServerControler;
 import dq.lelaohui.com.lelaohuipad.controler.ServerMenuControler;
 import dq.lelaohui.com.lelaohuipad.util.JsonUtil;
 import dq.lelaohui.com.lelaohuipad.util.SysVar;
+import dq.lelaohui.com.nettylibrary.socket.LlhResponseHandler;
 import dq.lelaohui.com.nettylibrary.socket.NetManager;
 import dq.lelaohui.com.nettylibrary.util.ServiceNetContant;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.BaseBean;
@@ -42,6 +45,16 @@ public class ServerMenuDataManager extends DataManager {
     private final ReentrantLock reentrantLock;
     private final ReentrantLock mainServerLock;
     private final SysVar var;
+    private Vector<String> snVector=new Vector<>();
+    private ConcurrentHashMap<String,String> snQue=new ConcurrentHashMap<>();
+    public void setFc(LaoHuiBaseControler fc) {
+        this.fc = fc;
+    }
+
+    public void setProgressBarListener(NetManager.ProgressBarListener progressBarListener) {
+        this.progressBarListener = progressBarListener;
+    }
+
     private LaoHuiBaseControler fc;
     private NetManager.ProgressBarListener progressBarListener;
     private volatile  boolean isStart=true;
@@ -78,7 +91,6 @@ public class ServerMenuDataManager extends DataManager {
     public static final String PACK_IS_KEY="isPackInt";
     public static final String CATE_LEVEL_KEY="cateLevelInt";
     private long cache_time=10*60*1000;
-    public static final long MAX_CACHE_TIME=1*60*60*1000;
     private  Thread mThread=new Thread(){
         @Override
         public void run() {
@@ -90,6 +102,14 @@ public class ServerMenuDataManager extends DataManager {
                         if(task.isDone()){
                             if( dataListener!=null){
                                 try {
+                                    String status=task.get();
+                                    if(ERRO.equals(status)){
+                                        if(progressBarListener!=null){
+                                            progressBarListener.hideProgress();
+                                        }
+                                        return;
+
+                                    }
                                     dataListener.dataChanager(task.get());
                                     if(queue.isEmpty()){
                                         if(progressBarListener!=null){
@@ -147,13 +167,8 @@ public class ServerMenuDataManager extends DataManager {
         if(cursor==null||cursor.getCount()==0){
             addServerCateTask(req, serverControler, beginTime, key);
         }else if(cursor!=null&&cursor.getCount()>0){
-            long endTime=var.getLongTime(key);
-            if((beginTime-endTime)>cache_time){
-                addServerCateTask(req, serverControler, beginTime, key);
-            }else{
-                if(dataListener!=null){
-                    dataListener.dataChanager(String.valueOf(SERVER_DETAILE_PAGE));
-                }
+            if(dataListener!=null){
+                dataListener.dataChanager(String.valueOf(SERVER_DETAILE_PAGE));
             }
         }
 
@@ -164,10 +179,9 @@ public class ServerMenuDataManager extends DataManager {
             progressBarListener.showProgress();
         }
         long  cateIdL=req.getLong(CATE_ID_KEY);
-        serverControler.getBaseDaoOperator( ServerMenuControler.GET_SER_INIT_PROPACK_DATA).delete(String.valueOf(cateIdL));
+
         Future<String> task=getServerRigthFuture( serverControler,  req);
         queue.put(task);
-        var.setLongTime(key,beginTime);
     }
 
     /**
@@ -179,13 +193,8 @@ public class ServerMenuDataManager extends DataManager {
      */
     private void doServerMenu(boolean isRfesh,long  cateIdL,int isPackInt,int cateLevelInt) throws InterruptedException {
         ServerMenuControler serverControler = (ServerMenuControler) fc;
-        if(isRfesh){
-            serverControler.getBaseDaoOperator().delete(new BaseBean() {
-                @Override
-                public String getUnineqKey() {
-                    return super.getUnineqKey();
-                }
-            });
+        if(isRfesh) {
+            deleteCache(serverControler);
             addMainTaskToQuee(serverControler,cateIdL,isPackInt,cateLevelInt);
             return;
         }
@@ -200,64 +209,80 @@ public class ServerMenuDataManager extends DataManager {
         if(cursor==null||cursor.getCount()==0){
             addMainTaskToQuee(serverControler,cateIdL,isPackInt,cateLevelInt);
         }else if(cursor!=null&&cursor.getCount()!=0){
-            long visittime=System.currentTimeMillis();
-            long lastVistiTime=var.getLongTime(MAIN_SERVER_CACHE_KEY);
-            if((visittime-lastVistiTime)>cache_time){
-                serverControler.getBaseDaoOperator().delete(String.valueOf(cateIdL));
-                addMainTaskToQuee(serverControler,  cateIdL, isPackInt, cateLevelInt);
-            }else{
-                if (dataListener != null) {
-                    dataListener.dataChanager(null);
-                }
+            if (dataListener != null) {
+                dataListener.dataChanager(null);
             }
         }
     }
-    private void addMainTaskToQuee(ServerMenuControler serverControler,long  cateIdL,int isPackInt,int cateLevelInt) throws InterruptedException {
+
+    private void deleteCache(ServerMenuControler serverControler) {
+        serverControler.getBaseDaoOperator().delete(new BaseBean() {
+            @Override
+            public String getUnineqKey() {
+                return super.getUnineqKey();
+            }
+        });
+
+        serverControler.getBaseDaoOperator( ServerMenuControler.GET_SER_INIT_PROPACK_DATA).delete(new BaseBean() {
+            @Override
+            public String getUnineqKey() {
+                return super.getUnineqKey();
+            }
+        });
+    }
+
+    private void addMainTaskToQuee(ServerMenuControler serverControler, long  cateIdL, int isPackInt, int cateLevelInt) throws InterruptedException {
         if(progressBarListener!=null){
             progressBarListener.showProgress();
         }
         Log.i(TAG,"cateIdL=="+cateIdL+"isPackInt=="+isPackInt);
         Future<String> task= getServerLeftCateFuture(serverControler,  cateIdL, isPackInt, cateLevelInt);
         queue.put(task);
-        var.setLongTime(MAIN_SERVER_CACHE_KEY,System.currentTimeMillis());
     }
     protected Future<String> getServerRigthFuture(final ServerMenuControler serverControler, final Bundle req){
         Future<String> task= (Future<String>) addTask(new Callable<String>() {
             @Override
             public String call() throws Exception {
 
-                reentrantLock.lock();
+
                 try{
                     long  cateIdL=req.getLong(CATE_ID_KEY);
                     int isPackInt=req.getInt(PACK_IS_KEY);
-                    serverControler.doQueryServerCategory(cateIdL,isPackInt);
+              String sn=      serverControler.doQueryServerCategory(cateIdL,isPackInt);
+                    reentrantLock.lock();
+                    ReqSnQuee.add(sn);
                     wati.await(30*1000,TimeUnit.MICROSECONDS);
+                    return String.valueOf(SERVER_DETAILE_PAGE);
+                }catch (Exception e){
+                    return ERRO;
                 }finally {
                     reentrantLock.unlock();
                 }
-                return String.valueOf(SERVER_DETAILE_PAGE);
+
             }
         });
 
         return task;
     }
-
+    private static final String ERRO="error";
     protected Future<String> getServerLeftCateFuture(final ServerMenuControler serverControler, final long  cateIdL, final int isPackInt, final int cateLevelInt) {
         return (Future<String>)  addTask(new Callable() {
             @Override
             public String call() throws Exception {
-                mainServerLock.lock();
+
                 try{
                     Log.i(TAG,"cateIdL=="+cateIdL+"isPackInt=="+isPackInt);
-                    serverControler.doQueryServerCategory(cateIdL,isPackInt,cateLevelInt);
+                   String sn= serverControler.doQueryServerCategory(cateIdL,isPackInt,cateLevelInt);
+                    ReqSnQuee.add(sn);
+                    mainServerLock.lock();
                     mainServerWati.await(30*1000, TimeUnit.MILLISECONDS);
                     return  String.valueOf(LEFT_MENUM);
                 }catch (Exception e ){
                     e.printStackTrace();
+                    return  ERRO;
                 }finally {
                     mainServerLock.unlock();
                 }
-                return null;
             }
         });
     }
@@ -272,9 +297,15 @@ public class ServerMenuDataManager extends DataManager {
         if(TextUtils.isEmpty(action)){
             return false;
         }
+        String SN=responseData.getString(LlhResponseHandler.Respon_Key.SN);
+
         //数据返回解析
         ServerMenuControler serverControler= (ServerMenuControler) fc;
         if(ServiceNetContant.ServiceResponseAction.GETSERPROCATEJSONLIST_RESPONSE.equals(action)){
+            if(ReqSnQuee.isEmpty()||! ReqSnQuee.hasSN(SN)){
+                return true;
+            }
+            ReqSnQuee.removeSn(SN);
             String body=fc.getResponseBody(responseData);
 
             ServerMenuCate serverCate= (ServerMenuCate) serverControler.getJsonToObject(body,ServerMenuCate.class);
@@ -295,7 +326,10 @@ public class ServerMenuDataManager extends DataManager {
         }else  if (ServiceNetContant.ServiceResponseAction.QUERY_SERVICE_CATEGORYSJSONLIST_RESPONSE.equals(action)){
             SerInitProPackBean serverCate = serverControler.getBodySerInitProPackResponse(responseData);
             if(serverCate.getCode().equals(SUCCESS_CODE)){
-
+                if(ReqSnQuee.isEmpty()||! ReqSnQuee.hasSN(SN)){
+                    return true;
+                }
+                ReqSnQuee.removeSn(SN);
                 List<SerInitProPack> serInitProPacksData= (List<SerInitProPack> )serverControler.getJsonToObject(serverCate.getObj(),new TypeToken< List<SerInitProPack> >(){}.getType(),true);
                 serverControler.setSerInitProPackData(serInitProPacksData);
                 reentrantLock.lock();
@@ -308,15 +342,20 @@ public class ServerMenuDataManager extends DataManager {
         }
         return true;
     }
-
-    public ServerMenuDataManager(LaoHuiBaseControler fc, NetManager.ProgressBarListener progressBarListener) {
-        this.fc = fc;
-        this.progressBarListener = progressBarListener;
+    private static ServerMenuDataManager sdmanager=new ServerMenuDataManager();
+    private ServerMenuDataManager(){
+        mThread.start();
+        var= SysVar.getInstance();
         reentrantLock=new ReentrantLock();
         mainServerLock=new ReentrantLock();
         mainServerWati=mainServerLock.newCondition();
         wati=reentrantLock.newCondition();
-        mThread.start();
-        var= SysVar.getInstance();
     }
+    public static ServerMenuDataManager getInstance(LaoHuiBaseControler fct, NetManager.ProgressBarListener mProgressBarListener){
+        sdmanager.fc = fct;
+        sdmanager.progressBarListener = mProgressBarListener;
+
+    return sdmanager;
+    }
+
 }

@@ -98,6 +98,15 @@ public class ServerDataManager extends DataManager {
             }
         }
     };
+    public void checkCache(){
+        long visittime=System.currentTimeMillis();
+
+        long lastVistiTime=var.getLongTime(MAIN_SERVER_CACHE_KEY);
+        if((visittime-lastVistiTime)>cache_time){
+            deleteCache((ServerControler) getControler());
+//            addMainTaskToQuee(serverControler);
+        }
+    }
     public void reqData(int flag,Bundle req,boolean isRfesh){
         switch (flag){
             case  ONEPAGE:

@@ -21,7 +21,9 @@ import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
  */
 
 public class LeLaohuiApp extends Application {
-    public static final String IP = "111.204.236.14";
+    public static final String IP = "www.lelaohui.com.cn";//.5
+
+    //    public static final String IP = "111.204.236.14";
     public static final String PORT = "60090";
     private static final String CATEGORY = "lelaohui";
     private String TAG=getClass().getSimpleName();

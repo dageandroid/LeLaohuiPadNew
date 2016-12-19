@@ -95,6 +95,7 @@
         <activity
             android:name=".fragement.shop.ServerActivity"
             android:label="@string/title_activity_footer"
+            android:taskAffinity="con.server"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -190,7 +191,9 @@
         <activity
             android:name=".fragement.shop.ServerMenuActivity"
             android:label="@string/title_activity_footer"
+            android:taskAffinity="con.server"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
         <!-- APP项目的其它配置... -->
         <meta-data

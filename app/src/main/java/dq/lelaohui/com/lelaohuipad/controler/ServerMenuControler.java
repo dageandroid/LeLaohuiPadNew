@@ -79,21 +79,21 @@ public class ServerMenuControler extends LaoHuiBaseControler {
             }
         }else if (ServiceNetContant.ServiceResponseAction.QUERY_SERVICE_CATEGORYSJSONLIST_RESPONSE.equals(action))
         {
-            SerInitProPackBean serverCate = getBodySerInitProPackResponse(responseData);
-            if(serverCate.getCode().equals(SUCCESS_CODE)){
-                if(getIControlerCallBack()!=null){//解析数据成功，通知UI界面
-                    List<SerInitProPack> serInitProPacksData= (List<SerInitProPack> )getJsonToObject(serverCate.getObj(),new TypeToken< List<SerInitProPack> >(){}.getType(),true);
-                    if (serInitProPacksData!=null){
-                        setSerInitProPackData(serInitProPacksData);
-                    }
-                    log("doBusses ist<SerInitProPack> : "+serInitProPacksData.toString());
-                    Bundle bundle=new Bundle();
-                    bundle.putString("action",ServiceNetContant.ServiceResponseAction.QUERY_SERVICE_CATEGORYSJSONLIST_RESPONSE);
-                    getIControlerCallBack().result(bundle);
-                }
-            }else{
-
-            }
+//            SerInitProPackBean serverCate = getBodySerInitProPackResponse(responseData);
+//            if(serverCate.getCode().equals(SUCCESS_CODE)){
+//                if(getIControlerCallBack()!=null){//解析数据成功，通知UI界面
+//                    List<SerInitProPack> serInitProPacksData= (List<SerInitProPack> )getJsonToObject(serverCate.getObj(),new TypeToken< List<SerInitProPack> >(){}.getType(),true);
+//                    if (serInitProPacksData!=null){
+//                        setSerInitProPackData(serInitProPacksData);
+//                    }
+//                    log("doBusses ist<SerInitProPack> : "+serInitProPacksData.toString());
+//                    Bundle bundle=new Bundle();
+//                    bundle.putString("action",ServiceNetContant.ServiceResponseAction.QUERY_SERVICE_CATEGORYSJSONLIST_RESPONSE);
+//                    getIControlerCallBack().result(bundle);
+//                }
+//            }else{
+//
+//            }
         }else if ((ServiceNetContant.ServiceResponseAction.CAL_ORDER_MONEY.equals(action))){
             log("doBusses CAL_ORDER_MONEY : "+responseData);
             SerOrderInfoCate serOrderInfoCate=getBodySerOrderInfoResponse(responseData);
@@ -186,31 +186,34 @@ public class ServerMenuControler extends LaoHuiBaseControler {
     /**
      * 获取二级服务项右分类
      */
-    public void doQueryServerCategory(long  cateIdL,int isPackInt){
+    public String doQueryServerCategory(long  cateIdL,int isPackInt){
         LeLaohuiApp app= (LeLaohuiApp) getContext();
         if(app==null){
             throw  new RuntimeException(" app is null exception");
         }
         RequestParam requestParam1=requestParam.doQueryServerCategory(cateIdL,isPackInt);
         app.reqData(requestParam1);
+        return requestParam1.getCurrenSN();
     }
    /**
     * 获取二级服务左分类
     */
-    public void doQueryServerCategory(long  cateIdL,int isPackInt,int cateLevelInt){
+    public String doQueryServerCategory(long  cateIdL,int isPackInt,int cateLevelInt){
         LeLaohuiApp app= (LeLaohuiApp) getContext();
         if(app==null){
             throw  new RuntimeException(" app is null exception");
         }
         RequestParam requestParam1=requestParam.doQueryServerCategory(cateIdL,isPackInt,cateLevelInt);
+        String SN=requestParam1.getCurrenSN();
         app.reqData(requestParam1);
+        return SN;
     }
     /**
      * @param interfaceNameStr  接口名
      * @param cateKeyStr  发送数据与后台对接的Key
      * @param parmBundle 发送的相关参数信息
      */
-    public void  doQueryServerCategory(String interfaceNameStr,String cateKeyStr, Bundle parmBundle){
+    public String  doQueryServerCategory(String interfaceNameStr,String cateKeyStr, Bundle parmBundle){
         {
             LeLaohuiApp app= (LeLaohuiApp) getContext();
             if(app==null){
@@ -218,6 +221,7 @@ public class ServerMenuControler extends LaoHuiBaseControler {
             }
             RequestParam requestParam1=requestParam.doQueryServerCategory(interfaceNameStr,cateKeyStr,parmBundle);
             app.reqData(requestParam1);
+            return requestParam1.getCurrenSN();
         }
     }
 

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.sun.commontransfer.adroid.TransferClientNetworkImpl;
@@ -43,6 +44,7 @@ public class RequestParam implements ReqParam {
     public RequestParam(){
         header=new Bundle();
         body=new Bundle();
+        SN=String.format("%d", System.currentTimeMillis());
     }
     public void addHeader(@NonNull String key,@NonNull  Object t){
         setBundlerData(header,key, t);
@@ -111,23 +113,27 @@ public class RequestParam implements ReqParam {
             budle.putBundle(key,(Bundle)t);
         }
     }
-    private String getSN(){
-        return String.format("%d", System.currentTimeMillis());
+    private  String getSN(){
+        SN=String.format("%d", System.currentTimeMillis());
+        return SN;
     }
     @Override
     public int describeContents() {
         return 0;
     }
     public JsonObject headerToJsonObject(){
-        SN = getSN();
+
         JsonObjectBuilder jsonObjectBuilder=Json.createObjectBuilder() ;
-        jsonObjectBuilder.add("sn", SN);
+
         jsonObjectBuilder.add("uid", TransferClientNetworkImpl.getInstance().getUid());
         Set<String> headerKeySet=header.keySet();
         for(String keyStr:headerKeySet){
             jsonBuilderAdd( jsonObjectBuilder, keyStr, header.get(keyStr));
         }
-
+        if(TextUtils.isEmpty(SN)){
+            SN=String.format("%d", System.currentTimeMillis());
+        }
+        jsonObjectBuilder.add("sn", SN);
         return jsonObjectBuilder.build();
     }
     public JsonObject bodyToJsonObject(){
@@ -198,11 +204,13 @@ public class RequestParam implements ReqParam {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeBundle(this.header);
         dest.writeBundle(this.body);
+        dest.writeString(this.SN);
     }
 
     protected RequestParam(Parcel in) {
         this.header = in.readBundle();
         this.body = in.readBundle();
+        this.SN=in.readString();
     }
 
     public static final Parcelable.Creator<RequestParam> CREATOR = new Parcelable.Creator<RequestParam>() {

@@ -4,20 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
+import android.os.Handler;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -31,7 +28,6 @@ import java.util.List;
 import java.util.Vector;
 
 import dq.lelaohui.com.lelaohuipad.R;
-import dq.lelaohui.com.lelaohuipad.adapter.BaseDataBaseAdapter;
 import dq.lelaohui.com.lelaohuipad.base.LeLaoHuiBaseActivity;
 import dq.lelaohui.com.lelaohuipad.bean.SerOrderInfoData;
 import dq.lelaohui.com.lelaohuipad.bean.ShoppingCarListBean;
@@ -39,7 +35,6 @@ import dq.lelaohui.com.lelaohuipad.controler.ServerMenuControler;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.adapter.BaseShopInfoRecyleViewAdapter;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.car.BaseShopCart;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.dataprovider.FootDataListener;
-import dq.lelaohui.com.lelaohuipad.fragement.shop.dataprovider.ServerDataManager;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.dataprovider.ServerMenuDataManager;
 import dq.lelaohui.com.lelaohuipad.port.IControler;
 import dq.lelaohui.com.lelaohuipad.util.ServerRequestParam;
@@ -49,7 +44,6 @@ import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateMenuService;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.ProCateService;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.bean.SerInitProPack;
 import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.ProCateMenuServiceDao;
-import dq.lovemusic.thinkpad.lelaohuidatabaselibrary.dao.SerInitProPackDao;
 
 /**
  * Created by ZTF on 2016/10/30.
@@ -72,27 +66,22 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
     private View llh_shopping_bottom;
     private long cateIdL=0;
     private int isPackInt;
-
+    private int postion;
     private AppCompatImageButton left_btn;
     ImageView show_pp;
     BaseShopCart shopCartBase = null;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         serverControler = (ServerMenuControler) getControler();
-        ServerMenuDataManager dataManager=new ServerMenuDataManager(serverControler,this);
-
+        ServerMenuDataManager dataManager=ServerMenuDataManager.getInstance(serverControler,this);
         dataManager.setDataListener(this);
         serverControler.setDataManager(dataManager);
         setNetResponIntercept(dataManager);
-        initView();
         shopCartBase = new BaseShopCart(this);
         shopCartBase.setCardDataChange(this);
         shopCartBase.setUiOperator(this);
-
-
-
+        initView();
 
 //        shopCartBase.init();
         if (getIntent() != null) {
@@ -100,20 +89,23 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
             cateIdL = proCateService.getCateId();
             isPackInt = proCateService.getIsPack();
 //            serverControler.doQueryServerCategory(cateIdL, isPackInt, 1);
-
         }
-
-
-
-
         server_menu_content.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Cursor cursor= (Cursor) adapterView.getItemAtPosition(i);
+                postion=i;
                 ProCateMenuService proCateMenu=   adapter.readEntity(cursor,0);
                 String cateIdStr = null;
                 if (proCateMenu != null) {
                     cateIdL = proCateMenu.getCateId();
+                    if (serverContentAdapter != null) {
+                        Cursor tempCursor= serverContentAdapter. swapCursor(null);
+                        if(tempCursor!=null){
+                            tempCursor.close();
+                        }
+                    }
+
                     cateIdStr = String.valueOf(proCateMenu.getCateId());
                     isPackInt = proCateMenu.getIsPack();
                     try {
@@ -126,11 +118,6 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
             }
         });
 
-        serverContentAdapter = new MyServerContentRecyleViewAdapter(ServerMenuActivity.this, null);
-        final SerInitProPackDao contentDao = (SerInitProPackDao) serverControler.getBaseDaoOperator("getInitSerProPackList").get();
-        serverContentAdapter.setDao(contentDao);
-        serverContentAdapter.setShopCartBase(shopCartBase);
-        server_content_rv.setAdapter(serverContentAdapter);
 
         //下拉刷新获取左侧服务类别相关数据
         get_data_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -143,14 +130,36 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
                 }
             }
         });
+        initData();
+
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        Log.i(TAG, "onNewIntent: ...........");
+        setIntent(intent);
+        super.onNewIntent(intent);
+//        initData();
+    }
+
+
+    private void initData() {
+        if (getIntent() != null) {
+            proCateService = getIntent().getParcelableExtra("proCateServer");
+            cateIdL = proCateService.getCateId();
+            isPackInt = proCateService.getIsPack();
+//            serverControler.doQueryServerCategory(cateIdL, isPackInt, 1);
+        }
         try {
             serverControler.getQueryServerCateqory(false,cateIdL, isPackInt, 1);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
+
     @Override
     public void dataChanager(final String id) {
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -167,11 +176,32 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
 
                     }
                 }else if(String.valueOf(ServerMenuDataManager.SERVER_DETAILE_PAGE).equals(id)){
-                  Cursor  cursor = serverControler.getSerInitProCursor((int)cateIdL);
-                    serverContentAdapter.changeCursor(cursor);
+                    Cursor  cursor = serverControler.getSerInitProCursor((int)cateIdL);
+                    int count=cursor.getCount();
+                    if(count==0){
+                        Log.i(TAG, "run: "+postion);
+                        new Handler(getMainLooper()).postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                               Cursor cursor = serverControler.getSerInitProCursor((int)cateIdL);
+                               Cursor olderCursor= serverContentAdapter.swapCursor(cursor);
+                                if(olderCursor!=null){
+                                    olderCursor.close();
+                                }
+                            }
+                        },5000);
+                        return;
+
+                    }
+                    Cursor cursorTemp=serverContentAdapter.swapCursor(cursor);
+                    if(cursorTemp!=null){
+                        cursorTemp.close();
+                    }
                     serverContentAdapter.notifyDataSetChanged();
+                    hideProgress();
+
                 }
-                hideProgress();
+
 
             }
         });
@@ -204,6 +234,9 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
         }
         adapter = new MyServerCateRecyleViewAdapter(this, null);
         server_menu_content.setAdapter(adapter);
+        serverContentAdapter = new MyServerContentRecyleViewAdapter(ServerMenuActivity.this, null);
+        serverContentAdapter.setShopCartBase(shopCartBase);
+        server_content_rv.setAdapter(serverContentAdapter);
     }
 
     @Override
@@ -440,5 +473,11 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
             this.context = context;
             layoutInflater = LayoutInflater.from(context);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG, "onDestroy: "+getClass().getSimpleName());
     }
 }

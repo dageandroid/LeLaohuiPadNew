@@ -78,6 +78,7 @@ public abstract class BaseDaoOperator implements DBOperatorImp {
     @Deprecated
     protected Cursor query(Class<? extends Object> entityClass,WhereCondition condition,WhereCondition ...conditions){
         DaoSession daoSession = (DaoSession) getReadDao();
+        daoSession.clear();
         AbstractDao dao=  daoSession.getDao(entityClass);
         CursorQuery cursorQuery= dao.queryBuilder().distinct().where(condition,conditions).buildCursor();
         Cursor cursor=cursorQuery.query();
