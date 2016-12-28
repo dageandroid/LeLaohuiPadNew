@@ -22,12 +22,15 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.llh.ipcarmear.StartActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import dq.lelaohui.com.lelaohuipad.base.LeLaoHuiBaseActivity;
 import dq.lelaohui.com.lelaohuipad.controler.MainControler;
 import dq.lelaohui.com.lelaohuipad.dao.ProFoodInfoDaoOperator;
+import dq.lelaohui.com.lelaohuipad.fragement.shop.CammerMainActivity;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.FoodActivity;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.ServerActivity;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.ServerSubscribeActivity;
@@ -92,8 +95,10 @@ public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
                        intent=new Intent(LeLaohuiMainActivity.this,ServerSubscribeActivity.class);
                        break;
                    case 4:
-                       ProFoodInfoDaoOperator.getInstance().setmContext(getApplicationContext());
-                       ProFoodInfoDaoOperator.getInstance().delete("");
+//                       ProFoodInfoDaoOperator.getInstance().setmContext(getApplicationContext());
+//                       ProFoodInfoDaoOperator.getInstance().delete("");
+                       intent=new Intent(LeLaohuiMainActivity.this,StartActivity.class);
+//                       intent=new Intent(LeLaohuiMainActivity.this,CammerMainActivity.class);
                        break;
                }
                if (intent!=null){

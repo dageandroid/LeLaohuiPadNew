@@ -257,7 +257,9 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
                 SerOrderInfoData infoData = bundle.getParcelable("serOrderInfo");
                 Intent intent = new Intent(ServerMenuActivity.this, SerOrderInfoActivity.class);
                 intent.putExtra("infoData", infoData);
-                startActivityForResult(intent, FINISH_ACTION);
+//              startActivityForResult(intent, FINISH_ACTION);
+                startActivity(intent);
+                Log.i(TAG,"infoData"+infoData.toString());
             }
         }
     }

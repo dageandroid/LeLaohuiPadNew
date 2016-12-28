@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.AppCompatImageView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -28,6 +29,7 @@ import dq.lelaohui.com.lelaohuipad.base.LeLaoHuiBaseActivity;
 import dq.lelaohui.com.lelaohuipad.controler.LogonControler;
 import dq.lelaohui.com.lelaohuipad.port.IControler;
 import dq.lelaohui.com.lelaohuipad.util.MD5Tools;
+import vstc2.nativecaller.NativeCaller;
 
 /**
  * A login screen that offers login via email/password.
@@ -107,6 +109,28 @@ public class LoginActivity extends LeLaoHuiBaseActivity  {
 //                .into(testImage);
         Intent service = new Intent(getApplicationContext(), XGPushService.class);
         startService(service);
+
+        //摄像头相关代码
+
+//        Intent intent=new Intent();
+//        intent.setClass(LoginActivity.this,BridgeService.class);
+//        startService(intent);
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                {
+//                    try {
+//                        NativeCaller.PPPPInitialOther("ADCBBFAOPPJAHGJGBBGLFLAGDBJJHNJGGMBFBKHIBBNKOKLDHOBHCBOEHOKJJJKJBPMFLGCPPJMJAPDOIPNL");
+//                        Thread.sleep(3000);
+//                        Message msg = new Message();
+//                        mHandler.sendMessage(msg);
+//                    } catch (Exception e) {
+//
+//                    }
+//                }
+//            }
+//        }).start();
+
     }
 
     private void init() {
@@ -143,8 +167,8 @@ public class LoginActivity extends LeLaoHuiBaseActivity  {
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        final String email = mEmailView.getText().toString();
+        final String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -175,9 +199,15 @@ public class LoginActivity extends LeLaoHuiBaseActivity  {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             Log.i(tag,"111 usenamr="+email+",pwd="+password);
-            ((LogonControler)getControler()). reqLogon(email, MD5Tools.getPwd(password));
+//            mHandler = new Handler() {
+//                public void handleMessage(Message msg) {
+//            ((LogonControler)getControler()). reqLogon(email, MD5Tools.getPwd(password));
+//                }
+//            };
+        ((LogonControler)getControler()). reqLogon(email, MD5Tools.getPwd(password));
         }
     }
+    private   Handler mHandler;
 
     private boolean isEmailValid(String email) {
         return !TextUtils.isEmpty(email);

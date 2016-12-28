@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false" >
+
+    <!-- 定义一个动画帧，Drawable为start_code_control_10，持续时间200毫秒 -->
+    <!-- <item android:drawable="@drawable/sensor_controler_icon" android:duration="200" /> -->
+    <item
+        android:drawable="@drawable/llh_apmode_anim_1"
+        android:duration="200"/>
+    <item
+        android:drawable="@drawable/llh_apmode_anim_2"
+        android:duration="200"/>
+    <item
+        android:drawable="@drawable/llh_apmode_anim_3"
+        android:duration="200"/>
+    <item
+        android:drawable="@drawable/llh_apmode_anim_4"
+        android:duration="200"/>
+
+</animation-list>

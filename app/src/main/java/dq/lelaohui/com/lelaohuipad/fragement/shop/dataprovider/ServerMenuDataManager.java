@@ -22,6 +22,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import dq.lelaohui.com.lelaohuipad.base.LaoHuiBaseControler;
 import dq.lelaohui.com.lelaohuipad.bean.SerInitProPackBean;
+import dq.lelaohui.com.lelaohuipad.bean.SerOrderInfoCate;
+import dq.lelaohui.com.lelaohuipad.bean.SerOrderInfoData;
 import dq.lelaohui.com.lelaohuipad.bean.ServerMenuCate;
 import dq.lelaohui.com.lelaohuipad.controler.ServerControler;
 import dq.lelaohui.com.lelaohuipad.controler.ServerMenuControler;
@@ -339,6 +341,19 @@ public class ServerMenuDataManager extends DataManager {
                     reentrantLock.unlock();
                 }
             }
+        }else if ((ServiceNetContant.ServiceResponseAction.CAL_ORDER_MONEY.equals(action))){
+//            SerOrderInfoCate serOrderInfoCate=serverControler.getBodySerOrderInfoResponse(responseData);
+//            if(serOrderInfoCate.getCode().equals(SUCCESS_CODE)){
+//                if(getIControlerCallBack()!=null){//解析数据成功，通知UI界面
+//                    SerOrderInfoData infoData= serOrderInfoCate.getData();
+                serverControler.setSerOrderInfoData(responseData);
+                    Log.i("","doBusses serOrderInfo="+responseData.toString());
+//                    Bundle bundle=new Bundle();
+//                    bundle.putString("action",ServiceNetContant.ServiceResponseAction.CAL_ORDER_MONEY);
+//                    bundle.putParcelable("serOrderInfo",infoData);
+//                    getIControlerCallBack().result(bundle);
+//                }
+//            }
         }
         return true;
     }

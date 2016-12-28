@@ -15,7 +15,6 @@
         android:textColor="@android:color/black"
         android:layout_width="fill_parent"
         android:text="订单号：15874698753"
-        android:background="@color/yell_color"
         android:layout_height="@dimen/ser_order_hight" />
 
     <android.support.v7.widget.AppCompatTextView
@@ -25,7 +24,6 @@
         android:layout_width="wrap_content"
         android:layout_alignParentRight="true"
         android:text="2016-11-28"
-        android:background="@color/yell_color"
         android:layout_height="@dimen/ser_order_hight" />
 
     <android.support.v7.widget.RecyclerView

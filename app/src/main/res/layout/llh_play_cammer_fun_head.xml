@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="60dp">
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/left_break"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:text="退出"
+        android:layout_centerVertical="true"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/txt_size_22sp"
+        android:layout_height="wrap_content" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:text="操作"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/txt_size_22sp"
+        android:layout_height="wrap_content" />
+    <android.support.v7.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:text="切换"
+        android:id="@+id/change"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/txt_size_22sp"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

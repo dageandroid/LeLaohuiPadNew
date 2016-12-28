@@ -96,28 +96,33 @@ public class ServerMenuControler extends LaoHuiBaseControler {
 //            }
         }else if ((ServiceNetContant.ServiceResponseAction.CAL_ORDER_MONEY.equals(action))){
             log("doBusses CAL_ORDER_MONEY : "+responseData);
-            SerOrderInfoCate serOrderInfoCate=getBodySerOrderInfoResponse(responseData);
-            if(serOrderInfoCate.getCode().equals(SUCCESS_CODE)){
-                if(getIControlerCallBack()!=null){//解析数据成功，通知UI界面
-                    SerOrderInfoData infoData= serOrderInfoCate.getData();
-                log("doBusses infoData="+infoData.toString());
-                    Bundle bundle=new Bundle();
-                    bundle.putString("action",ServiceNetContant.ServiceResponseAction.CAL_ORDER_MONEY);
-                    bundle.putParcelable("serOrderInfo",infoData);
-                    getIControlerCallBack().result(bundle);
-                }
-            }
+            setSerOrderInfoData(responseData);
         }
         //服务器返回的数据会回调这里。在这里写解析。要判断一下服务器返回的ResponseAction,如果需要更新Activity则
        // Bundle bundle=new Bundle();//将要传递的数据封装到bundle里
 //        getIControlerCallBack().result(bundle);//并调用此方法回调通知Actitity
         log("doBusses: "+responseData);
     }
+
+    public void setSerOrderInfoData(Bundle responseData) {
+        SerOrderInfoCate serOrderInfoCate=getBodySerOrderInfoResponse(responseData);
+        if(serOrderInfoCate.getCode().equals(SUCCESS_CODE)){
+            if(getIControlerCallBack()!=null){//解析数据成功，通知UI界面
+                SerOrderInfoData infoData= serOrderInfoCate.getData();
+            log("doBusses serOrderInfo="+infoData.toString());
+                Bundle bundle=new Bundle();
+                bundle.putString("action", ServiceNetContant.ServiceResponseAction.CAL_ORDER_MONEY);
+                bundle.putParcelable("serOrderInfo",infoData);
+                getIControlerCallBack().result(bundle);
+            }
+        }
+    }
+
     public SerInitProPackBean getBodySerInitProPackResponse(Bundle responseData) {
         String body=getResponseBody(responseData);
         return (SerInitProPackBean) getJsonToObject(body,SerInitProPackBean.class,false);
     }
-    private SerOrderInfoCate getBodySerOrderInfoResponse(Bundle responseData ){
+    public SerOrderInfoCate getBodySerOrderInfoResponse(Bundle responseData ){
         String body=getResponseBody(responseData);
         return (SerOrderInfoCate) getJsonToObject(body,SerOrderInfoCate.class,false);
     }

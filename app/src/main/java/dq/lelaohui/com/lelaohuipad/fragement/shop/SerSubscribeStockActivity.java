@@ -71,7 +71,6 @@ public class SerSubscribeStockActivity extends LeLaoHuiBaseFragment implements N
                 List<SerSubescribeData> serSubescribeData = bundle.getParcelableArrayList("serSubescribeDataList");
                 if (serSubescribeData != null && serSubescribeData.size() > 0) {
                     mySerSubStockAdapter = new MySerSubStockAdapter(this.getContext(), serSubescribeData);
-                    Log.i("SerSubscribeStockActivity", "serSubescribeData.get(0).getOrderId()===" + serSubescribeData.get(0).getOrderId());
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
                     linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                     my_ser_subscribe.setLayoutManager(linearLayoutManager);

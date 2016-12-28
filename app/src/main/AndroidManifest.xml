@@ -35,6 +35,31 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BATTERY_STATS" />
 
+    <uses-permission android:name="android.permission.INTERNET" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- 摄像头相关权限-->
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature android:name=" android.permission.ACCESS_WIFI_STATE " />
+    <uses-feature android:name="android.permission.CHANGE_WIFI_STATE " />
+    <uses-feature android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
         android:name=".LeLaohuiApp"
         android:allowBackup="true"
@@ -145,6 +170,21 @@
             android:label="@string/title_activity_footer"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <!--摄像头相关activity-->
+        <activity android:name=".fragement.shop.PlayCammerActivity"
+            android:launchMode="singleTop"
+            >
+        </activity>
+        <activity android:name=".fragement.shop.CammerMainActivity"
+            android:launchMode="singleTop"
+            >
+        </activity>
+        <activity android:name=".fragement.shop.AddCammerActivity"
+            android:launchMode="singleTop"
+            >
+        </activity>
+        <!--......................................................-->
 
         <service
             android:name=".job.lowversion.SyncService"
@@ -291,6 +331,10 @@
                 <action android:name="com.google.android.gms.gcm.ACTION_TASK_READY" />
             </intent-filter>
         </service>
+
+        <!-- 摄像头相关Activity-->
+
+
     </application>
 
 </manifest>

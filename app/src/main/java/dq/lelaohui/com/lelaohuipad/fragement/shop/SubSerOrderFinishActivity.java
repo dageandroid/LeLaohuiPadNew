@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
+import android.view.View;
 
 import dq.lelaohui.com.lelaohuipad.R;
 import dq.lelaohui.com.lelaohuipad.base.LeLaoHuiBaseActivity;
@@ -53,6 +54,9 @@ public class SubSerOrderFinishActivity extends LeLaoHuiBaseActivity {
         pay_money=(AppCompatButton)findViewById(R.id.pay_money);
         back_order=(AppCompatButton)findViewById(R.id.back_order);
         query_order=(AppCompatButton)findViewById(R.id.query_order);
+        query_order.setVisibility(View.GONE);
+        back_order.setVisibility(View.GONE);
+        pay_money.setVisibility(View.GONE);
     }
     @Override
     public IControler getControler() {
