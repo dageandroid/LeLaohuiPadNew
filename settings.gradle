@@ -1,1 +1,1 @@
-include ':app', ':nettylibrary', ':lelaohuidatabaselibrary', ':ipcarmearlibrary', ':limagelibrary', ':LeLaoHuipushcore', ':LeLaoHuifacelogon', ':LeLaoHuivoice'
+include ':app', ':nettylibrary', ':lelaohuidatabaselibrary', ':limagelibrary', ':LeLaoHuipushcore', ':LeLaoHuifacelogon', ':LeLaoHuivoice', ':ipcarmear'

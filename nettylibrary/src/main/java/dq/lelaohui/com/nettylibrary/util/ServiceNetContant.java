@@ -83,5 +83,9 @@ public class ServiceNetContant {
          *提交预约条件接口
          */
         public static final String CONFIRM_ORDER_SERVER_APP_RESONSE="confirmOrderServerApp.response";
+        /**
+         *获取用户设备信息相关接口
+         */
+        public static final String GET_DEVICE_STATUS_INFOS_RESONSE="query.device.status.response";
     }
 }

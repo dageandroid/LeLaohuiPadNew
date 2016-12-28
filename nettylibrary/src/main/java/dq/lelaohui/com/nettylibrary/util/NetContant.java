@@ -123,6 +123,12 @@ public class NetContant {
          * 查询用户预约记录
          */
         public static final String SEARCH_APPOINTMENT_FOR_APP = "searchAppointmentForApp";
+
+        /**
+         * 获取用户设备相关信息
+         */
+        public static final String GET_DEVICE_STATUS_INFOS = "query.device.status";
+
     }
 
 }

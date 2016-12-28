@@ -180,10 +180,6 @@
             android:launchMode="singleTop"
             >
         </activity>
-        <activity android:name=".fragement.shop.AddCammerActivity"
-            android:launchMode="singleTop"
-            >
-        </activity>
         <!--......................................................-->
 
         <service

@@ -23,15 +23,8 @@ public class PlayCammerActivity extends PlayActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_cammer);
-      initView();
     }
 
-    private void initView() {
-        playSurface = (GLSurfaceView) findViewById(com.llh.ipcarmear.R.id.mysurfaceview);
-        cammer_function_id=(GridView) findViewById(R.id.cammer_function_id);
-        adapter =new CamerFunctionAdapter(getApplicationContext());
-        cammer_function_id.setAdapter(adapter);
-    }
 
     @Override
     public void findView() {

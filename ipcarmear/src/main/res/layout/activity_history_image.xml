@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/llh_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/llh_cammer_titlebar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@+id/llh_title"
+        android:layout_marginBottom="10dp">
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="30dp"
+            android:layout_weight="4.0" />
+
+        <TextView
+            android:id="@+id/num_text"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:visibility="gone"
+            android:textColor="@android:color/black"
+            android:textSize="20dp" />
+        <TextView
+            android:id="@+id/btn_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:visibility="gone"
+            android:textColor="@android:color/black"
+            android:textSize="20dp" />
+        <LinearLayout
+            android:id="@+id/point_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            >
+
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

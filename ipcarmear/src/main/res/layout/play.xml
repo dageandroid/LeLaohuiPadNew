@@ -11,7 +11,14 @@
         android:layout_height="match_parent"
         android:longClickable="true"
         android:layout_gravity="center" />
-
+	<include
+		android:id="@+id/function_view"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		layout="@layout/activity_play_function"
+		android:visibility="gone"
+		>
+	</include>
     <ImageView
         android:id="@+id/vedioview"
         android:layout_width="wrap_content"

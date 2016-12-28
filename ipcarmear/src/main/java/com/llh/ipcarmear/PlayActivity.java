@@ -17,6 +17,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -25,9 +26,11 @@ import android.graphics.Matrix;
 import android.graphics.PixelFormat;
 import android.graphics.PointF;
 import android.graphics.Shader.TileMode;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLSurfaceView.Renderer;
 import android.os.AsyncTask;
@@ -37,6 +40,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.TextUtils;
 import android.util.FloatMath;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -71,6 +75,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.llh.ipcarmear.adapter.ViewPagerAdapter;
+import com.llh.ipcarmear.service.HelpService;
 import com.llh.ipcarmear.util.AudioPlayer;
 import com.llh.ipcarmear.util.ContentCommon;
 import com.llh.ipcarmear.util.CustomAudioRecorder;
@@ -81,7 +86,9 @@ import com.llh.ipcarmear.util.CustomVideoRecord;
 import com.llh.ipcarmear.util.MyRender;
 import com.llh.ipcarmear.util.SystemValue;
 
-
+/**
+ * 播放视频
+ */
 public  class PlayActivity extends Activity implements OnTouchListener,OnGestureListener, OnClickListener, BridgeService.PlayInterface,CustomAudioRecorder.AudioRecordResult
 {
 
@@ -424,10 +431,17 @@ public  class PlayActivity extends Activity implements OnTouchListener,OnGesture
 
 					if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) 
 					{
+						Log.i(TAG,update);
+						//修改进入视频查看首页横竖屏
 						FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
 								width, width * 3 / 4);
-						lp.gravity = Gravity.CENTER;
+//						lp.gravity = Gravity.CENTER;
+						//修改横竖屏显示
+						lp.gravity = Gravity.TOP;
 						playSurface.setLayoutParams(lp);
+						viewFunction.setVisibility(View.VISIBLE);
+						llh_function.setVisibility(View.VISIBLE);
+						setFunction(width);
 					}
 					else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
 					{
@@ -435,6 +449,10 @@ public  class PlayActivity extends Activity implements OnTouchListener,OnGesture
 								width, height);
 						lp.gravity = Gravity.CENTER;
 						playSurface.setLayoutParams(lp);
+						viewFunction.setVisibility(View.GONE);
+						viewFunction.setLayoutParams(lp);
+						llh_function.setVisibility(View.GONE);
+
 					}
 					myRender.writeSample(videodata, nVideoWidths, nVideoHeights);
 				}
@@ -502,11 +520,17 @@ public  class PlayActivity extends Activity implements OnTouchListener,OnGesture
 			   if (msg.what == 1 || msg.what == 2)
 			   {
 					bDisplayFinished = true;
-			   }	
-		 }
+			   }
 
+		 }
+		protected void setFunction(int width) {
+			FrameLayout.LayoutParams gv_lp = new FrameLayout.LayoutParams(
+					width, width);
+			gv_lp.gravity = Gravity.BOTTOM;
+			viewFunction.setLayoutParams(gv_lp);
+		}
 	};
-	
+
 	private void getCameraParams() {
 
 		NativeCaller.PPPPGetSystemParams(strDID,
@@ -555,6 +579,9 @@ public  class PlayActivity extends Activity implements OnTouchListener,OnGesture
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(layoutId);
+
+		initView();
+
 		strName = SystemValue.deviceName;
 		strDID = SystemValue.deviceId;
 		disPlaywidth = getWindowManager().getDefaultDisplay().getWidth();
@@ -580,7 +607,8 @@ public  class PlayActivity extends Activity implements OnTouchListener,OnGesture
 		playSurface.setRenderer(myRender);
 
 	}
-	
+	private static  final String TAG="PlayActivity";
+	public String update="tengfei update  2016-12-28";
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if(mPopupWindowProgress != null && mPopupWindowProgress.isShowing())
@@ -593,6 +621,13 @@ public  class PlayActivity extends Activity implements OnTouchListener,OnGesture
 		}
 		if (keyCode == KeyEvent.KEYCODE_BACK)
 		{
+			Log.i(TAG,update);
+			//添加横竖屏切换
+
+			if(getResources().getConfiguration().orientation==Configuration.ORIENTATION_LANDSCAPE){
+				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+			}else {
+
 			if (!bProgress)
 			{
 				Date date = new Date();
@@ -616,6 +651,7 @@ public  class PlayActivity extends Activity implements OnTouchListener,OnGesture
 				showSureDialog();
 			}
 			return true;
+		}
 		}
 		if (keyCode == KeyEvent.KEYCODE_MENU) 
 		{
@@ -702,6 +738,34 @@ public  class PlayActivity extends Activity implements OnTouchListener,OnGesture
 		bottomView.setBackgroundDrawable(drawable);
 	}
 
+	View viewFunction;
+	private ImageView image_cammer, image_video, image_record, image_monitor,
+			image_close, image_history;
+	private ImageButton play_break, change_view;
+	LinearLayout llh_function;
+public void initView(){
+	viewFunction=findViewById(R.id.function_view);
+	viewFunction.setVisibility(View.VISIBLE);
+
+	llh_function = (LinearLayout) findViewById(R.id.llh_function);
+	play_break = (ImageButton) findViewById(R.id.play_break);
+	change_view = (ImageButton) findViewById(R.id.change_view);
+	image_cammer = (ImageView) findViewById(R.id.image_cammer);
+	image_video = (ImageView) findViewById(R.id.image_video);
+	image_record = (ImageView) findViewById(R.id.image_record);
+	image_monitor = (ImageView) findViewById(R.id.image_monitor);
+	image_close = (ImageView) findViewById(R.id.image_close);
+	image_history = (ImageView) findViewById(R.id.image_history);
+	image_close.setOnClickListener(this);
+	image_monitor.setOnClickListener(this);
+	image_record.setOnClickListener(this);
+	image_video.setOnClickListener(this);
+	image_cammer.setOnClickListener(this);
+	change_view.setOnClickListener(this);
+	play_break.setOnClickListener(this);
+	image_history.setOnClickListener(this);
+
+}
 	private boolean isDown = false;
 	private boolean isSecondDown = false;
 	private float x1 = 0;
@@ -936,7 +1000,14 @@ public  class PlayActivity extends Activity implements OnTouchListener,OnGesture
 		builder.setPositiveButton(R.string.str_ok,
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
-						PlayActivity.this.finish();
+						Log.i(TAG,update);
+						//添加根据横竖屏切换，点击退出按钮
+						if (getResources().getConfiguration().orientation==Configuration.ORIENTATION_LANDSCAPE){
+							setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+						}else{
+							PlayActivity.this.finish();
+						}
+
 					}
 				});
 		builder.setNegativeButton(R.string.str_cancel, null);
@@ -1021,13 +1092,13 @@ public  class PlayActivity extends Activity implements OnTouchListener,OnGesture
 				NativeCaller.PPPPPTZControl(strDID, ContentCommon.CMD_PTZ_UP_DOWN);
 			}
 
-		} else if (i1 == R.id.ptz_talk) {
+		} else if (i1 == R.id.ptz_talk) {//对讲
 			goMicroPhone();
 
-		} else if (i1 == R.id.ptz_take_videos) {
+		} else if (i1 == R.id.ptz_take_videos) {//录像
 			goTakeVideo();
 
-		} else if (i1 == R.id.ptz_take_photos) {
+		} else if (i1 == R.id.ptz_take_photos) {//拍照
 			dismissBrightAndContrastProgress();
 			if (existSdcard()) {// 判断sd卡是否存在
 				//takePicture(mBmp);
@@ -1060,6 +1131,14 @@ public  class PlayActivity extends Activity implements OnTouchListener,OnGesture
 
 		} else if (i1 == R.id.preset) {
 			presetBitWindow();
+			Log.i(TAG,update);
+			//添加横竖屏切换
+			if (this.getResources().getConfiguration().orientation==Configuration.ORIENTATION_LANDSCAPE){
+				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+			}else{
+			//	change_view
+			}
+
 
 		} else if (i1 == R.id.ptz_resolution_jpeg_qvga) {
 			dismissBrightAndContrastProgress();
@@ -1168,8 +1247,98 @@ public  class PlayActivity extends Activity implements OnTouchListener,OnGesture
 				Toast.makeText(PlayActivity.this, "IR关", Toast.LENGTH_LONG).show();
 			}
 
+		}else if (v.getId()==R.id.play_break){
+			NativeCaller.StopPPPPLivestream(strDID);
+			PlayActivity.this.finish();
+		}else if (v.getId()==R.id.change_view){
+			if (this.getResources().getConfiguration().orientation==Configuration.ORIENTATION_PORTRAIT){
+				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+			}
+			return;
+			//对讲
+		} else if (v.getId() == R.id.image_record) {
+			goMicroPhone();
+			if (tag == true) {
+				draw = (AnimationDrawable) getResources().getDrawable(
+						R.drawable.talkback);
+				draw.setBounds(0, 0, draw.getMinimumWidth(),
+						draw.getMinimumHeight());
+				image_record.setBackgroundDrawable(draw);
+				draw.start();
+				tag = false;
+			} else {
+				draw.stop();
+				image_record
+						.setBackgroundResource(R.drawable.llh_came_port_talk_nomel);
+				image_monitor
+						.setBackgroundResource(R.drawable.llh_came_port_listener_nomel);
+				tag = true;
+			}
+			return;
+			//设置WIFI
+		} else if (v.getId() == R.id.image_video) {
+
+			Intent intent1 = new Intent(getApplicationContext(),SettingWifiActivity.class);
+			intent1.putExtra(ContentCommon.STR_CAMERA_ID,SystemValue.deviceId);
+			intent1.putExtra(ContentCommon.STR_CAMERA_NAME,SystemValue.deviceName);
+			intent1.putExtra(ContentCommon.STR_CAMERA_PWD, SystemValue.devicePass);
+			intent1.putExtra("intentTag", "2");
+			startActivity(intent1);
+			overridePendingTransition(R.anim.in_from_right,R.anim.out_to_left);
+			return;
+			//拍照
+		} else if (v.getId() == R.id.image_cammer) {
+			PlayMusic(R.raw.cutpic);
+			dismissBrightAndContrastProgress();
+			if (existSdcard()) {// 判断sd卡是否存在
+				// takePicture(mBmp);
+				isTakepic = true;
+			} else {
+				showToast(R.string.ptz_takepic_save_fail);
+			}
+			return;
+			//监听
+		} else if (v.getId() == R.id.image_monitor) {
+			if (tag == true) {
+				draw = (AnimationDrawable) getResources().getDrawable(
+						R.drawable.listen_anim);
+				draw.setBounds(0, 0, draw.getMinimumWidth(),
+						draw.getMinimumHeight());
+				image_monitor.setBackgroundDrawable(draw);
+				draw.start();
+				tag = false;
+			} else {
+				draw.stop();
+				image_monitor
+						.setBackgroundResource(R.drawable.llh_came_port_listener_nomel);
+				image_record
+						.setBackgroundResource(R.drawable.llh_came_port_talk_nomel);
+				tag = true;
+			}
+			goAudio();
+			return;
+		}else if(v.getId()==R.id.image_close){
+//			String sysVersion=getHandSetInfo();
+//			if(!TextUtils.isEmpty(sysVersion)&&Integer.valueOf(sysVersion)>5){
+				Intent intent = new Intent(PlayActivity.this,HelpService.class);
+				intent.setAction("com.angel.Android.MUSIC");
+				getApplicationContext().stopService(intent);
+//			}else{
+//				Intent intent = new Intent();
+//				intent.setAction("com.angel.Android.MUSIC");
+//				getApplicationContext().stopService(intent);
+//			}
+			return;
+		}else if (v.getId()==R.id.image_history){
+			Intent intent=new Intent(getApplicationContext(),HistoryImageActivity.class);
+			startActivity(intent);
 		}
 	}
+
+	private AnimationDrawable draw;
+	boolean tag = true;
+
+
 
 	private void dismissBrightAndContrastProgress() {
 		if (mPopupWindowProgress != null && mPopupWindowProgress.isShowing()) {
@@ -1199,7 +1368,6 @@ public  class PlayActivity extends Activity implements OnTouchListener,OnGesture
         }
 		@Override
 		protected void onPreExecute() {
-			// TODO Auto-generated method stub
 			super.onPreExecute();
 			if(type ==ContentCommon.CMD_PTZ_RIGHT) {
 				control_item.setText(R.string.right);
@@ -1213,11 +1381,18 @@ public  class PlayActivity extends Activity implements OnTouchListener,OnGesture
 			else if(type ==ContentCommon.CMD_PTZ_DOWN) {
 				control_item.setText(R.string.down);
 			}
-			if (controlWindow != null && controlWindow.isShowing())
+			if (controlWindow != null && controlWindow.isShowing()){
 				controlWindow.dismiss();
-			
-			if (controlWindow != null && !controlWindow.isShowing())
-				controlWindow.showAtLocation(playSurface, Gravity.CENTER,0, 0);
+			}
+			if (getResources().getConfiguration().orientation==Configuration.ORIENTATION_LANDSCAPE){
+				if (controlWindow != null && !controlWindow.isShowing()){
+					controlWindow.showAtLocation(playSurface, Gravity.CENTER,0, 0);
+				}
+			}else{
+				if (controlWindow != null && !controlWindow.isShowing()){
+					controlWindow.showAtLocation(playSurface, Gravity.TOP,0, 0);
+				}
+			}
 		}
 
 		@Override
@@ -1280,7 +1455,8 @@ public  class PlayActivity extends Activity implements OnTouchListener,OnGesture
 		LayoutInflater inflater=LayoutInflater.from(this);
 		View view=inflater.inflate(R.layout.control_device_view, null);
 		control_item = (TextView) view.findViewById(R.id.textView1_play);
-		controlWindow=new PopupWindow(view,LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+		controlWindow=new PopupWindow(view,LinearLayout.LayoutParams.WRAP_CONTENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT);
 		controlWindow.setBackgroundDrawable(new ColorDrawable(0));
 		controlWindow.setOnDismissListener(new OnDismissListener() {
 			
@@ -1530,7 +1706,7 @@ public  class PlayActivity extends Activity implements OnTouchListener,OnGesture
    //判断sd卡是否存在
 	private boolean existSdcard() {
 		if (Environment.getExternalStorageState().equals(
-				Environment.MEDIA_MOUNTED)) {
+				Environment.MEDIA_MOUNTED)) {//
 			return true;
 		} else {
 			return false;
@@ -1559,20 +1735,21 @@ public  class PlayActivity extends Activity implements OnTouchListener,OnGesture
 		FileOutputStream fos = null;
 		try {
 			File div = new File(Environment.getExternalStorageDirectory(),
-					"ipcamerademo/takepic");
+					"namecard");
 			if (!div.exists()) {
 				div.mkdirs();
 			}
 			++i;
 			Log.e("", i+"");
-			File file = new File(div, strDate + "_"+ strDID + "_"+ i +".jpg");
+//			File file = new File(div, strDate + "_"+ strDID + "_"+ i +".jpg");
+			File file = new File(div, strDate + i +".png");
+
 			fos = new FileOutputStream(file);
-			if (bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos)) 
+			if (bmp.compress(Bitmap.CompressFormat.PNG, 100, fos))
 			{
 				fos.flush();
 				Log.d("tag", "takepicture success");
 				runOnUiThread(new Runnable() {
-
 					@Override
 					public void run() {
 					 showToast(R.string.ptz_takepic_ok);
@@ -1603,7 +1780,7 @@ public  class PlayActivity extends Activity implements OnTouchListener,OnGesture
 	//时间格式
 	private String getStrDate() {
 		Date d = new Date();
-		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd_HH_mm");
+		SimpleDateFormat f = new SimpleDateFormat("yyyyMMddHHmm");
 		String strDate = f.format(d);
 		return strDate;
 	}
@@ -2099,4 +2276,14 @@ public  class PlayActivity extends Activity implements OnTouchListener,OnGesture
 		{
 			abstract public void VideoRecordData(int type, byte[] videodata, int width, int height, int time);
 		}
+
+	private MediaPlayer music;
+
+	private void PlayMusic(int MusicId) {
+
+		music = MediaPlayer.create(this, MusicId);
+		music.start();
+
+	}
+
 }

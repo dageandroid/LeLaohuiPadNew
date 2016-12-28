@@ -13,6 +13,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,18 +24,22 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.llh.ipcarmear.StartActivity;
+import com.llh.ipcarmear.util.SystemValue;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import dq.lelaohui.com.lelaohuipad.base.LeLaoHuiBaseActivity;
+import dq.lelaohui.com.lelaohuipad.bean.MyDeviceInfo;
 import dq.lelaohui.com.lelaohuipad.controler.MainControler;
-import dq.lelaohui.com.lelaohuipad.dao.ProFoodInfoDaoOperator;
-import dq.lelaohui.com.lelaohuipad.fragement.shop.CammerMainActivity;
+import dq.lelaohui.com.lelaohuipad.fragement.shop.AddAddressActivity;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.FoodActivity;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.ServerActivity;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.ServerSubscribeActivity;
 import dq.lelaohui.com.lelaohuipad.port.IControler;
+import dq.lelaohui.com.lelaohuipad.util.SysVar;
+import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
+import dq.lelaohui.com.nettylibrary.util.ServiceNetContant;
 
 public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -46,7 +51,12 @@ public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
     private RecyclerView main_view;
     private NavigationView nav_view;
     private DrawerLayout drawer_layout;
-    MyAdapter myAdapter=null;
+    private MyAdapter myAdapter=null;
+    private MainControler mainControler=null;
+    private SysVar var=null;
+    private static final String DEVICE_NAME="admin";//设备姓名
+    private static final String DEVICE_PASS="888888";//设备密码
+
     @Override
     public IControler getControler() {
         return MainControler.getControler();
@@ -57,6 +67,8 @@ public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
         super.onCreate(savedInstanceState);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        mainControler=(MainControler)getControler();
+        var= SysVar.getInstance();
         initView();
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -110,13 +122,20 @@ public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
             }
         });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mainControler.queryUserDeviceInfo(var.getUserId(),var.getCenterId());
+    }
+
     public   List<String> getData(){
         List<String> listData=new ArrayList<String>();
         listData.add("服务");
         listData.add("餐品");
         listData.add("商品");
         listData.add("服务预约");
-        listData.add("清空订餐");
+        listData.add("摄像头");
         return listData;
     }
 
@@ -186,9 +205,37 @@ public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
+    private   List<MyDeviceInfo> data=new ArrayList<>();
+    private String deviceCode=null;
+    private String deviceId=null;
     @Override
     public void result(Bundle bundle) {
+        if (bundle==null){
+            return ;
+        }
+        if(bundle!=null){
+            String action=bundle.getString("action");
+            if (ServiceNetContant.ServiceResponseAction.GET_DEVICE_STATUS_INFOS_RESONSE.equals(action)){
+               if (data!=null&&data.size()>0){
+                   data.clear();
+                   data= bundle.getParcelableArrayList("userDevice");
+                   for (int i=0;i<data.size();i++){
+                       if ("2".equals(data.get(i).getStatus())){
+                           deviceCode= data.get(i).getDeviceCode();
+                           return;
+                       }
+                   }
+                   if (TextUtils.isEmpty(deviceCode)){
+                       Toast.makeText(getApplicationContext(),"抱歉，您的设备目前处于欠或过期状态！",Toast.LENGTH_LONG).show();
+                       return;
+                   }else{
+                       SystemValue.deviceId=deviceCode;
+                       SystemValue.deviceName=DEVICE_NAME;
+                       SystemValue.devicePass=DEVICE_PASS;
+                   }
+               }
+            }
+        }
 
     }
 

@@ -141,6 +141,15 @@
             android:configChanges="keyboardHidden|orientation"
             >
         </activity>
+        <!--历史图片-->
+        <activity
+            android:name="com.llh.ipcarmear.HistoryImageActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"
+            android:configChanges="keyboardHidden|orientation"
+            >
+        </activity>
+
         <!--摄像头报警service-->
         <service android:name=".service.HelpService"
             android:enabled="true"

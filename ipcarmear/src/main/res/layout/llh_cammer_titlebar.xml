@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="50dp">
+    <android.support.v7.widget.AppCompatImageButton
+        android:id="@+id/break_img_btn"
+        android:layout_width="60dp"
+        android:background="@drawable/back_play"
+        android:layout_centerVertical="true"
+        android:layout_height="50dp" />
+    <android.support.v7.widget.AppCompatTextView
+        android:textSize="@dimen/text_size_22sp"
+        android:layout_width="wrap_content"
+        android:text="探望记录"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:textColor="@android:color/black"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>
