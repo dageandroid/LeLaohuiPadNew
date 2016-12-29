@@ -35,13 +35,8 @@ import vstc2.nativecaller.NativeCaller;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends LeLaoHuiBaseActivity  {
-
-    /**
-     * Id to identity READ_CONTACTS permission request.
-     */
     private static final int REQUEST_READ_CONTACTS = 0;
     private AppCompatImageView testImage;
-    // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
@@ -49,8 +44,6 @@ public class LoginActivity extends LeLaoHuiBaseActivity  {
     private LeLaohuiApp app=null;
     private String tag="LoginActivity";
     private Handler handler;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,28 +102,6 @@ public class LoginActivity extends LeLaoHuiBaseActivity  {
 //                .into(testImage);
         Intent service = new Intent(getApplicationContext(), XGPushService.class);
         startService(service);
-
-        //摄像头相关代码
-
-//        Intent intent=new Intent();
-//        intent.setClass(LoginActivity.this,BridgeService.class);
-//        startService(intent);
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                {
-//                    try {
-//                        NativeCaller.PPPPInitialOther("ADCBBFAOPPJAHGJGBBGLFLAGDBJJHNJGGMBFBKHIBBNKOKLDHOBHCBOEHOKJJJKJBPMFLGCPPJMJAPDOIPNL");
-//                        Thread.sleep(3000);
-//                        Message msg = new Message();
-//                        mHandler.sendMessage(msg);
-//                    } catch (Exception e) {
-//
-//                    }
-//                }
-//            }
-//        }).start();
-
     }
 
     private void init() {
@@ -138,49 +109,31 @@ public class LoginActivity extends LeLaoHuiBaseActivity  {
         app.init(this);
 
     }
-
-
     @Override
     protected int getLayoutID() {
         return R.layout.lllaohui_activity_login;
     }
-
-
-
-
     @Override
     protected void onResume() {
         super.onResume();
     }
-
-
-
-    /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
     private void attemptLogin() {
 
-        // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
 
-        // Store values at the time of the login attempt.
         final String email = mEmailView.getText().toString();
         final String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
         if ( !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
         }
 
-        // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
@@ -192,18 +145,9 @@ public class LoginActivity extends LeLaoHuiBaseActivity  {
         }
 
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
             Log.i(tag,"111 usenamr="+email+",pwd="+password);
-//            mHandler = new Handler() {
-//                public void handleMessage(Message msg) {
-//            ((LogonControler)getControler()). reqLogon(email, MD5Tools.getPwd(password));
-//                }
-//            };
         ((LogonControler)getControler()). reqLogon(email, MD5Tools.getPwd(password));
         }
     }
@@ -253,13 +197,6 @@ public class LoginActivity extends LeLaoHuiBaseActivity  {
         }
     }
 
-
-
-
-
-
-
-
     @Override
     public void showProgress() {
         showProgress(true);
@@ -276,7 +213,6 @@ public class LoginActivity extends LeLaoHuiBaseActivity  {
     public void usable() {
 
     }
-
 
     @Override
     public IControler getControler() {

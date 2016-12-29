@@ -62,10 +62,12 @@ public class MainControler extends LaoHuiBaseControler {
             MyDeviceInfoCate deviceInfoCate=(MyDeviceInfoCate)getJsonToObject(body, MyDeviceInfoCate.class);
             if (deviceInfoCate.getCode() == 0) {
                 if (getIControlerCallBack() != null) {//解析数据成功，通知UI界面
+                    Log.i(TAG,"..........解析数据成功.........");
                     List<MyDeviceInfo> data = deviceInfoCate.getData();
                     if (data != null && data.size() > 0) {
                         Bundle bundle = new Bundle();
                         bundle.putString("action", ServiceNetContant.ServiceResponseAction.GET_DEVICE_STATUS_INFOS_RESONSE);
+                        Log.i(TAG,"..........userDevice.........");
                         bundle.putParcelableArrayList("userDevice", (ArrayList<? extends Parcelable>) data);
                         getIControlerCallBack().result(bundle);
                     }
