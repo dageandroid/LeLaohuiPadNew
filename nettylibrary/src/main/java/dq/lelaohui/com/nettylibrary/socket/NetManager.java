@@ -31,17 +31,12 @@ public class NetManager {
     }
     private NetStatueCallBack statusCallBack;
 
-
-
     private NetManager() {
         progressManager=new ProgressManager();
     }
     public void setStatusCallBack(NetStatueCallBack statusCallBack) {
         this.statusCallBack = statusCallBack;
     }
-
-
-
 
     public void startNet(){
         if(context==null){

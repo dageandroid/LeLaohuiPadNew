@@ -50,6 +50,8 @@ import dq.lelaohui.com.nettylibrary.util.Protocol_KEY;
 import dq.lelaohui.com.nettylibrary.util.ServiceNetContant;
 import vstc2.nativecaller.NativeCaller;
 
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
+
 public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener,BridgeService.AddCameraInterface,BridgeService.IpcamClientInterface,BridgeService.CallBackMessageInterface {
 
@@ -103,7 +105,6 @@ public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
         myAdapter.setmOnItemClickListener(new MyAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(getApplicationContext(), "POSITION=="+position, Toast.LENGTH_SHORT).show();
             Intent intent=null;
                switch (position){
                    case 0:
@@ -255,7 +256,7 @@ public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
                        intent.putExtra(ContentCommon.STR_CAMERA_PWD,DEVICE_PASS);
                        intent.putExtra(ContentCommon.STR_CAMERA_TYPE,CameraType);
 
-//                       SystemValue.deviceId=deviceCode;
+//                     SystemValue.deviceId=deviceCode;
                        SystemValue.deviceId="VSTB067542HSYXP";
                        SystemValue.deviceName=DEVICE_NAME;
                        SystemValue.devicePass=DEVICE_PASS;
@@ -277,7 +278,6 @@ public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
                 Thread.sleep(100);
                 startCameraPPPP();
             } catch (Exception e) {
-
             }
         }
     }
@@ -314,13 +314,12 @@ public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         button = (Button) findViewById(R.id.button);
         content_le_laohui_main = (RelativeLayout) findViewById(R.id.content_le_laohui_main);
-//       fab = (FloatingActionButton) findViewById(R.id.fab);
+//      fab = (FloatingActionButton) findViewById(R.id.fab);
         main_view = (RecyclerView) findViewById(R.id.main_view);
         nav_view = (NavigationView) findViewById(R.id.nav_view);
         drawer_layout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
         button.setOnClickListener(this);
-//        fab.setOnClickListener(this);
+//      fab.setOnClickListener(this);
         BridgeService.setAddCameraInterface(this);
         BridgeService.setCallBackMessage(this);
     }
@@ -334,17 +333,18 @@ public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
     public void hideProgress() {
 
     }
-    private static final String STR_MSG_PARAM="msgparam";
+
+    private static final String STR_MSG_PARAM="msgparam";//摄像头返回状态
     private static final String STR_DID="did";
     private int tag=0;
-    //判断摄像头状态
+    //判断摄像头状态消息分发
     private Handler PPPPMsgHandler = new Handler() {
         public void handleMessage(Message msg) {
 
             Bundle bd = msg.getData();
             int msgParam = bd.getInt(STR_MSG_PARAM);
             int msgType = msg.what;
-            Log.i("aaa", "===="+msgType+"--msgParam:"+msgParam);
+            Log.i(TAG, "===="+msgType+"--msgParam:"+msgParam);
             String did = bd.getString(STR_DID);
             switch (msgType) {
                 case ContentCommon.PPPP_MSG_TYPE_PPPP_STATUS:
@@ -352,32 +352,32 @@ public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
                     switch (msgParam) {
                         case ContentCommon.PPPP_STATUS_CONNECTING://0
                             resid = R.string.pppp_status_connecting;
-//                            progressBar.setVisibility(View.VISIBLE);
+//                          progressBar.setVisibility(View.VISIBLE);
                             tag = 2;
                             break;
                         case ContentCommon.PPPP_STATUS_CONNECT_FAILED://3
                             resid = R.string.pppp_status_connect_failed;
-//                            progressBar.setVisibility(View.GONE);
+//                          progressBar.setVisibility(View.GONE);
                             tag = 0;
                             break;
                         case ContentCommon.PPPP_STATUS_DISCONNECT://4
                             resid = R.string.pppp_status_disconnect;
-//                            progressBar.setVisibility(View.GONE);
+//                          progressBar.setVisibility(View.GONE);
                             tag = 0;
                             break;
                         case ContentCommon.PPPP_STATUS_INITIALING://1
                             resid = R.string.pppp_status_initialing;
-//                            progressBar.setVisibility(View.VISIBLE);
+//                          progressBar.setVisibility(View.VISIBLE);
                             tag = 2;
                             break;
                         case ContentCommon.PPPP_STATUS_INVALID_ID://5
                             resid = R.string.pppp_status_invalid_id;
-//                            progressBar.setVisibility(View.GONE);
+//                          progressBar.setVisibility(View.GONE);
                             tag = 0;
                             break;
                         case ContentCommon.PPPP_STATUS_ON_LINE://2 在线状态
                             resid = R.string.pppp_status_online;
-//                            progressBar.setVisibility(View.GONE);
+//                          progressBar.setVisibility(View.GONE);
                             //摄像机在线之后读取摄像机类型
                             String cmd="get_status.cgi?loginuse=admin&loginpas=" + SystemValue.devicePass
                                     + "&user=admin&pwd=" + SystemValue.devicePass;
@@ -396,13 +396,13 @@ public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
                             break;
                         case ContentCommon.PPPP_STATUS_CONNECT_ERRER://8
                             resid =R.string.pppp_status_pwd_error;
-//                            progressBar.setVisibility(View.GONE);
+//                          progressBar.setVisibility(View.GONE);
                             tag = 0;
                             break;
                         default:
                             resid = R.string.pppp_status_unknown;
                     }
-//                    textView_top_show.setText(getResources().getString(resid));
+//                    Toast.makeText(getApplicationContext(),""+resid,Toast.LENGTH_LONG).show();
                     if (msgParam == ContentCommon.PPPP_STATUS_ON_LINE) {
                         NativeCaller.PPPPGetSystemParams(did,ContentCommon.MSG_TYPE_GET_PARAMS);
                     }
