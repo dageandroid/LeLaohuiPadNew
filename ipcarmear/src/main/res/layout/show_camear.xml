@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:padding="5dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <!--<android.support.v7.widget.CardView-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:orientation="vertical"-->
+        <!--android:layout_margin="5dp"-->
+        <!--android:layout_height="wrap_content">-->
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+         >
+<ImageView
+    android:id="@+id/imageshow"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:scaleType="fitXY"
+    android:src="@drawable/meeting_scene" >
+</ImageView>
+
+<ImageView
+    android:id="@+id/online"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentRight="true"
+    android:layout_alignTop="@+id/imageshow"
+    android:scaleType="fitCenter"
+    android:src="@drawable/camera_play_notonline_ch" />
+
+<ImageView
+    android:id="@+id/play"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:scaleType="fitCenter"
+    android:src="@drawable/start"
+    android:layout_centerVertical="true"
+    android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
+    <LinearLayout
+        android:layout_height="50dp"
+        android:layout_width="fill_parent"
+        android:orientation="horizontal"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/imageshow"
+        >
+
+        <ImageView
+            android:id="@+id/icon_device"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/imageshow"
+            android:scaleType="fitCenter"
+            android:src="@drawable/camera_touxiang"
+            />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/deviceNametv"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="@dimen/text_size_24sp"
+            android:layout_width="wrap_content"
+            android:text="我的摄像头"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+    <!--</android.support.v7.widget.CardView>-->
+</LinearLayout>

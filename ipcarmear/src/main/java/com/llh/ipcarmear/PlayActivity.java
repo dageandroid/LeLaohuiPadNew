@@ -1026,7 +1026,7 @@ public void initView(){
 					showSureDialogPlay();
 				}
 			}
-
+			return;
 		} else if (i1 == R.id.ptz_hori_mirror) {
 			int value1;
 
@@ -1049,7 +1049,7 @@ public void initView(){
 
 			NativeCaller.PPPPCameraControl(strDID, 5, value1);
 			m_bLeftRightMirror = !m_bLeftRightMirror;
-
+			return;
 		} else if (i1 == R.id.ptz_vert_mirror) {
 			int value;
 			if (m_bUpDownMirror) {
@@ -1069,7 +1069,7 @@ public void initView(){
 			}
 			NativeCaller.PPPPCameraControl(strDID, 5, value);
 			m_bUpDownMirror = !m_bUpDownMirror;
-
+			return;
 		} else if (i1 == R.id.ptz_hori_tour) {
 			if (isLeftRight) {
 				ptzHoriTour2.setBackgroundColor(0x000044aa);
@@ -1080,7 +1080,7 @@ public void initView(){
 				isLeftRight = true;
 				NativeCaller.PPPPPTZControl(strDID, ContentCommon.CMD_PTZ_LEFT_RIGHT);
 			}
-
+			return;
 		} else if (i1 == R.id.ptz_vert_tour) {
 			if (isUpDown) {
 				ptzVertTour2.setBackgroundColor(0x000044aa);
@@ -1091,13 +1091,13 @@ public void initView(){
 				isUpDown = true;
 				NativeCaller.PPPPPTZControl(strDID, ContentCommon.CMD_PTZ_UP_DOWN);
 			}
-
+			return;
 		} else if (i1 == R.id.ptz_talk) {//对讲
 			goMicroPhone();
-
+			return;
 		} else if (i1 == R.id.ptz_take_videos) {//录像
 			goTakeVideo();
-
+			return;
 		} else if (i1 == R.id.ptz_take_photos) {//拍照
 			dismissBrightAndContrastProgress();
 			if (existSdcard()) {// 判断sd卡是否存在
@@ -1106,10 +1106,10 @@ public void initView(){
 			} else {
 				showToast(R.string.ptz_takepic_save_fail);
 			}
-
+			return;
 		} else if (i1 == R.id.ptz_audio) {
 			goAudio();
-
+			return;
 		} else if (i1 == R.id.ptz_brightness) {
 			if (mPopupWindowProgress != null
 					&& mPopupWindowProgress.isShowing()) {
@@ -1117,7 +1117,7 @@ public void initView(){
 				mPopupWindowProgress = null;
 			}
 			setBrightOrContrast(BRIGHT);
-
+			return;
 		} else if (i1 == R.id.ptz_contrast) {
 			if (mPopupWindowProgress != null
 					&& mPopupWindowProgress.isShowing()) {
@@ -1125,10 +1125,10 @@ public void initView(){
 				mPopupWindowProgress = null;
 			}
 			setBrightOrContrast(CONTRAST);
-
+			return;
 		} else if (i1 == R.id.ptz_resolution) {
 			showResolutionPopWindow();
-
+			return;
 		} else if (i1 == R.id.preset) {
 			presetBitWindow();
 			Log.i(TAG,update);
@@ -1138,7 +1138,7 @@ public void initView(){
 			}else{
 			//	change_view
 			}
-
+			return;
 
 		} else if (i1 == R.id.ptz_resolution_jpeg_qvga) {
 			dismissBrightAndContrastProgress();
@@ -1146,14 +1146,14 @@ public void initView(){
 			nResolution = 1;
 			setResolution(nResolution);
 			Log.d("tag", "jpeg resolution:" + nResolution + " qvga");
-
+			return;
 		} else if (i1 == R.id.ptz_resolution_jpeg_vga) {
 			dismissBrightAndContrastProgress();
 			resolutionPopWindow.dismiss();
 			nResolution = 0;
 			setResolution(nResolution);
 			Log.d("tag", "jpeg resolution:" + nResolution + " vga");
-
+			return;
 		} else if (i1 == R.id.ptz_resolution_h264_qvga) {
 			dismissBrightAndContrastProgress();
 			resolutionPopWindow.dismiss();
@@ -1166,7 +1166,7 @@ public void initView(){
 			addReslution(stqvga1, isqvga1);
 			nResolution = 5;
 			setResolution(nResolution);
-
+			return;
 		} else if (i1 == R.id.ptz_resolution_h264_vga) {
 			dismissBrightAndContrastProgress();
 			resolutionPopWindow.dismiss();
@@ -1179,7 +1179,7 @@ public void initView(){
 			addReslution(stvga1, isvga1);
 			nResolution = 4;
 			setResolution(nResolution);
-
+			return;
 
 		} else if (i1 == R.id.ptz_resolution_h264_720p) {
 			dismissBrightAndContrastProgress();
@@ -1193,7 +1193,7 @@ public void initView(){
 			addReslution(stp720, isp720);
 			nResolution = 3;
 			setResolution(nResolution);
-
+			return;
 		} else if (i1 == R.id.ptz_resolution_h264_middle) {
 			dismissBrightAndContrastProgress();
 			resolutionPopWindow.dismiss();
@@ -1206,7 +1206,7 @@ public void initView(){
 			addReslution(stmiddle, ismiddle);
 			nResolution = 2;
 			setResolution(nResolution);
-
+			return;
 		} else if (i1 == R.id.ptz_resolution_h264_high) {
 			dismissBrightAndContrastProgress();
 			resolutionPopWindow.dismiss();
@@ -1219,7 +1219,7 @@ public void initView(){
 			addReslution(sthigh, ishigh);
 			nResolution = 1;
 			setResolution(nResolution);
-
+			return;
 		} else if (i1 == R.id.ptz_resolution_h264_max) {
 			dismissBrightAndContrastProgress();
 			resolutionPopWindow.dismiss();
@@ -1232,11 +1232,11 @@ public void initView(){
 			addReslution(stmax, ismax);
 			nResolution = 0;
 			setResolution(nResolution);
-
+			return;
 		} else if (i1 == R.id.ptz_default_set) {
 			dismissBrightAndContrastProgress();
 			defaultVideoParams();
-
+			return;
 		} else if (i1 == R.id.ir_switch) {
 			if (irSwitch.isChecked()) {
 				NativeCaller.PPPPCameraControl(strDID, IR_STATE, 1);
@@ -1246,10 +1246,11 @@ public void initView(){
 				NativeCaller.PPPPCameraControl(strDID, IR_STATE, 0);
 				Toast.makeText(PlayActivity.this, "IR关", Toast.LENGTH_LONG).show();
 			}
-
+			return;
 		}else if (v.getId()==R.id.play_break){
 			NativeCaller.StopPPPPLivestream(strDID);
 			PlayActivity.this.finish();
+			return;
 		}else if (v.getId()==R.id.change_view){
 			if (this.getResources().getConfiguration().orientation==Configuration.ORIENTATION_PORTRAIT){
 				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -1332,6 +1333,7 @@ public void initView(){
 		}else if (v.getId()==R.id.image_history){
 			Intent intent=new Intent(getApplicationContext(),HistoryImageActivity.class);
 			startActivity(intent);
+			return;
 		}
 	}
 
