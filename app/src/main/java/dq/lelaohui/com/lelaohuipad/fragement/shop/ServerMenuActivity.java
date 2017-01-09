@@ -76,6 +76,7 @@ public class ServerMenuActivity extends LeLaoHuiBaseActivity implements BaseShop
         serverControler = (ServerMenuControler) getControler();
         ServerMenuDataManager dataManager=ServerMenuDataManager.getInstance(serverControler,this);
         dataManager.setDataListener(this);
+
         serverControler.setDataManager(dataManager);
         setNetResponIntercept(dataManager);
         shopCartBase = new BaseShopCart(this);
