@@ -12,6 +12,8 @@ import dq.lelaohui.com.lelaohuipad.LeLaohuiApp;
 import dq.lelaohui.com.lelaohuipad.base.LaoHuiBaseControler;
 import dq.lelaohui.com.lelaohuipad.bean.MyDeviceInfo;
 import dq.lelaohui.com.lelaohuipad.bean.MyDeviceInfoCate;
+import dq.lelaohui.com.lelaohuipad.bean.MyOldManInfo;
+import dq.lelaohui.com.lelaohuipad.bean.MyOldManInfoCate;
 import dq.lelaohui.com.lelaohuipad.util.AddressRequerstParam;
 import dq.lelaohui.com.lelaohuipad.util.MyDeviceInfoRequerstParam;
 import dq.lelaohui.com.nettylibrary.socket.RequestParam;
@@ -62,12 +64,10 @@ public class MainControler extends LaoHuiBaseControler {
             MyDeviceInfoCate deviceInfoCate=(MyDeviceInfoCate)getJsonToObject(body, MyDeviceInfoCate.class);
             if (deviceInfoCate.getCode() == 0) {
                 if (getIControlerCallBack() != null) {//解析数据成功，通知UI界面
-                    Log.i(TAG,"..........解析数据成功.........");
                     List<MyDeviceInfo> data = deviceInfoCate.getData();
                     if (data != null && data.size() > 0) {
                         Bundle bundle = new Bundle();
                         bundle.putString("action", ServiceNetContant.ServiceResponseAction.GET_DEVICE_STATUS_INFOS_RESONSE);
-                        Log.i(TAG,"..........userDevice.........");
                         bundle.putParcelableArrayList("userDevice", (ArrayList<? extends Parcelable>) data);
                         getIControlerCallBack().result(bundle);
                     }
@@ -75,7 +75,34 @@ public class MainControler extends LaoHuiBaseControler {
             } else {
             Log.i(TAG,"data is null");
         }
+    }else if(ServiceNetContant.ServiceResponseAction.GET_MY_OLDMAN_INFO_RESONSE.equals(action)){
+            String body=getResponseBody(responseData);
+            Log.i(TAG,"body=="+body);
+            MyOldManInfoCate mOldManInfoCate=(MyOldManInfoCate)getJsonToObject(body, MyOldManInfoCate.class);
+            if (mOldManInfoCate.getCode() == 0) {
+                if (getIControlerCallBack() != null) {//解析数据成功，通知UI界面
+                    List<MyOldManInfo> data = mOldManInfoCate.getData();
+                    if (data != null && data.size() > 0) {
+                        getUserOldManInfo((ArrayList<? extends Parcelable>) data);
+                    }
+                }
+            } else {
+                List<MyOldManInfo> data=new ArrayList();
+                getUserOldManInfo((ArrayList<? extends Parcelable>) data);
+                Log.i(TAG,"data is null");
+            }
+        }
     }
+
+    /**
+     * 用户老人信息
+     * @param data
+     */
+    protected void getUserOldManInfo(ArrayList<? extends Parcelable> data) {
+        Bundle bundle = new Bundle();
+        bundle.putString("action", ServiceNetContant.ServiceResponseAction.GET_MY_OLDMAN_INFO_RESONSE);
+        bundle.putParcelableArrayList("userOldManInfos", data);
+        getIControlerCallBack().result(bundle);
     }
 
 
@@ -90,6 +117,17 @@ public class MainControler extends LaoHuiBaseControler {
             throw new RuntimeException(" app is null exception");
         }
         RequestParam requestParam = myDeviceInfoRequerstParam.queryUserDeviceInfo(userId,centerId,getSysVar().getOrgId(),getSysVar().getOrgType());
+        app.reqData(requestParam);
+    }
+    /**
+     * 获取老人基本信息
+     */
+    public void queryUserOldMainInfo() {
+        LeLaohuiApp app = (LeLaohuiApp) getContext();
+        if (app == null) {
+            throw new RuntimeException(" app is null exception");
+        }
+        RequestParam requestParam = myDeviceInfoRequerstParam. doUserOldMainInfos();
         app.reqData(requestParam);
     }
 

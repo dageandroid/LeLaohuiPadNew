@@ -38,6 +38,7 @@ import java.util.List;
 
 import dq.lelaohui.com.lelaohuipad.base.LeLaoHuiBaseActivity;
 import dq.lelaohui.com.lelaohuipad.bean.MyDeviceInfo;
+import dq.lelaohui.com.lelaohuipad.bean.MyOldManInfo;
 import dq.lelaohui.com.lelaohuipad.controler.MainControler;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.AddAddressActivity;
 import dq.lelaohui.com.lelaohuipad.fragement.shop.CamearQueryActivity;
@@ -79,15 +80,6 @@ public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
         mainControler=(MainControler)getControler();
         var= SysVar.getInstance();
         initView();
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -142,6 +134,7 @@ public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
     protected void onResume() {
         super.onResume();
         mainControler.queryUserDeviceInfo(var.getUserId(),var.getCenterId());
+        mainControler.queryUserOldMainInfo();
     }
 
     @Override
@@ -225,11 +218,9 @@ public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
         return true;
     }
     private   List<MyDeviceInfo> data=new ArrayList<>();
+    public static  List<MyOldManInfo> myOldManInfosCaChe=new ArrayList<>();
     private String deviceCode=null;
     private String deviceName=null;
-    private String deviceId=null;
-    private int option= ContentCommon.INVALID_OPTION;
-    private int CameraType=ContentCommon.CAMERA_TYPE_MJPEG;
     private static  final String TAG="LeLaohuiMainActivity";
     private boolean tag=false;
     @Override
@@ -237,9 +228,7 @@ public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
         if (bundle==null){
             return ;
         }
-        if(bundle!=null){
             String action=bundle.getString("action");
-
             if (ServiceNetContant.ServiceResponseAction.GET_DEVICE_STATUS_INFOS_RESONSE.equals(action)){
                 data= bundle.getParcelableArrayList("userDevice");
                 if (data!=null&&data.size()>0){
@@ -256,13 +245,19 @@ public class LeLaohuiMainActivity extends LeLaoHuiBaseActivity
                    }else{
                        //获取摄像头初始化信息
                        tag=true;
-                       Intent intent=new Intent();
 //                     SystemValue.deviceId=deviceCode;
                        SystemValue.deviceId="VSTB067542HSYXP";
                    }
-               }
             }
-        }
+        }else if(ServiceNetContant.ServiceResponseAction.GET_MY_OLDMAN_INFO_RESONSE.equals(action)){
+                myOldManInfosCaChe=bundle.getParcelableArrayList("userOldManInfos");
+                if (myOldManInfosCaChe!=null&&myOldManInfosCaChe.size()==0){
+                    MyOldManInfo myOldManInfo=new MyOldManInfo();
+                    myOldManInfo.setUserId(var.getUserId());
+                    myOldManInfo.setUserName(var.getUserName());
+                    myOldManInfosCaChe.add(myOldManInfo);
+                }
+            }
     }
     @Override
     public void usable() {

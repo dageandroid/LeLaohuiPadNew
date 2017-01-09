@@ -110,7 +110,6 @@ public class SubShopFoodInfoActivity  extends BaseOrderInfoActivity{
     }
     /**
      *提交订餐相关数据
-     * (addressType,payType,totalMoney,userAddressStr,userPhoneStr,isScope,Integer.parseInt(mealTime),userId,buyUserId,data);
      */
     @Override
     protected BaseOrderCate getBaseOrderCate() {

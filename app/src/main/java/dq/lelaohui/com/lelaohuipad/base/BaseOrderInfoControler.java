@@ -38,6 +38,7 @@ public abstract class BaseOrderInfoControler extends LaoHuiBaseControler {
 
     protected abstract boolean isAddressResponse(String action) ;
     protected abstract void UploadOrderPayMent(Bundle responseData);
+
     /**
      * 查询订单返回接口
      * @param orderInfo

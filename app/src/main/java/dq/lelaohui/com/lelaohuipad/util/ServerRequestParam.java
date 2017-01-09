@@ -197,12 +197,15 @@ public class ServerRequestParam {
     public RequestParam   doUserAddressInfo(){
         RequestParam requestParam=getRequestParamLLH();
         requestParam.addHeader(Protocol_KEY.ACTION,NetContant.ServiceAction.QUERY_USER_ADDRESS);
-        requestParam.addHeader(Protocol_KEY.USERDATA, "query.user.address");
+        requestParam.addHeader(Protocol_KEY.USERDATA, NetContant.ServiceAction.QUERY_USER_ADDRESS);
         requestParam.addBody(Protocol_KEY.IS_SERVER_REQ,false);
         requestParam.addBody(Protocol_KEY.USERID,var.getUserId());
         requestParam.addBody(Protocol_KEY.CENTERID,var.getCenterId());
         return requestParam;
     }
+
+
+
     /***
      *
      * 服务支付接口 (需要测试)

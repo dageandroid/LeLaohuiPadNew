@@ -128,6 +128,10 @@ public class NetContant {
          * 获取用户设备相关信息
          */
         public static final String GET_DEVICE_STATUS_INFOS = "query.device.status";
+        /**
+         * 获取用户老人基本信息
+         */
+        public static final String GET_USER_OLDMAN_INFOS = "query.oldman.info";
 
     }
 

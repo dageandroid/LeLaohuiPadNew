@@ -87,5 +87,12 @@ public class ServiceNetContant {
          *获取用户设备信息相关接口
          */
         public static final String GET_DEVICE_STATUS_INFOS_RESONSE="query.device.status.response";
+        /**
+         * 获取用户的所有老人信息
+         */
+
+        public static final String GET_MY_OLDMAN_INFO_RESONSE="query.oldman.info.response";
+
+
     }
 }

@@ -175,7 +175,7 @@ public class CamearQueryActivity extends Activity implements BridgeService.AddCa
 							PlayActivity.class);
 					startActivity(intent);
 				}else{
-					Toast.makeText(getApplicationContext(), "抱歉，您的设备不在线，下拉可以刷新！", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getApplicationContext(), "抱歉，您的设备不在线！", Toast.LENGTH_SHORT).show();
 				}
 			}
 		});

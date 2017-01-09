@@ -164,8 +164,7 @@ public abstract class BaseOrderInfoActivity extends LeLaoHuiBaseActivity impleme
                 String reqMag=bundle.getString(FootterControler.REQ_MSG);
                 Snackbar.make(upload_shopping_car,""+reqMag,Snackbar.LENGTH_LONG).show();
                 hideProgress();
-            }else
-            if (ServiceNetContant.ServiceResponseAction.QUERY_USER_ADDRESS_RESPONSE.equals(action)) {
+            }else  if (ServiceNetContant.ServiceResponseAction.QUERY_USER_ADDRESS_RESPONSE.equals(action)) {
                 UserAddressData data = bundle.getParcelable("userAddress");
                 String userAddress = data.getAddress();
                 String userName = data.getUserName();
@@ -178,6 +177,10 @@ public abstract class BaseOrderInfoActivity extends LeLaoHuiBaseActivity impleme
             }else if(upLoadFinshOrder(action)){
                     gotoSuccessPage(outTradeNo);
             }
+//            else if (){
+//
+//
+//            }
         }
     }
 
@@ -266,34 +269,7 @@ public abstract class BaseOrderInfoActivity extends LeLaoHuiBaseActivity impleme
         }
     }
     protected abstract BaseOrderCate getBaseOrderCate();
-//    protected BaseOrderCate getBaseOrderCate() {
-//        SerOrderInfoData.SerOrderInfoBean serOrderInfo = infoData.getSerOrderInfo();
-//        String userAddressStr = user_address_view.getText().toString();
-//        String userNameStr = user_name_view.getText().toString();
-//        String userPhoneStr = user_phone_view.getText().toString();
-//        String address = userNameStr + "(" + userPhoneStr + "):" + userAddressStr;
-//        serOrderInfo.setContactAddress(address);
-//        serOrderInfo.setCustomerName(userNameStr);
-//        serOrderInfo.setCustomerPhone(userPhoneStr);
-//        serOrderInfo.setCustomerId(Long.valueOf(var.getUserId()));
-//        if ("3".equals(var.getOrgId())) {
-//            serOrderInfo.setOrgId(Integer.valueOf(var.getOrgId()));
-//            serOrderInfo.setOrgTypeId(Integer.valueOf(var.getOrgType()));
-//            serOrderInfo.setOrgName(var.getOrgName());
-//        } else {
-//            serOrderInfo.setSupplierId(Long.valueOf(var.getOrgId()));
-//            serOrderInfo.setSupplierTypeId(Integer.valueOf(var.getOrgType()));
-//            serOrderInfo.setSupplierName(var.getOrgName());
-//            serOrderInfo.setOrgId(Integer.valueOf(var.getCenterId()));
-//            serOrderInfo.setOrgTypeId(Integer.valueOf(3));
-//            serOrderInfo.setOrgName(var.getCenterName());
-//        }
-//        serOrderInfo.setOrderPersionId(Long.parseLong(var.getUserId()));
-//        serOrderInfo.setOrderPersionName(var.getUserName());
-//        serOrderInfo.setPayStyle(1);
-//        infoData.setSerOrderInfo(serOrderInfo);
-//        return  infoData;
-//    }
+
     protected String getAddressType(){
         String userAddressStr = user_address_view.getText().toString();
         String userNameStr = user_name_view.getText().toString();

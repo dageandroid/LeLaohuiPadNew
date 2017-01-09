@@ -14,7 +14,6 @@ public class MyDeviceInfoRequerstParam {
      * 获取数据请求的cateGory
      */
     private static final String CATEGORY = "lelaohui";
-    public static final String USEDATA ="query.device.info";
     private SysVar var=null;
     public MyDeviceInfoRequerstParam(){
         var=SysVar.getInstance();
@@ -23,7 +22,6 @@ public class MyDeviceInfoRequerstParam {
     public RequestParam getRequestParamLLH(){
         RequestParam requestParam=new RequestParam();
         requestParam.addHeader(Protocol_KEY.CATEGORY,CATEGORY);
-        requestParam.addHeader(Protocol_KEY.USERDATA, USEDATA);
         return requestParam;
     }
     /**
@@ -35,7 +33,7 @@ public class MyDeviceInfoRequerstParam {
     public RequestParam queryUserDeviceInfo(String customerId,int centerId,int orgId,int orgType){
         RequestParam requestParam=getRequestParamLLH();
         requestParam.addHeader(Protocol_KEY.ACTION, NetContant.ServiceAction.GET_DEVICE_STATUS_INFOS);
-        requestParam.addHeader(Protocol_KEY.USERDATA, "query.user.device");
+        requestParam.addHeader(Protocol_KEY.USERDATA,NetContant.ServiceAction.GET_DEVICE_STATUS_INFOS);
         requestParam.addBody(Protocol_KEY.IS_SERVER_REQ,false);
         requestParam.addBody(Protocol_KEY.USERID,customerId);
         requestParam.addBody(Protocol_KEY.ORG_ID,orgId);
@@ -43,7 +41,19 @@ public class MyDeviceInfoRequerstParam {
         requestParam.addBody(Protocol_KEY.CENTERID,centerId);
         return requestParam;
     }
-
+    /**
+     * 获取用户老人信息
+     */
+    public RequestParam   doUserOldMainInfos(){
+        RequestParam requestParam=getRequestParamLLH();
+        requestParam.addHeader(Protocol_KEY.ACTION,NetContant.ServiceAction.GET_USER_OLDMAN_INFOS);
+        requestParam.addHeader(Protocol_KEY.USERDATA,NetContant.ServiceAction.GET_USER_OLDMAN_INFOS);
+        requestParam.addBody(Protocol_KEY.IS_SERVER_REQ,false);
+        requestParam.addBody(Protocol_KEY.USERID,var.getUserId());
+        requestParam.addBody(Protocol_KEY.USERNAME,var.getUserName());
+        requestParam.addBody(Protocol_KEY.CENTERID,var.getCenterId());
+        return requestParam;
+    }
 
 
 }
